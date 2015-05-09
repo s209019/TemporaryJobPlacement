@@ -1,0 +1,144 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/backgroundColor"
+    tools:context=".LoginActivity">
+
+
+<!--<include layout="@layout/toolbar"/>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="0dp"
+        android:text="Don't have an account? Sign up now"
+        android:textStyle="bold"
+        android:clickable="true"
+        android:id="@+id/buttonSignup"
+        android:textColor="@drawable/drawable_text_color"
+        android:layout_below="@+id/panel"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:onClick="signUp"/>
+
+
+
+
+        <LinearLayout
+        android:id="@+id/panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/panel_drawable"
+            android:layout_marginTop="@dimen/margin_large"
+           android:layout_alignParentTop="true"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_gravity="center_horizontal"
+            android:textSize="@dimen/textLabelSize"
+            android:textColor="@color/labelTextColor"
+            android:textStyle="bold"
+            android:text="Login"
+            />
+
+
+
+    <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:id="@+id/editTextUser"
+        android:layout_gravity="center_horizontal"
+        >
+        <AutoCompleteTextView
+            android:hint="username"
+            android:inputType="textEmailAddress"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            />
+    </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText>
+
+    <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:id="@+id/editTextPass"
+        android:layout_gravity="center_horizontal"
+        >
+        <AutoCompleteTextView
+            android:hint="password"
+            android:inputType="textPassword"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
+            />
+    </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText>
+
+
+
+    <Button
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:text="LOGIN"
+            android:id="@+id/buttonLogin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/button_drawable"
+            android:textColor="@android:color/white"
+            android:onClick="login"/>
+
+    </LinearLayout>
+
+
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="login student"
+        android:background="@drawable/button_drawable"
+        android:textColor="@android:color/white"
+        android:onClick="loginStudent"
+        android:layout_above="@+id/buttonLoginCompany"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/buttonLoginCompany"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="login company"
+        android:background="@drawable/button_drawable"
+        android:textColor="@android:color/white"
+        android:onClick="loginCompany"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible"
+        />
+
+
+
+
+        </RelativeLayout>
+
+
+

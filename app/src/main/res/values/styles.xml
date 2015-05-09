@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <!--<item name="actionBarTabBarStyle">@style/Widget.Styled.ActionBar.TabBar</item>-->
+    </style>
+
+
+
+
+    <style name="Widget.Styled.ActionBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:background">@color/primaryColor</item>
+        <item name="background">@color/primaryColor</item>
+
+    </style>
+
+
+</resources>

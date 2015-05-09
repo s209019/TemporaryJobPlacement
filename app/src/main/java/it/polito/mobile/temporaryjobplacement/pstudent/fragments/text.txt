@@ -1,0 +1,469 @@
+OFFERS
+
+Job title
+Keywords (e.g. description, skills, job requirements, etc.)
+
+Company
+Location (Country, city or ZIP code)
+Industry (…)
+
+Career Level (Student, Recent Graduate, Early Professional, Mid-level Professional, Experienced Professional)
+Education (None, High school diploma, Bachelor’s Degree, Master’s degree, PhD degree)
+Position (Full Time, Part Time, Intern)
+
+
+COMPANIES
+Name
+Industry
+Location (Country, city or ZIP code)
+
+
+INDUSTRY:-
+Accounting
+Airlines/Aviation
+Alternative Dispute Resolution
+Alternative Medicine
+Animation
+Apparel & Fashion
+Architecture & Planning
+Arts and Crafts
+Automotive
+Aviation & Aerospace
+Banking
+Biotechnology
+Broadcast Media
+Building Materials
+Business Supplies and Equipment
+Capital Markets
+Chemicals
+Civic & Social Organization
+Civil Engineering
+Commercial Real Estate
+Computer & Network Security
+Computer Games
+Computer Hardware
+Computer Networking
+Computer Software
+Construction
+Consumer Electronics
+Consumer Goods
+Consumer Services
+Cosmetics
+Dairy
+Defense & Space
+Design
+Education Management
+E-Learning
+Electrical/Electronic Manufacturing
+Entertainment
+Environmental Services
+Events Services
+Executive Office
+Facilities Services
+Farming
+Financial Services
+Fine Art
+Fishery
+Food & Beverages
+Food Production
+Fund-Raising
+Furniture
+Gambling & Casinos
+Glass, Ceramics & Concrete
+Government Administration
+Government Relations
+Graphic Design
+Health, Wellness and Fitness
+Higher Education
+Hospital & Health Care
+Hospitality
+Human Resources
+Import and Export
+Individual & Family Services
+Industrial Automation
+Information Services
+Information Technology and Services
+Insurance
+International Affairs
+International Trade and Development
+Internet
+Investment Banking
+Investment Management
+Judiciary
+Law Enforcement
+Law Practice
+Legal Services
+Legislative Office
+Leisure, Travel & Tourism
+Libraries
+Logistics and Supply Chain
+Luxury Goods & Jewelry
+Machinery
+Management Consulting
+Maritime
+Marketing and Advertising
+Market Research
+Mechanical or Industrial Engineering
+Media Production
+Medical Devices
+Medical Practice
+Mental Health Care
+Military
+Mining & Metals
+Motion Pictures and Film
+Museums and Institutions
+Music
+Nanotechnology
+Newspapers
+Nonprofit Organization Management
+Oil & Energy
+Online Media
+Outsourcing/Offshoring
+Package/Freight Delivery
+Packaging and Containers
+Paper & Forest Products
+Performing Arts
+Pharmaceuticals
+Philanthropy
+Photography
+Plastics
+Political Organization
+Primary/Secondary Education
+Printing
+Professional Training & Coaching
+Program Development
+Public Policy
+Public Relations and Communications
+Public Safety
+Publishing
+Railroad Manufacture
+Ranching
+Real Estate
+Recreational Facilities and Services
+Religious Institutions
+Renewables & Environment
+Research
+Restaurants
+Retail
+Security and Investigations
+Semiconductors
+Shipbuilding
+Sporting Goods
+Sports
+Staffing and Recruiting
+Supermarkets
+Telecommunications
+Textiles
+Think Tanks
+Tobacco
+Translation and Localization
+Transportation/Trucking/Railroad
+Utilities
+Venture Capital & Private Equity
+Veterinary
+Warehousing
+Wholesale
+Wine and Spirits
+Wireless
+Writing and Editing
+
+
+
+package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+
+
+public class SearchByOfferFragment extends Fragment {
+
+    TextView industriesTextView;
+    EditText editTextName;
+    EditText editTextLocation;
+    EditText editTextKeywords;
+    LinearLayout  jobInfoPanel;
+    LinearLayout companyPanel;
+    Spinner spinnerEducation;
+    Spinner spinnerCareerLevel;
+    Spinner spinnerPosition;
+
+
+
+    private OnFragmentInteractionListener mListener;
+    public interface OnFragmentInteractionListener {
+        public void startSearchActivity(String params);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+
+    public static Fragment newInstance() {
+        SearchByOfferFragment fragment = new SearchByOfferFragment();
+       /* Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);*/
+        return fragment;
+    }
+
+    public SearchByOfferFragment() {
+        // Required empty public constructor
+    }
+
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putString("editTextNameContent", editTextName.getText().toString());
+        outState.putString("editTextLocationContent", editTextLocation.getText().toString());
+        outState.putString("industriesTextViewContent",industriesTextView.getText().toString());
+        outState.putString("editTextKeywordsContent",editTextKeywords.getText().toString());
+        outState.putBoolean("jobInfoPanelVisibility", jobInfoPanel.getVisibility()==View.VISIBLE);
+        outState.putBoolean("companyPanelVisibility", companyPanel.getVisibility() == View.VISIBLE);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView= inflater.inflate(R.layout.fragment_search_by_offer, container, false);
+
+        final ScrollView scrollView=(ScrollView)rootView.findViewById(R.id.scrollView1);
+
+
+        //get editText references from ClearableEditTexts
+        editTextKeywords=((ClearableEditText)rootView.findViewById(R.id.editKeyword)).editText();
+        editTextName=((ClearableEditText)rootView.findViewById(R.id.editCompanyName)).editText();
+        editTextLocation=((ClearableEditText)rootView.findViewById(R.id.editLocationName)).editText();
+        industriesTextView=(TextView)rootView.findViewById(R.id.industriesTextView);
+        spinnerEducation=(Spinner)rootView.findViewById(R.id.spinnerEducation);
+        spinnerCareerLevel=(Spinner)rootView.findViewById(R.id.SpinnerCareerLevelEducation);
+        spinnerPosition=(Spinner)rootView.findViewById(R.id.SpinnerPosition);
+
+
+
+
+        //panel 1
+        jobInfoPanel=(LinearLayout)rootView.findViewById(R.id.panelJobInformation);
+        final Button show_hideJobInfoPanel=(Button)rootView.findViewById(R.id.showJobInformation);
+        jobInfoPanel.setVisibility(View.GONE);
+        show_hideJobInfoPanel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (jobInfoPanel.getVisibility() == View.GONE) {
+                    jobInfoPanel.setVisibility(View.VISIBLE);
+                    show_hideJobInfoPanel.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_up_float, 0);
+                    scrollView.post(new Runnable() {
+                        public void run() {
+                            scrollView.smoothScrollTo(0, show_hideJobInfoPanel.getTop());
+                        }
+                    });
+
+                } else {
+                    jobInfoPanel.setVisibility(View.GONE);
+                    show_hideJobInfoPanel.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_down_float, 0);
+                }
+            }
+        });
+
+/*
+        //populate spinnerEducation
+        ArrayAdapter<String> spinnerEducationAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_spinner_item,
+                FileManager.readRowsFromFile(getActivity().getApplicationContext(), "educations.dat")
+        );
+        spinnerEducation.setAdapter(spinnerEducationAdapter);
+
+        //populate spinnerCareerLevel
+        ArrayAdapter<String> spinnerCareerLevelAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_spinner_item,
+                FileManager.readRowsFromFile(getActivity().getApplicationContext(), "career_levels.dat")
+        );
+        spinnerCareerLevel.setAdapter(spinnerCareerLevelAdapter);
+
+        //populate spinnerPosition
+        ArrayAdapter<String> spinnerPositionAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.simple_spinner_item,
+                FileManager.readRowsFromFile(getActivity().getApplicationContext(), "positions.dat")
+        );
+        spinnerPosition.setAdapter(spinnerPositionAdapter);
+
+
+*/
+
+
+
+
+        //panel2
+        companyPanel=(LinearLayout)rootView.findViewById(R.id.panelCompanyInformation);
+        final Button show_hideCompanyPanel=(Button)rootView.findViewById(R.id.showCompanyInformation);
+        companyPanel.setVisibility(View.GONE);
+        show_hideCompanyPanel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (companyPanel.getVisibility() == View.GONE) {
+                    companyPanel.setVisibility(View.VISIBLE);
+                    show_hideCompanyPanel.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_up_float, 0);
+                    scrollView.post(new Runnable() {
+                        public void run() {
+                            scrollView.smoothScrollTo(0, show_hideCompanyPanel.getTop());
+                        }
+                    });
+                } else {
+                    companyPanel.setVisibility(View.GONE);
+                    show_hideCompanyPanel.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_down_float, 0);
+                }
+            }
+        });
+
+
+
+        if(savedInstanceState!=null){
+            editTextName.setText(savedInstanceState.getString("editTextNameContent"));
+            editTextLocation.setText(savedInstanceState.getString("editTextLocationContent"));
+            industriesTextView.setText(savedInstanceState.getString("industriesTextViewContent"));
+            editTextKeywords.setText(savedInstanceState.getString("editTextKeywordsContent"));
+            if(savedInstanceState.getBoolean("jobInfoPanelVisibility")==true)jobInfoPanel.setVisibility(View.VISIBLE);
+            if(savedInstanceState.getBoolean("companyPanelVisibility")==true)companyPanel.setVisibility(View.VISIBLE);
+        }
+
+
+
+
+
+
+        //implement interface declared by MultipleChoiceDialogFragment in order to receive
+        //industries checked by user and set them in industriesTextView
+        final MultipleChoiceDialogFragment.OnAllItemsCheckedListener onAllItemsCheckedListener=
+                new MultipleChoiceDialogFragment.OnAllItemsCheckedListener() {
+                    @Override
+                    public void getAllItemsChecked(ArrayList<String> selectedItems) {
+                        String text="";
+                        for(String industry : selectedItems) text=text+industry+"\n";
+                        if(!text.equals(""))text=text.substring(0,text.length()-1);
+
+                        industriesTextView.setText(text);
+                    }
+                };
+
+        //launch MultipleChoiceDialogFragment passing items, items previously checked and interface implementation
+        Button addIndustryButton=(Button)rootView.findViewById(R.id.buttonSelectIndustries);
+        addIndustryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> items = FileManager.readRowsFromFile(getActivity().getApplicationContext(), "industries.dat");
+
+                //get already industries selected from industriesTextView and pass it to MultipleChoiceDialogFragment
+                String[] alreadyCheckedIndustries=getIndustriesFromTextView(industriesTextView);
+
+                DialogFragment df = MultipleChoiceDialogFragment.newInstance("Select one or more industries:", items, alreadyCheckedIndustries, onAllItemsCheckedListener);
+                df.show(getActivity().getSupportFragmentManager(), "MyDialog");
+            }
+        });
+        //clear button to clear industriesTextView
+        Button clearIndustriesButton=(Button)rootView.findViewById(R.id.buttonClearIndustries);
+        clearIndustriesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                industriesTextView.setText("");
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //search button which sends to activity, through interface OnFragmentInteractionListener(implemented by activity),
+        //search params
+        Button searchButton=(Button)rootView.findViewById(R.id.buttonSearch);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(editTextName.getText().toString().trim().equals("") && editTextLocation.getText().toString().trim().equals("") && industriesTextView.getText().toString().trim().equals("")) {
+                    DialogManager.toastMessage(getActivity().getResources().getString(R.string.all_empty_field_message), getActivity());
+                    return;
+                }
+                mListener.startSearchActivity(editTextName.getText().toString() + editTextLocation.getText().toString());
+            }
+        });
+
+        return rootView;
+    }
+
+
+
+
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+
+    private String[] getIndustriesFromTextView(TextView textView){
+        String text=textView.getText().toString();
+        String[] industries = text.split("\n");
+        return industries;
+    }
+
+
+}
+
+
+
+
+

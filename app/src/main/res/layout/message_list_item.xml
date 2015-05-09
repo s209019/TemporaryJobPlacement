@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants">
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/margin_medium"
+        android:background="@drawable/ic_action_email"/>
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium">
+
+        <TextView
+        android:id="@+id/interlocutorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TELECOM ITALIA"
+        android:textColor="@color/labelTextColor"
+        android:textSize="@dimen/textLabelSize"
+        android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/objectTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Richiesta info"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="@color/grayDarkerTextColor"
+            android:textSize="@dimen/abc_text_size_medium_material"
+            android:layout_marginTop="@dimen/margin_small"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:orientation="horizontal"  >
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_action_time"/>
+
+        <TextView
+            android:id="@+id/timestampTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="12-05-2012"
+            android:textSize="@dimen/abc_text_size_small_material"
+            android:textColor="@color/grayDarkerTextColor"
+            android:layout_gravity="center_vertical"
+            />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+    <ImageButton
+        android:id="@+id/innerButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:background="@android:drawable/ic_delete"/>
+
+
+
+
+</LinearLayout>

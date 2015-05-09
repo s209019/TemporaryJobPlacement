@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="it.polito.mobile.temporaryjobplacement" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".TemporaryJobPlacementApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".pstudent.activities.StudentMainActivity"
+            android:label="@string/title_activity_student_main"
+            android:windowSoftInputMode="stateHidden|adjustPan" >
+        </activity>
+        <activity
+            android:name=".pcompany.activities.CompanyMainActivity"
+            android:label="@string/title_activity_company_main"
+            android:windowSoftInputMode="stateHidden|adjustPan" >
+        </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pstudent.activities.StudentProfileActivity"
+            android:label="@string/title_activity_student_profile"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pstudent.activities.StudentFavouritesActivity"
+            android:label="@string/title_activity_student_favourites"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pstudent.activities.StudentMessagesActivity"
+            android:label="@string/title_activity_student_messagges"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pstudent.activities.StudentOfferListActivity"
+            android:label="@string/title_activity_student_offer_list"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pstudent.activities.StudentCompanyListActivity"
+            android:label="@string/title_activity_student_company_list"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pstudent.activities.StudentDetailActivity"
+            android:label="@string/title_activity_student_offer_list"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pstudent.activities.StudentHistoryActivity"
+            android:label="@string/title_activity_student_history"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+    </application>
+
+</manifest>

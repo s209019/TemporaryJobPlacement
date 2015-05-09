@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:divider="?android:attr/dividerHorizontal"
+    android:orientation="horizontal"
+    android:showDividers="middle"
+    tools:context=".ItemListActivity">
+
+    <!--
+    This layout is a two-pane layout for the Items
+    master/detail flow.
+
+    -->
+
+    <!--Fragment avviato staticamente!-->
+    <fragment android:id="@+id/item_list"
+        android:name="it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment"
+        android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1.5"
+        tools:layout="@android:layout/list_content" />
+
+    <!--Fragment avviato dinamicamente, se effettivamente è stato renderizzato questo layout!-->
+    <FrameLayout android:id="@+id/item_detail_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4" />
+
+</LinearLayout>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:orientation="horizontal"
+    android:background="@drawable/selected_item_drawable2"
+    android:descendantFocusability="blocksDescendants">
+
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/margin_medium"
+        android:background="@drawable/ic_action_group"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium">
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TELECOM ITALIA"
+            android:textColor="@color/labelTextColor"
+            android:textSize="@dimen/abc_text_size_menu_material"
+            android:layout_marginTop="2dp"/>
+
+
+    </RelativeLayout>
+
+
+
+
+    <ImageButton
+        android:id="@+id/innerButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:background="@drawable/ic_action_not_important"
+        android:visibility="gone"/>
+
+
+
+
+</LinearLayout>
