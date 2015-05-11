@@ -13,8 +13,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 
+import com.parse.ParseQuery;
+
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pcompany.activities.CompanyMainActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentMainActivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.AsyncTaskWithProgressBar;
@@ -82,8 +85,11 @@ public class LoginActivity extends ActionBarActivity {
     public void startNextActivity(){
         try {
             String userType=AccountManager.getCurrentUserType();
-            if(userType.equals("student"))startActivity(new Intent(this,StudentMainActivity.class));
-            else  startActivity(new Intent(this,CompanyMainActivity.class));
+            if(userType.equals("student")) {
+                startActivity(new Intent(this, StudentMainActivity.class));
+            } else {
+                startActivity(new Intent(this,CompanyMainActivity.class));
+            }
             finish();
         } catch (Exception e) {
             e.printStackTrace();

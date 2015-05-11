@@ -12,9 +12,6 @@ import java.util.List;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 
-/**
- * Created by Nicolò on 04/05/2015.
- */
 public class OfferArrayAdapter extends ArrayAdapter<Offer> {
     private Activity activity;
     private int rowIdLayout;

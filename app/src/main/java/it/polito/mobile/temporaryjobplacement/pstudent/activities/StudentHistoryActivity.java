@@ -9,11 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFragment;
@@ -26,8 +31,6 @@ import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManage
 public class StudentHistoryActivity extends ActionBarActivity implements OfferListFragment.Callbacks {
 
     DrawerManager drawerManager;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +64,11 @@ public class StudentHistoryActivity extends ActionBarActivity implements OfferLi
         return offers;
     }
     @Override
-    public void onItemSelected(Offer offer) {
+    public void onItemSelected(JobOffer offer) {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-            detailIntent.putExtra("SELECTED_OFFER", offer);
+            detailIntent.putExtra("SELECTED_OFFER", offer.getObjectId());
             startActivity(detailIntent);
 
     }
@@ -76,12 +79,12 @@ public class StudentHistoryActivity extends ActionBarActivity implements OfferLi
     }
 
     @Override
-    public void onDeleteButtonOfferPressed(Offer offer) {
+    public void onDeleteButtonOfferPressed(JobOffer offer) {
         return ;
     }
 
     @Override
-    public void onFavouriteButtonOfferPressed(Offer offer) {
+    public void onFavouriteButtonOfferPressed(JobOffer offer) {
         return ;
     }
 
@@ -114,6 +117,20 @@ public class StudentHistoryActivity extends ActionBarActivity implements OfferLi
         DialogManager.setDialog("Delete history?", this);
     }
 
+    public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() {
 
-
-}
+        return new ParseQueryAdapter.QueryFactory<JobOffer>() {
+            public ParseQuery<JobOffer> create() {
+                ParseQuery<JobOffer> query=null;
+                try {
+                    query = AccountManager.getCurrentStudentProfile().getJobsAppliedRelationQuery();
+                    query.orderByDescending("createdAt");
+                    query.setLimit(100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return query;
+            }
+        };
+    }
+    }

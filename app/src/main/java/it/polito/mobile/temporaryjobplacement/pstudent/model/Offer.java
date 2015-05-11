@@ -3,9 +3,6 @@ package it.polito.mobile.temporaryjobplacement.pstudent.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Nicolò on 04/05/2015.
- */
 public class Offer implements Parcelable {
     private String title;
     private String position;

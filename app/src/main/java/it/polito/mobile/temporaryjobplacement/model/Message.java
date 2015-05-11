@@ -5,9 +5,6 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-/**
- * Created by Nicolò on 07/05/2015.
- */
 public class Message implements Parcelable{
     private String source;
     private String destination;

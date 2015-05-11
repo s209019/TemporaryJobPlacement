@@ -10,6 +10,8 @@ import com.parse.ParseUser;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.polito.mobile.temporaryjobplacement.model.Student;
+
 /**
  *
  */
@@ -45,6 +47,16 @@ public class AccountManager {
         role.getUsers().add(user);
         role.save();
 
+        if(userType.equals("student")) {
+            Student student = new Student();
+            student.put("user", user);
+            student.setName("Name not specified");
+            student.setSurname("Surname not specified");
+            student.save();
+
+            //TODO: Settare l'ACL
+        }
+
 
         ParseUser.logOut();
 
@@ -69,6 +81,14 @@ public class AccountManager {
     public static ParseUser getCurrentUser() throws Exception {
        if(checkIfLoggedIn())return ParseUser.getCurrentUser();
         else throw new Exception("No user logged");
+
+    }
+
+    public static Student getCurrentStudentProfile() throws Exception {
+        if(checkIfLoggedIn() && getCurrentUserType().equals("student"))
+            return Student.getQuery().whereEqualTo("user", AccountManager.getCurrentUser()).getFirst();
+        else
+            throw new Exception("No student logged");
 
     }
 

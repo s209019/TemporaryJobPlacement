@@ -13,9 +13,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.parse.ParseException;
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.ExternalIntents;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
@@ -58,10 +61,12 @@ public class OfferDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_offer_detail, container, false);
 
-        final Offer offer=getArguments().getParcelable("SELECTED_OFFER");
+        final String jobOfferId=getArguments().getString("SELECTED_OFFER");
 
+        try {
+            final JobOffer offer = JobOffer.getQuery().include("company").get(jobOfferId);
 
-        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle("Offer by "+offer.getCompany());
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle("Offer by "+offer.getCompany());
 
 
 
@@ -72,6 +77,8 @@ public class OfferDetailFragment extends Fragment {
                 DialogManager.toastMessage("share", getActivity());
             }
         });
+
+        /*
         final ImageButton favouriteButton=(ImageButton)rootView.findViewById(R.id.favouriteButton);
         favouriteButton.setBackgroundResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
         favouriteButton.setOnClickListener(new View.OnClickListener() {
@@ -87,20 +94,20 @@ public class OfferDetailFragment extends Fragment {
                 DialogManager.toastMessage("favourite", getActivity());
             }
         });
-
+        */
 
 
 
         TextView titleTextView=(TextView)rootView.findViewById(R.id.titleTextView);
-        titleTextView.setText(offer.getTitle());
+        titleTextView.setText(offer.getName());
 
         TextView companyTextView=(TextView)rootView.findViewById(R.id.companyTextView1);
-        companyTextView.setText(offer.getCompany());
+        companyTextView.setText(offer.getCompany().getName());
         LinearLayout companyLayout=(LinearLayout)rootView.findViewById(R.id.company_layout);
         companyLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.startCompanyActivity(offer.getCompany());
+                mListener.startCompanyActivity(offer.getCompany().getName());
             }
         });
 
@@ -108,7 +115,7 @@ public class OfferDetailFragment extends Fragment {
         locationTextView.setText(offer.getLocation());
 
         TextView timeAgoTextView=(TextView)rootView.findViewById(R.id.timeAgoTextView);
-        timeAgoTextView.setText(offer.getDate());
+        timeAgoTextView.setText(offer.getCreatedAt().toString());
 
         TextView positionTextView=(TextView)rootView.findViewById(R.id.positionTextView);
         positionTextView.setText(offer.getPosition());
@@ -144,6 +151,11 @@ public class OfferDetailFragment extends Fragment {
                  DialogManager.toastMessage("APPLY",getActivity());
             }
         });
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
 
         return rootView;

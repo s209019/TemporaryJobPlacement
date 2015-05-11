@@ -12,9 +12,6 @@ import java.util.List;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
 
-/**
- * Created by Nicolò on 04/05/2015.
- */
 public class CompanyArrayAdapter extends ArrayAdapter<Company> {
     private Activity activity;
     private int rowIdLayout;

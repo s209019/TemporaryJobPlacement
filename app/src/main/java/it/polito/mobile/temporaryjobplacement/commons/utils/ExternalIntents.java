@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
-/**
- * Created by Nicolò on 07/05/2015.
- */
 public class ExternalIntents {
 
 

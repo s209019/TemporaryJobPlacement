@@ -147,12 +147,12 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
 
         }
         List<Message> messages=new ArrayList<Message>();
-        messages.add(new Message("Nicolò Foderà","Telecom Italia1","","","Richiesta info1","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolò Foderà","Telecom Italia1","","","Richiesta info2","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolò Foderà","Telecom Italia1","","","Richiesta info3","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolò Foderà","Telecom Italia1","","","Richiesta info4","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolò Foderà","Telecom Italia1","","","Richiesta info5","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolò Foderà","Telecom Italia1","","","Richiesta info6","JNJNKNKJNKJNJK",1));
+        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info1","JNJNKNKJNKJNJK",1));
+        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info2","JNJNKNKJNKJNJK",1));
+        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info3","JNJNKNKJNKJNJK",1));
+        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info4","JNJNKNKJNKJNJK",1));
+        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info5","JNJNKNKJNKJNJK",1));
+        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info6","JNJNKNKJNKJNJK",1));
 
 
         return messages;

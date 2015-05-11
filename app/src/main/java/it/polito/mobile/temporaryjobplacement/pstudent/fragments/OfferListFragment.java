@@ -17,12 +17,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+import com.parse.ParseRelation;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
+import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.JobOfferQueryAdapter;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.OfferArrayAdapter;
 
 /**
@@ -40,6 +50,7 @@ public class OfferListFragment extends ListFragment {
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+
     /**
      * The current activated item position. Only used on tablets.
      */
@@ -56,12 +67,19 @@ public class OfferListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(Offer offer);
+        public void onItemSelected(JobOffer offer);
 
         /*
-        *Callback to get offers to display
+        *Callback to get the query factory to be used
+        */
+
+        public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory();
+
+        /*
+        *Callback to check if it is a favourite list
         */
         public List<Offer> getOffersToDisplay();
+
 
         /*
         *Callback to check if it is a favourite list
@@ -71,15 +89,17 @@ public class OfferListFragment extends ListFragment {
         /*
         *Callback for when the delete inner button is presser
         */
-        public void onDeleteButtonOfferPressed(Offer offer);
+        public void onDeleteButtonOfferPressed(JobOffer offer);
 
 
         /*
         *Callback to check if it is a favourite list
         */
-        public void onFavouriteButtonOfferPressed(Offer offer);
+        public void onFavouriteButtonOfferPressed(JobOffer offer);
 
     }
+
+    private ParseQueryAdapter<JobOffer> jobOffersQueryAdapter;
 
 
 
@@ -94,10 +114,7 @@ public class OfferListFragment extends ListFragment {
 
     public static Fragment newInstance() {
         OfferListFragment fragment = new OfferListFragment();
-       /* Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
+
         return fragment;
     }
 
@@ -106,16 +123,14 @@ public class OfferListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         Boolean isFavouriteList=mCallbacks.isFavouriteList();
-        //get offers from the activity
-        List<Offer> offers=mCallbacks.getOffersToDisplay();//
 
-        OfferArrayAdapter.InnerButtonManager innerButtonManager=null;
+        JobOfferQueryAdapter.InnerButtonManager innerButtonManager=null;
         int row_layout_id=0;
         if(isFavouriteList){
             row_layout_id=R.layout.offer_favourite_list_item;
-            innerButtonManager=new OfferArrayAdapter.InnerButtonManager() {
+            innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
                 @Override
-                public void configureButton(final Offer offer, final ImageButton innerButton) {
+                public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
                     innerButton.setVisibility(View.VISIBLE);
                     innerButton.setBackgroundResource(android.R.drawable.ic_delete);
                     innerButton.setOnClickListener(new View.OnClickListener() {
@@ -128,30 +143,58 @@ public class OfferListFragment extends ListFragment {
             };
 
         }else{
-            row_layout_id=R.layout.offer_list_item;
-            innerButtonManager=new OfferArrayAdapter.InnerButtonManager() {
+            innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
                 @Override
-                public void configureButton(final Offer offer, final ImageButton innerButton) {
-                    innerButton.setBackgroundResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
-                    innerButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!offer.isFavourited()) {
-                                offer.setFavourited(true);
-                                innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                            } else {
-                                offer.setFavourited(false);
-                                innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                            }
+                public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
+                    try {
+
+                        final Student studentProfile = AccountManager.getCurrentStudentProfile();
+
+                        final List<JobOffer> favourites = studentProfile.getFavouritesOffers();
+
+                        if(!favourites.contains(jobOffer)) {
+                            jobOffer.setFavourited(false);
+                            innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                        } else {
+                            jobOffer.setFavourited(true);
+                            innerButton.setBackgroundResource(R.drawable.ic_action_important);
                         }
-                    });
+
+
+                        innerButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (!jobOffer.isFavourited()) {
+                                    jobOffer.setFavourited(true);
+                                    innerButton.setBackgroundResource(R.drawable.ic_action_important);
+                                    studentProfile.getRelation("favouritesOffers").add(jobOffer);
+                                    studentProfile.saveEventually();
+
+                                } else {
+                                    jobOffer.setFavourited(false);
+                                    innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                                    studentProfile.getRelation("favouritesOffers").remove(jobOffer);
+                                    studentProfile.saveEventually();
+                                }
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
             };
         }
 
+        jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), mCallbacks.getQueryFactory(), innerButtonManager);
+        jobOffersQueryAdapter.setObjectsPerPage(1); //TODO: Eliminare
 
-
-        setListAdapter(new OfferArrayAdapter(getActivity(), row_layout_id, offers, innerButtonManager));
+        //TODO: Fare controlli se non c'Ã¨ nessun risultato
+        /*if(jobOffersQueryAdapter.getCount()==0)
+            getListView().setEmptyView(buildEmptyTextView("No Offer found"));
+        else*/
+            setListAdapter(jobOffersQueryAdapter);
 
     }
 
@@ -160,7 +203,7 @@ public class OfferListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         //PROBLEMA DELLA SINCRONIZZAZIONE DELLE STELLE
-        //SE UN ITEM NON è PREFERITO, POI CLICCO SU DI ESSO E LO AGGIUNGO AI PREFERITI;
+        //SE UN ITEM NON E' PREFERITO, POI CLICCO SU DI ESSO E LO AGGIUNGO AI PREFERITI;
         //CHE SUCCEDE QUANDO TORNO INDIETRO(OnResume)
         //OGNI ITEM DEVE ESSERE SINCRONIZZATO
     }
@@ -179,7 +222,7 @@ public class OfferListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getListView().setEmptyView(buildEmptyTextView("No Offer found"));
+        getListView().setEmptyView(buildEmptyTextView("Loading..."));
 
     }
     private TextView buildEmptyTextView(String text) {
@@ -205,7 +248,7 @@ public class OfferListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected((Offer) getListAdapter().getItem(position));
+        mCallbacks.onItemSelected((JobOffer) getListAdapter().getItem(position));
     }
 
 

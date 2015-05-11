@@ -14,9 +14,6 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.model.Message;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 
-/**
- * Created by Nicolò on 04/05/2015.
- */
 public class MessageArrayAdapter extends ArrayAdapter<Message> {
     private Activity activity;
     private int rowIdLayout;

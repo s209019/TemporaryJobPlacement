@@ -54,9 +54,9 @@ public class StudentDetailActivity extends ActionBarActivity implements OfferDet
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            if( getIntent().getParcelableExtra("SELECTED_OFFER")!=null){
+            if( getIntent().getStringExtra("SELECTED_OFFER")!=null){
                 Bundle arguments = new Bundle();
-                arguments.putParcelable("SELECTED_OFFER",  getIntent().getParcelableExtra("SELECTED_OFFER"));
+                arguments.putString("SELECTED_OFFER",  getIntent().getStringExtra("SELECTED_OFFER"));
                 OfferDetailFragment fragment = new OfferDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();

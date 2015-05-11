@@ -195,7 +195,7 @@ public class CompanyListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         //PROBLEMA DELLA SINCRONIZZAZIONE DELLE STELLE
-        //SE UN ITEM NON è PREFERITO, POI CLICCO SU DI ESSO E LO AGGIUNGO AI PREFERITI;
+        //SE UN ITEM NON E' PREFERITO, POI CLICCO SU DI ESSO E LO AGGIUNGO AI PREFERITI;
         //CHE SUCCEDE QUANDO TORNO INDIETRO(OnResume)
         //OGNI ITEM DEVE ESSERE SINCRONIZZATO
     }

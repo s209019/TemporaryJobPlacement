@@ -7,12 +7,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFragment;
@@ -23,23 +29,19 @@ import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 
 public class StudentOfferListActivity extends ActionBarActivity implements OfferListFragment.Callbacks, OfferDetailFragment.OnFragmentInteractionListener {
 
-
-
     private boolean mTwoPane;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_offer_list);
 
-
         //Set the custom toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null){
             setSupportActionBar(toolbar);
         }
-
-
 
 
         // Show the Up button in the action bar.
@@ -60,27 +62,20 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
         //-->HANDSET
     }
 
-
-    //CALBACKS IMPLEMENTATION FOR OFFERLISTFRAGMENT
     @Override
     public List<Offer> getOffersToDisplay() {
-        //get search info from intent and search offers
-        ArrayList<Offer> offers=new ArrayList<Offer>();
-        offers.add(new Offer("Web developer", "Full time", "TELECOM ITALIA","contrada birgi nivaloro 7/b",13121,"sajdnkjasndksandkjasndk","3 minutes ago","Master's degree","Experienced Professional"));
-        offers.add(new Offer("Mobile developer", "Part time", "TELECOM ITALIA","Turin (Italy)",13121,"sajdnkjasndksandkjasndk","15 minutes ago","Master's degree","Experienced Professional"));
-        offers.add(new Offer("Web developer3", "Full time", "REPLY SPA", "Rome (Italy)", 13121, "sajdnkjasndksandkjasndk", "12/08/15", "Master's degree", "Experienced Professional"));
-        offers.add(new Offer("Web developer4", "Full time", "ACCENTURE","sssasda", 13121,"sajdnkjasndksandkjasndk","12/07/15","Master's degree","Experienced Professional"));
-        return offers;
+        return null;
     }
-    @Override
-    public void onItemSelected(Offer offer) {
+
+        @Override
+    public void onItemSelected(JobOffer offer) {
         //IF TABLET
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putParcelable("SELECTED_OFFER", offer);
+            arguments.putString("SELECTED_OFFER", offer.getObjectId());
             OfferDetailFragment fragment = new OfferDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
@@ -90,9 +85,22 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-            detailIntent.putExtra("SELECTED_OFFER", offer);
+            detailIntent.putExtra("SELECTED_OFFER", offer.getObjectId());
             startActivityForResult(detailIntent,0);
         }
+    }
+
+    @Override
+    public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() {
+        return new ParseQueryAdapter.QueryFactory<JobOffer>() {
+            public ParseQuery<JobOffer> create() {
+                ParseQuery<JobOffer> query = JobOffer.getQuery();
+                query.include("company");
+                query.orderByDescending("createdAt");
+                query.setLimit(100);
+                return query;
+            }
+        };
     }
 
     @Override
@@ -101,12 +109,12 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
     }
 
     @Override
-    public void onDeleteButtonOfferPressed(Offer offer) {
+    public void onDeleteButtonOfferPressed(JobOffer offer) {
         return;
     }
 
     @Override
-    public void onFavouriteButtonOfferPressed(Offer offer) {
+    public void onFavouriteButtonOfferPressed(JobOffer offer) {
         return;
     }
 
@@ -137,12 +145,6 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
-
-
     @Override
     public void startCompanyActivity(String companyName) {
         Intent detailIntent = new Intent(this, StudentDetailActivity.class);
@@ -151,13 +153,6 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
         detailIntent.putExtra("SELECTED_COMPANY", company);
         startActivityForResult(detailIntent, 0);
     }
-
-
-
-
-
-
-
 
 
     @Override
