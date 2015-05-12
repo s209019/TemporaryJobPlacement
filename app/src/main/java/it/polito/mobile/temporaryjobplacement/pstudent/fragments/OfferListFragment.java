@@ -184,11 +184,19 @@ public class OfferListFragment extends ListFragment {
         jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), callbacks.getQueryFactory(), innerButtonManager);
         jobOffersQueryAdapter.setObjectsPerPage(2); //TODO: Eliminare
 
-        //TODO: Fare controlli se non c'è nessun risultato
-        /*if(jobOffersQueryAdapter.getCount()==0)
-            getListView().setEmptyView(buildEmptyTextView("No Offer found"));
-        else*/
-            setListAdapter(jobOffersQueryAdapter);
+
+
+        jobOffersQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<JobOffer>() {
+            @Override
+            public void onLoading() {}
+            @Override
+            public void onLoaded(List<JobOffer> list, Exception e) {
+                setListShown(true);
+            }
+        });
+        setListAdapter(jobOffersQueryAdapter);
+
+
 
     }
 
@@ -216,7 +224,9 @@ public class OfferListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getListView().setEmptyView(buildEmptyTextView("Loading..."));
+        getListView().setEmptyView(buildEmptyTextView("No offer found"));
+        setListShown(false);
+
 
     }
     private TextView buildEmptyTextView(String text) {
