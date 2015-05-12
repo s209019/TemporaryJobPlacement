@@ -52,18 +52,6 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
     }
 
 
-    //CALBACKS IMPLEMENTATION FOR OFFERLISTFRAGMENT
-    @Override
-    public List<Offer> getOffersToDisplay() {
-        //get search info from intent and search offers
-        ArrayList<Offer> offers=new ArrayList<Offer>();
-        offers.add(new Offer("Web developer", "Full time", "TELECOM ITALIA","Turin (Italy)",13121,"sajdnkjasndksandkjasndk","3 minutes ago","Master's degree","Experienced Professional"));
-        offers.add(new Offer("Mobile developer", "Part time", "TELECOM ITALIA","Turin (Italy)",13121,"sajdnkjasndksandkjasndk","15 minutes ago","Master's degree","Experienced Professional"));
-        offers.add(new Offer("Web developer3", "Full time", "REPLY SPA", "Rome (Italy)", 13121, "sajdnkjasndksandkjasndk", "12/08/15", "Master's degree", "Experienced Professional"));
-        offers.add(new Offer("Web developer4", "Full time", "ACCENTURE","Milan (Italy)", 13121,"sajdnkjasndksandkjasndk","12/07/15","Master's degree","Experienced Professional"));
-        return offers;
-    }
-
     @Override
     public List<JobOffer> getFavouritesOffers() {
         return null;
