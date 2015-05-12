@@ -46,7 +46,7 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         drawerManager=new DrawerManager(this,drawerLayout,toolbar,DrawerManager.SECTION4);
         drawerManager.setDrawer();
-
+// ff
 
 
     }
