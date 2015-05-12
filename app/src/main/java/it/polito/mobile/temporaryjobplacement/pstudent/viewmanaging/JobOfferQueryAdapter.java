@@ -1,6 +1,5 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +8,8 @@ import android.widget.TextView;
 
 import com.parse.ParseQueryAdapter;
 
-import java.util.List;
-
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
-import it.polito.mobile.temporaryjobplacement.model.Student;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 
 /**
  * Created by Enrico on 11/05/15.
@@ -77,7 +71,7 @@ public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
         positionTextView.setText(jobOffer.getPosition());
         companyTextView.setText(jobOffer.getCompany().getName());
         timeAgoTextView.setText(jobOffer.getCreatedAt().toString());
-        locationTextView.setText(jobOffer.getLocation());
+        locationTextView.setText(jobOffer.getCompactLocation());
 
         innerButtonManager.configureButton(jobOffer, innerButton);
 

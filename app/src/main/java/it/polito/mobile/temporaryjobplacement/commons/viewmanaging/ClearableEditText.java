@@ -86,7 +86,7 @@ public class ClearableEditText extends RelativeLayout {
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
         btn_clear.setLayoutParams(layoutParams);
-        btn_clear.setBackgroundResource(android.R.drawable.ic_delete);
+        btn_clear.setBackgroundResource(android.R.drawable.ic_menu_close_clear_cancel);
         btn_clear.setVisibility(View.INVISIBLE);
         this.addView(btn_clear);
 

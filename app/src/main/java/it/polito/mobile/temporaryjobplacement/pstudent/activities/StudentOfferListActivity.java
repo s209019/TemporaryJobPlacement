@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -31,6 +32,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
 
     private boolean mTwoPane;
     private Student studentProfile;
+    private List<JobOffer> favourites;
 
 
 
@@ -76,16 +78,15 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
 
     @Override
     public List<JobOffer> getFavouritesOffers() {
-        try {
-            Student studentProfile = AccountManager.getCurrentStudentProfile();
-            List<JobOffer> favourites = studentProfile.getFavouritesOffers();
 
-            return favourites;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if(favourites==null)
+            try {
+                favourites = AccountManager.getCurrentStudentProfile().getFavouritesOffers();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        return null;
+        return favourites;
     }
 
     @Override
@@ -93,9 +94,12 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
         try {
 
             if(toBeAdded) {
-                studentProfile.getRelation("favouritesOffers").add(favourite);
+                studentProfile.getRelation("favouritesOffers").add(favourite); //Remoto
+                favourites.add(favourite); //Locale
             } else {
                 studentProfile.getRelation("favouritesOffers").remove(favourite);
+                favourites.remove(favourite); //Locale
+
             }
 
             studentProfile.saveEventually();

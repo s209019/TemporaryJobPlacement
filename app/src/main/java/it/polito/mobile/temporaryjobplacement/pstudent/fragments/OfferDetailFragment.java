@@ -20,8 +20,6 @@ import it.polito.mobile.temporaryjobplacement.commons.utils.ExternalIntents;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -112,7 +110,7 @@ public class OfferDetailFragment extends Fragment {
         });
 
         TextView locationTextView=(TextView)rootView.findViewById(R.id.locationTextView);
-        locationTextView.setText(offer.getLocation());
+        locationTextView.setText(offer.getFullLocation());
 
         TextView timeAgoTextView=(TextView)rootView.findViewById(R.id.timeAgoTextView);
         timeAgoTextView.setText(offer.getCreatedAt().toString());
@@ -134,7 +132,7 @@ public class OfferDetailFragment extends Fragment {
         displayPositionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExternalIntents.openGoogleMaps(getActivity(),offer.getLocation());
+                ExternalIntents.openGoogleMaps(getActivity(),offer.getCompactLocation());
             }
         });
 

@@ -32,9 +32,16 @@ public class JobOffer  extends ParseObject {
         put("position", value);
     }
 
-    public String getLocation() {
-        return getString("location");
+    public String getCompactLocation() {
+
+        return getString("city")+" ("+getString("country")+")";
     }
+
+    public String getFullLocation() {
+
+        return getString("address")+"\n"+getString("city")+" ("+getString("country")+")"+" "+getString("zipCode");
+    }
+
 
     public void setLocation(String value) {
         put("location", value);
