@@ -165,6 +165,17 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
 
         return null;
     }
+
+    @Override
+    public List<JobOffer> getFavouritesOffers() {
+        return null;
+    }
+
+    @Override
+    public void updateFavourites(JobOffer favourite, boolean toBeAdded) {
+
+    }
+
     @Override
     public boolean isFavouriteList(){
         return true;

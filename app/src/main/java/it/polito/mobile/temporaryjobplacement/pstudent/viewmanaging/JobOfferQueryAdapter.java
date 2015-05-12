@@ -44,6 +44,17 @@ public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
         }
         TextView textView = (TextView) v.findViewById(R.id.nextPageTextViewId);
         textView.setText("Show more");
+        textView.setClickable(true);
+        final View finalV = v;
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View textView) {
+                ((TextView)textView).setText("Loading more...");
+                finalV.performClick();
+
+            }
+        });
+
         return v;
     }
 
@@ -69,7 +80,6 @@ public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
         locationTextView.setText(jobOffer.getLocation());
 
         innerButtonManager.configureButton(jobOffer, innerButton);
-
 
         return convertView;
     }

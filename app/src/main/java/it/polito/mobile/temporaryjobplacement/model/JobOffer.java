@@ -15,7 +15,6 @@ public class JobOffer  extends ParseObject {
     private boolean favourited=false;
 
     //String name
-    //
 
     public String getName() {
         return getString("name");

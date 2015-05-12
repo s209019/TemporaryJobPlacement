@@ -63,6 +63,17 @@ public class StudentHistoryActivity extends ActionBarActivity implements OfferLi
         offers.add(new Offer("Web developer4", "Full time", "ACCENTURE","Milan (Italy)", 13121,"sajdnkjasndksandkjasndk","12/07/15","Master's degree","Experienced Professional"));
         return offers;
     }
+
+    @Override
+    public List<JobOffer> getFavouritesOffers() {
+        return null;
+    }
+
+    @Override
+    public void updateFavourites(JobOffer favourite, boolean toBeAdded) {
+
+    }
+
     @Override
     public void onItemSelected(JobOffer offer) {
             // In single-pane mode, simply start the detail activity

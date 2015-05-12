@@ -30,12 +30,19 @@ import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 public class StudentOfferListActivity extends ActionBarActivity implements OfferListFragment.Callbacks, OfferDetailFragment.OnFragmentInteractionListener {
 
     private boolean mTwoPane;
+    private Student studentProfile;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_offer_list);
+        try {
+            studentProfile = AccountManager.getCurrentStudentProfile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //Set the custom toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -67,7 +74,39 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
         return null;
     }
 
-        @Override
+    @Override
+    public List<JobOffer> getFavouritesOffers() {
+        try {
+            Student studentProfile = AccountManager.getCurrentStudentProfile();
+            List<JobOffer> favourites = studentProfile.getFavouritesOffers();
+
+            return favourites;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public void updateFavourites(JobOffer favourite, boolean toBeAdded) {
+        try {
+
+            if(toBeAdded) {
+                studentProfile.getRelation("favouritesOffers").add(favourite);
+            } else {
+                studentProfile.getRelation("favouritesOffers").remove(favourite);
+            }
+
+            studentProfile.saveEventually();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
     public void onItemSelected(JobOffer offer) {
         //IF TABLET
         if (mTwoPane) {

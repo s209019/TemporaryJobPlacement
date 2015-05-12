@@ -1,14 +1,11 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -17,13 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseRelation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
@@ -33,7 +25,6 @@ import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.JobOfferQueryAdapter;
-import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.OfferArrayAdapter;
 
 /**
  * A list fragment representing a list of Items. This fragment
@@ -58,7 +49,7 @@ public class OfferListFragment extends ListFragment {
 
 
 
-    private Callbacks mCallbacks;
+    private Callbacks callbacks;
     /* A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activties to be notified of item
      * selections.
@@ -72,7 +63,6 @@ public class OfferListFragment extends ListFragment {
         /*
         *Callback to get the query factory to be used
         */
-
         public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory();
 
         /*
@@ -80,6 +70,15 @@ public class OfferListFragment extends ListFragment {
         */
         public List<Offer> getOffersToDisplay();
 
+        /*
+        *Callback to check if it is a favourite list
+        */
+        public List<JobOffer> getFavouritesOffers();
+
+        /*
+         *Callback to check if it is a favourite list
+        */
+        public void updateFavourites(JobOffer favourite, boolean toBeAdded);
 
         /*
         *Callback to check if it is a favourite list
@@ -102,7 +101,6 @@ public class OfferListFragment extends ListFragment {
     private ParseQueryAdapter<JobOffer> jobOffersQueryAdapter;
 
 
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -122,7 +120,7 @@ public class OfferListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Boolean isFavouriteList=mCallbacks.isFavouriteList();
+        Boolean isFavouriteList= callbacks.isFavouriteList();
 
         JobOfferQueryAdapter.InnerButtonManager innerButtonManager=null;
         int row_layout_id=0;
@@ -143,14 +141,12 @@ public class OfferListFragment extends ListFragment {
             };
 
         }else{
+            final List<JobOffer> favourites = callbacks.getFavouritesOffers();
+
             innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
                 @Override
                 public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
                     try {
-
-                        final Student studentProfile = AccountManager.getCurrentStudentProfile();
-
-                        final List<JobOffer> favourites = studentProfile.getFavouritesOffers();
 
                         if(!favourites.contains(jobOffer)) {
                             jobOffer.setFavourited(false);
@@ -167,14 +163,12 @@ public class OfferListFragment extends ListFragment {
                                 if (!jobOffer.isFavourited()) {
                                     jobOffer.setFavourited(true);
                                     innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                                    studentProfile.getRelation("favouritesOffers").add(jobOffer);
-                                    studentProfile.saveEventually();
+                                    callbacks.updateFavourites(jobOffer, true);
 
                                 } else {
                                     jobOffer.setFavourited(false);
                                     innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                                    studentProfile.getRelation("favouritesOffers").remove(jobOffer);
-                                    studentProfile.saveEventually();
+                                    callbacks.updateFavourites(jobOffer, false);
                                 }
                             }
                         });
@@ -187,8 +181,8 @@ public class OfferListFragment extends ListFragment {
             };
         }
 
-        jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), mCallbacks.getQueryFactory(), innerButtonManager);
-        jobOffersQueryAdapter.setObjectsPerPage(1); //TODO: Eliminare
+        jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), callbacks.getQueryFactory(), innerButtonManager);
+        jobOffersQueryAdapter.setObjectsPerPage(2); //TODO: Eliminare
 
         //TODO: Fare controlli se non c'è nessun risultato
         /*if(jobOffersQueryAdapter.getCount()==0)
@@ -248,7 +242,7 @@ public class OfferListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected((JobOffer) getListAdapter().getItem(position));
+        callbacks.onItemSelected((JobOffer) getListAdapter().getItem(position));
     }
 
 
@@ -260,14 +254,14 @@ public class OfferListFragment extends ListFragment {
         if (!(activity instanceof Callbacks)) {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
-        mCallbacks = (Callbacks) activity;
+        callbacks = (Callbacks) activity;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = null;
+        callbacks = null;
     }
 
 
@@ -300,4 +294,5 @@ public class OfferListFragment extends ListFragment {
 
         mActivatedPosition = position;
     }
+
 }
