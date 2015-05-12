@@ -148,15 +148,19 @@ public class Message implements Parcelable{
         this.read = 1;
     }
 
+
+
+
     public boolean suck2() {
-        suck();
+
+
+
+
         return read==1;
     }
 
 
-    public void suck() {
-        this.read = 1;//yeahh
-    }
+
 
 
 
