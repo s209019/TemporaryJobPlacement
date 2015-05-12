@@ -7,18 +7,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.model.Company;
+import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 
 
 public class StudentCompanyListActivity extends ActionBarActivity implements CompanyListFragment.Callbacks, CompanyDetailFragment.OnFragmentInteractionListener{
@@ -26,11 +28,19 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
 
 
     private boolean mTwoPane;
+    private Student studentProfile;
+    private List<Company> favourites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_company_list);
+
+        try {
+            studentProfile = AccountManager.getCurrentStudentProfile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         //Set the custom toolbar
@@ -64,6 +74,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
 
 
     //CALBACKS IMPLEMENTATION FOR COMPANYLISTFRAGMENT
+    /*
     @Override
     public List<Company> getCompaniesToDisplay() {
         //get search info from intent and search companies
@@ -74,7 +85,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
         companies.add(new Company("ENNOVA", "Turin (Italy)", new ArrayList<String>(),"jdfsdj@bbbb.it","0113432423"));
 
         return companies;
-    }
+    }*/
     @Override
     public void onItemSelected(Company company) {
     //IF TABLET
@@ -83,7 +94,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putParcelable("SELECTED_COMPANY", company);
+            arguments.putString("SELECTED_COMPANY", company.getObjectId());
             CompanyDetailFragment fragment = new CompanyDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
@@ -93,11 +104,59 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-            detailIntent.putExtra("SELECTED_COMPANY", company);
+            detailIntent.putExtra("SELECTED_COMPANY", company.getObjectId());
             startActivityForResult(detailIntent, 0);
         }
 
     }
+
+    @Override
+    public ParseQueryAdapter.QueryFactory<Company> getCompanyQueryFactory() {
+
+        return new ParseQueryAdapter.QueryFactory<Company>() {
+            public ParseQuery<Company> create() {
+                ParseQuery<Company> query = Company.getQuery();
+                //query.include("company");
+                query.orderByAscending("name");
+                query.setLimit(100);
+                return query;
+            }
+        };
+    }
+
+
+
+    @Override
+    public List<Company> getFavouritesCompanies() {
+        if(favourites==null)
+            try {
+                favourites = AccountManager.getCurrentStudentProfile().getFavouritesCompanies();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        return favourites;
+    }
+
+    @Override
+    public void updateFavourites(Company favourite, boolean toBeAdded) {
+        try {
+            if(toBeAdded) {
+                studentProfile.getRelation("favouritesCompanies").add(favourite); //Remoto
+                favourites.add(favourite); //Locale
+            } else {
+                studentProfile.getRelation("favouritesCompanies").remove(favourite);
+                favourites.remove(favourite); //Locale
+
+            }
+
+            studentProfile.saveEventually();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public boolean isFavouriteList(){
         return false;

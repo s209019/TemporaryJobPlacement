@@ -53,6 +53,7 @@ public class StudentHistoryActivity extends ActionBarActivity implements OfferLi
 
 
     //CALBACKS IMPLEMENTATION FOR OFFERLISTFRAGMENT
+    /*
     @Override
     public List<Offer> getOffersToDisplay() {
         //get search info from intent and search offers
@@ -62,7 +63,7 @@ public class StudentHistoryActivity extends ActionBarActivity implements OfferLi
         offers.add(new Offer("Web developer3", "Full time", "REPLY SPA", "Rome (Italy)", 13121, "sajdnkjasndksandkjasndk", "12/08/15", "Master's degree", "Experienced Professional"));
         offers.add(new Offer("Web developer4", "Full time", "ACCENTURE","Milan (Italy)", 13121,"sajdnkjasndksandkjasndk","12/07/15","Master's degree","Experienced Professional"));
         return offers;
-    }
+    }*/
 
     @Override
     public List<JobOffer> getFavouritesOffers() {

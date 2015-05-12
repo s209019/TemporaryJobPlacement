@@ -1,16 +1,20 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -111,25 +115,26 @@ public class SearchByOfferFragment extends Fragment {
 
         //MORE/LESS OPTION
         moreOptionsPanel =(LinearLayout)rootView.findViewById(R.id.panelJobInformation);
-        final Button moreOptionsPanelButton=(Button)rootView.findViewById(R.id.showJobInformation);
+        final LinearLayout moreOptionsPanelButton=(LinearLayout)rootView.findViewById(R.id.showJobInformation);
+        final ImageView arrowImage=(ImageView)rootView.findViewById(R.id.arrow);
         moreOptionsPanel.setVisibility(View.GONE);
         moreOptionsPanelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (moreOptionsPanel.getVisibility() == View.GONE) {
                     moreOptionsPanel.setVisibility(View.VISIBLE);
-                    moreOptionsPanelButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_up_float, 0);
                     scrollView.post(new Runnable() {
                         public void run() {
-                            scrollView.smoothScrollTo(0, ((FrameLayout) moreOptionsPanelButton.getParent()).getTop());
+                            scrollView.smoothScrollTo(0, moreOptionsPanelButton.getTop());
+                            turnUP(arrowImage);
                         }
                     });
-                    moreOptionsPanelButton.setText("Fewer options");
+                    ((Button)moreOptionsPanelButton.getChildAt(0)).setText("Fewer options");
 
                 } else {
                     moreOptionsPanel.setVisibility(View.GONE);
-                    moreOptionsPanelButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.arrow_down_float, 0);
-                    moreOptionsPanelButton.setText("More options");
+                    turnDOWN(arrowImage);
+                    ((Button)moreOptionsPanelButton.getChildAt(0)).setText("More options");
                 }
             }
         });
@@ -299,6 +304,26 @@ public class SearchByOfferFragment extends Fragment {
         for(String industry : list) text=text+industry+"\n";
         if(!text.equals(""))text=text.substring(0,text.length()-1);
         return text;
+    }
+
+
+
+
+     public void turnUP(ImageView image) {
+         turn(image,0,180);
+    }
+    public void turnDOWN(ImageView image) {
+        turn(image,180,360);
+
+    }
+    public void turn(ImageView image,int a,int b) {
+        RotateAnimation anim = new RotateAnimation(a, b,Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setDuration(500);
+        anim.setFillEnabled(true);
+        anim.setFillAfter(true);
+        image.startAnimation(anim);
+
     }
 
 

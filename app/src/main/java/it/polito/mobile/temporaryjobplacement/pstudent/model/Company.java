@@ -3,10 +3,12 @@ package it.polito.mobile.temporaryjobplacement.pstudent.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Company implements Parcelable {
+public class Company extends ParseObject implements Parcelable {
 
     private String title;
     private String location;

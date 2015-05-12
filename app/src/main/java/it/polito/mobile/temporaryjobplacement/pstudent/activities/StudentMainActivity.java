@@ -1,5 +1,6 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 
@@ -23,12 +25,20 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdap
 
 public class StudentMainActivity extends ActionBarActivity implements SearchByOfferFragment.OnFragmentInteractionListener,SearchByCompanyFragment.OnFragmentInteractionListener {
     DrawerManager drawerManager;
+    private ProgressDialog progressDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
+
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
 
 
         //Set the custom toolbar
@@ -91,6 +101,12 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(progressDialog.isShowing()) progressDialog.dismiss();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_student_main, menu);
@@ -127,6 +143,7 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         //start activity and pass it searching params
         DialogManager.toastMessage("starting searching:\n"+params,this);
         Intent intent=new Intent(this,StudentOfferListActivity.class);
+        progressDialog.show();
         startActivity(intent);
     }
 
@@ -136,6 +153,8 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         //start activity and pass it searching params
         DialogManager.toastMessage("starting searching:\n"+params,this);
         Intent intent=new Intent(this,StudentCompanyListActivity.class);
+        progressDialog.show();
         startActivity(intent);
+
     }
 }

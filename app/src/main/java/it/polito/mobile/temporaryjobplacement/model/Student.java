@@ -65,5 +65,15 @@ public class Student extends ParseObject {
     }
 
 
+    public List<Company> getFavouritesCompanies() throws com.parse.ParseException {
+        ParseRelation<Company> relation = getRelation("favouritesCompanies");
 
-}
+        return relation.getQuery().find();
+    }
+
+    public ParseQuery<Company> getFavouritesCompaniesRelationQuery() throws com.parse.ParseException {
+        ParseRelation<Company> relation = getRelation("favouritesCompanies");
+        return relation.getQuery();
+    }
+
+    }
