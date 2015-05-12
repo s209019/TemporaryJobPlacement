@@ -73,8 +73,9 @@ public class OfferDetailFragment extends Fragment {
             offer.setFavourited(isFavourited);
 
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(offer.getName());
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setSubtitle(offer.getCompany().getName());
 
-        ImageButton shareButton=(ImageButton)rootView.findViewById(R.id.shareButton);
+            ImageButton shareButton=(ImageButton)rootView.findViewById(R.id.shareButton);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
