@@ -57,6 +57,7 @@ public class StudentDetailActivity extends ActionBarActivity implements OfferDet
             if( getIntent().getStringExtra("SELECTED_OFFER")!=null){
                 Bundle arguments = new Bundle();
                 arguments.putString("SELECTED_OFFER",  getIntent().getStringExtra("SELECTED_OFFER"));
+                arguments.putBoolean("IS_FAVOURITED",  getIntent().getBooleanExtra("IS_FAVOURITED", false));
                 OfferDetailFragment fragment = new OfferDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();

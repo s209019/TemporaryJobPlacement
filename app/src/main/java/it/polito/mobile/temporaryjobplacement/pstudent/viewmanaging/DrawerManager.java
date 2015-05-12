@@ -19,7 +19,7 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentFavouritesActivity;
-import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentHistoryActivity;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentMyApplicationsActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentMessagesActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
@@ -48,7 +48,7 @@ public class DrawerManager {
     public void setDrawer(){
 
         final ListView drawerListView=(ListView)drawerLayout.findViewById(R.id.drawerListView);
-        String[] itemTitles={"Search filter","Profile","Favourites","Messages","History","Logout"};
+        String[] itemTitles={"Search filter","Profile","Favourites","Messages","My applications","Logout"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(activity, R.layout.drawer_list_item_activated,itemTitles){
             public View getView(int pos, View v, ViewGroup p) {
                TextView view=(TextView)super.getView(pos,v,p);
@@ -174,7 +174,7 @@ public class DrawerManager {
             case SECTION4://section 4 item clicked
                 if(currentSection !=SECTION4){//if you are already in selectedSection do nothing
                     //start selected section
-                    Intent intent=new Intent(activity,StudentHistoryActivity.class);
+                    Intent intent=new Intent(activity,StudentMyApplicationsActivity.class);
                     //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     activity.startActivity(intent);
                     activity.overridePendingTransition(0,0);

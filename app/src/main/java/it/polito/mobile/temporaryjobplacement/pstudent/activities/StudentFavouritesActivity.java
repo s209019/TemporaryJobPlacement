@@ -211,6 +211,7 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
                 ParseQuery<JobOffer> query=null;
                 try {
                     query = AccountManager.getCurrentStudentProfile().getFavouritesOffersRelationQuery();
+                    query.include("company");
                     query.orderByDescending("createdAt");
                     query.setLimit(100);
                 } catch (Exception e) {

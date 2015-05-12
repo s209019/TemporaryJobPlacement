@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -112,6 +113,8 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
 
     @Override
     public void onItemSelected(JobOffer offer) {
+
+        Log.d("DEBUG 0", offer.isFavourited()+"");
         //IF TABLET
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
@@ -119,6 +122,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString("SELECTED_OFFER", offer.getObjectId());
+            arguments.putBoolean("IS_FAVOURITED", offer.isFavourited());
             OfferDetailFragment fragment = new OfferDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
@@ -129,6 +133,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
             // for the selected item ID.
             Intent detailIntent = new Intent(this, StudentDetailActivity.class);
             detailIntent.putExtra("SELECTED_OFFER", offer.getObjectId());
+            detailIntent.putExtra("IS_FAVOURITED", offer.isFavourited());
             startActivityForResult(detailIntent,0);
         }
     }
