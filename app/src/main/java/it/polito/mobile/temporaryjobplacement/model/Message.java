@@ -150,4 +150,10 @@ public class Message implements Parcelable{
 
 
 
+    public void suck() {
+        this.read = 1;//yeahh
+    }
+
+
+
 }

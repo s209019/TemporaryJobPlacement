@@ -182,7 +182,7 @@ public class OfferListFragment extends ListFragment {
         }
 
         jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), callbacks.getQueryFactory(), innerButtonManager);
-        jobOffersQueryAdapter.setObjectsPerPage(2); //TODO: Eliminare
+        jobOffersQueryAdapter.setObjectsPerPage(2);
 
 
 
