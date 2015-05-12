@@ -10,19 +10,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="SHOW MORE"
-        android:padding="5dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:padding="12dp"
         android:textColor="@color/grayDarkerTextColor"
         android:background="@drawable/button_drawable2"
-        android:textSize="@dimen/abc_text_size_large_material"
+        android:textSize="@dimen/textSmallLabelSize"
 />
 
     <ImageView
+        android:id="@+id/arrowImage"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_marginRight="@dimen/margin_medium"
-        android:src="@android:drawable/ic_menu_more"/>
+        android:src="@android:drawable/ic_menu_more"
+        android:visibility="visible"/>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/margin_medium"
+        style="?android:attr/progressBarStyleSmall"
+        android:visibility="gone"/>
+
+
 
 
 </RelativeLayout>

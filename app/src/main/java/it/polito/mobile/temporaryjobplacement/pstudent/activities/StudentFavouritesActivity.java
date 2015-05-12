@@ -21,11 +21,10 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchByCompanyFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchByOfferFragment;
@@ -137,22 +136,28 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
     @Override
     public void onItemSelected(Company company) {
         Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-        detailIntent.putExtra("SELECTED_COMPANY", company);
+        detailIntent.putExtra("SELECTED_COMPANY", company.getObjectId());
         startActivity(detailIntent);
     }
 
     @Override
-    public List<Company> getCompaniesToDisplay() {
-        //get search info from intent and search companies
-        ArrayList<Company> companies=new ArrayList<Company>();
-        companies.add(new Company("TELECOM ITALIA", "Turin (Italy)", new ArrayList<String>(),"jdfsdj@bbbb.it","0113432423"));
-        companies.add(new Company("REPLY SPA", "Turin (Italy)", new ArrayList<String>(),"jdfsdj@bbbb.it","0113432423"));
-        companies.add(new Company("ACCENTURE", "Turin (Italy)", new ArrayList<String>(), "jdfsdj@bbbb.it", "0113432423"));
-        companies.add(new Company("ENNOVA", "Turin (Italy)", new ArrayList<String>(), "jdfsdj@bbbb.it", "0113432423"));
-
-        return companies;
+    public ParseQueryAdapter.QueryFactory<Company> getCompanyQueryFactory() {
+        return new ParseQueryAdapter.QueryFactory<Company>() {
+            public ParseQuery<Company> create() {
+                ParseQuery<Company> query=null;
+                try {
+                    query = AccountManager.getCurrentStudentProfile().getFavouritesCompaniesRelationQuery();
+                    query.orderByDescending("createdAt");
+                    query.setLimit(100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return query;
+            }
+        };
     }
 
+    
     @Override
     public void onItemSelected(JobOffer offer) {
         Intent detailIntent = new Intent(this, StudentDetailActivity.class);
@@ -161,10 +166,32 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
     }
 
     @Override
+    public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() {
+        return new ParseQueryAdapter.QueryFactory<JobOffer>() {
+            public ParseQuery<JobOffer> create() {
+                ParseQuery<JobOffer> query=null;
+                try {
+                    query = AccountManager.getCurrentStudentProfile().getFavouritesOffersRelationQuery();
+                    query.orderByDescending("createdAt");
+                    query.include("company");
+                    query.setLimit(100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return query;
+            }
+        };
+    }
+
+
+
+
+/*
+    @Override
     public List<Offer> getOffersToDisplay() {
 
         return null;
-    }
+    }*/
 
     @Override
     public List<JobOffer> getFavouritesOffers() {
@@ -201,25 +228,23 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
         return  ;
     }
 
+
+
+    @Override
+    public List<Company> getFavouritesCompanies() {
+        return null;
+    }
+
+    @Override
+    public void updateFavourites(Company favourite, boolean toBeAdded) {
+
+    }
+
+
     public void deleteAllFavourites(View v){
         DialogManager.setDialog("Delete all favourites?",this);
     }
 
-    public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() {
-        return new ParseQueryAdapter.QueryFactory<JobOffer>() {
-            public ParseQuery<JobOffer> create() {
-                ParseQuery<JobOffer> query=null;
-                try {
-                    query = AccountManager.getCurrentStudentProfile().getFavouritesOffersRelationQuery();
-                    query.include("company");
-                    query.orderByDescending("createdAt");
-                    query.setLimit(100);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return query;
-            }
-        };
-    }
+
 
 }

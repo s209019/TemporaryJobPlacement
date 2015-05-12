@@ -118,25 +118,33 @@
 
 
 
-            <FrameLayout
+            <LinearLayout
+                android:id="@+id/showJobInformation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_centerHorizontal="true"
                 android:clickable="true"
-                android:background="@color/primaryColor" >
+                android:orientation="horizontal"
+                android:background="@drawable/button_drawable">
             <Button
-                android:id="@+id/showJobInformation"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
                 android:textColor="@android:color/white"
                 android:layout_marginRight="@dimen/margin_small"
-                android:drawableRight="@android:drawable/arrow_down_float"
+                android:clickable="false"
                 android:text="More options"
-                android:background="@drawable/button_drawable"
+                android:background="@android:color/transparent"
                 />
-            </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/arrow"
+                    android:layout_width="@dimen/button_height"
+                    android:layout_height="@dimen/button_height"
+                    android:src="@android:drawable/ic_menu_more"/>
+            </LinearLayout>
 
 
             <LinearLayout

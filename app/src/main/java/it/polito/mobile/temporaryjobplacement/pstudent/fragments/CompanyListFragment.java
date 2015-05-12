@@ -4,27 +4,26 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.parse.ParseQueryAdapter;
+
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
+import it.polito.mobile.temporaryjobplacement.model.Company;
+import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.CompanyArrayAdapter;
-import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.OfferArrayAdapter;
+import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.CompanyQueryAdapter;
+import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.JobOfferQueryAdapter;
 
 /**
  * A list fragment representing a list of Items. This fragment
@@ -59,10 +58,20 @@ public class CompanyListFragment extends ListFragment {
          * Callback for when an item has been selected.
          */
         public void onItemSelected(Company company);
+
         /*
-        *Callback to get offers to display
+       *Callback to get the query factory to be used
+       */
+        public ParseQueryAdapter.QueryFactory<Company> getCompanyQueryFactory();
+        /*
+       *Callback to get favourites
+       */
+        public List<Company> getFavouritesCompanies();
+
+        /*
+         *Callback to update favourite
         */
-        public List<Company> getCompaniesToDisplay();
+        public void updateFavourites(Company favourite, boolean toBeAdded);
 
         /*
        *Callback to check if it is a favourite list
@@ -80,6 +89,9 @@ public class CompanyListFragment extends ListFragment {
         public void onFavouriteButtonCompanyPressed(Company company);
     }
 
+
+
+    private ParseQueryAdapter<Company> companiesQueryAdapter;
 
 
     /**
@@ -108,18 +120,15 @@ public class CompanyListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
+
         Boolean isFavouriteList=mCallbacks.isFavouriteList();
-
-        //get offers from the activity
-        List<Company> companies=mCallbacks.getCompaniesToDisplay();
-
-
-
-        CompanyArrayAdapter.InnerButtonManager innerButtonManager=null;
+        CompanyQueryAdapter.InnerButtonManager innerButtonManager=null;
         if(isFavouriteList){
-            innerButtonManager=new CompanyArrayAdapter.InnerButtonManager() {
+            innerButtonManager=new CompanyQueryAdapter.InnerButtonManager(){
                 @Override
-                public void configureButton(final Company company, final ImageButton innerButton) {
+                public void configureButton(Company company, ImageButton innerButton) {
                     innerButton.setVisibility(View.VISIBLE);
                     innerButton.setBackgroundResource(android.R.drawable.ic_delete);
                     innerButton.setOnClickListener(new View.OnClickListener() {
@@ -132,28 +141,56 @@ public class CompanyListFragment extends ListFragment {
             };
 
         }else{
-            innerButtonManager=new CompanyArrayAdapter.InnerButtonManager() {
+            final List<Company> favourites = mCallbacks.getFavouritesCompanies();
+            innerButtonManager=new CompanyQueryAdapter.InnerButtonManager(){
                 @Override
                 public void configureButton(final Company company, final ImageButton innerButton) {
-                    innerButton.setBackgroundResource(company.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
-                    innerButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!company.isFavourited()) {
-                                company.setFavourited(true);
-                                innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                            } else {
-                                company.setFavourited(false);
-                                innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                            }
-
+                    try {
+                        if(!favourites.contains(company)) {
+                            company.setFavourited(false);
+                            innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                        } else {
+                            company.setFavourited(true);
+                            innerButton.setBackgroundResource(R.drawable.ic_action_important);
                         }
-                    });
-                }
+
+                        innerButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (!company.isFavourited()) {
+                                    company.setFavourited(true);
+                                    innerButton.setBackgroundResource(R.drawable.ic_action_important);
+                                    mCallbacks.updateFavourites(company, true);
+
+                                } else {
+                                    company.setFavourited(false);
+                                    innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                                    mCallbacks.updateFavourites(company, false);
+                                }
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }                }
             };
+
         }
 
-        setListAdapter(new CompanyArrayAdapter(getActivity(), R.layout.company_list_item, companies, innerButtonManager));
+
+
+        companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), mCallbacks.getCompanyQueryFactory(), innerButtonManager,R.layout.company_list_item);
+        companiesQueryAdapter.setObjectsPerPage(2);
+
+        companiesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Company>() {
+            @Override
+            public void onLoading() {}
+            @Override
+            public void onLoaded(List<Company> list, Exception e) {
+                setListShown(true);
+            }
+        });
+        setListAdapter(companiesQueryAdapter);
 
     }
 
@@ -174,6 +211,7 @@ public class CompanyListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getListView().setEmptyView(buildEmptyTextView("No Company found"));
+        setListShown(false);
 
     }
     private TextView buildEmptyTextView(String text) {

@@ -11,24 +11,23 @@ import android.widget.TextView;
 import com.parse.ParseQueryAdapter;
 
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
-import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 
 /**
- * Created by Enrico on 11/05/15.
+ *
  */
-public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
+public class CompanyQueryAdapter extends ParseQueryAdapter<Company> {
 
     private InnerButtonManager innerButtonManager;
     private int rowLayoutId;
 
 
     public interface InnerButtonManager {
-        void configureButton(final JobOffer offer,final ImageButton innerButton);
+        void configureButton(final Company company, final ImageButton innerButton);
     }
 
 
-    public JobOfferQueryAdapter(Context context, ParseQueryAdapter.QueryFactory<JobOffer> queryFactory, InnerButtonManager innerButtonManager,int rowLayoutId) {
+    public CompanyQueryAdapter(Context context, QueryFactory<Company> queryFactory, InnerButtonManager innerButtonManager, int rowLayoutId) {
         super(context, queryFactory);
         this.innerButtonManager=innerButtonManager;
         this.rowLayoutId=rowLayoutId;
@@ -66,28 +65,26 @@ public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
 
     //Inflate della vista del singolo item
     @Override
-    public View getItemView(final JobOffer jobOffer, View convertView, ViewGroup parent) {
+    public View getItemView(final Company company, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
             convertView = View.inflate(getContext(), rowLayoutId, null);
         }
 
+
+
         TextView titleTextView = (TextView) convertView.findViewById(R.id.nameTextView);
-        TextView companyTextView = (TextView) convertView.findViewById(R.id.companyTextView);
-        TextView positionTextView = (TextView) convertView.findViewById(R.id.positionTextView);
-        TextView timeAgoTextView = (TextView) convertView.findViewById(R.id.timeAgoTextView);
-        TextView locationTextView=(TextView) convertView.findViewById(R.id.locationTextView);
-        final ImageButton innerButton =(ImageButton) convertView.findViewById(R.id.innerButton);
+        ImageButton innerButton =(ImageButton) convertView.findViewById(R.id.innerButton);
 
-        titleTextView.setText(jobOffer.getName());
-        positionTextView.setText(jobOffer.getPosition());
-        companyTextView.setText(jobOffer.getCompany().getName());
-        timeAgoTextView.setText(jobOffer.getCreatedAt().toString());
-        locationTextView.setText(jobOffer.getCompactLocation());
 
-        innerButtonManager.configureButton(jobOffer, innerButton);
 
-        return convertView;
+
+        titleTextView.setText(company.getName());
+
+             innerButtonManager.configureButton(company,innerButton);
+
+
+    return convertView;
     }
 
 

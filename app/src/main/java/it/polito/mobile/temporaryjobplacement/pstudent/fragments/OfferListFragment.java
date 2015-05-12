@@ -66,17 +66,12 @@ public class OfferListFragment extends ListFragment {
         public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory();
 
         /*
-        *Callback to check if it is a favourite list
-        */
-        public List<Offer> getOffersToDisplay();
-
-        /*
-        *Callback to check if it is a favourite list
+        *Callback to get favourites
         */
         public List<JobOffer> getFavouritesOffers();
 
         /*
-         *Callback to check if it is a favourite list
+         *Callback to update favourite
         */
         public void updateFavourites(JobOffer favourite, boolean toBeAdded);
 
@@ -142,7 +137,7 @@ public class OfferListFragment extends ListFragment {
 
         }else{
             final List<JobOffer> favourites = callbacks.getFavouritesOffers();
-
+            row_layout_id=R.layout.offer_list_item;
             innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
                 @Override
                 public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
@@ -181,7 +176,7 @@ public class OfferListFragment extends ListFragment {
             };
         }
 
-        jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), callbacks.getQueryFactory(), innerButtonManager);
+        jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), callbacks.getQueryFactory(), innerButtonManager,row_layout_id);
         jobOffersQueryAdapter.setObjectsPerPage(2);
 
 

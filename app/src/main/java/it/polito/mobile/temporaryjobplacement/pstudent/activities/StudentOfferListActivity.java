@@ -72,10 +72,6 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
         //-->HANDSET
     }
 
-    @Override
-    public List<Offer> getOffersToDisplay() {
-        return null;
-    }
 
     @Override
     public List<JobOffer> getFavouritesOffers() {

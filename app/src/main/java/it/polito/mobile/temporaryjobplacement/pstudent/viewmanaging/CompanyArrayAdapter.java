@@ -32,7 +32,7 @@ public class CompanyArrayAdapter extends ArrayAdapter<Company> {
 
 
 
-    public CompanyArrayAdapter(Activity activity, int rowIdLayout, List<Company> companies,InnerButtonManager innerButtonManager) {
+    public CompanyArrayAdapter(Activity activity, int rowIdLayout, List<Company> companies, InnerButtonManager innerButtonManager) {
         super(activity, rowIdLayout,companies);
         this.activity=activity;
         this.rowIdLayout=rowIdLayout;
