@@ -39,13 +39,19 @@ public class JobOffer  extends ParseObject {
 
     public String getFullLocation() {
 
-        return getString("address")+"\n"+getString("city")+" ("+getString("country")+")"+" "+getString("zipCode");
+        return getString("address")+"\n"+getString("city")+" ("+getString("country")+")"+" - "+getString("zipCode");
     }
 
-
-    public void setLocation(String value) {
-        put("location", value);
+    public String getResponsibilities() {
+        return getString("responsibilities");
     }
+    public String getMinimumQualifications() {
+        return getString("minimumQualifications");
+    }
+    public String getPreferredQualifications() {
+        return getString("preferredQualifications");
+    }
+
 
     public String getEducation() {
         return getString("education");

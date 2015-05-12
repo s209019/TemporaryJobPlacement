@@ -10,6 +10,7 @@
 
     <dimen name="listItemHeight">100dp</dimen>
 
+    <dimen name="textSize">17sp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->

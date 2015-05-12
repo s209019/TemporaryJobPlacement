@@ -153,9 +153,6 @@ public class Message implements Parcelable{
 
     public boolean suck2() {
 
-
-
-
         return read==1;
     }
 

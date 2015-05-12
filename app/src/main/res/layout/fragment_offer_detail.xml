@@ -107,8 +107,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_action_group"/>
 
                     <TextView
@@ -116,12 +116,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/nameTextView"
-                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_marginLeft="@dimen/margin_medium"
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:text="TELECOM ITALIA"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/abc_text_size_medium_material" />
+                        android:textSize="@dimen/textSize" />
 
                 </LinearLayout>
 
@@ -139,8 +139,8 @@
                     android:layout_below="@+id/positionTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_half_medium"
-                    android:layout_marginBottom="@dimen/margin_half_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     android:gravity="left"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_medium"
@@ -149,9 +149,10 @@
                     android:background="@drawable/button_drawable2">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_action_place"/>
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_action_place"
+                        android:layout_gravity="center"/>
 
                     <TextView
                         android:id="@+id/locationTextView"
@@ -160,10 +161,10 @@
                         android:layout_below="@id/nameTextView"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_marginLeft="@dimen/margin_medium"
                         android:text="Turin (Italy)"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/abc_text_size_medium_material" />
+                        android:textSize="@dimen/textSize" />
                 </LinearLayout>
 
                 <View
@@ -189,8 +190,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_action_time"/>
 
                     <TextView
@@ -200,10 +201,10 @@
                         android:layout_below="@id/nameTextView"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:text="15 minutes ago"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:text="3 days ago"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/abc_text_size_medium_material" />
+                        android:textSize="@dimen/textSize" />
                 </LinearLayout>
 
 
@@ -227,17 +228,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="left"
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/textLabelSize"
+                android:textSize="@dimen/abc_text_size_medium_material"
                 android:textColor="@color/labelTextColor"
                 android:textStyle="bold"
-                android:text="Job information"
+                android:text="JOB INFORMATION"
                 />
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -249,16 +249,15 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:gravity="right"
-                    android:layout_weight="1"
                     android:layout_marginLeft="@dimen/margin_small"
                     android:text="Position:"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/abc_text_size_medium_material"
+                    android:textSize="@dimen/textSize"
                       />
                 <TextView
                     android:id="@+id/positionTextView"
@@ -267,11 +266,10 @@
                     android:layout_gravity="top"
                     android:gravity="left"
                     android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_medium"
                     android:text="Full time"
-                    android:textStyle="bold"
                     android:textColor="@color/grayDarkerTextColor"
-                    android:textSize="@dimen/abc_text_size_medium_material" />
+                    android:textSize="@dimen/textSize" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -284,16 +282,15 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:gravity="right"
-                    android:layout_weight="1"
                     android:layout_marginLeft="@dimen/margin_small"
                     android:text="Education:"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/abc_text_size_medium_material" />
+                    android:textSize="@dimen/textSize" />
                 <TextView
                     android:id="@+id/educationTextView"
                     android:layout_width="0dp"
@@ -301,11 +298,10 @@
                     android:layout_gravity="top"
                     android:gravity="left"
                     android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_medium"
                     android:text="Master's degree"
-                    android:textStyle="bold"
                     android:textColor="@color/grayDarkerTextColor"
-                    android:textSize="@dimen/abc_text_size_medium_material" />
+                    android:textSize="@dimen/textSize" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -318,16 +314,15 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:gravity="right"
-                    android:layout_weight="1"
                     android:layout_marginLeft="@dimen/margin_small"
                     android:text="Career level:"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/abc_text_size_medium_material" />
+                    android:textSize="@dimen/textSize" />
                 <TextView
                     android:id="@+id/careerLevelTextView"
                     android:layout_width="0dp"
@@ -335,11 +330,10 @@
                     android:layout_gravity="top"
                     android:gravity="left"
                     android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_medium"
                     android:text="Student"
-                    android:textStyle="bold"
                     android:textColor="@color/grayDarkerTextColor"
-                    android:textSize="@dimen/abc_text_size_medium_material" />
+                    android:textSize="@dimen/textSize" />
             </LinearLayout>
 
 
@@ -363,42 +357,137 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
-                android:gravity="left"
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/textLabelSize"
+                android:textSize="@dimen/abc_text_size_medium_material"
                 android:textColor="@color/labelTextColor"
                 android:textStyle="bold"
-                android:text="Job description"
+                android:text="JOB DESCRIPTION"
                 />
 
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/descriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:gravity="left"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:text="Content of Job Description"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:background="@color/internalBorderColor"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/descriptionTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:text="blablabalbalbalbablalblalblabldlvsflsfdslkfdslfmds"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/abc_text_size_medium_material" />
-
-            </LinearLayout>
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="@color/labelTextColor"
+                android:textStyle="bold"
+                android:text="RESPONSIBILITIES"
+                />
 
 
+            <TextView
+                android:id="@+id/responsibilitiesTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:text="Content of responsibilities"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize" />
 
-            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:background="@color/internalBorderColor"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="@color/labelTextColor"
+                android:textStyle="bold"
+                android:text="MINIMUM QUALIFICATIONS"
+                />
+
+
+            <TextView
+                android:id="@+id/minimumQualificationsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:text="Content of minimum qualifications"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:background="@color/internalBorderColor"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="@color/labelTextColor"
+                android:textStyle="bold"
+                android:text="PREFERRED QUALIFICATIONS"
+                />
+
+
+            <TextView
+                android:id="@+id/preferredQualificationsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:text="Content of preferred qualifications"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize" />
+
+
+
+
+        </LinearLayout>
 
 
 
@@ -433,6 +522,7 @@
             android:text="APPLY NOW"
             android:layout_margin="1dp"
             android:background="@android:color/transparent"
+            android:textSize="@dimen/textLabelSize"
             android:clickable="false"
             />
         <!--android:drawableLeft="@android:drawable/ic_menu_search"-->

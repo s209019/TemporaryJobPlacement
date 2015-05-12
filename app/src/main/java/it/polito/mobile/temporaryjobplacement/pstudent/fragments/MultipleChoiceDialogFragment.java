@@ -24,7 +24,6 @@ public class MultipleChoiceDialogFragment extends DialogFragment {
         public void getAllItemsChecked(ArrayList<String> selectedItems);
     }
 
-
     public static MultipleChoiceDialogFragment newInstance(String title, ArrayList<String> items,String[] alreadyCheckedIndustries, OnAllItemsCheckedListener onAllItemsCheckedList) {
         MultipleChoiceDialogFragment fragment = new MultipleChoiceDialogFragment();
         Bundle args = new Bundle();

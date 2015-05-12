@@ -12,7 +12,7 @@
     <string name="title_activity_student_messagges">Messagges</string>
     <string name="title_activity_student_offer_list">Offers searched</string>
     <string name="title_activity_student_company_list">Companies searched</string>
-    <string name="title_activity_student_history">Last applications</string>
+    <string name="title_activity_student_history">My applications</string>
 
     <string name="open">open</string>
     <string name="close">close</string>
