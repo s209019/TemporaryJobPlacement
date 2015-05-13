@@ -1,33 +1,83 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item >
-        <shape
-            android:shape="ring"
-            android:innerRadius="0dp"
-            android:thickness="26dp"
-            android:useLevel="false">
-            <solid android:color="@color/externalBorderColor"/>
-        </shape>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="false"
+        android:state_focused="false">
+        <layer-list >
+            <item >
+                <shape
+                    android:shape="ring"
+                    android:innerRadius="0dp"
+                    android:thickness="25dp"
+                    android:useLevel="false">
+                    <solid android:color="@color/externalBorderColor"/>
+                </shape>
+            </item>
+
+            <item android:bottom="2dp" >
+                <shape
+                    android:shape="ring"
+                    android:innerRadius="0dp"
+                    android:thickness="25dp"
+                    android:useLevel="false">
+                    <solid android:color="@color/internalBorderColor"/>
+                </shape>
+            </item>
+
+            <item android:bottom="6dp">
+                <shape
+                    android:shape="ring"
+                    android:innerRadius="0dp"
+                    android:thickness="25dp"
+                    android:useLevel="false">
+                    <solid android:color="@color/foregroundColor"/>
+                </shape>\
+            </item>
+
+
+        </layer-list>
     </item>
 
-    <item  >
-        <shape
-            android:shape="ring"
-            android:innerRadius="0dp"
-            android:thickness="25.5dp"
-            android:useLevel="false">
-            <solid android:color="@color/internalBorderColor"/>
-        </shape>
+
+
+
+    <item android:state_pressed="true"
+        android:state_focused="false">
+        <layer-list >
+            <item >
+                <shape
+                    android:shape="ring"
+                    android:innerRadius="0dp"
+                    android:thickness="25dp"
+                    android:useLevel="false">
+                    <solid android:color="@color/externalBorderColor"/>
+                </shape>
+            </item>
+
+            <item android:bottom="2dp" >
+                <shape
+                    android:shape="ring"
+                    android:innerRadius="0dp"
+                    android:thickness="25dp"
+                    android:useLevel="false">
+                    <solid android:color="@color/internalBorderColor"/>
+                </shape>
+            </item>
+
+            <item android:bottom="6dp">
+                <shape
+                    android:shape="ring"
+                    android:innerRadius="0dp"
+                    android:thickness="25dp"
+                    android:useLevel="false">
+                    <solid android:color="@color/internalBorderColor"/>
+                </shape>\
+            </item>
+
+
+        </layer-list>
     </item>
 
-    <item>
-        <shape
-            android:shape="ring"
-            android:innerRadius="0dp"
-            android:thickness="25dp"
-            android:useLevel="false">
-            <solid android:color="@color/foregroundColor"/>
-        </shape>
-    </item>
 
 
-</layer-list>
+
+</selector>

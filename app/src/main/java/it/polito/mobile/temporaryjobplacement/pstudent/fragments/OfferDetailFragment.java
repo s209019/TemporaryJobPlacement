@@ -89,7 +89,7 @@ public class OfferDetailFragment extends Fragment {
         });
 
         final ImageButton favouriteButton=(ImageButton)rootView.findViewById(R.id.favouriteButton);
-        //favouriteButton.setImageResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+        favouriteButton.setImageResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
