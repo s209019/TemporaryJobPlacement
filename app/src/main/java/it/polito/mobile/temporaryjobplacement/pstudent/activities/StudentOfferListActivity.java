@@ -41,11 +41,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_offer_list);
-        try {
-            studentProfile = AccountManager.getCurrentStudentProfile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
         //Set the custom toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,19 +62,27 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
             mTwoPane = true;
             // In two-pane mode, list items should be given the 'activated' state when touched.
             ((OfferListFragment)getSupportFragmentManager().findFragmentById(R.id.item_list)).setActivateOnItemClick(true);
+            getSupportActionBar().hide();
         }
 
 
         //-->HANDSET
     }
 
-
+    @Override
+    public void initializeProfile(){
+        try {
+            studentProfile = AccountManager.getCurrentStudentProfile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public List<JobOffer> getFavouritesOffers() {
 
         if(favourites==null)
             try {
-                favourites = AccountManager.getCurrentStudentProfile().getFavouritesOffers();
+                favourites =studentProfile.getFavouritesOffers();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -161,6 +165,11 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
     public void onFavouriteButtonOfferPressed(JobOffer offer) {
         return;
     }
+
+
+
+
+
 
 
     @Override

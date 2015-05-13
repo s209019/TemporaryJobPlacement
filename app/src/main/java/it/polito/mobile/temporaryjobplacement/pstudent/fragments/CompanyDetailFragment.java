@@ -54,8 +54,9 @@ public class CompanyDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_company_detail, container, false);
 
+        
 
-
+        if(true)return rootView;
         final Company  company=getArguments().getParcelable("SELECTED_COMPANY");
 
 
@@ -71,16 +72,16 @@ public class CompanyDetailFragment extends Fragment {
             }
         });
         final ImageButton favouriteButton=(ImageButton)rootView.findViewById(R.id.favouriteButton);
-        favouriteButton.setBackgroundResource(company.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+        favouriteButton.setImageResource(company.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!company.isFavourited()) {
                     company.setFavourited(true);
-                    favouriteButton.setBackgroundResource(R.drawable.ic_action_important);
+                    favouriteButton.setImageResource(R.drawable.ic_action_important);
                 } else {
                     company.setFavourited(false);
-                    favouriteButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                    favouriteButton.setImageResource(R.drawable.ic_action_not_important);
                 }
                 DialogManager.toastMessage("favourite", getActivity());
             }

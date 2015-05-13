@@ -1,0 +1,33 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item >
+        <shape
+            android:shape="ring"
+            android:innerRadius="0dp"
+            android:thickness="28dp"
+            android:useLevel="false">
+            <solid android:color="@color/externalBorderColor"/>
+        </shape>
+    </item>
+
+    <item  >
+        <shape
+            android:shape="ring"
+            android:innerRadius="0dp"
+            android:thickness="28dp"
+            android:useLevel="false">
+            <solid android:color="@color/internalBorderColor"/>
+        </shape>
+    </item>
+
+    <item>
+        <shape
+            android:shape="ring"
+            android:innerRadius="0dp"
+            android:thickness="28dp"
+            android:useLevel="false">
+            <solid android:color="@color/foregroundColor"/>
+        </shape>
+    </item>
+
+
+</layer-list>

@@ -36,11 +36,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_company_list);
 
-        try {
-            studentProfile = AccountManager.getCurrentStudentProfile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
 
         //Set the custom toolbar
@@ -64,6 +60,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
             mTwoPane = true;
             // In two-pane mode, list items should be given the 'activated' state when touched.
             ((CompanyListFragment)getSupportFragmentManager().findFragmentById(R.id.item_list)).setActivateOnItemClick(true);
+            getSupportActionBar().hide();
         }
 
 
@@ -73,19 +70,16 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
 
 
 
-    //CALBACKS IMPLEMENTATION FOR COMPANYLISTFRAGMENT
-    /*
-    @Override
-    public List<Company> getCompaniesToDisplay() {
-        //get search info from intent and search companies
-        ArrayList<Company> companies=new ArrayList<Company>();
-        companies.add(new Company("TELECOM ITALIA", "Turin (Italy)", new ArrayList<String>(),"jdfsdj@bbbb.it","0113432423"));
-        companies.add(new Company("REPLY SPA", "Turin (Italy)", new ArrayList<String>(),"jdfssdj@bbbb.it","0113432423"));
-        companies.add(new Company("ACCENTURE", "Turin (Italy)", new ArrayList<String>(),"jdfssdj@bbbb.it","0113432423"));
-        companies.add(new Company("ENNOVA", "Turin (Italy)", new ArrayList<String>(),"jdfsdj@bbbb.it","0113432423"));
 
-        return companies;
-    }*/
+    @Override
+    public void initializeProfile() {
+        try {
+            studentProfile = AccountManager.getCurrentStudentProfile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onItemSelected(Company company) {
     //IF TABLET
@@ -130,7 +124,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
     public List<Company> getFavouritesCompanies() {
         if(favourites==null)
             try {
-                favourites = AccountManager.getCurrentStudentProfile().getFavouritesCompanies();
+                favourites = studentProfile.getFavouritesCompanies();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -171,8 +165,6 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
     public void onFavouriteButtonCompanyPressed(Company company) {
 
     }
-
-
 
 
 

@@ -87,6 +87,11 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
         return ;
     }
 
+    @Override
+    public void initializeProfile() {
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

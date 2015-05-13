@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -87,6 +88,12 @@ public class CompanyListFragment extends ListFragment {
         *Callback to check if it is a favourite list
         */
         public void onFavouriteButtonCompanyPressed(Company company);
+
+        /*
+       *Initialize profile
+       */
+        public void initializeProfile();
+
     }
 
 
@@ -114,7 +121,7 @@ public class CompanyListFragment extends ListFragment {
 
 
 
-
+    private List<Company> favourites = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,76 +130,98 @@ public class CompanyListFragment extends ListFragment {
 
 
 
-        Boolean isFavouriteList=mCallbacks.isFavouriteList();
-        CompanyQueryAdapter.InnerButtonManager innerButtonManager=null;
-        if(isFavouriteList){
-            innerButtonManager=new CompanyQueryAdapter.InnerButtonManager(){
-                @Override
-                public void configureButton(Company company, ImageButton innerButton) {
-                    innerButton.setVisibility(View.VISIBLE);
-                    innerButton.setBackgroundResource(android.R.drawable.ic_delete);
-                    innerButton.setOnClickListener(new View.OnClickListener() {
+        final Boolean isFavouriteList=mCallbacks.isFavouriteList();
+
+
+
+        new AsyncTask<Object, Object, Object>() {
+            @Override
+            protected Object doInBackground(Object... params) {
+                mCallbacks.initializeProfile();
+                favourites = mCallbacks.getFavouritesCompanies();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object object) {
+                super.onPostExecute(object);
+
+
+
+                CompanyQueryAdapter.InnerButtonManager innerButtonManager = null;
+                if (isFavouriteList) {
+                    innerButtonManager = new CompanyQueryAdapter.InnerButtonManager() {
                         @Override
-                        public void onClick(View v) {
-                            DialogManager.toastMessage("delete", getActivity());
+                        public void configureButton(Company company, ImageButton innerButton) {
+                            innerButton.setVisibility(View.VISIBLE);
+                            innerButton.setBackgroundResource(android.R.drawable.ic_delete);
+                            innerButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    DialogManager.toastMessage("delete", getActivity());
+                                }
+                            });
                         }
-                    });
-                }
-            };
+                    };
 
-        }else{
-            final List<Company> favourites = mCallbacks.getFavouritesCompanies();
-            innerButtonManager=new CompanyQueryAdapter.InnerButtonManager(){
-                @Override
-                public void configureButton(final Company company, final ImageButton innerButton) {
-                    try {
-                        if(!favourites.contains(company)) {
-                            company.setFavourited(false);
-                            innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                        } else {
-                            company.setFavourited(true);
-                            innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                        }
-
-                        innerButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (!company.isFavourited()) {
-                                    company.setFavourited(true);
-                                    innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                                    mCallbacks.updateFavourites(company, true);
-
-                                } else {
+                } else {
+                    innerButtonManager = new CompanyQueryAdapter.InnerButtonManager() {
+                        @Override
+                        public void configureButton(final Company company, final ImageButton innerButton) {
+                            try {
+                                if (!favourites.contains(company)) {
                                     company.setFavourited(false);
                                     innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                                    mCallbacks.updateFavourites(company, false);
+                                } else {
+                                    company.setFavourited(true);
+                                    innerButton.setBackgroundResource(R.drawable.ic_action_important);
                                 }
+
+                                innerButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (!company.isFavourited()) {
+                                            company.setFavourited(true);
+                                            innerButton.setBackgroundResource(R.drawable.ic_action_important);
+                                            mCallbacks.updateFavourites(company, true);
+
+                                        } else {
+                                            company.setFavourited(false);
+                                            innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                                            mCallbacks.updateFavourites(company, false);
+                                        }
+                                    }
+                                });
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        });
+                        }
+                    };
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }                }
-            };
-
-        }
+                }
 
 
+                companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), mCallbacks.getCompanyQueryFactory(), innerButtonManager, R.layout.company_list_item);
+                companiesQueryAdapter.setObjectsPerPage(2);
 
-        companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), mCallbacks.getCompanyQueryFactory(), innerButtonManager,R.layout.company_list_item);
-        companiesQueryAdapter.setObjectsPerPage(2);
+                companiesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Company>() {
+                    @Override
+                    public void onLoading() {
+                    }
 
-        companiesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Company>() {
-            @Override
-            public void onLoading() {}
-            @Override
-            public void onLoaded(List<Company> list, Exception e) {
-                setListShown(true);
+                    @Override
+                    public void onLoaded(List<Company> list, Exception e) {
+                        setListShown(true);
+                    }
+                });
+                setListAdapter(companiesQueryAdapter);
+                setListShown(false);
+
+
             }
-        });
-        setListAdapter(companiesQueryAdapter);
-
-    }
+        }.execute();
+        }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -211,7 +240,7 @@ public class CompanyListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getListView().setEmptyView(buildEmptyTextView("No Company found"));
-        setListShown(false);
+
 
     }
     private TextView buildEmptyTextView(String text) {

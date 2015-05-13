@@ -64,6 +64,11 @@ public class OfferDetailFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_offer_detail, container, false);
 
+
+        ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
+
+
+
         final String jobOfferId=getArguments().getString("SELECTED_OFFER");
         boolean isFavourited=getArguments().getBoolean("IS_FAVOURITED");
 
@@ -84,13 +89,13 @@ public class OfferDetailFragment extends Fragment {
         });
 
         final ImageButton favouriteButton=(ImageButton)rootView.findViewById(R.id.favouriteButton);
-        favouriteButton.setBackgroundResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+        //favouriteButton.setImageResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!offer.isFavourited()) {
                     offer.setFavourited(true);
-                    favouriteButton.setBackgroundResource(R.drawable.ic_action_important);
+                    favouriteButton.setImageResource(R.drawable.ic_action_important);
                     try {
                         Student myProfile = AccountManager.getCurrentStudentProfile();
                         myProfile.getRelation("favouritesOffers").add(offer);
@@ -102,7 +107,7 @@ public class OfferDetailFragment extends Fragment {
 
                 } else {
                     offer.setFavourited(false);
-                    favouriteButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                    favouriteButton.setImageResource(R.drawable.ic_action_not_important);
                     try {
                         Student myProfile = AccountManager.getCurrentStudentProfile();
                         myProfile.getRelation("favouritesOffers").remove(offer);

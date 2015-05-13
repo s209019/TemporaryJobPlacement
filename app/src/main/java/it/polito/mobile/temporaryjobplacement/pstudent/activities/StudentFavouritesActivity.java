@@ -228,6 +228,10 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
         return  ;
     }
 
+    @Override
+    public void initializeProfile() {
+
+    }
 
 
     @Override

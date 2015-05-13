@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -19,11 +20,8 @@ import com.parse.ParseQueryAdapter;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
-import it.polito.mobile.temporaryjobplacement.model.Student;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.JobOfferQueryAdapter;
 
 /**
@@ -91,6 +89,11 @@ public class OfferListFragment extends ListFragment {
         */
         public void onFavouriteButtonOfferPressed(JobOffer offer);
 
+        /*
+        *Initialize profile
+        */
+        public void initializeProfile();
+
     }
 
     private ParseQueryAdapter<JobOffer> jobOffersQueryAdapter;
@@ -111,85 +114,114 @@ public class OfferListFragment extends ListFragment {
         return fragment;
     }
 
+
+
+ private List<JobOffer> favourites = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Boolean isFavouriteList= callbacks.isFavouriteList();
+        final Boolean isFavouriteList= callbacks.isFavouriteList();
 
-        JobOfferQueryAdapter.InnerButtonManager innerButtonManager=null;
-        int row_layout_id=0;
-        if(isFavouriteList){
-            row_layout_id=R.layout.offer_favourite_list_item;
-            innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
-                @Override
-                public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
-                    innerButton.setVisibility(View.VISIBLE);
-                    innerButton.setBackgroundResource(android.R.drawable.ic_delete);
-                    innerButton.setOnClickListener(new View.OnClickListener() {
+
+        new AsyncTask<Object, Object, Object>(){
+            @Override
+            protected Object doInBackground(Object... params) {
+                callbacks.initializeProfile();
+                favourites = callbacks.getFavouritesOffers();
+                return  null;
+            }
+            @Override
+            protected void onPostExecute(Object object) {
+                super.onPostExecute(object);
+
+                JobOfferQueryAdapter.InnerButtonManager innerButtonManager=null;
+                int row_layout_id=0;
+                if(isFavouriteList){
+                    row_layout_id=R.layout.offer_favourite_list_item;
+                    innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
                         @Override
-                        public void onClick(View v) {
-                            DialogManager.toastMessage("delete", getActivity());
+                        public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
+                            innerButton.setVisibility(View.VISIBLE);
+                            innerButton.setBackgroundResource(android.R.drawable.ic_delete);
+                            innerButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    DialogManager.toastMessage("delete", getActivity());
+                                }
+                            });
                         }
-                    });
-                }
-            };
+                    };
 
-        }else{
-            final List<JobOffer> favourites = callbacks.getFavouritesOffers();
-            row_layout_id=R.layout.offer_list_item;
-            innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
-                @Override
-                public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
-                    try {
+                }else{
 
-                        if(!favourites.contains(jobOffer)) {
-                            jobOffer.setFavourited(false);
-                            innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                        } else {
-                            jobOffer.setFavourited(true);
-                            innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                        }
+                    final List<JobOffer> favourites = callbacks.getFavouritesOffers();
+                    row_layout_id=R.layout.offer_list_item;
+                    innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
+                        @Override
+                        public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
+                            try {
 
-
-                        innerButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (!jobOffer.isFavourited()) {
-                                    jobOffer.setFavourited(true);
-                                    innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                                    callbacks.updateFavourites(jobOffer, true);
-
-                                } else {
+                                if(!favourites.contains(jobOffer)) {
                                     jobOffer.setFavourited(false);
                                     innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                                    callbacks.updateFavourites(jobOffer, false);
+                                } else {
+                                    jobOffer.setFavourited(true);
+                                    innerButton.setBackgroundResource(R.drawable.ic_action_important);
                                 }
+
+
+                                innerButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (!jobOffer.isFavourited()) {
+                                            jobOffer.setFavourited(true);
+                                            innerButton.setBackgroundResource(R.drawable.ic_action_important);
+                                            callbacks.updateFavourites(jobOffer, true);
+
+                                        } else {
+                                            jobOffer.setFavourited(false);
+                                            innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                                            callbacks.updateFavourites(jobOffer, false);
+                                        }
+                                    }
+                                });
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        });
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                        }
+                    };
                 }
-            };
-        }
 
-        jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), callbacks.getQueryFactory(), innerButtonManager,row_layout_id);
-        jobOffersQueryAdapter.setObjectsPerPage(2);
+                jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), callbacks.getQueryFactory(), innerButtonManager,row_layout_id);
+                jobOffersQueryAdapter.setObjectsPerPage(2);
 
 
 
-        jobOffersQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<JobOffer>() {
-            @Override
-            public void onLoading() {}
-            @Override
-            public void onLoaded(List<JobOffer> list, Exception e) {
-                setListShown(true);
+
+                jobOffersQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<JobOffer>() {
+                    @Override
+                    public void onLoading() {
+                    }
+                    @Override
+                    public void onLoaded(List<JobOffer> list, Exception e) {
+                        setListShown(true);
+                    }
+                });
+                setListAdapter(jobOffersQueryAdapter);
+                setListShown(false);
+
+
             }
-        });
-        setListAdapter(jobOffersQueryAdapter);
+        }.execute();
+
+
+
+
+
 
 
 
@@ -220,7 +252,7 @@ public class OfferListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getListView().setEmptyView(buildEmptyTextView("No offer found"));
-        setListShown(false);
+
 
 
     }
@@ -288,6 +320,7 @@ public class OfferListFragment extends ListFragment {
         // When setting CHOICE_MODE_SINGLE, ListView will automatically
         // give items the 'activated' state when touched.
         getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
+
     }
 
     private void setActivatedPosition(int position) {

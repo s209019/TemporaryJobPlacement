@@ -68,8 +68,9 @@
         <activity
             android:name=".pstudent.activities.StudentMyApplicationsActivity"
             android:label="@string/title_activity_student_history"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
         </activity>
+
     </application>
 
 </manifest>

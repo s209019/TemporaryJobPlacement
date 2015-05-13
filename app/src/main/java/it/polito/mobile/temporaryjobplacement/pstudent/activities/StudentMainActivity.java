@@ -2,6 +2,7 @@ package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -10,7 +11,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -28,6 +32,7 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
     private ProgressDialog progressDialog;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +42,8 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.setIndeterminate(true);
-        progressDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        //progressDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
 
 
 
@@ -104,6 +110,7 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
     protected void onResume() {
         super.onResume();
         if(progressDialog.isShowing()) progressDialog.dismiss();
+
     }
 
     @Override
@@ -141,17 +148,19 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
     @Override
     public void startSearchOffersActivity(String params) {
         //start activity and pass it searching params
-        DialogManager.toastMessage("starting searching:\n"+params,this);
-        Intent intent=new Intent(this,StudentOfferListActivity.class);
+       // DialogManager.toastMessage("starting searching:\n"+params,this);
         progressDialog.show();
-        startActivity(intent);
+                Intent intent = new Intent(StudentMainActivity.this, StudentOfferListActivity.class);
+                startActivity(intent);
+
+
     }
 
 
     @Override
     public void startSearchCompaniesActivity(String params) {
         //start activity and pass it searching params
-        DialogManager.toastMessage("starting searching:\n"+params,this);
+        //DialogManager.toastMessage("starting searching:\n"+params,this);
         Intent intent=new Intent(this,StudentCompanyListActivity.class);
         progressDialog.show();
         startActivity(intent);

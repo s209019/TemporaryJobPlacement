@@ -6,7 +6,7 @@
 
 
     <LinearLayout
-        android:id="@+id/secondaryBar"
+        android:id="@+id/customBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
@@ -40,15 +40,14 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="@dimen/margin_small"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/button_drawable3" />
+            android:layout_gravity="center_vertical"  />
     </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/strip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/secondaryBar"
+        android:layout_below="@id/customBar"
         android:orientation="vertical">
         <View
             android:layout_width="match_parent"
@@ -67,7 +66,7 @@
 
     <ScrollView
         android:id="@+id/scrollView1"
-        android:layout_below="@+id/secondaryBar"
+        android:layout_below="@+id/customBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
