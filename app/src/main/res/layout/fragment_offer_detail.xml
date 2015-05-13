@@ -27,7 +27,8 @@
                 android:paddingRight="@dimen/margin_medium_large"
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium_large"
-                android:background="#ffffff">
+                android:background="#ffffff"
+                android:animateLayoutChanges="true">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -307,6 +308,7 @@
                     android:paddingTop="@dimen/margin_medium"
                     android:paddingBottom="@dimen/margin_medium"
                     android:id="@+id/companyTextView"
+                    android:background="@drawable/button_drawable2"
                     />
 
                 <View

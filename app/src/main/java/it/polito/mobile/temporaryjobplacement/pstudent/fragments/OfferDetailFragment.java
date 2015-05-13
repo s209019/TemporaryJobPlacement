@@ -74,7 +74,6 @@ public class OfferDetailFragment extends Fragment {
 
         try {
             final JobOffer offer = JobOffer.getQuery().include("company").get(jobOfferId);
-            Log.d("DEBUG", isFavourited + "");
             offer.setFavourited(isFavourited);
 
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(offer.getName());
@@ -127,8 +126,15 @@ public class OfferDetailFragment extends Fragment {
 
         TextView companyTextView=(TextView)rootView.findViewById(R.id.companyTextView);
         companyTextView.setText(offer.getCompany().getName().toUpperCase());
+            companyTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.startCompanyActivity(offer.getCompany().getName());
+                }
+            });
 
-        TextView learnMoreButton =(TextView)rootView.findViewById(R.id.learnMoreTextView);
+
+            TextView learnMoreButton =(TextView)rootView.findViewById(R.id.learnMoreTextView);
             learnMoreButton.setText("Learn more about "+offer.getCompany().getName());
             learnMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -166,8 +172,8 @@ public class OfferDetailFragment extends Fragment {
             showMoreTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.setVisibility(View.GONE);
                     ((LinearLayout)rootView.findViewById(R.id.hiddenLayout)).setVisibility(View.VISIBLE);
+                    v.setVisibility(View.GONE);
 
                 }
             });
