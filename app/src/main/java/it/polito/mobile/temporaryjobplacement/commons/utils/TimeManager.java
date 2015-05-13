@@ -32,7 +32,7 @@ public class TimeManager {
             return "Published " + diff / HOUR_MILLIS + " hours ago";
         } else if (diff < 48 * HOUR_MILLIS) {
             return "Published yesterday";
-        } else if (diff < 25 * DAY_MILLIS ){
+        } else if (diff < 24 * DAY_MILLIS ){
             return "Published " + diff / DAY_MILLIS + " days ago";
         } else {
             return "Published on "+df.format(date);
