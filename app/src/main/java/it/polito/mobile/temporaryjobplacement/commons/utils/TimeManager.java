@@ -21,21 +21,21 @@ public class TimeManager {
         final long diff = now.getTime() - date.getTime();
 
         if (diff < MINUTE_MILLIS) {
-            return "Just now";
+            return "Published just now";
         } else if (diff < 2 * MINUTE_MILLIS) {
-            return "A minute ago";
+            return "Published a minute ago";
         } else if (diff < 50 * MINUTE_MILLIS) {
-            return diff / MINUTE_MILLIS + " minutes ago";
+            return "Published " + diff / MINUTE_MILLIS + " minutes ago";
         } else if (diff < 90 * MINUTE_MILLIS) {
-            return "An hour ago";
+            return "Published an hour ago";
         } else if (diff < 24 * HOUR_MILLIS) {
-            return diff / HOUR_MILLIS + " hours ago";
+            return "Published " + diff / HOUR_MILLIS + " hours ago";
         } else if (diff < 48 * HOUR_MILLIS) {
-            return "Yesterday";
+            return "Published yesterday";
         } else if (diff < 25 * DAY_MILLIS ){
-            return diff / DAY_MILLIS + " days ago";
+            return "Published " + diff / DAY_MILLIS + " days ago";
         } else {
-            return df.format(date);
+            return "Published on "+df.format(date);
 
         }
     }

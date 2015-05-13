@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:orientation="horizontal"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    >
 
 
 
@@ -24,7 +25,8 @@
             android:layout_alignParentTop="true"
             android:text="WEB DEVELOPER"
             android:textColor="@color/labelTextColor"
-            android:textSize="@dimen/abc_text_size_large_material"
+            android:textStyle="bold"
+            android:textSize="18sp"
             android:layout_marginTop="2dp"/>
 
         <TextView
@@ -35,33 +37,41 @@
             android:text="Full Time"
             android:textColor="@color/grayDarkerTextColor"
             android:textSize="@dimen/abc_text_size_small_material"
-            android:layout_marginBottom="@dimen/margin_medium"/>
+            android:padding="3dp"
+            android:textStyle="italic"/>
 
         <LinearLayout
             android:id="@+id/company_location_layout"
             android:layout_below="@+id/positionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium"
+            android:paddingBottom="3dp"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="top"
-                android:src="@drawable/ic_action_group"/>
+                android:src="@drawable/ic_action_group"
+                />
 
             <TextView
                 android:id="@+id/companyTextView"
                 android:layout_width="0dp"
+                android:layout_weight="0.5"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nameTextView"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:text="TELECOM ITALIA"
+                android:paddingLeft="5dp"
+                android:text="ACCENTURE CONSULTING SRL BLABLA"
                 android:textColor="@color/grayDarkerTextColor"
                 android:textSize="@dimen/abc_text_size_small_material" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  · "
+                android:textSize="14sp"/>
 
             <ImageView
                 android:layout_width="20dp"
@@ -73,10 +83,10 @@
                 android:id="@+id/locationTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.5"
                 android:layout_below="@id/nameTextView"
                 android:layout_gravity="top"
-                android:layout_weight="1"
-                android:text="Turin (Italy)"
+                android:text="TURIN (ITALY)"
                 android:textColor="@color/grayDarkerTextColor"
                 android:textSize="@dimen/abc_text_size_small_material" />
         </LinearLayout>
@@ -88,23 +98,24 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:orientation="horizontal"
-            android:layout_below="@+id/company_location_layout">
+            android:layout_below="@+id/company_location_layout"
+            android:paddingBottom="3dp">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_action_time"/>
 
-        <TextView
-            android:id="@+id/timeAgoTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="3 days ago"
-            android:textSize="@dimen/abc_text_size_small_material"
-            android:textColor="@color/grayDarkerTextColor"
-            android:layout_gravity="center_vertical"
-            />
+            <TextView
+                android:id="@+id/timeAgoTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3 days ago"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:textColor="@color/grayDarkerTextColor"
+                android:layout_gravity="center_vertical"
+                />
 
         </LinearLayout>
 

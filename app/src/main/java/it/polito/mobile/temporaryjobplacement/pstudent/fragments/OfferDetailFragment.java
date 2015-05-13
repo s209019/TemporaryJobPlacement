@@ -62,7 +62,7 @@ public class OfferDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_offer_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_offer_detail, container, false);
 
 
         ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
@@ -74,7 +74,7 @@ public class OfferDetailFragment extends Fragment {
 
         try {
             final JobOffer offer = JobOffer.getQuery().include("company").get(jobOfferId);
-            Log.d("DEBUG", isFavourited+"");
+            Log.d("DEBUG", isFavourited + "");
             offer.setFavourited(isFavourited);
 
         ((ActionBarActivity) getActivity()).getSupportActionBar().setTitle(offer.getName());
@@ -125,21 +125,20 @@ public class OfferDetailFragment extends Fragment {
         TextView titleTextView=(TextView)rootView.findViewById(R.id.titleTextView);
         titleTextView.setText(offer.getName());
 
-        TextView companyTextView=(TextView)rootView.findViewById(R.id.companyTextView1);
+        TextView companyTextView=(TextView)rootView.findViewById(R.id.companyTextView);
         companyTextView.setText(offer.getCompany().getName().toUpperCase());
-        LinearLayout companyLayout=(LinearLayout)rootView.findViewById(R.id.company_layout);
-        companyLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.startCompanyActivity(offer.getCompany().getName());
-            }
-        });
+
+        TextView learnMoreButton =(TextView)rootView.findViewById(R.id.learnMoreTextView);
+            learnMoreButton.setText("Learn more about "+offer.getCompany().getName());
+            learnMoreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.startCompanyActivity(offer.getCompany().getName());
+                }
+            });
 
         TextView locationTextView=(TextView)rootView.findViewById(R.id.locationTextView);
         locationTextView.setText(offer.getFullLocation());
-
-        TextView timeAgoTextView=(TextView)rootView.findViewById(R.id.timeAgoTextView);
-        timeAgoTextView.setText(TimeManager.getFormattedDate(offer.getCreatedAt()));
 
         TextView positionTextView=(TextView)rootView.findViewById(R.id.positionTextView);
         positionTextView.setText(offer.getPosition());
@@ -163,8 +162,19 @@ public class OfferDetailFragment extends Fragment {
             preferredQualificationsTextView.setText(offer.getPreferredQualifications());
 
 
-        LinearLayout displayPositionButton=(LinearLayout)rootView.findViewById(R.id.location_layout);
-        displayPositionButton.setOnClickListener(new View.OnClickListener() {
+            TextView showMoreTextView =(TextView)rootView.findViewById(R.id.showMoreTextView);
+            showMoreTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.setVisibility(View.GONE);
+                    ((LinearLayout)rootView.findViewById(R.id.hiddenLayout)).setVisibility(View.VISIBLE);
+
+                }
+            });
+
+
+            LinearLayout showMapLayout=(LinearLayout)rootView.findViewById(R.id.showMapLayout);
+            showMapLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ExternalIntents.openGoogleMaps(getActivity(),offer.getFullLocation());
