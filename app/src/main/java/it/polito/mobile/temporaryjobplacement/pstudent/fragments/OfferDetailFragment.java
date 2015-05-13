@@ -88,7 +88,9 @@ public class OfferDetailFragment extends Fragment {
         });
 
         final ImageButton favouriteButton=(ImageButton)rootView.findViewById(R.id.favouriteButton);
-        favouriteButton.setImageResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+            final Student myProfile = AccountManager.getCurrentStudentProfile();
+
+            favouriteButton.setImageResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +110,6 @@ public class OfferDetailFragment extends Fragment {
                     offer.setFavourited(false);
                     favouriteButton.setImageResource(R.drawable.ic_action_not_important);
                     try {
-                        Student myProfile = AccountManager.getCurrentStudentProfile();
                         myProfile.getRelation("favouritesOffers").remove(offer);
                         myProfile.saveEventually();
                         DialogManager.toastMessage("PREFERITO RIMOSSO", getActivity());
@@ -202,10 +203,9 @@ public class OfferDetailFragment extends Fragment {
             }
         });
 
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
         return rootView;
