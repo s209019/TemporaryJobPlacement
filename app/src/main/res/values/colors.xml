@@ -2,6 +2,8 @@
 <resources>
     <color name="primaryColor">#1e7daa</color>
     <color name="secondaryColor">#0c5d88</color>
+    <color name="primaryColorTransparent">#000c5d88</color>
+    <color name="primaryColorSemiTransparent">#dd0c5d88</color>
     <color name="tertiaryColor">#a5c3c3c3</color>
 
     <color name="backgroundColor">#eeeeee</color>

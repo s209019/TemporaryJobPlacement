@@ -27,8 +27,14 @@
     <dimen name="textTitleSize">22sp</dimen>
 
 
+    <dimen name="customBarComponentSizeExternal">65dp</dimen>
+    <dimen name="customBarComponentSize">60dp</dimen>
+    <dimen name="customBarComponentDoubleSize">120dp</dimen>
+    <dimen name="customBarComponentOneAndHalfSize">90dp</dimen>
 
-    <dimen name="customBarSize">150dp</dimen>
+
+    <dimen name="halfCustomBarComponentSize">35dp</dimen>
+    <dimen name="negativeHalfCustomBarComponentSize">-35dp</dimen>
 
 
 

@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/backgroundColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_medium_large"
+            android:paddingRight="@dimen/margin_medium_large"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium_large"
+            android:background="@android:color/white"
+            android:animateLayoutChanges="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Job Description"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+                android:text="Content of Job Description"
+                android:textColor="@android:color/black"
+                />
+
+            <TextView
+                android:id="@+id/showMoreTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Show more"
+                android:textColor="@color/labelTextColor"
+                android:textSize="@dimen/textSize"
+                android:background="@drawable/button_drawable2"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/hiddenLayout"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Responsibilities"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+
+                <TextView
+                    android:id="@+id/responsibilitiesTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="Content of Responsibilities"
+                    android:textColor="@android:color/black"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Minimum qualifications"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+
+                <TextView
+                    android:id="@+id/minimumQualificationsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="Content of minimum qualifications"
+                    android:textColor="@android:color/black"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Preferred qualifications"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+
+                <TextView
+                    android:id="@+id/preferredQualificationsTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="Content of preferred qualifications"
+                    android:textColor="@android:color/black"
+                    />
+
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Job Details"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Position:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/positionTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Full time"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Education:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/educationTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Master's degree"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Career Level:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/careerLevelTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Student"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Industry:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/industryTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Computer Networks"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/internalBorderColor"
+            android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/margin_medium_large"
+            android:layout_marginRight="@dimen/margin_medium_large"
+            android:background="@drawable/panel_drawable"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Company"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:src="@drawable/microsoft_logo" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Microsoft"
+                android:textStyle="bold"
+                android:textColor="@color/labelTextColor"
+                android:textSize="@dimen/textLabelSize"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+                android:id="@+id/companyTextView"
+                android:background="@drawable/button_drawable2"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/button_drawable2"
+                android:clickable="true"
+                android:id="@+id/showMapLayout"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                >
+
+                <TextView
+                    android:id="@+id/locationTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameTextView"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingRight="@dimen/margin_small"
+                    android:text="Via Dante Di Nanni, 29\nTurin (Italy), 10138"
+                    android:textStyle="italic"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize" />
+
+                <ImageView
+
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/location_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:paddingLeft="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="Show map"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:textColor="@color/labelTextColor"
+                    android:textSize="@dimen/textSize"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Learn more about Microsoft"
+                android:textColor="@color/labelTextColor"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:id="@+id/learnMoreTextView"
+                android:background="@drawable/button_drawable2"
+                />
+
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
