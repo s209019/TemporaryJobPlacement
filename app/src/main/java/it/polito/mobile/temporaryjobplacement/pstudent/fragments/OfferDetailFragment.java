@@ -76,7 +76,7 @@ public class OfferDetailFragment extends Fragment  {
         ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
 
 
-        LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(rootView);
+        LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(rootView,(ActionBarActivity)getActivity());
 
         ImageButton backButton=largeBarAnimatedManager.getBackButton();
         backButton.setOnClickListener(new View.OnClickListener() {

@@ -51,7 +51,6 @@
                     android:id="@+id/middleSection"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/primaryColor"
                     android:orientation="vertical"
                     android:visibility="visible">
 
@@ -92,12 +91,7 @@
 </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 
 
-    <View
-        android:id="@+id/overlayfixedBar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/customBarComponentSize"
-        android:background="@color/primaryColorSemiTransparent"
-        android:visibility="gone"/>
+
 
 
 
@@ -138,7 +132,7 @@
         android:id="@+id/fixedBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/customBarComponentSize"
-        android:background="@color/primaryColorTransparent" >
+        android:background="@color/primaryColor" >
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="?attr/actionBarSize"

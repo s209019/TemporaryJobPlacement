@@ -1,5 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.commons.viewmanaging;
 
+import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -22,16 +24,20 @@ public class LargeBarAnimatedManager implements ObservableScrollViewCallbacks {
     private ObservableScrollView mScrollView;
     private TextView title;
     private TextView subTitle;
-    private View overlayFixedBar;
+    private View fixedBar;
     private ImageButton homeButton;
     private ImageButton shareButton;
     private RelativeLayout favouriteButton;
     private ImageButton backButton;
     private View rootView;
+    private ActionBarActivity activity;
+    
+    //@color/primaryColorSemiTransparent
 
 
-    public LargeBarAnimatedManager(View rootView) {
+    public LargeBarAnimatedManager(View rootView,ActionBarActivity activity) {
         this.rootView = rootView;
+        this.activity=activity;
 
         scrollableBar = rootView.findViewById(R.id.scrollableBar);
         mScrollView = (ObservableScrollView) rootView.findViewById(R.id.scrollView1);
@@ -42,7 +48,7 @@ public class LargeBarAnimatedManager implements ObservableScrollViewCallbacks {
         subTitle =(TextView)rootView.findViewById(R.id.companysubTitleTextView);
 
         favouriteButton=(RelativeLayout)rootView.findViewById(R.id.favouriteButton);
-        overlayFixedBar=rootView.findViewById(R.id.overlayfixedBar);
+        fixedBar=rootView.findViewById(R.id.fixedBar);
         homeButton =(ImageButton)rootView.findViewById(R.id.homeButton);
         shareButton =(ImageButton)rootView.findViewById(R.id.shareButton);
 
@@ -76,11 +82,14 @@ public class LargeBarAnimatedManager implements ObservableScrollViewCallbacks {
             favouriteButton.setTranslationY(-scrollableBar.getHeight());
         }
 
-        //manage hide/show of overlayFixedBar
+        //manage background of scrolled
         //the top has been reached
         if(scrollY==0){
-            overlayFixedBar.setVisibility(View.GONE);
-        }else overlayFixedBar.setVisibility(View.VISIBLE);
+           scrollableBar.setBackgroundColor(activity.getResources().getColor(R.color.primaryColor));
+        }else{
+            scrollableBar.setBackgroundColor(activity.getResources().getColor(R.color.primaryColorSemiTransparent));
+
+        }
 
         //manage hide/show of title and subtitle textViews
         View view = (View) mScrollView.getChildAt(mScrollView.getChildCount() - 1);
