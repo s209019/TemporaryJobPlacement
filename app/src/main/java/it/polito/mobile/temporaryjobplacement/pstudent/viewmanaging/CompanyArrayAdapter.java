@@ -9,8 +9,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
+public class CompanyArrayAdapter {
+}
+
+/*
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
+
 
 public class CompanyArrayAdapter extends ArrayAdapter<Company> {
     private Activity activity;
@@ -71,4 +76,7 @@ public class CompanyArrayAdapter extends ArrayAdapter<Company> {
 
     }
 
+
+
 }
+ */

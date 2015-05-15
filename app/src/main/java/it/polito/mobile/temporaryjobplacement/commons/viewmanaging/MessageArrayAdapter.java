@@ -12,7 +12,6 @@ import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.model.Message;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 
 public class MessageArrayAdapter extends ArrayAdapter<Message> {
     private Activity activity;

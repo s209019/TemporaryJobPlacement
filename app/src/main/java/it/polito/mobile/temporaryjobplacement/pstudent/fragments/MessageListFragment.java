@@ -24,7 +24,6 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.MessageArrayAdapter;
 import it.polito.mobile.temporaryjobplacement.model.Message;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.OfferArrayAdapter;
 
 /**

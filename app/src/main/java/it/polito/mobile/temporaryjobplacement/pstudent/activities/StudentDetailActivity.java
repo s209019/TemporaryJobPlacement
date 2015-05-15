@@ -14,7 +14,6 @@ import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
 
 
 /**
@@ -64,6 +63,7 @@ public class StudentDetailActivity extends ActionBarActivity implements OfferDet
             }else if( getIntent().getStringExtra("SELECTED_COMPANY")!=null){
                 Bundle arguments = new Bundle();
                 arguments.putString("SELECTED_COMPANY",  getIntent().getStringExtra("SELECTED_COMPANY"));
+                arguments.putBoolean("IS_FAVOURITED",  getIntent().getBooleanExtra("IS_FAVOURITED", false));
                 CompanyDetailFragment fragment = new CompanyDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();

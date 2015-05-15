@@ -38,6 +38,39 @@ public class Company extends ParseObject {
     }
 
 
+    public String getWebsite() {
+         return getString("website");
+    }
+    public void setWebsite(String website) {
+        put("website", website);
+    }
+
+
+
+    public String getDescription() {
+         return getString("description");
+    }
+    public void setDescription(String description) {
+        put("description", description);
+    }
+
+
+    public String getCompactLocation() {
+
+        return getString("city")+" ("+getString("country")+")";
+    }
+
+    public String getFullLocation() {
+
+        return getString("address")+"\n"+getString("city")+" ("+getString("country")+")"+" - "+getString("zipCode");
+    }
+
+
+    public String getIndustries() {
+        return getString("industry");
+    }
+
+
 
 
 
@@ -54,5 +87,7 @@ public class Company extends ParseObject {
     public static ParseQuery<Company> getQuery() {
         return ParseQuery.getQuery(Company.class);
     }
+
+
 
 }

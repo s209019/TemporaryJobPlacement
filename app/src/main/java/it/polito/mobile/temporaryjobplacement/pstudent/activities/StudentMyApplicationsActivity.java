@@ -23,8 +23,6 @@ import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFr
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
 
 

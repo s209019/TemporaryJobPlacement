@@ -21,6 +21,7 @@ import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFragment;
 
 
 public class StudentCompanyListActivity extends ActionBarActivity implements CompanyListFragment.Callbacks, CompanyDetailFragment.OnFragmentInteractionListener{
@@ -89,6 +90,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString("SELECTED_COMPANY", company.getObjectId());
+            arguments.putBoolean("IS_FAVOURITED", company.isFavourited());
             CompanyDetailFragment fragment = new CompanyDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
@@ -99,6 +101,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
             // for the selected item ID.
             Intent detailIntent = new Intent(this, StudentDetailActivity.class);
             detailIntent.putExtra("SELECTED_COMPANY", company.getObjectId());
+            detailIntent.putExtra("IS_FAVOURITED", company.isFavourited());
             startActivityForResult(detailIntent, 0);
         }
 

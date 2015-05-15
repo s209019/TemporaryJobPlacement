@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -17,12 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.ExternalIntents;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.CreateMenuItem;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.LargeBarAnimatedManager;
+import it.polito.mobile.temporaryjobplacement.model.Company;
+import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
-import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -41,7 +45,7 @@ public class CompanyDetailFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     public interface OnFragmentInteractionListener {
-        public void startOffersActivity(String companyName);
+        public void startOffersActivity(String idCompany);
     }
 
     @Override
@@ -54,10 +58,12 @@ public class CompanyDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_company_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_company_detail, container, false);
 
+
+        //setting largeBarAnimated
         ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
-        LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(rootView,(ActionBarActivity)getActivity());
+        final LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(rootView,(ActionBarActivity)getActivity());
 
         ImageButton backButton=largeBarAnimatedManager.getBackButton();
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +73,6 @@ public class CompanyDetailFragment extends Fragment {
             }
         });
 
-
         ImageButton homeButton=largeBarAnimatedManager.getHomeButton();
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,96 +80,35 @@ public class CompanyDetailFragment extends Fragment {
                 getActivity().onOptionsItemSelected(CreateMenuItem.getMenuItem(R.id.action_HOME));
             }
         });
-        if(true)return rootView;
-        final Company  company=getArguments().getParcelable("SELECTED_COMPANY");
 
 
-
-
-        final ImageButton favouriteButton=(ImageButton)rootView.findViewById(R.id.favouriteButton);
-        favouriteButton.setImageResource(company.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
-        favouriteButton.setOnClickListener(new View.OnClickListener() {
+        //getting jobOfferID
+        final String companyId=getArguments().getString("SELECTED_COMPANY");
+        final boolean isFavourited=getArguments().getBoolean("IS_FAVOURITED");
+        final Company[] company = {null};
+        final Student[] myProfile = {null};
+        final RelativeLayout loadingOverlay =(RelativeLayout)rootView.findViewById(R.id.loadingOverlay);
+        loadingOverlay.setVisibility(View.VISIBLE);
+        new AsyncTask<Object, Object, Object>(){
             @Override
-            public void onClick(View v) {
-                if (!company.isFavourited()) {
-                    company.setFavourited(true);
-                    favouriteButton.setImageResource(R.drawable.ic_action_important);
-                } else {
-                    company.setFavourited(false);
-                    favouriteButton.setImageResource(R.drawable.ic_action_not_important);
+            protected Object doInBackground(Object... params) {
+                try {
+                    company[0] = Company.getQuery().get(companyId);
+                    myProfile[0] = AccountManager.getCurrentStudentProfile();
+                    company[0].setFavourited(isFavourited);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                DialogManager.toastMessage("favourite", getActivity());
+                return null;
             }
-        });
 
-
-
-
-
-
-
-
-        TextView locationTextView=(TextView)rootView.findViewById(R.id.locationTextView);
-        locationTextView.setText(company.getLocation());
-
-
-
-        TextView emailTextView=(TextView)rootView.findViewById(R.id.emailTextView);
-        emailTextView.setText(company.getEmail());
-
-        TextView phoneTextView=(TextView)rootView.findViewById(R.id.phoneTextView);
-        phoneTextView.setText(company.getPhone());
-
-
-        TextView industriesTextView=(TextView)rootView.findViewById(R.id.industriesTextView);
-        industriesTextView.setText(getTextFromList(company.getIndustries()));
-
-
-
-
-
-
-        LinearLayout sendEmailButton=(LinearLayout)rootView.findViewById(R.id.mail_layout);
-        sendEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ExternalIntents.sendMail(getActivity(), company.getEmail());
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                loadingOverlay.setVisibility(View.GONE);
+                initializeView(rootView, largeBarAnimatedManager, company[0], myProfile[0]);
             }
-        });
-        LinearLayout callButton=(LinearLayout)rootView.findViewById(R.id.phone_layout);
-        callButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ExternalIntents.call(getActivity(), company.getPhone());
-            }
-        });
-        LinearLayout displayPositionButton=( LinearLayout)rootView.findViewById(R.id.showMapLayout);
-        displayPositionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ExternalIntents.openGoogleMaps(getActivity(), company.getLocation());
-            }
-        });
-
-
-
-        Button buttonSeeOffers=(Button)rootView.findViewById(R.id.buttonSeeOffers);
-        buttonSeeOffers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.startOffersActivity(company.getTitle());
-            }
-        });
-
-
-
-        RelativeLayout sendMessageButton=(RelativeLayout)rootView.findViewById(R.id.sendMessage);
-        sendMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 DialogManager.toastMessage("send Message",getActivity());
-            }
-        });
+        }.execute();
 
 
         return rootView;
@@ -192,6 +136,144 @@ public class CompanyDetailFragment extends Fragment {
         for(String industry : list) text=text+industry+"\n";
         if(!text.equals(""))text=text.substring(0,text.length()-1);
         return text;
+    }
+
+
+
+
+    private void initializeView(View rootView, LargeBarAnimatedManager largeBarAnimatedManager, final Company company, final Student student) {
+        //populate title and subtitle
+        largeBarAnimatedManager.getTitleTextView().setText(company.getName());
+        largeBarAnimatedManager.getSubTitleTextView().setText("");
+
+        //handle share button
+        ImageButton shareButton=largeBarAnimatedManager.getShareButton();
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExternalIntents.share(getActivity(), company.getName(),
+                        company.getDescription() + "\n\n" + company.getWebsite() + "\ncontact:" + company.getEmail());
+            }
+        });
+
+        //handle favourite button
+        final RelativeLayout favouriteButton=largeBarAnimatedManager.getFavouriteButton();
+        ((ImageButton)favouriteButton.getChildAt(0)).setImageResource(company.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);favouriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!company.isFavourited()) {
+                    company.setFavourited(true);
+                    ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_important);
+                    try {
+                        Student myProfile = AccountManager.getCurrentStudentProfile();
+                        myProfile.getRelation("favouritesCompanies").add(company);
+                        myProfile.saveEventually();
+                        DialogManager.toastMessage("PREFERITO AGGIUNTO", getActivity());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    company.setFavourited(false);
+                    ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_not_important);
+                    try {
+                        student.getRelation("favouritesCompanies").remove(company);
+                        student.saveEventually();
+                        DialogManager.toastMessage("PREFERITO RIMOSSO", getActivity());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
+
+        //handle companyTextView
+        TextView companyTextView =(TextView)rootView.findViewById(R.id.companyTextView);
+        companyTextView.setText(company.getName());
+
+
+        TextView companyDescriptionTextView=(TextView)rootView.findViewById(R.id.companyDescriptionTextView);
+        companyDescriptionTextView.setText(company.getDescription());
+
+
+        TextView locationTextView=(TextView)rootView.findViewById(R.id.locationTextView);
+        locationTextView.setText(company.getFullLocation());
+
+        TextView emailTextView=(TextView)rootView.findViewById(R.id.emailTextView);
+        emailTextView.setText(company.getEmail());
+
+
+
+        TextView websiteTextView=(TextView)rootView.findViewById(R.id.websiteTextView);
+        websiteTextView.setText(company.getWebsite());
+
+        TextView phoneTextView=(TextView)rootView.findViewById(R.id.phoneTextView);
+        phoneTextView.setText(company.getPhoneNumber());
+
+        TextView industriesTextView =(TextView)rootView.findViewById(R.id.industriesTextView);
+        industriesTextView.setText(company.getIndustries());
+
+
+
+
+        LinearLayout showMapLayout=(LinearLayout)rootView.findViewById(R.id.showMapLayout);
+        showMapLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExternalIntents.openGoogleMaps(getActivity(), company.getFullLocation());
+            }
+        });
+        LinearLayout mail_layout=(LinearLayout)rootView.findViewById(R.id.mail_layout);
+        mail_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExternalIntents.sendMail(getActivity(), company.getEmail());
+            }
+        });
+        LinearLayout websiteLayout=(LinearLayout)rootView.findViewById(R.id.websiteLayout);
+        websiteLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExternalIntents.goToWebsite(getActivity(), company.getWebsite());
+            }
+        });
+        LinearLayout phone_layout=(LinearLayout)rootView.findViewById(R.id.phone_layout);
+        phone_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ExternalIntents.call(getActivity(), company.getPhoneNumber());
+            }
+        });
+
+
+
+        Button seeOffers=(Button)rootView.findViewById(R.id.buttonSeeOffers);
+        seeOffers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.startOffersActivity(company.getObjectId());
+            }
+        });
+
+
+        RelativeLayout messageButton=(RelativeLayout)rootView.findViewById(R.id.buttonsendMessage);
+        messageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                   DialogManager.toastMessage("send message",getActivity());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
+
     }
 
 }

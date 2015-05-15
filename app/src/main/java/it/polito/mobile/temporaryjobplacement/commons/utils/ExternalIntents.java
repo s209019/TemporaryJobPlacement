@@ -69,4 +69,13 @@ public class ExternalIntents {
 
 
     }
+
+
+
+
+    public static void goToWebsite(Activity activity,String url){
+        if (!url.startsWith("http://") && !url.startsWith("https://")) url = "http://" + url;
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        activity.startActivity(browserIntent);
+    }
 }

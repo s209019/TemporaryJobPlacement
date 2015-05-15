@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryColor">
+    android:background="@color/primaryColor"
+    android:animateLayoutChanges="true">
 
 
 
@@ -36,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/scrollableBar"
                 />
-
+z
 
             <LinearLayout
                 android:id="@+id/scrollableBar"
@@ -100,7 +101,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/sendMessage"
+        android:id="@+id/buttonsendMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -184,6 +185,14 @@
             />
 
     </RelativeLayout>
+
+
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/customBarComponentSize"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
 
 
 

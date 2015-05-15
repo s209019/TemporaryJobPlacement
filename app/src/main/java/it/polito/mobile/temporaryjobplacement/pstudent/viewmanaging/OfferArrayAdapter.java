@@ -9,6 +9,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
+public class OfferArrayAdapter{
+
+}
+
+
+/*
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Offer;
 
@@ -89,3 +96,4 @@ public class OfferArrayAdapter extends ArrayAdapter<Offer> {
 
 
 }
+*/

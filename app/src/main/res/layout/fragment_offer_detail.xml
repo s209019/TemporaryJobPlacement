@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/primaryColor">
 
 
@@ -184,6 +185,14 @@
             />
 
     </RelativeLayout>
+
+
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/customBarComponentSize"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
 
 
 

@@ -85,6 +85,11 @@ public class JobOffer  extends ParseObject {
         put("description", value);
     }
 
+
+    public String getIndustries() {
+        return getString("industry");
+    }
+
     public boolean isFavourited() {
         return favourited;
     }
