@@ -109,7 +109,9 @@ public class OfferDetailFragment extends Fragment  {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogManager.toastMessage("share", getActivity());
+                ExternalIntents.share(getActivity(),offer.getName(),
+                        offer.getCompany().getName()+" offers the following position:\n"+ offer.getDescription()+"\n\ncontact:"+offer.getCompany().getEmail());
+
             }
         });
 

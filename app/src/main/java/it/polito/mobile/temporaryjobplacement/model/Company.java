@@ -23,6 +23,21 @@ public class Company extends ParseObject {
     }
 
 
+    public String getPhoneNumber() {
+        return getString("phoneNumber");
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        put("phoneNumber", phoneNumber);
+    }
+
+    public String getEmail() {
+        return getString("email");
+    }
+    public void setEmail(String email) {
+        put("email", email);
+    }
+
+
 
 
 

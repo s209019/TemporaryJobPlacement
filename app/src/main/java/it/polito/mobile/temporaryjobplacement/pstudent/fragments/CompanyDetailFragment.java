@@ -138,7 +138,7 @@ public class CompanyDetailFragment extends Fragment {
                 ExternalIntents.call(getActivity(), company.getPhone());
             }
         });
-        LinearLayout displayPositionButton=( LinearLayout)rootView.findViewById(R.id.location_layout);
+        LinearLayout displayPositionButton=( LinearLayout)rootView.findViewById(R.id.showMapLayout);
         displayPositionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

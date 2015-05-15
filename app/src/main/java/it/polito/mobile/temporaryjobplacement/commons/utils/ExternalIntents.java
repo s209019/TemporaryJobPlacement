@@ -37,7 +37,7 @@ public class ExternalIntents {
             Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));
             activity.startActivity(i);
         }catch (Exception e){
-            Toast.makeText(activity, "Wrong phone number", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Invalid phone number", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -52,13 +52,21 @@ public class ExternalIntents {
                     Uri.parse("http://maps.google.co.in/maps?q=" + address));
             activity.startActivity(intent);
         }catch (Exception e){
-            Toast.makeText(activity, "Wrong position", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Invalid position", Toast.LENGTH_LONG).show();
         }
     }
 
 
 
-    public static void share(Activity activity, String shareContent){
+    public static void share(Activity activity, String subject,String text){
+
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,subject);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
+        activity.startActivity(Intent.createChooser(sharingIntent, "Share on:"));
+
+
 
     }
 }
