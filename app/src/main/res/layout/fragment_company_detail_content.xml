@@ -51,6 +51,31 @@
                 android:background="@drawable/button_drawable2"
                 />
 
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/descriptionLayout"
+                android:visibility="visible"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large">
+
+                <TextView
+                    android:id="@+id/companyDescriptionTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="This company is ok, because this company is ok ok ok ok. Text random wow wow"
+                    android:textColor="@android:color/black"
+                    />
+                </LinearLayout>
+
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -297,11 +322,13 @@
             android:text="Industries"
             android:textStyle="bold"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/textSize"
+            android:textSize="@dimen/textLabelSize"
             android:paddingTop="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium"
 
             />
+
+
 
         <TextView
             android:id="@+id/industriesTextView"
@@ -309,6 +336,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/nameTextView"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_medium_large"
+            android:layout_marginRight="@dimen/margin_medium_large"
             android:padding="@dimen/margin_small"
             android:text="Animation\nAutomotive\nBanking"
             android:textStyle="italic|bold"
@@ -317,12 +346,27 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_medium_large" />
+            android:layout_height="@dimen/margin_large" />
 
         </LinearLayout>
 
 
-        <Space
+
+    <Button
+        android:id="@+id/buttonSeeOffers"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:textColor="@android:color/white"
+        android:text="SEE JOB OFFERS"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/button_drawable"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        />
+
+
+
+    <Space
             android:layout_width="match_parent"
             android:layout_height="60dp" />
 
