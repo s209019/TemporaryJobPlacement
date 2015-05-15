@@ -55,4 +55,10 @@ public class ExternalIntents {
             Toast.makeText(activity, "Wrong position", Toast.LENGTH_LONG).show();
         }
     }
+
+
+
+    public static void share(Activity activity, String shareContent){
+
+    }
 }

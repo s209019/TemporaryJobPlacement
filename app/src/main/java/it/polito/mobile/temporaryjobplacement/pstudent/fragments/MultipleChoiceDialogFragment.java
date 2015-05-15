@@ -94,7 +94,7 @@ public class MultipleChoiceDialogFragment extends DialogFragment {
                     }
 
                 }
-
+                if(onAllItemsCheckedListener==null)return;
                 onAllItemsCheckedListener.getAllItemsChecked(allItemsChecked);
             }
         });
@@ -107,6 +107,7 @@ public class MultipleChoiceDialogFragment extends DialogFragment {
         alertBuilder.setNegativeButton("Clear", new android.content.DialogInterface.OnClickListener() {
             @Override
             public void onClick(android.content.DialogInterface dialog, int which) {
+                if(onAllItemsCheckedListener==null)return;
                 onAllItemsCheckedListener.getAllItemsChecked(new ArrayList<String>());
             }});
 
