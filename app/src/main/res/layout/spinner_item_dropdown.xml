@@ -5,5 +5,5 @@
     android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="@dimen/button_height"
-    android:hint="Indifferent"
+    android:hint="Any"
     android:ellipsize="marquee"/>

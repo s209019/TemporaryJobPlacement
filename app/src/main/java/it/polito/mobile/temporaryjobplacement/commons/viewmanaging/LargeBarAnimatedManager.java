@@ -87,7 +87,7 @@ public class LargeBarAnimatedManager implements ObservableScrollViewCallbacks {
         if(scrollY==0){
            scrollableBar.setBackgroundColor(activity.getResources().getColor(R.color.primaryColor));
         }else{
-            scrollableBar.setBackgroundColor(activity.getResources().getColor(R.color.primaryColorSemiTransparent));
+            scrollableBar.setBackgroundColor(activity.getResources().getColor(R.color.secondaryColor));
 
         }
 

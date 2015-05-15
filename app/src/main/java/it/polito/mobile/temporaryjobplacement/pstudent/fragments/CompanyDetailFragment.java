@@ -18,7 +18,9 @@ import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.ExternalIntents;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.CreateMenuItem;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.LargeBarAnimatedManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.model.Company;
 
@@ -54,23 +56,31 @@ public class CompanyDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_company_detail, container, false);
 
-        
+        ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
+        LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(rootView,(ActionBarActivity)getActivity());
 
+        ImageButton backButton=largeBarAnimatedManager.getBackButton();
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
+
+        ImageButton homeButton=largeBarAnimatedManager.getHomeButton();
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onOptionsItemSelected(CreateMenuItem.getMenuItem(R.id.action_HOME));
+            }
+        });
         if(true)return rootView;
         final Company  company=getArguments().getParcelable("SELECTED_COMPANY");
 
 
-        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(company.getTitle());
 
 
-
-        ImageButton shareButton=(ImageButton)rootView.findViewById(R.id.shareButton);
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogManager.toastMessage("share", getActivity());
-            }
-        });
         final ImageButton favouriteButton=(ImageButton)rootView.findViewById(R.id.favouriteButton);
         favouriteButton.setImageResource(company.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
         favouriteButton.setOnClickListener(new View.OnClickListener() {

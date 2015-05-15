@@ -74,8 +74,6 @@ public class OfferDetailFragment extends Fragment  {
 
 
         ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
-
-
         LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(rootView,(ActionBarActivity)getActivity());
 
         ImageButton backButton=largeBarAnimatedManager.getBackButton();
@@ -158,7 +156,7 @@ public class OfferDetailFragment extends Fragment  {
             companyTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.startCompanyActivity(offer.getCompany().getName());
+                    mListener.startCompanyActivity(offer.getCompany().getObjectId());
                 }
             });
 
@@ -168,7 +166,7 @@ public class OfferDetailFragment extends Fragment  {
             learnMoreButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.startCompanyActivity(offer.getCompany().getName());
+                    mListener.startCompanyActivity(offer.getCompany().getObjectId());
                 }
             });
 

@@ -201,9 +201,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
     @Override
     public void startCompanyActivity(String companyName) {
         Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-        //search company whose name is companyName
-        Company company=new Company("companydisplayed","Turin (Italy)",new ArrayList<String>(),"jdfsdj@bbbb.it","0113432423");
-        detailIntent.putExtra("SELECTED_COMPANY", company);
+        detailIntent.putExtra("SELECTED_COMPANY", companyName);
         startActivityForResult(detailIntent, 0);
     }
 

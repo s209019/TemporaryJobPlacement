@@ -73,6 +73,8 @@ public class SearchByCompanyFragment extends Fragment {
         // Inflate the layout for this fragment
        View rootView= inflater.inflate(R.layout.fragment_search_by_company, container, false);
 
+
+
         //get editText references from ClearableEditTexts
         editTextName=((ClearableEditText)rootView.findViewById(R.id.editCompanyName)).editText();
         editTextLocation=((ClearableEditText)rootView.findViewById(R.id.editLocationName)).editText();
