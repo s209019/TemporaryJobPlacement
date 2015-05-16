@@ -117,6 +117,7 @@
             android:background="@android:color/transparent"
             android:textSize="@dimen/textLabelSize"
             android:clickable="false"
+            android:id="@+id/buttonApplyText"
             />
 
     </RelativeLayout>

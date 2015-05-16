@@ -13,6 +13,7 @@ import com.parse.ParseQuery;
 public class JobOffer  extends ParseObject {
 
     private boolean favourited=false;
+    private boolean applicationDone=false;
 
     //String name
 
@@ -95,6 +96,14 @@ public class JobOffer  extends ParseObject {
 
     public void setFavourited(boolean favourited) {
         this.favourited=favourited;
+    }
+
+    public boolean isApplicationDone() {
+        return applicationDone;
+    }
+
+    public void setApplicationDone(boolean applicationDone) {
+        this.applicationDone = applicationDone;
     }
 
     public static ParseQuery<JobOffer> getQuery() {

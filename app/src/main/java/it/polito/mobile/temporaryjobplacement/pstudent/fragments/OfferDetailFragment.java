@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,6 +22,7 @@ import it.polito.mobile.temporaryjobplacement.commons.utils.ExternalIntents;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.CreateMenuItem;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.LargeBarAnimatedManager;
+import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentApplyActivity;
@@ -102,7 +104,9 @@ public class OfferDetailFragment extends Fragment  {
                try {
                    offer[0] = JobOffer.getQuery().include("company").get(jobOfferId);
                    myProfile[0] = AccountManager.getCurrentStudentProfile();
+                   boolean applicationDone = Application.getQuery().whereEqualTo("student", myProfile).whereEqualTo("jobOffer", offer[0]).count()!=0;
                    offer[0].setFavourited(isFavourited);
+                   offer[0].setApplicationDone(applicationDone);
                } catch (Exception e) {
                    e.printStackTrace();
                }
@@ -253,15 +257,21 @@ public class OfferDetailFragment extends Fragment  {
         });
 
         RelativeLayout applyButton=(RelativeLayout)rootView.findViewById(R.id.buttonApply);
-        applyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if(offer.isApplicationDone()) {
+            applyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent i = new Intent(OfferDetailFragment.this.getActivity(), StudentApplyActivity.class);
-                i.putExtra("SELECTED_OFFER", offer.getObjectId());
-                startActivityForResult(i, 0);
-            }
-        });
+                    Intent i = new Intent(OfferDetailFragment.this.getActivity(), StudentApplyActivity.class);
+                    i.putExtra("SELECTED_OFFER", offer.getObjectId());
+                    startActivityForResult(i, 0);
+                }
+            });
+        } else {
+            applyButton.setClickable(false);
+            Button applyButtonText = (Button)rootView.findViewById(R.id.buttonApplyText);
+            applyButtonText.setText("ALREADY APPLIED");
+        }
 
 
     }
