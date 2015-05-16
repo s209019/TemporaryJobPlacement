@@ -56,19 +56,14 @@ public class Message extends ParseObject {
         put("message", value);
     }
 
-    public String getFeedback(){
-        return getString("feedback");
-
-    }
-
-    public void setFeedback(String value){
-        put("feedback", value);
-    }
-
-
     public boolean isRead(){
         return getBoolean("read");
 
+    }
+
+    public Message getOriginalMessage() {
+
+        return (Message)getParseObject("originalMessage");
     }
 
     public void setRead(boolean value){

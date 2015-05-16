@@ -187,7 +187,9 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
 
     @Override
     public void onItemSelected(Message message, boolean inbox) {
-        DialogManager.toastMessage("pressed",this);
+        Intent i = new Intent(this, ShowMessageActivity.class);
+        i.putExtra("SELECTED_MESSAGE", message.getObjectId());
+        startActivityForResult(i, 0);
     }
 
     @Override

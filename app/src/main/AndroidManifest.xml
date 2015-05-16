@@ -80,6 +80,10 @@
             android:label="@string/title_activity_application_sent"
             android:windowSoftInputMode="stateHidden" >
         </activity>
+        <activity
+            android:name=".pstudent.activities.ShowMessageActivity"
+            android:label="@string/title_activity_show_message" >
+        </activity>
     </application>
 
 </manifest>

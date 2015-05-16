@@ -57,6 +57,15 @@ import com.parse.ParseQuery;
         put("companyNotes", value);
     }
 
+    public String getFeedback(){
+        return getString("feedback");
+
+    }
+
+    public void setFeedback(String value){
+        put("feedback", value);
+    }
+
     public static ParseQuery<Application> getQuery() {
         return ParseQuery.getQuery(Application.class);
     }

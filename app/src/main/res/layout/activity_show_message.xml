@@ -1,0 +1,203 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context="it.polito.mobile.temporaryjobplacement.pstudent.activities.ShowMessageActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@drawable/panel_drawable"
+                android:layout_marginTop="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_medium_large"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="@dimen/margin_medium_large"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:paddingTop="@dimen/margin_medium_large"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/textLabelSize"
+                    android:textColor="@color/labelTextColor"
+                    android:textStyle="bold"
+                    android:text="RE: Information about internship positions"
+                    android:id="@+id/subjectTextView"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_medium_large"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:paddingTop="@dimen/margin_medium"
+                    >
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:text="From:"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/textSize"
+                        android:textStyle="bold"
+                        android:id="@+id/fromSentTextView"/>
+                    <TextView
+                        android:id="@+id/companyStudentTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:text="Telecom Italia"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_medium_large"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:paddingTop="@dimen/margin_medium_large"
+                    >
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_action_time"/>
+
+                    <TextView
+                        android:id="@+id/timestampTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Received on 23/01/2015 at 16:04"
+                        android:textSize="@dimen/abc_text_size_small_material"
+                        android:textColor="@color/grayDarkerTextColor"
+                        android:layout_gravity="center_vertical"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_medium_large"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:paddingTop="@dimen/margin_medium_large"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="sbashjbsajhasbhjsbjhjabshjbahsjbsahjbashjbshjbahjbhjasbhjabshjbahjbashjashj"
+                    android:id="@+id/messageBodyTextView"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_medium_large"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="Press here to display the original message"
+                    android:textColor="@color/secondaryColor"
+                    android:background="@drawable/button_drawable2"
+                    android:id="@+id/originalMessageButton"
+                    android:visibility="gone"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/originalMessageLayout"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin_medium_large"
+                        android:paddingRight="@dimen/margin_medium_large"
+                        android:paddingTop="@dimen/margin_large"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:text="ORIGINAL MESSAGE:"
+                        android:textColor="@android:color/black"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin_medium_large"
+                        android:paddingRight="@dimen/margin_medium_large"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:text="sbashjbsajhasbhjsbjhjabshjbahsjbsahjbashjbshjbahjbhjasbhjabshjbahjbashjashj"
+                        android:id="@+id/originalMessageBodyTextView"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/margin_medium_large"
+                        android:paddingRight="@dimen/margin_medium_large"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:text="Press here to open the full original message"
+                        android:textColor="@color/secondaryColor"
+                        android:background="@drawable/button_drawable2"
+                        android:id="@+id/originalFullMessageButton"
+                        />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="REPLY"
+                android:background="@drawable/button_drawable"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textSize"
+                android:padding="10dp"
+                android:onClick="reply"
+                android:visibility="visible"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
+
+</RelativeLayout>
