@@ -62,7 +62,11 @@ DrawerManager drawerManager;
 
     @Override
     public void onBackPressed(){
+        if(drawerManager.isDrawerOpen()){
+            drawerManager.toggleDrawer();
+            return;
+        }
         super.onBackPressed();
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
     }
 }

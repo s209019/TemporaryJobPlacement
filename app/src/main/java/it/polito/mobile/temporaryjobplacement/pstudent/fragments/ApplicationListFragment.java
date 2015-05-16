@@ -162,7 +162,7 @@ public class ApplicationListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getListView().setEmptyView(buildEmptyTextView("No offer found"));
+        getListView().setEmptyView(buildEmptyTextView("No application found"));
 
 
 

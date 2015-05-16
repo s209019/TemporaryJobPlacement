@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -208,6 +209,7 @@ public class OfferListFragment extends ListFragment {
                     @Override
                     public void onLoading() {
                     }
+
                     @Override
                     public void onLoaded(List<JobOffer> list, Exception e) {
                         setListShown(true);
@@ -215,7 +217,7 @@ public class OfferListFragment extends ListFragment {
                 });
                 setListAdapter(jobOffersQueryAdapter);
                 setListShown(false);
-
+                firstTime=false;
 
             }
         }.execute();
@@ -230,6 +232,7 @@ public class OfferListFragment extends ListFragment {
     }
 
 
+    boolean firstTime=true;
     @Override
     public void onResume() {
         super.onResume();
@@ -237,6 +240,25 @@ public class OfferListFragment extends ListFragment {
         //SE UN ITEM NON E' PREFERITO, POI CLICCO SU DI ESSO E LO AGGIUNGO AI PREFERITI;
         //CHE SUCCEDE QUANDO TORNO INDIETRO(OnResume)
         //OGNI ITEM DEVE ESSERE SINCRONIZZATO
+
+        if(!firstTime) {
+            new AsyncTask<Object, Object, Object>() {
+                @Override
+                protected Object doInBackground(Object... params) {
+                    favourites = callbacks.getFavouritesOffers();
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object object) {
+                    super.onPostExecute(object);
+                    jobOffersQueryAdapter.notifyDataSetChanged();
+
+                }
+            }.execute();
+
+
+        }
     }
 
     @Override

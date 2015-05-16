@@ -268,16 +268,18 @@ public class OfferDetailFragment extends Fragment  {
                 }
             });
         } else {
-            applyButton.setClickable(false);
-            Button applyButtonText = (Button)rootView.findViewById(R.id.buttonApplyText);
-            applyButtonText.setText("ALREADY APPLIED");
+            applyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                }
+            });
+            applyButton.setBackgroundColor(getActivity().getResources().getColor(R.color.primaryColor));
+                    Button applyButtonText = (Button) rootView.findViewById(R.id.buttonApplyText);
+                    applyButtonText.setText("ALREADY APPLIED");
+                }
+
+
+            }
+
+
         }
-
-
-    }
-
-
-
-
-
-}

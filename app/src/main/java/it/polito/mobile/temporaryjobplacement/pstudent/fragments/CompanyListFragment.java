@@ -124,9 +124,6 @@ public class CompanyListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
         final Boolean isFavouriteList=mCallbacks.isFavouriteList();
 
 
@@ -216,6 +213,7 @@ public class CompanyListFragment extends ListFragment {
                 });
                 setListAdapter(companiesQueryAdapter);
                 setListShown(false);
+                firstTime=false;
 
 
             }
@@ -257,6 +255,7 @@ public class CompanyListFragment extends ListFragment {
     }
 
 
+    boolean firstTime=true;
     @Override
     public void onResume() {
         super.onResume();
@@ -264,7 +263,28 @@ public class CompanyListFragment extends ListFragment {
         //SE UN ITEM NON E' PREFERITO, POI CLICCO SU DI ESSO E LO AGGIUNGO AI PREFERITI;
         //CHE SUCCEDE QUANDO TORNO INDIETRO(OnResume)
         //OGNI ITEM DEVE ESSERE SINCRONIZZATO
+
+        if(!firstTime) {
+            new AsyncTask<Object, Object, Object>() {
+                @Override
+                protected Object doInBackground(Object... params) {
+                    favourites = mCallbacks.getFavouritesCompanies();
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Object object) {
+                    super.onPostExecute(object);
+                    companiesQueryAdapter.notifyDataSetChanged();
+
+                }
+            }.execute();
+
+
+
+        }
     }
+
 
 
 

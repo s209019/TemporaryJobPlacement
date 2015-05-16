@@ -203,10 +203,7 @@ public class DrawerManager {
     }
 
 
-
-
-
-
-
-
+    public boolean isDrawerOpen() {
+        return drawerLayout.isDrawerOpen(Gravity.START);
+    }
 }

@@ -48,8 +48,11 @@ public class ApplicationSentActivity extends ActionBarActivity {
             backToTheList(null);
             return true;
         }if(id==R.id.action_HOME){
-            setResult(TemporaryJobPlacementApp.exitCode);
-            finish();
+            //setResult(TemporaryJobPlacementApp.exitCode);
+            //finish();
+            Intent i = new Intent(this, StudentMainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

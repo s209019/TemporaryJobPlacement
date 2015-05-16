@@ -77,8 +77,6 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
     }
     @Override
     public List<JobOffer> getFavouritesOffers() {
-
-        if(favourites==null)
             try {
                 favourites =studentProfile.getFavouritesOffers();
             } catch (Exception e) {
@@ -98,7 +96,6 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
             } else {
                 studentProfile.getRelation("favouritesOffers").remove(favourite);
                 favourites.remove(favourite); //Locale
-
             }
 
             studentProfile.saveEventually();
@@ -190,8 +187,11 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
             this.onBackPressed();
             return true;
         }if(id==R.id.action_HOME){
-            setResult(TemporaryJobPlacementApp.exitCode);
-            finish();
+            //setResult(TemporaryJobPlacementApp.exitCode);
+            //finish();
+            Intent i = new Intent(this, StudentMainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

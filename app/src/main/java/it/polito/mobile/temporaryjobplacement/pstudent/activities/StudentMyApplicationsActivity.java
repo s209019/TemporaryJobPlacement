@@ -123,4 +123,17 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
     public void onDeleteApplicationPressed(Application application) {
 
     }
+
+
+
+    @Override
+    public void onBackPressed(){
+        if(drawerManager.isDrawerOpen()){
+            drawerManager.toggleDrawer();
+            return;
+        }
+        super.onBackPressed();
+        overridePendingTransition(0, 0);
+    }
+
 }

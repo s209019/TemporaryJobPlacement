@@ -161,4 +161,15 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
         DialogManager.toastMessage("delete",this);
 
     }
+
+
+    @Override
+    public void onBackPressed(){
+        if(drawerManager.isDrawerOpen()){
+            drawerManager.toggleDrawer();
+            return;
+        }
+        super.onBackPressed();
+        overridePendingTransition(0, 0);
+    }
 }

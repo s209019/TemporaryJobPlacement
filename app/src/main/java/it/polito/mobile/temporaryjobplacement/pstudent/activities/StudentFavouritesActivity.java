@@ -250,5 +250,16 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
     }
 
 
+    @Override
+    public void onBackPressed(){
+        if(drawerManager.isDrawerOpen()){
+            drawerManager.toggleDrawer();
+            return;
+        }
+        super.onBackPressed();
+        overridePendingTransition(0, 0);
+    }
+
+
 
 }

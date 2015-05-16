@@ -166,4 +166,14 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         startActivity(intent);
 
     }
+
+
+    @Override
+    public void onBackPressed(){
+        if(drawerManager.isDrawerOpen()){
+            drawerManager.toggleDrawer();
+            return;
+        }
+        super.onBackPressed();
+    }
 }
