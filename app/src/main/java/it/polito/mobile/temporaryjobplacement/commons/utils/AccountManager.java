@@ -50,8 +50,8 @@ public class AccountManager {
         if(userType.equals("student")) {
             Student student = new Student();
             student.put("user", user);
-            student.setName("Name not specified");
-            student.setSurname("Surname not specified");
+            student.setFirstName("Name not specified");
+            student.setLastName("Surname not specified");
             student.save();
 
             //TODO: Settare l'ACL

@@ -12,106 +12,106 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/margin_medium"
-        >
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:text="To: "
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/textLabelSize" />
-        <TextView
-            android:id="@+id/companyStudentTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:text="Telecom Italia"
-            android:textSize="@dimen/textLabelSize"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/margin_medium"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="To: "
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize" />
+                <TextView
+                    android:id="@+id/companyStudentTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Telecom Italia"
+                    android:textSize="@dimen/textLabelSize"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
 
-            />
-    </LinearLayout>
+                    />
+            </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Subject: "
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/textLabelSize"
-        android:layout_marginTop="@dimen/margin_medium"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
 
-    <EditText
-        android:id="@+id/subjectTextView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:textColor="@android:color/black"
-        android:background="@drawable/old_edit_text"
-        android:hint="Message subject"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:padding="10dp"
+            <EditText
+                android:id="@+id/subjectTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Message subject"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
 
-    />
+                />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Message: "
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/textLabelSize"
-        android:layout_marginTop="@dimen/margin_medium"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Message: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
 
-    <EditText
-        android:id="@+id/messageBodyTextView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:background="@drawable/old_edit_text"
-        android:hint="Write your message here"
-        android:inputType="textMultiLine"
-        android:minLines="5"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:padding="10dp"
-        android:gravity="top"
+            <EditText
+                android:id="@+id/messageBodyTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Write your message here"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:gravity="top"
 
-        />
+                />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/margin_large"
-        android:text="SEND"
-        android:background="@drawable/button_drawable"
-        android:textColor="@android:color/white"
-        android:textSize="@dimen/textSize"
-        android:padding="10dp"
-        android:onClick="send"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/margin_large"
+                android:text="SEND"
+                android:background="@drawable/button_drawable"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textSize"
+                android:padding="10dp"
+                android:onClick="send"/>
 
         </LinearLayout>
 
     </ScrollView>
 
-<include android:id="@+id/loadingOverlay"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-layout="@layout/loading_overlay"
-android:visibility="gone"/>
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
 
 </RelativeLayout>

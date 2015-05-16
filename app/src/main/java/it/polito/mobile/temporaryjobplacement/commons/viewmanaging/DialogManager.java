@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
 import android.widget.Toast;
 
 public class DialogManager {
@@ -61,12 +62,29 @@ public class DialogManager {
 			
 			//toast message
 			public static  void toastMessage(String string,Context ctx){
-				Toast.makeText(ctx, string, Toast.LENGTH_LONG).show();
-			
+                Toast.makeText(ctx, string, Toast.LENGTH_LONG).show();
+
 			}
-			
-			
-			//toast message
+
+            //toast message
+            public static  void toastMessage(String string,Context ctx, String position){
+
+                int gravity = Gravity.NO_GRAVITY;
+
+                if(position.equals("center")) {
+                    gravity = Gravity.CENTER;
+                }
+
+                Toast toast = Toast.makeText(ctx, string, Toast.LENGTH_LONG);
+                toast.setGravity(gravity, 0, 0);
+                toast.show();
+
+            }
+
+
+
+
+    //toast message
 			public static  void toastMessage(String string,Context ctx,int duration){
 				Toast.makeText(ctx, string, duration).show();
 			

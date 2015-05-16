@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/margin_medium"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="First name: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/firstNameTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Write your first name"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last name: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/lastNameTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Write your last name"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Date of birth: "
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize" />
+                <TextView
+                    android:id="@+id/dateOfBirthTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="23/01/1992"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:textSize="@dimen/textLabelSize"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/button_drawable2"
+                    android:textStyle="bold"
+
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Language skills: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_medium_large"
+                android:paddingRight="@dimen/margin_medium_large"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+                android:text="Add a new language"
+                android:gravity="center"
+                android:textColor="@color/secondaryColor"
+                android:background="@drawable/button_drawable2"
+                android:id="@+id/addLanguageSkillsButton"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skills: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/keywordsTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Insert keywords (separated by space)"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:gravity="top"
+                android:imeOptions="actionDone"
+                />
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
+
+</RelativeLayout>

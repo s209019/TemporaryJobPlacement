@@ -48,20 +48,6 @@
             />
 
 
-        <Button
-            android:id="@+id/buttonClear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="DELETE ALL FAVOURITES"
-            android:background="@drawable/button_drawable"
-            android:onClick="deleteAllFavourites"
-            />
-
-
-
-
-
     </LinearLayout>
 
 

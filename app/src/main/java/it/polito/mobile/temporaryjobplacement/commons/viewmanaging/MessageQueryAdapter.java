@@ -12,7 +12,6 @@ import com.parse.ParseQueryAdapter;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
-import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.Message;
 
 /**
@@ -78,7 +77,7 @@ public class MessageQueryAdapter extends ParseQueryAdapter<Message> {
         if(loggedAsStudent)
             interlocutorTextView.setText(message.getCompany().getName());
         else
-            interlocutorTextView.setText(message.getStudent().getName());
+            interlocutorTextView.setText(message.getStudent().getFirstName());
 
 
 

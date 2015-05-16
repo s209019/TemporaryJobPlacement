@@ -1,5 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,11 +9,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileBasicInfoFragment;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileCVFragment;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileEducationFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
 import it.polito.mobile.temporaryjobplacement.R;
 
 
-public class StudentProfileActivity extends ActionBarActivity {
+public class StudentProfileActivity extends ActionBarActivity  {
 DrawerManager drawerManager;
 
     @Override
@@ -30,6 +41,53 @@ DrawerManager drawerManager;
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         drawerManager=new DrawerManager(this,drawerLayout,toolbar,DrawerManager.SECTION1);
         drawerManager.setDrawer();
+
+        //set tabViews
+        ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
+        fragmentList.add(ProfileBasicInfoFragment.newInstance());
+        fragmentList.add(ProfileCVFragment.newInstance());
+        fragmentList.add(ProfileEducationFragment.newInstance());
+        String titles[] ={"BASIC INFO","RESUMES / COVER LETTERS", "EDUCATION"};
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
+
+        // Assigning ViewPager View and setting the adapter
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        //set number of fragments beyond which the next fragment is created and the first is destroyed
+        pager.setOffscreenPageLimit(fragmentList.size()-1);
+        pager.setAdapter(tabsAdapter);
+
+
+        // Assigning the Sliding Tab Layout View
+        SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setDistributeEvenly(true); // This makes the tabs Space Evenly in Available width
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.primaryColor);
+            }
+
+            @Override
+            public int getDividerColor(int position) {
+                return getResources().getColor( R.color.grayTextColor);
+            }
+
+            @Override
+            public int getDefaultTextColor() {
+                return getResources().getColor( R.color.grayTextColor);
+            }
+
+            @Override
+            public int getBackgroundColor() {
+                return getResources().getColor( R.color.foregroundColor);
+            }
+
+
+
+        });
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabLayout.setViewPager(pager);
 
     }
 

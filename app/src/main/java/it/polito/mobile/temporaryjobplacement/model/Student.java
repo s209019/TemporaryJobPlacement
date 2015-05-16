@@ -7,6 +7,7 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,28 +16,38 @@ import java.util.List;
 @ParseClassName("StudentProfile")
 public class Student extends ParseObject {
 
-    /***
-     *
-     * String name;
-     * String surname;
-     *
-     */
-
-    public String getName() {
-        return getString("name");
+    public String getFirstName() {
+        return getString("firstName");
     }
 
-    public void setName(String value) {
-        put("name", value);
+    public void setFirstName(String value) {
+        put("firstName", value);
     }
 
-    public String getSurname() {
-        return getString("surname");
+    public String getLastName() {
+        return getString("lastName");
     }
 
-    public void setSurname(String value) {
-        put("surname", value);
+    public void setLastName(String value) {
+        put("lastName", value);
     }
+
+    public String getSkills() {
+        return getString("skills");
+    }
+
+    public void setSkills(String value) {
+        put("skills", value);
+    }
+
+    public Date getDateOfBirth() {
+        return getDate("dateOfBirth");
+    }
+
+    public void setDateOfBirth(Date value) {
+        put("dateOfBirth", value);
+    }
+
 
     public static ParseQuery<Student> getQuery() {
         return ParseQuery.getQuery(Student.class);
