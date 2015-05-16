@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -67,6 +68,8 @@ public class ShowMessageActivity extends ActionBarActivity {
 
     private void initializeView(final Message message) {
 
+        this.message=message;
+
         getSupportActionBar().setTitle(message.getSubject());
         getSupportActionBar().setSubtitle(message.getCompany().getName());
 
@@ -75,21 +78,35 @@ public class ShowMessageActivity extends ActionBarActivity {
         subjectTextView.setText(message.getSubject());
 
         TextView fromSentTextView=(TextView) findViewById(R.id.fromSentTextView);
-        if(message.getSender().equals("student"))
-            fromSentTextView.setText("To:");
-        else
-            fromSentTextView.setText("From:");
 
 
         TextView companyStudentTextView=(TextView) findViewById(R.id.companyStudentTextView);
         companyStudentTextView.setText(message.getCompany().getName());
 
-        TextView timestampTextView=(TextView) findViewById(R.id.timestampTextView);
+        companyStudentTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent detailIntent = new Intent(ShowMessageActivity.this, StudentDetailActivity.class);
+                detailIntent.putExtra("SELECTED_COMPANY", message.getCompany().getObjectId());
+                startActivityForResult(detailIntent, 0);
 
-        if(message.getSender().equals("student"))
+            }
+        });
+
+        TextView timestampTextView=(TextView) findViewById(R.id.timestampTextView);
+        Button replyButton = (Button) findViewById(R.id.replyButton);
+
+        if(message.getSender().equals("student")) {
+            fromSentTextView.setText("To:");
             timestampTextView.setText(TimeManager.getFormattedTimestamp(message.getCreatedAt(), "Sent"));
-        else
+            replyButton.setVisibility(View.GONE);
+
+        } else {
+            fromSentTextView.setText("From:");
             timestampTextView.setText(TimeManager.getFormattedTimestamp(message.getCreatedAt(), "Received"));
+            replyButton.setVisibility(View.VISIBLE);
+
+        }
 
 
 
@@ -175,10 +192,10 @@ public class ShowMessageActivity extends ActionBarActivity {
     public void reply(View v) {
         try {
 
-            /*
-            Intent intent = new Intent(this, ApplicationSentActivity.class);
+            Intent intent = new Intent(this, SendMessageActivity.class);
+            intent.putExtra("SELECTED_COMPANY", message.getCompany().getObjectId());
+            intent.putExtra("ORIGINAL_MESSAGE", message.getObjectId());
             startActivityForResult(intent, 0);
-            */
 
         } catch (Exception e) {
             e.printStackTrace();

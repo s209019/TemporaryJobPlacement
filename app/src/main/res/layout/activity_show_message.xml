@@ -50,29 +50,33 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/margin_medium_large"
                     android:paddingRight="@dimen/margin_medium_large"
-                    android:paddingTop="@dimen/margin_medium"
                     >
                     <TextView
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:text="From:"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/textSize"
                         android:textStyle="bold"
-                        android:id="@+id/fromSentTextView"/>
+                        android:id="@+id/fromSentTextView"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/margin_medium_large"
+                        />
                     <TextView
                         android:id="@+id/companyStudentTextView"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:layout_weight="1"
-                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:paddingLeft="@dimen/margin_medium"
                         android:text="Telecom Italia"
                         android:textSize="@dimen/textSize"
                         android:textColor="@android:color/black"
                         android:textStyle="bold"
-
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/margin_medium_large"
+                        android:background="@drawable/button_drawable2"
                         />
                 </LinearLayout>
 
@@ -83,7 +87,6 @@
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/margin_medium_large"
                     android:paddingRight="@dimen/margin_medium_large"
-                    android:paddingTop="@dimen/margin_medium_large"
                     >
 
                     <ImageView
@@ -188,6 +191,7 @@
                 android:textSize="@dimen/textSize"
                 android:padding="10dp"
                 android:onClick="reply"
+                android:id="@+id/replyButton"
                 android:visibility="visible"/>
 
 

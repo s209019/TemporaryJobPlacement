@@ -15,6 +15,9 @@
     <string name="title_activity_student_history">My applications</string>
     <string name="title_activity_student_apply">Apply for this job</string>
     <string name="title_activity_application_sent">Application sent</string>
+    <string name="title_activity_show_message">Message</string>
+    <string name="title_activity_send_message">New message</string>
+
 
 
     <string name="open">open</string>
@@ -31,7 +34,6 @@
     <string name="title_activity_loading">LoadingActivity</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_show_message">ShowMessageActivity</string>
 
 
 

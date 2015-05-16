@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.LargeBarAnima
 import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.SendMessageActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
 
 /**
@@ -264,7 +266,11 @@ public class CompanyDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                   DialogManager.toastMessage("send message",getActivity());
+
+                    Intent intent = new Intent(getActivity(), SendMessageActivity.class);
+                    intent.putExtra("SELECTED_COMPANY", company.getObjectId());
+                    startActivityForResult(intent, 0);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

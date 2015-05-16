@@ -66,6 +66,11 @@ public class Message extends ParseObject {
         return (Message)getParseObject("originalMessage");
     }
 
+    public void setOriginalMessage(Message value){
+        put("originalMessage", value);
+    }
+
+
     public void setRead(boolean value){
         put("read", value);
     }
