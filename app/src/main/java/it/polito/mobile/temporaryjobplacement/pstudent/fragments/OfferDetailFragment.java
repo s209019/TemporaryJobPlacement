@@ -104,7 +104,7 @@ public class OfferDetailFragment extends Fragment  {
                try {
                    offer[0] = JobOffer.getQuery().include("company").get(jobOfferId);
                    myProfile[0] = AccountManager.getCurrentStudentProfile();
-                   boolean applicationDone = Application.getQuery().whereEqualTo("student", myProfile).whereEqualTo("jobOffer", offer[0]).count()!=0;
+                   boolean applicationDone = (Application.getQuery().whereEqualTo("jobOffer", offer[0]).whereEqualTo("student",myProfile[0]).count()!=0);
                    offer[0].setFavourited(isFavourited);
                    offer[0].setApplicationDone(applicationDone);
                } catch (Exception e) {
@@ -257,7 +257,7 @@ public class OfferDetailFragment extends Fragment  {
         });
 
         RelativeLayout applyButton=(RelativeLayout)rootView.findViewById(R.id.buttonApply);
-        if(offer.isApplicationDone()) {
+        if(!offer.isApplicationDone()) {
             applyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
