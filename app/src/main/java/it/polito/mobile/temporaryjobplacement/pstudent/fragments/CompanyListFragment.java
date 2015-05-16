@@ -137,16 +137,18 @@ public class CompanyListFragment extends ListFragment {
         new AsyncTask<Object, Object, Object>() {
             @Override
             protected Object doInBackground(Object... params) {
-                mCallbacks.initializeProfile();
-                favourites = mCallbacks.getFavouritesCompanies();
+                try {
+                    mCallbacks.initializeProfile();
+                    favourites = mCallbacks.getFavouritesCompanies();
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
                 return null;
             }
 
             @Override
             protected void onPostExecute(Object object) {
                 super.onPostExecute(object);
-
-
 
                 CompanyQueryAdapter.InnerButtonManager innerButtonManager = null;
                 if (isFavouriteList) {

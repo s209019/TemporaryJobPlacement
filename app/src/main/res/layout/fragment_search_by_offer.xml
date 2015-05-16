@@ -134,7 +134,7 @@
                 android:textColor="@android:color/white"
                 android:layout_marginRight="@dimen/margin_small"
                 android:clickable="false"
-                android:text="More options"
+                android:text="Advanced search"
                 android:background="@android:color/transparent"
                 />
 

@@ -122,14 +122,18 @@ public class OfferListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         final Boolean isFavouriteList= callbacks.isFavouriteList();
 
 
         new AsyncTask<Object, Object, Object>(){
             @Override
             protected Object doInBackground(Object... params) {
-                callbacks.initializeProfile();
-                favourites = callbacks.getFavouritesOffers();
+
+                    callbacks.initializeProfile();
+                    favourites = callbacks.getFavouritesOffers();
+
                 return  null;
             }
             @Override
@@ -155,8 +159,6 @@ public class OfferListFragment extends ListFragment {
                     };
 
                 }else{
-
-                    final List<JobOffer> favourites = callbacks.getFavouritesOffers();
                     row_layout_id=R.layout.offer_list_item;
                     innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
                         @Override

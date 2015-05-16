@@ -128,12 +128,12 @@ public class SearchByOfferFragment extends Fragment {
                             turnUP(arrowImage);
                         }
                     });
-                    ((Button)moreOptionsPanelButton.getChildAt(0)).setText("Fewer options");
+                    //((Button)moreOptionsPanelButton.getChildAt(0)).setText("Fewer options");
 
                 } else {
                     moreOptionsPanel.setVisibility(View.GONE);
                     turnDOWN(arrowImage);
-                    ((Button)moreOptionsPanelButton.getChildAt(0)).setText("More options");
+                    //((Button)moreOptionsPanelButton.getChildAt(0)).setText("More options");
                 }
             }
         });

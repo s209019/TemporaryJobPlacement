@@ -6,8 +6,8 @@
         android:state_focused="false">
         <shape  >
             <gradient
-               android:endColor="@android:color/transparent"
-               android:startColor="@android:color/transparent"
+               android:endColor="@color/primaryColor"
+               android:startColor="@color/primaryColor"
                android:angle="90" />
 
            
