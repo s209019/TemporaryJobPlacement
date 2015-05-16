@@ -9,27 +9,27 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
 import it.polito.mobile.temporaryjobplacement.model.Message;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MessageListFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchByCompanyFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchByOfferFragment;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 
 
 public class StudentMessagesActivity extends ActionBarActivity implements MessageListFragment.Callbacks {
-    DrawerManager drawerManager;
 
+    DrawerManager drawerManager;
+    private Student studentProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +49,8 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
 
         //set tabViews
         ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
-        fragmentList.add(MessageListFragment.newInstance(MessageListFragment.INBOX));
-        fragmentList.add(MessageListFragment.newInstance(MessageListFragment.SENT));
+        fragmentList.add(MessageListFragment.newInstance(true));
+        fragmentList.add(MessageListFragment.newInstance(false));
         String titles[] ={"INBOX","SENT"};
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
@@ -94,6 +94,18 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
         tabLayout.setViewPager(pager);
     }
 
+    @Override
+    public void initializeProfile() {
+        try {
+            studentProfile = AccountManager.getCurrentStudentProfile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,51 +129,66 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
     }
 
 
+    public ParseQueryAdapter.QueryFactory<Message> getQueryFactory(boolean inbox) {
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-    }
+        if(inbox) {
 
 
 
+            return new ParseQueryAdapter.QueryFactory<Message>() {
+
+                public ParseQuery<Message> create() {
+
+                    ParseQuery<Message> query=null;
+                    try {
+
+                        query = Message.getQuery();
+                        query.whereEqualTo("student", studentProfile);
+                        query.whereEqualTo("sender", "company");
+                        query.include("company");
+                        query.orderByDescending("createdAt");
+                        query.setLimit(100);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return query;
+                }
+            };
 
 
 
+        } else {
 
+            return new ParseQueryAdapter.QueryFactory<Message>() {
 
-    @Override
-    public void onItemSelected(Message message, int typeOfMessage) {
-        DialogManager.toastMessage("pressed",this);
-    }
+                public ParseQuery<Message> create() {
 
-    @Override
-    public List<Message> getMessagesToDisplay(int typeOfMessage) {
+                    ParseQuery<Message> query=null;
+                    try {
 
-        if(typeOfMessage==MessageListFragment.INBOX){
+                        query = Message.getQuery();
+                        query.whereEqualTo("student", studentProfile);
+                        query.whereEqualTo("sender", "student");
+                        query.include("company");
+                        query.orderByDescending("createdAt");
+                        query.setLimit(100);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return query;
+                }
+            };
 
-        }else if(typeOfMessage==MessageListFragment.SENT){
 
         }
-        List<Message> messages=new ArrayList<Message>();
-        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info1","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info2","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info3","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info4","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info5","JNJNKNKJNKJNJK",1));
-        messages.add(new Message("Nicolo Fodera","Telecom Italia1","","","Richiesta info6","JNJNKNKJNKJNJK",1));
 
-
-        return messages;
     }
+
 
     @Override
-    public void onDeleteButtonMessagePressed(Message message) {
-        DialogManager.toastMessage("delete",this);
-
+    public void onItemSelected(Message message, boolean inbox) {
+        DialogManager.toastMessage("pressed",this);
     }
-
 
     @Override
     public void onBackPressed(){
@@ -172,4 +199,13 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
         super.onBackPressed();
         overridePendingTransition(0, 0);
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+
 }

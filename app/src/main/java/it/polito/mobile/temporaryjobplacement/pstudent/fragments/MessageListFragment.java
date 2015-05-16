@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -8,18 +9,18 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.parse.ParseQueryAdapter;
+
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.MessageArrayAdapter;
 import it.polito.mobile.temporaryjobplacement.model.Message;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.MessageQueryAdapter;
 
 /**
  * A list fragment representing a list of Items. This fragment
@@ -32,11 +33,25 @@ import it.polito.mobile.temporaryjobplacement.model.Message;
  */
 public class MessageListFragment extends ListFragment {
 
-    static public int SENT=1;
-    static public int INBOX=2;
-   private int typeOfMessage;
+    private boolean inbox;
 
-    private Callbacks mCallbacks;
+    private ParseQueryAdapter<Message> messagesQueryAdapter;
+
+
+    /**
+     * The serialization (saved instance state) Bundle key representing the
+     * activated item position. Only used on tablets.
+     */
+    private static final String STATE_ACTIVATED_POSITION = "activated_position";
+
+    /**
+     * The current activated item position. Only used on tablets.
+     */
+    private int mActivatedPosition = ListView.INVALID_POSITION;
+
+
+
+    private Callbacks callbacks;
     /* A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activties to be notified of item
      * selections.
@@ -45,21 +60,17 @@ public class MessageListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(Message message,int typeOfMessage);
+        public void onItemSelected(Message message,boolean inbox);
 
         /*
-        *Callback to get messages to display
+        *Callback to get the query factory to be used
         */
-        public List<Message> getMessagesToDisplay(int typeOfMessage);
-
+        public ParseQueryAdapter.QueryFactory<Message> getQueryFactory(boolean inbox);
 
         /*
-        *Callback for when the delete inner button is pressed
+        *Initialize profile
         */
-        public void onDeleteButtonMessagePressed(Message message);
-
-
-
+        public void initializeProfile();
 
     }
 
@@ -74,10 +85,10 @@ public class MessageListFragment extends ListFragment {
 
 
 
-    public static Fragment newInstance(int typeOfMessage) {
+    public static Fragment newInstance(boolean inbox) {
         MessageListFragment fragment = new  MessageListFragment();
         Bundle args = new Bundle();
-        args.putInt("typeOfMessage", typeOfMessage);
+        args.putBoolean("inbox", inbox);
         //args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -88,44 +99,57 @@ public class MessageListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
 
-        this.typeOfMessage=getArguments().getInt("typeOfMessage");
+        this.inbox=getArguments().getBoolean("inbox");
 
 
+        new AsyncTask<Object, Object, Object>(){
+            @Override
+            protected Object doInBackground(Object... params) {
+                callbacks.initializeProfile();
+                return  null;
+            }
+            @Override
+            protected void onPostExecute(Object object) {
+                super.onPostExecute(object);
 
-        //get Messages from the activity
-        List<Message> messages=mCallbacks.getMessagesToDisplay(typeOfMessage);//
+                messagesQueryAdapter = new MessageQueryAdapter(getActivity(), callbacks.getQueryFactory(inbox), R.layout.message_list_item, true, inbox);
+                messagesQueryAdapter.setObjectsPerPage(2);
 
-        MessageArrayAdapter.InnerButtonManager innerButtonManager=null;
-        int row_layout_id=R.layout.message_list_item;
-            innerButtonManager=new MessageArrayAdapter.InnerButtonManager() {
-                @Override
-                public void configureButton(final Message message, final ImageButton innerButton) {
-                    innerButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            DialogManager.toastMessage("delete", getActivity());
-                        }
-                    });
-                }
-            };
+                messagesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {
+                    @Override
+                    public void onLoading() {
+                    }
+                    @Override
+                    public void onLoaded(List<Message> list, Exception e) {
+                        setListShown(true);
+                    }
+                });
+                setListAdapter(messagesQueryAdapter);
+                setListShown(false);
 
-        setListAdapter(new MessageArrayAdapter(getActivity(), row_layout_id, messages, innerButtonManager));
+            }
+        }.execute();
 
     }
-
-
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Restore the previously serialized activated item position.
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
+        }
+
         view.setBackgroundColor(getActivity().getResources().getColor(R.color.foregroundColor));
     }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getListView().setEmptyView(buildEmptyTextView("No Message found"));
+        getListView().setEmptyView(buildEmptyTextView("No messages"));
+
+
 
     }
     private TextView buildEmptyTextView(String text) {
@@ -151,7 +175,7 @@ public class MessageListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected((Message) getListAdapter().getItem(position),typeOfMessage);
+        callbacks.onItemSelected((Message) getListAdapter().getItem(position), inbox);
     }
 
 
@@ -163,18 +187,47 @@ public class MessageListFragment extends ListFragment {
         if (!(activity instanceof Callbacks)) {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
-        mCallbacks = (Callbacks) activity;
+        callbacks = (Callbacks) activity;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = null;
+        callbacks = null;
     }
 
 
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mActivatedPosition != ListView.INVALID_POSITION) {
+            // Serialize and persist the activated item position.
+            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+        }
+    }
+
+    /**
+     * Turns on activate-on-click mode. When this mode is on, list items will be
+     * given the 'activated' state when touched.
+     */
+    public void setActivateOnItemClick(boolean activateOnItemClick) {
+        // When setting CHOICE_MODE_SINGLE, ListView will automatically
+        // give items the 'activated' state when touched.
+        getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
+
+    }
+
+    private void setActivatedPosition(int position) {
+        if (position == ListView.INVALID_POSITION) {
+            getListView().setItemChecked(mActivatedPosition, false);
+        } else {
+            getListView().setItemChecked(position, true);
+        }
+
+        mActivatedPosition = position;
+    }
 
 
 

@@ -46,4 +46,27 @@ public class TimeManager {
     }
 
 
+    public static String getFormattedTimestamp(Date date, String customString) {
+
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+
+
+        final long diff = now.getTime() - date.getTime();
+
+        if (diff < MINUTE_MILLIS) {
+            return customString+" just now";
+        } else if (diff < 2 * MINUTE_MILLIS) {
+            return customString+" a minute ago";
+        } else if (diff < 59 * MINUTE_MILLIS) {
+            return customString+" " + diff / MINUTE_MILLIS + " minutes ago";
+        } else if (diff < 61 * MINUTE_MILLIS) {
+            return customString+" an hour ago";
+        } else {
+            return customString+" on "+dateFormat.format(date)+" at "+hourFormat.format(date);
+
+        }
+    }
+
 }
