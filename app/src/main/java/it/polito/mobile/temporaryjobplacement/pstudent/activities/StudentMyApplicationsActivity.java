@@ -18,7 +18,10 @@ import java.util.List;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ApplicationListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFragment;
@@ -26,9 +29,10 @@ import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragme
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
 
 
-public class StudentMyApplicationsActivity extends ActionBarActivity implements OfferListFragment.Callbacks {
+public class StudentMyApplicationsActivity extends ActionBarActivity implements ApplicationListFragment.Callbacks {
 
     DrawerManager drawerManager;
+    private Student studentProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,44 +53,23 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
 
     }
 
-
     @Override
-    public List<JobOffer> getFavouritesOffers() {
-        return null;
-    }
-
-    @Override
-    public void updateFavourites(JobOffer favourite, boolean toBeAdded) {
-
-    }
-
-    @Override
-    public void onItemSelected(JobOffer offer) {
+    public void onItemSelected(Application application) {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-            detailIntent.putExtra("SELECTED_OFFER", offer.getObjectId());
+            detailIntent.putExtra("SELECTED_OFFER", application.getJobOffer().getObjectId());
             startActivity(detailIntent);
 
     }
 
     @Override
-    public boolean isFavouriteList(){
-        return true;
-    }
-
-    @Override
-    public void onDeleteButtonOfferPressed(JobOffer offer) {
-        return ;
-    }
-
-    @Override
-    public void onFavouriteButtonOfferPressed(JobOffer offer) {
-        return ;
-    }
-
-    @Override
     public void initializeProfile() {
+        try {
+            studentProfile = AccountManager.getCurrentStudentProfile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -113,20 +96,19 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
     }
 
 
+    public ParseQueryAdapter.QueryFactory<Application> getQueryFactory() {
 
+        return new ParseQueryAdapter.QueryFactory<Application>() {
 
-    public void deleteHistory(View v){
-        DialogManager.setDialog("Delete history?", this);
-    }
+            public ParseQuery<Application> create() {
 
-    public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() {
-
-        return new ParseQueryAdapter.QueryFactory<JobOffer>() {
-            public ParseQuery<JobOffer> create() {
-                ParseQuery<JobOffer> query=null;
+                ParseQuery<Application> query=null;
                 try {
-                    query = AccountManager.getCurrentStudentProfile().getJobsAppliedRelationQuery();
-                    query.include("company");
+
+                    query = Application.getQuery();
+                    query.whereEqualTo("student", studentProfile);
+                    query.include("jobOffer");
+                    query.include("jobOffer.company");
                     query.orderByDescending("createdAt");
                     query.setLimit(100);
                 } catch (Exception e) {
@@ -136,4 +118,9 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
             }
         };
     }
+
+    @Override
+    public void onDeleteApplicationPressed(Application application) {
+
     }
+}

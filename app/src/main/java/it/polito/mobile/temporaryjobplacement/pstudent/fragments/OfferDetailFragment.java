@@ -2,16 +2,11 @@ package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.ActionProvider;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -19,10 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
@@ -32,6 +23,7 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.LargeBarAnimatedManager;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentApplyActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
 
 /**
@@ -127,11 +119,6 @@ public class OfferDetailFragment extends Fragment  {
 
 
 
-
-
-
-
-
         return rootView;
     }
 
@@ -222,7 +209,7 @@ public class OfferDetailFragment extends Fragment  {
         locationTextView.setText(offer.getFullLocation());
 
         TextView positionTextView=(TextView)rootView.findViewById(R.id.positionTextView);
-        positionTextView.setText(offer.getPosition());
+        positionTextView.setText(offer.getContract());
 
         TextView educationTextView=(TextView)rootView.findViewById(R.id.educationTextView);
         educationTextView.setText(offer.getEducation());
@@ -269,14 +256,10 @@ public class OfferDetailFragment extends Fragment  {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Student myProfile = AccountManager.getCurrentStudentProfile();
-                    myProfile.getRelation("jobsApplied").add(offer);
-                    myProfile.saveEventually();
-                    DialogManager.toastMessage("APPLY", getActivity());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+                Intent i = new Intent(OfferDetailFragment.this.getActivity(), StudentApplyActivity.class);
+                i.putExtra("SELECTED_OFFER", offer.getObjectId());
+                startActivityForResult(i, 0);
             }
         });
 

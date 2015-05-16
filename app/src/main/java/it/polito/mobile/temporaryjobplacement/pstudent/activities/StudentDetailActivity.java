@@ -109,6 +109,8 @@ public class StudentDetailActivity extends ActionBarActivity implements OfferDet
         if(resultCode==TemporaryJobPlacementApp.exitCode){
             setResult(TemporaryJobPlacementApp.exitCode);
             finish();
+        } else if (resultCode==TemporaryJobPlacementApp.exitCodeListOffer) {
+            finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

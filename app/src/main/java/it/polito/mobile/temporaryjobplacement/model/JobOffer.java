@@ -24,12 +24,12 @@ public class JobOffer  extends ParseObject {
         put("name", value);
     }
 
-    public String getPosition() {
-        return getString("position");
+    public String getContract() {
+        return getString("contract");
     }
 
-    public void setPosition(String value) {
-        put("position", value);
+    public void setContract(String value) {
+        put("contract", value);
     }
 
     public String getCompactLocation() {
@@ -84,7 +84,6 @@ public class JobOffer  extends ParseObject {
     public void setDescription(String value) {
         put("description", value);
     }
-
 
     public String getIndustries() {
         return getString("industry");

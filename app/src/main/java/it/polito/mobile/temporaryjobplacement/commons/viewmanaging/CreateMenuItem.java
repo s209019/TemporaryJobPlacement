@@ -10,9 +10,6 @@ import android.view.View;
 
 import it.polito.mobile.temporaryjobplacement.R;
 
-/**
- * Created by Nicolò on 14/05/2015.
- */
 public class CreateMenuItem {
 
 

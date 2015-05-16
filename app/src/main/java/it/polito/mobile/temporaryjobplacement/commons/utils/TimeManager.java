@@ -15,29 +15,35 @@ public class TimeManager {
 
     public static String getFormattedDate(Date date) {
 
+        return getFormattedDate(date, "Published");
+    }
+
+    public static String getFormattedDate(Date date, String customString) {
+
         Date now = new Date();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
         final long diff = now.getTime() - date.getTime();
 
         if (diff < MINUTE_MILLIS) {
-            return "Published just now";
+            return customString+" just now";
         } else if (diff < 2 * MINUTE_MILLIS) {
-            return "Published a minute ago";
+            return customString+" a minute ago";
         } else if (diff < 50 * MINUTE_MILLIS) {
-            return "Published " + diff / MINUTE_MILLIS + " minutes ago";
+            return customString+" " + diff / MINUTE_MILLIS + " minutes ago";
         } else if (diff < 90 * MINUTE_MILLIS) {
-            return "Published an hour ago";
+            return customString+" an hour ago";
         } else if (diff < 24 * HOUR_MILLIS) {
-            return "Published " + diff / HOUR_MILLIS + " hours ago";
+            return customString+" " + diff / HOUR_MILLIS + " hours ago";
         } else if (diff < 48 * HOUR_MILLIS) {
-            return "Published yesterday";
+            return customString+" yesterday";
         } else if (diff < 24 * DAY_MILLIS ){
-            return "Published " + diff / DAY_MILLIS + " days ago";
+            return customString+" " + diff / DAY_MILLIS + " days ago";
         } else {
-            return "Published on "+df.format(date);
+            return customString+" on "+df.format(date);
 
         }
     }
+
 
 }

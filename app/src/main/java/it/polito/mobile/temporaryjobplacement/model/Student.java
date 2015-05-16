@@ -53,17 +53,6 @@ public class Student extends ParseObject {
         return relation.getQuery();
     }
 
-    public List<JobOffer> getJobsApplied() throws com.parse.ParseException {
-        ParseRelation<JobOffer> relation = getRelation("jobsApplied");
-
-        return relation.getQuery().find();
-    }
-
-    public ParseQuery<JobOffer> getJobsAppliedRelationQuery() throws com.parse.ParseException {
-        ParseRelation<JobOffer> relation = getRelation("jobsApplied");
-        return relation.getQuery();
-    }
-
 
     public List<Company> getFavouritesCompanies() throws com.parse.ParseException {
         ParseRelation<Company> relation = getRelation("favouritesCompanies");

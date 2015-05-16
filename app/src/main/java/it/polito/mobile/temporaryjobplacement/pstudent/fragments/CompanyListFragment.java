@@ -21,10 +21,7 @@ import java.util.List;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Company;
-import it.polito.mobile.temporaryjobplacement.model.JobOffer;
-import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.CompanyArrayAdapter;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.CompanyQueryAdapter;
-import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.JobOfferQueryAdapter;
 
 /**
  * A list fragment representing a list of Items. This fragment

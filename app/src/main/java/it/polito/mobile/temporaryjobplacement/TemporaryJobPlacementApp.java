@@ -11,7 +11,8 @@ import it.polito.mobile.temporaryjobplacement.model.Student;
 
 public class TemporaryJobPlacementApp extends Application {
 
-public static int exitCode=2;
+    public static int exitCode=2; //HOME
+    public static int exitCodeListOffer=5; //Go back to the job offers list after the application
 
     @Override
     public void onCreate() {
@@ -21,6 +22,7 @@ public static int exitCode=2;
         ParseObject.registerSubclass(JobOffer.class);
         ParseObject.registerSubclass(Company.class);
         ParseObject.registerSubclass(Student.class);
+        ParseObject.registerSubclass(it.polito.mobile.temporaryjobplacement.model.Application.class);
         Parse.initialize(getApplicationContext(), "YfmdTSE9tXlIhIsnPZmZOjQMt8tu8nq7pXZ9mA0G", "Y2GtjfVYqbavbI4KeKvoBGM4EXq4Qs9wWfCzMpQS");
 
         //PROVA GIT - blabla

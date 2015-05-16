@@ -70,7 +70,16 @@
             android:label="@string/title_activity_student_history"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
+        <activity
+            android:name=".pstudent.activities.StudentApplyActivity"
+            android:label="@string/title_activity_student_apply"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pstudent.activities.ApplicationSentActivity"
+            android:label="@string/title_activity_application_sent"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
     </application>
 
 </manifest>

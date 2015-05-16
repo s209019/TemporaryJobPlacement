@@ -21,7 +21,7 @@
         <fragment
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/item_list"
-            android:name="it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment"
+            android:name="it.polito.mobile.temporaryjobplacement.pstudent.fragments.ApplicationListFragment"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="0dp"
@@ -31,17 +31,6 @@
 
         <!--All'interno del layout di questa activity viene avviato un fragment in maniera statica: ItemListFragment
         Il fragment ha all'interno il layout di lista di default layout/list_content-->
-
-        <Button
-            android:id="@+id/buttonClear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="DELETE HISTORY"
-            android:background="@drawable/button_drawable"
-            android:onClick="deleteHistory"
-            />
-
 
 
     </LinearLayout>

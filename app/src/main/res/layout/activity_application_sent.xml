@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="it.polito.mobile.temporaryjobplacement.pstudent.activities.ApplicationSentActivity"
+    android:background="@android:color/white">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/margin_large"
+        android:paddingBottom="@dimen/margin_medium_large"
+        android:orientation="vertical">
+
+        <TextView android:text="Congratulations!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textTitleSize"
+            android:textColor="@color/labelTextColor"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="250dp"
+            android:src="@drawable/done_image"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            />
+
+        <TextView android:text="Your application has been sent successfully!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textLabelSize"
+            android:textColor="@android:color/black"
+            android:gravity="center"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/margin_xlarge"
+            android:text="Go back to the job offers list"
+            android:background="@drawable/button_drawable"
+            android:textColor="@android:color/white"
+            android:onClick="backToTheList"
+            android:padding="10dp"
+            android:visibility="visible"/>
+
+
+    </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

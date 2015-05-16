@@ -3,7 +3,6 @@ package it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,26 +11,15 @@ import com.parse.ParseQueryAdapter;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
-import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Application;
 
 /**
  * Created by Enrico on 11/05/15.
  */
-public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
+public class ApplicationsQueryAdapter extends ParseQueryAdapter<Application> {
 
-    private InnerButtonManager innerButtonManager;
-    private int rowLayoutId;
-
-
-    public interface InnerButtonManager {
-        void configureButton(final JobOffer offer,final ImageButton innerButton);
-    }
-
-
-    public JobOfferQueryAdapter(Context context, ParseQueryAdapter.QueryFactory<JobOffer> queryFactory, InnerButtonManager innerButtonManager,int rowLayoutId) {
+    public ApplicationsQueryAdapter(Context context, QueryFactory<Application> queryFactory) {
         super(context, queryFactory);
-        this.innerButtonManager=innerButtonManager;
-        this.rowLayoutId=rowLayoutId;
     }
 
     @Override
@@ -66,10 +54,10 @@ public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
 
     //Inflate della vista del singolo item
     @Override
-    public View getItemView(final JobOffer jobOffer, View convertView, ViewGroup parent) {
+    public View getItemView(final Application application, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = View.inflate(getContext(), rowLayoutId, null);
+            convertView = View.inflate(getContext(), R.layout.application_list_item, null);
         }
 
         TextView titleTextView = (TextView) convertView.findViewById(R.id.nameTextView);
@@ -77,15 +65,14 @@ public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
         TextView positionTextView = (TextView) convertView.findViewById(R.id.positionTextView);
         TextView timeAgoTextView = (TextView) convertView.findViewById(R.id.timeAgoTextView);
         TextView locationTextView=(TextView) convertView.findViewById(R.id.locationTextView);
-        final ImageButton innerButton =(ImageButton) convertView.findViewById(R.id.innerButton);
+        TextView statusTextView=(TextView) convertView.findViewById(R.id.statusTextView);
 
-        titleTextView.setText(jobOffer.getName());
-        positionTextView.setText(jobOffer.getContract());
-        companyTextView.setText(jobOffer.getCompany().getName());
-        timeAgoTextView.setText((TimeManager.getFormattedDate(jobOffer.getCreatedAt())));
-        locationTextView.setText(jobOffer.getCompactLocation());
-
-        innerButtonManager.configureButton(jobOffer, innerButton);
+        titleTextView.setText(application.getJobOffer().getName());
+        positionTextView.setText(application.getJobOffer().getContract());
+        companyTextView.setText(application.getJobOffer().getCompany().getName());
+        timeAgoTextView.setText((TimeManager.getFormattedDate(application.getCreatedAt(),"Applied")));
+        locationTextView.setText(application.getJobOffer().getCompactLocation());
+        statusTextView.setText("Status: "+application.getStatus());
 
         return convertView;
     }

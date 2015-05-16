@@ -156,7 +156,7 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:text="Contract"
+                    android:text="Contract:"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/textSize"
                     />
