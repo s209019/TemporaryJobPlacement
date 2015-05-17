@@ -130,7 +130,7 @@ DrawerManager drawerManager;
     }
 
     @Override
-    public synchronized Student getProfile() throws Exception {
+    public   Student getProfile() throws Exception {
         if(studentProfile==null) studentProfile= AccountManager.getCurrentStudentProfile();
         return studentProfile;
     }

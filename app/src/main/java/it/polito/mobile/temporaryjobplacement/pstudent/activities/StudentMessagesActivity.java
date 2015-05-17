@@ -98,7 +98,7 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
     }
 
     @Override
-    public synchronized void initializeProfile() throws Exception {
+    public void initializeProfile() throws Exception {
         if(studentProfile==null)
             studentProfile = AccountManager.getCurrentStudentProfile();
 

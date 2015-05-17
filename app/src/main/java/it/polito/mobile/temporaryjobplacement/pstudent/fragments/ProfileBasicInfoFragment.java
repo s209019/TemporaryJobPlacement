@@ -46,6 +46,15 @@ public class ProfileBasicInfoFragment extends Fragment {
     ProgressBar pro_languageSkills ;
     ProgressBar pro_skills ;
 
+
+    private EditText firstNameTextView;
+    private EditText lastNameTextView;
+    private EditText keywordsTextView;
+
+
+
+
+
     private ProfileBasicInfoFragment.Callbacks callbacks = null;
 
     public interface Callbacks {
@@ -85,7 +94,7 @@ public class ProfileBasicInfoFragment extends Fragment {
          V_skills=(ImageView)rootView.findViewById(R.id.V_skills);
          pro_firstName=(ProgressBar)rootView.findViewById(R.id.progress_firstName);
          pro_lastName=(ProgressBar)rootView.findViewById(R.id.progress_LastName);
-          pro_dateOfBirthName=(ProgressBar)rootView.findViewById(R.id.progress_DateOfBirth);
+         pro_dateOfBirthName=(ProgressBar)rootView.findViewById(R.id.progress_DateOfBirth);
           pro_languageSkills=(ProgressBar)rootView.findViewById(R.id.progress_Language);
           pro_skills=(ProgressBar)rootView.findViewById(R.id.progress_Skills);
 
@@ -131,12 +140,22 @@ public class ProfileBasicInfoFragment extends Fragment {
     private void initializeView(final View rootView, final Student myProfile) {
 
 
-        final EditText firstNameTextView = ((SavableEditText)rootView.findViewById(R.id.firstNameTextView)).editText();
+
+        firstNameTextView = ((SavableEditText)rootView.findViewById(R.id.firstNameTextView)).editText();
         if (myProfile.getFirstName() != null) {
+            ((SavableEditText)firstNameTextView.getParent()).setSavedText(myProfile.getFirstName());
             firstNameTextView.setText(myProfile.getFirstName());
         }
 
-
+        ((SavableEditText)firstNameTextView.getParent()).setButtonSaveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateFirstName(myProfile, firstNameTextView.getText().toString());
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(firstNameTextView.getWindowToken(), 0);
+            }
+        });
         firstNameTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -158,20 +177,30 @@ public class ProfileBasicInfoFragment extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 String input;
                 EditText editText;
-
                 if (!hasFocus) {
                     editText = (EditText) v;
                     input = editText.getText().toString();
-                    updateFirstName(myProfile,input);
+                    updateFirstName(myProfile, input);
                 }
             }
         });
 
-        final EditText lastNameTextView = ((SavableEditText) rootView.findViewById(R.id.lastNameTextView)).editText();
+
+
+       lastNameTextView = ((SavableEditText) rootView.findViewById(R.id.lastNameTextView)).editText();
         if (myProfile.getLastName() != null) {
+            ((SavableEditText) lastNameTextView.getParent()).setSavedText(myProfile.getLastName());
             lastNameTextView.setText(myProfile.getLastName());
         }
-
+        ((SavableEditText)lastNameTextView.getParent()).setButtonSaveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateLastName(myProfile, lastNameTextView.getText().toString());
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(lastNameTextView.getWindowToken(), 0);
+            }
+        });
         lastNameTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -197,18 +226,28 @@ public class ProfileBasicInfoFragment extends Fragment {
                 if (!hasFocus) {
                     editText = (EditText) v;
                     input = editText.getText().toString();
-                    updateLastName(myProfile,input);
+                    updateLastName(myProfile, input);
                 }
             }
         });
 
 
-        final EditText keywordsTextView = ((SavableEditText) rootView.findViewById(R.id.keywordsTextView)).editText();
+
+
+       keywordsTextView = ((SavableEditText) rootView.findViewById(R.id.keywordsTextView)).editText();
         if (myProfile.getSkills() != null) {
+            ((SavableEditText) keywordsTextView.getParent()).setSavedText(myProfile.getSkills());
             keywordsTextView.setText(myProfile.getSkills());
         }
-
-
+        ((SavableEditText) keywordsTextView.getParent()).setButtonSaveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateSkills(myProfile, keywordsTextView.getText().toString());
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow( keywordsTextView.getWindowToken(), 0);
+            }
+        });
         keywordsTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -287,7 +326,7 @@ public class ProfileBasicInfoFragment extends Fragment {
 
     }
 
-    private void updateFirstName(Student myProfile,String firstName) {
+    private void updateFirstName(final Student myProfile, final String firstName) {
 
         if (myProfile.getFirstName() == null || !myProfile.getFirstName().equals(firstName)) {
             myProfile.setFirstName(firstName);
@@ -298,16 +337,19 @@ public class ProfileBasicInfoFragment extends Fragment {
                 @Override
                 public void done(ParseException e) {
                     if(e==null){
-                    DialogManager.toastMessage("First name updated", getActivity(), "center",true);
+                    DialogManager.toastMessage("First name updated", getActivity(), "center", true);
                     if(pro_firstName!=null) pro_firstName.setVisibility(View.GONE);
-                    if(V_firstName!=null) V_firstName.setVisibility(View.VISIBLE);}
+                    if(V_firstName!=null) V_firstName.setVisibility(View.VISIBLE);
+                    if(firstNameTextView!=null)(
+                            (SavableEditText)firstNameTextView.getParent()).setSavedText(myProfile.getFirstName());
+                    }
                 }
             });
         }
 
     }
 
-    private void updateLastName(Student myProfile,String lastName) {
+    private void updateLastName(final Student myProfile,String lastName) {
 
         if (myProfile.getLastName() == null || !myProfile.getLastName().equals(lastName)) {
             myProfile.setLastName(lastName);
@@ -319,14 +361,17 @@ public class ProfileBasicInfoFragment extends Fragment {
                     if(e==null){
                         DialogManager.toastMessage("Last name updated", getActivity(), "center",true);
                         if(pro_lastName!=null) pro_lastName.setVisibility(View.GONE);
-                        if(V_lastName!=null) V_lastName.setVisibility(View.VISIBLE);}
+                        if(V_lastName!=null) V_lastName.setVisibility(View.VISIBLE);
+                        if(lastNameTextView!=null)
+                            ((SavableEditText) lastNameTextView.getParent()).setSavedText(myProfile.getLastName());
+                    }
                 }
             });
         }
 
     }
 
-    private void updateSkills(Student myProfile,String skills) {
+    private void updateSkills(final Student myProfile,String skills) {
 
         if (myProfile.getSkills() == null || !myProfile.getSkills().equals(skills)) {
             myProfile.setSkills(skills);
@@ -338,7 +383,10 @@ public class ProfileBasicInfoFragment extends Fragment {
                     if(e==null){
                         DialogManager.toastMessage("Skills updated", getActivity(), "center",true);
                         if(pro_skills!=null) pro_skills.setVisibility(View.GONE);
-                        if(V_skills!=null) V_skills.setVisibility(View.VISIBLE);}
+                        if(V_skills!=null) V_skills.setVisibility(View.VISIBLE);
+                        if(keywordsTextView!=null)
+                            ((SavableEditText) keywordsTextView.getParent()).setSavedText(myProfile.getSkills());
+                    }
                 }
             });
         }

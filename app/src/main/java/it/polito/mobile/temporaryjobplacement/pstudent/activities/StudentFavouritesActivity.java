@@ -241,7 +241,7 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
     }
 
     @Override
-    public synchronized void initializeProfile() throws Exception {
+    public  void initializeProfile() throws Exception {
         if(studentProfile==null)
             studentProfile = AccountManager.getCurrentStudentProfile();
 

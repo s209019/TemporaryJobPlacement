@@ -25,17 +25,17 @@ import it.polito.mobile.temporaryjobplacement.model.Company;
 
 public class SavableEditText extends RelativeLayout {
 
-    private static int EDIT_TEXT_PADDING_RIGHT=35;
-    private static int BUTTON_MARGIN_RIGHT =5;
-    private static int BUTTON_SIZE=30;
+    private static int EDIT_TEXT_PADDING_RIGHT=40;
+    private static int BUTTON_MARGIN_RIGHT =3;
+    private static int BUTTON_SIZE=37;
     private LayoutInflater inflater = null;
     private EditText edit_text;
-    private Button btn_save;
+    private ImageButton btn_save;
     private Context ctx;
     private boolean viewCompleted;
 
     private View.OnClickListener btn_save_listener=null;
-    private String savedText="";
+    private String savedText="STUB";
 
 
     public SavableEditText(Context context, AttributeSet attrs, int defStyle) {
@@ -71,7 +71,7 @@ public class SavableEditText extends RelativeLayout {
 
         //EditText must be already inserted inside ClearableEditText, in xml file
         edit_text=(EditText)SavableEditText.this.getChildAt(0);
-        edit_text.setPadding(edit_text.getPaddingLeft(),edit_text.getPaddingTop(),DP2PX(EDIT_TEXT_PADDING_RIGHT),edit_text.getPaddingBottom());
+        edit_text.setPadding(edit_text.getPaddingLeft(), edit_text.getPaddingTop(), DP2PX(EDIT_TEXT_PADDING_RIGHT), edit_text.getPaddingBottom());
     }
 
 
@@ -84,13 +84,14 @@ public class SavableEditText extends RelativeLayout {
                     android:background="@android:drawable/ic_delete"
                     android:layout_marginRight="5dip"/>
         */
-        btn_save=new Button(context);
+        btn_save=new ImageButton(context);
+        btn_save.setBackgroundResource(R.drawable.button_drawable2);
         LayoutParams layoutParams = new LayoutParams(DP2PX(BUTTON_SIZE), DP2PX(BUTTON_SIZE));
-        layoutParams.setMargins(0,0, DP2PX(BUTTON_MARGIN_RIGHT),0);
+        layoutParams.setMargins(0, 0, DP2PX(BUTTON_MARGIN_RIGHT),0);
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
         btn_save.setLayoutParams(layoutParams);
-        btn_save.setBackgroundResource(R.drawable.ic_action_save);
+        btn_save.setImageResource(R.drawable.ic_action_save);
         btn_save.setVisibility(View.INVISIBLE);
         this.addView(btn_save);
 
@@ -107,10 +108,13 @@ public class SavableEditText extends RelativeLayout {
         edit_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
-                if (text.length() > 0)
+                //DialogManager.toastMessage(savedText+";"+text,getContext());
+
+                if (!savedText.equals(text.toString())) {
                     btn_save.setVisibility(View.VISIBLE);
-                else
+                } else {
                     btn_save.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
@@ -133,6 +137,7 @@ public class SavableEditText extends RelativeLayout {
 
     public EditText editText(){
         if(!viewCompleted) completeView();
+
         return edit_text;
     }
 
@@ -141,8 +146,9 @@ public class SavableEditText extends RelativeLayout {
         btn_save.setOnClickListener(btn_save_listener);
     }
 
-    public  void setSavedText(String setSavedText){
+    public  void setSavedText(String savedText){
         this.savedText=savedText;
+        this.btn_save.setVisibility(View.INVISIBLE);
     }
 
 

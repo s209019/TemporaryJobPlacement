@@ -63,7 +63,7 @@ public class DialogManager {
 
 
     /*simple alert dialog with title*/
-    public synchronized static  void setDialog(String title,String description,FragmentActivity activity,String OK_BUTTON, final Runnable task,boolean useFragment){
+    public  static  void setDialog(String title,String description,FragmentActivity activity,String OK_BUTTON, final Runnable task,boolean useFragment){
         if(activity==null)return;
         if(useFragment) {
             DialogFragment newFragment = MyAlertDialogFragment.newInstance(title, description, OK_BUTTON, task);

@@ -37,7 +37,7 @@ public static boolean hasNetworkConnection(Context ctx) {
 
 
 
-	public synchronized static void connectionError(final Activity activity){
+	public  static void connectionError(final Activity activity){
 		if(activity!=null)
 		DialogManager.setDialog("CONNECTION ERROR", activity.getResources().getString(R.string.no_connectivity_messagge), (ActionBarActivity) activity, "RETRY",
 				new Runnable() {

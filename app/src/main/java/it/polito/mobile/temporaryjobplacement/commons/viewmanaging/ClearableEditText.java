@@ -10,7 +10,10 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+
+import it.polito.mobile.temporaryjobplacement.R;
 
 /*
 * NOTE:
@@ -28,7 +31,7 @@ public class ClearableEditText extends RelativeLayout {
     private static int BUTTON_SIZE=37;
     private LayoutInflater inflater = null;
     private AutoCompleteTextView edit_text;
-    private Button btn_clear;
+    private ImageButton btn_clear;
     private Context ctx;
     private boolean viewCompleted;
 
@@ -80,13 +83,14 @@ public class ClearableEditText extends RelativeLayout {
                     android:background="@android:drawable/ic_delete"
                     android:layout_marginRight="5dip"/>
         */
-        btn_clear=new Button(context);
+        btn_clear=new ImageButton(context);
+        btn_clear.setBackgroundResource(R.drawable.button_drawable2);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(DP2PX(BUTTON_SIZE), DP2PX(BUTTON_SIZE));
         layoutParams.setMargins(0,0, DP2PX(BUTTON_MARGIN_RIGHT),0);
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
         btn_clear.setLayoutParams(layoutParams);
-        btn_clear.setBackgroundResource(android.R.drawable.ic_menu_close_clear_cancel);
+        btn_clear.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
         btn_clear.setVisibility(View.INVISIBLE);
         this.addView(btn_clear);
 
