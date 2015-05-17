@@ -68,27 +68,24 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
     }
 
     @Override
-    public void initializeProfile(){
-        try {
+    public void initializeProfile() throws Exception {
+        if(studentProfile==null)
+
             studentProfile = AccountManager.getCurrentStudentProfile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
     @Override
-    public List<JobOffer> getFavouritesOffers() {
-            try {
+    public List<JobOffer> getFavouritesOffers() throws ParseException {
+
                 favourites =studentProfile.getFavouritesOffers();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
 
         return favourites;
     }
 
     @Override
     public void updateFavourites(JobOffer favourite, boolean toBeAdded) {
-        try {
+
 
             if(toBeAdded) {
                 studentProfile.getRelation("favouritesOffers").add(favourite); //Remoto
@@ -100,9 +97,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
 
             studentProfile.saveEventually();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
     }
 

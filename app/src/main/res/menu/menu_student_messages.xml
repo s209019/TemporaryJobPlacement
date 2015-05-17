@@ -3,4 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="it.polito.mobile.temporaryjobplacement.StudentMessagesActivity">
 
+
+    <item android:id="@+id/action_REFRESH" android:title="REFRESH" android:icon="@drawable/ic_action_refresh"
+        android:orderInCategory="100" app:showAsAction="always" />
+
+
 </menu>

@@ -12,9 +12,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.AsyncTaskWithProgressBar;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
@@ -51,13 +56,18 @@ public class StudentApplyActivity extends ActionBarActivity {
                     myProfile[0] = AccountManager.getCurrentStudentProfile();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return null;
                 }
-                return null;
+                return new Object();
             }
 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                if(o==null){
+                    Connectivity.connectionError(StudentApplyActivity.this);
+                    return;
+                }
                 loadingOverlay.setVisibility(View.GONE);
                 initializeView(offer[0], myProfile[0]);
             }
@@ -134,23 +144,43 @@ public class StudentApplyActivity extends ActionBarActivity {
     }
 
     public void apply(View v) {
-        try {
-            Application application = new Application();
+
+            final Application application = new Application();
             application.setStudent(myProfile);
             application.setJobOffer(offer);
             application.setStatus("Submitted");
-
             EditText studentNotesEditText = (EditText)findViewById(R.id.studentNotesEditText);
-
             application.setStudentNotes(studentNotesEditText.getText().toString());
-            application.saveInBackground();
 
-            Intent intent = new Intent(this, ApplicationSentActivity.class);
-            startActivityForResult(intent, 0);
+            new AsyncTaskWithProgressBar(this){
+                @Override
+                protected String doInBackground(Void... params) {
+                    String resultMessage=OK_VALUE;
+                    try {
+                        application.save();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        resultMessage=KO_VALUE;
+                    }
+                    return resultMessage;
+                }
+                @Override
+                protected void onPostExecute(String resultMessage) {
+                     super.onPostExecute(null);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                    Intent intent = new Intent(activity, ApplicationSentActivity.class);
+                    startActivityForResult(intent, 0);
+
+                }
+
+            }.execute();
+
+
+
+
+
+
+
 
     }
 }

@@ -34,6 +34,7 @@ import java.util.GregorianCalendar;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.utils.ExternalIntents;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.LargeBarAnimatedManager;
@@ -77,13 +78,19 @@ public class ProfileBasicInfoFragment extends Fragment {
                     myProfile[0] = AccountManager.getCurrentStudentProfile();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return null;
                 }
-                return null;
+                return new Object();
             }
 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+
+                if(o==null){
+                    Connectivity.connectionError(getActivity());
+                    return;
+                }
                 loadingOverlay.setVisibility(View.GONE);
                 initializeView(rootView, myProfile[0]);
             }

@@ -119,17 +119,37 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/statusTextView"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/timeAgoLayout"
-            android:text="Status: Submitted"
-            android:textColor="@color/grayDarkerTextColor"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status:"
+                android:textColor="@color/grayDarkerTextColor"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:padding="5dp"
+                android:layout_marginBottom="2dp"
+                />
+
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Submitted"
+            android:textStyle="bold"
+            android:textColor="@color/labelTextColor"
             android:textSize="@dimen/abc_text_size_small_material"
-            android:padding="3dp"
+            android:padding="5dp"
             android:layout_marginBottom="2dp"
             />
+
+        </LinearLayout>
 
 
     </RelativeLayout>

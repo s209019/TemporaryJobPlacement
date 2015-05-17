@@ -159,7 +159,7 @@ z
             android:layout_alignParentRight= "true"
             android:layout_centerVertical="true"
             android:layout_marginRight="0dp"
-            android:src="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+            android:src="@drawable/ic_menu_home"
             android:background="@drawable/button_drawable4"
             />
     </RelativeLayout>
@@ -183,6 +183,17 @@ z
             android:background="@android:color/transparent"
             android:src="@drawable/ic_action_not_important"
             />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginBottom="6dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

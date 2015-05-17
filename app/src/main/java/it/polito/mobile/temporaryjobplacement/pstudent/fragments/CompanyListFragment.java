@@ -14,11 +14,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.ParseException;
 import com.parse.ParseQueryAdapter;
 
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.CompanyQueryAdapter;
@@ -60,11 +63,11 @@ public class CompanyListFragment extends ListFragment {
         /*
        *Callback to get the query factory to be used
        */
-        public ParseQueryAdapter.QueryFactory<Company> getCompanyQueryFactory();
+        public ParseQueryAdapter.QueryFactory<Company> getCompanyQueryFactory() throws Exception;
         /*
        *Callback to get favourites
        */
-        public List<Company> getFavouritesCompanies();
+        public List<Company> getFavouritesCompanies() throws ParseException;
 
         /*
          *Callback to update favourite
@@ -89,7 +92,7 @@ public class CompanyListFragment extends ListFragment {
         /*
        *Initialize profile
        */
-        public void initializeProfile();
+        public void initializeProfile() throws Exception;
 
     }
 
@@ -125,24 +128,31 @@ public class CompanyListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         final Boolean isFavouriteList=mCallbacks.isFavouriteList();
+        final ParseQueryAdapter.QueryFactory<Company>[] query= new ParseQueryAdapter.QueryFactory[]{null};
 
-
-
+ ;
         new AsyncTask<Object, Object, Object>() {
             @Override
             protected Object doInBackground(Object... params) {
                 try {
                     mCallbacks.initializeProfile();
                     favourites = mCallbacks.getFavouritesCompanies();
+                    query[0]=mCallbacks.getCompanyQueryFactory();
                 }catch(Exception e){
                     e.printStackTrace();
+                    return null;
                 }
-                return null;
+                return new Object();
             }
 
             @Override
-            protected void onPostExecute(Object object) {
-                super.onPostExecute(object);
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+
+                if(o==null){
+                    Connectivity.connectionError(getActivity());
+                    return;
+                }
 
                 CompanyQueryAdapter.InnerButtonManager innerButtonManager = null;
                 if (isFavouriteList) {
@@ -198,8 +208,8 @@ public class CompanyListFragment extends ListFragment {
                 }
 
 
-                companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), mCallbacks.getCompanyQueryFactory(), innerButtonManager, R.layout.company_list_item);
-                companiesQueryAdapter.setObjectsPerPage(2);
+                companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), query[0], innerButtonManager, R.layout.company_list_item);
+                companiesQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
 
                 companiesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Company>() {
                     @Override
@@ -268,13 +278,25 @@ public class CompanyListFragment extends ListFragment {
             new AsyncTask<Object, Object, Object>() {
                 @Override
                 protected Object doInBackground(Object... params) {
-                    favourites = mCallbacks.getFavouritesCompanies();
-                    return null;
+                    //reload remote favourites
+                    try {
+                        favourites = mCallbacks.getFavouritesCompanies();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                    return new Object();
                 }
 
                 @Override
-                protected void onPostExecute(Object object) {
-                    super.onPostExecute(object);
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+
+                    if(o==null){
+                        Connectivity.connectionError(getActivity());
+                        return;
+                    }
+                    //refresh listview
                     companiesQueryAdapter.notifyDataSetChanged();
 
                 }

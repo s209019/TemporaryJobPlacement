@@ -12,12 +12,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.parse.ParseException;
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.utils.ExternalIntents;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.CreateMenuItem;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
@@ -109,13 +113,20 @@ public class OfferDetailFragment extends Fragment  {
                    offer[0].setApplicationDone(applicationDone);
                } catch (Exception e) {
                    e.printStackTrace();
+                   return null;
                }
-                return null;
+                return new Object();
+
            }
 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                if(o==null){
+                    Connectivity.connectionError(getActivity());
+                    return;
+                }
+
                 loadingOverlay.setVisibility(View.GONE);
                 initializeView(rootView, largeBarAnimatedManager, offer[0], myProfile[0]);
             }
@@ -163,32 +174,51 @@ public class OfferDetailFragment extends Fragment  {
 
         //handle favourite button
         final RelativeLayout favouriteButton=largeBarAnimatedManager.getFavouriteButton();
-        ((ImageButton)favouriteButton.getChildAt(0)).setImageResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);favouriteButton.setOnClickListener(new View.OnClickListener() {
+        ((ImageButton)favouriteButton.getChildAt(0)).setImageResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+        final ProgressBar progress=(ProgressBar)favouriteButton.getChildAt(1);
+        favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (!offer.isFavourited()) {
-                    offer.setFavourited(true);
-                    ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_important);
-                    try {
-                        Student myProfile = AccountManager.getCurrentStudentProfile();
                         myProfile.getRelation("favouritesOffers").add(offer);
-                        myProfile.saveEventually();
-                        DialogManager.toastMessage("PREFERITO AGGIUNTO", getActivity());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        progress.setVisibility(View.VISIBLE);
+                        new AsyncTask<Object, Object, Boolean>(){
+                        @Override protected Boolean doInBackground(Object... params) {
+                            try {
+                                myProfile.save();
+                            } catch (ParseException e) {
+                                e.printStackTrace();return false;}
+                            return true;}
+                        @Override protected void onPostExecute(Boolean o) {super.onPostExecute(o);
+                            if(o==true) {
+                                progress.setVisibility(View.GONE);
+                                DialogManager.toastMessage("Favourite added", getActivity());
+                                offer.setFavourited(true);
+                                ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_important);}
+                        }
+                        }.execute();
+
 
                 } else {
-                    offer.setFavourited(false);
-                    ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_not_important);
-                    try {
                         myProfile.getRelation("favouritesOffers").remove(offer);
-                        myProfile.saveEventually();
-                        DialogManager.toastMessage("PREFERITO RIMOSSO", getActivity());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        progress.setVisibility(View.VISIBLE);
+                        new AsyncTask<Object, Object, Boolean>(){
+                            @Override protected Boolean doInBackground(Object... params) {
+                                try {
+                                    myProfile.save();
+                                } catch (ParseException e) {
+                                    e.printStackTrace();return false;}
+                                return true;}
+                            @Override protected void onPostExecute(Boolean o) {super.onPostExecute(o);
+                                  if(o==true) {
+                                    progress.setVisibility(View.GONE);
+                                    DialogManager.toastMessage("Favourite removed", getActivity());
+                                      offer.setFavourited(false);
+                                      ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_not_important);}
+                        }
+                    }.execute();
+
                 }
             }
         });

@@ -15,9 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+import com.parse.SaveCallback;
+
+import java.util.Objects;
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
@@ -67,13 +73,20 @@ public class SendMessageActivity extends ActionBarActivity {
                     myProfile[0] = AccountManager.getCurrentStudentProfile();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return null;
+
                 }
-                return null;
+                return new Object();
             }
 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                if(o==null){
+                    Connectivity.connectionError(SendMessageActivity.this);
+                    return;
+                }
+
                 loadingOverlay.setVisibility(View.GONE);
                 initializeView(company[0], message[0], myProfile[0]);
             }
@@ -157,7 +170,7 @@ public class SendMessageActivity extends ActionBarActivity {
 
             } else {
 
-                Message message = new Message();
+                final Message message = new Message();
                 message.setStudent(myProfile);
                 message.setCompany(company);
                 message.setRead(false);
@@ -169,9 +182,16 @@ public class SendMessageActivity extends ActionBarActivity {
                     message.setOriginalMessage(originalMessage);
                 }
 
-                message.saveInBackground();
+                message.saveEventually(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e==null)DialogManager.toastMessage("Message sent successfully", SendMessageActivity.this,3);
+                        else DialogManager.toastMessage("Message send failed ", SendMessageActivity.this,3);
+                    }
+                });
 
-                DialogManager.toastMessage("Message sent successfully", this);
+
+                DialogManager.toastMessage("Sending in progress... Check SENT tab in message section", SendMessageActivity.this);
                 this.onBackPressed();
 
             }
@@ -180,6 +200,7 @@ public class SendMessageActivity extends ActionBarActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
+
         }
 
     }

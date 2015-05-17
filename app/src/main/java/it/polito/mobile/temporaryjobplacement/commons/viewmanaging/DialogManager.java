@@ -13,7 +13,7 @@ public class DialogManager {
 			/*simple alert dialog*/
 			public static  void setDialog(String description,FragmentActivity activity){
 
-                DialogFragment newFragment = MyAlertDialogFragment.newInstance(null,description);
+                DialogFragment newFragment = MyAlertDialogFragment.newInstance(null,description,"OK",null);
                 newFragment.show(activity.getSupportFragmentManager(), "dialog");
 
 				/*AlertDialog aDialog=null;
@@ -37,28 +37,58 @@ public class DialogManager {
 			/*simple alert dialog with title*/
 			public static  void setDialog(String title,String description,FragmentActivity activity){
 
-                DialogFragment newFragment = MyAlertDialogFragment.newInstance(title,description);
+                DialogFragment newFragment = MyAlertDialogFragment.newInstance(title,description, "OK",null);
                 newFragment.show(activity.getSupportFragmentManager(), "dialog");
 
 
                 /*
                 AlertDialog aDialog=null;
 				AlertDialog.Builder alertBuilder=new AlertDialog.Builder(activity);
-				
+
 				alertBuilder.setTitle(title);
 				alertBuilder.setMessage(string);
 				alertBuilder.setCancelable(false);
 				alertBuilder.setPositiveButton("Ok",new android.content.DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(android.content.DialogInterface dialog, int which) {}});
-					
+
 				aDialog=alertBuilder.create();
 				aDialog.show();*/
-			
+
 			}
-			
-			
-			
+
+
+
+    /*simple alert dialog with title*/
+    public synchronized static  void setDialog(String title,String description,FragmentActivity activity,String OK_BUTTON, final Runnable task,boolean useFragment){
+
+        if(useFragment) {
+            DialogFragment newFragment = MyAlertDialogFragment.newInstance(title, description, OK_BUTTON, task);
+            newFragment.show(activity.getSupportFragmentManager(), "dialog");
+        }else{
+            AlertDialog aDialog=null;
+            final AlertDialog.Builder alertBuilder=new AlertDialog.Builder(activity);
+
+            if(title!=null)alertBuilder.setTitle(title);
+            alertBuilder.setMessage(description);
+            alertBuilder.setCancelable(false);
+            alertBuilder.setPositiveButton(OK_BUTTON,new android.content.DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(android.content.DialogInterface dialog, int which) {
+                    if(task!=null){
+                        task.run();
+                    }
+                }});
+            aDialog=alertBuilder.create();
+            aDialog.show();
+
+        }
+
+
+    }
+
+
+
 			
 			//toast message
 			public static  void toastMessage(String string,Context ctx){
@@ -98,31 +128,49 @@ public class DialogManager {
 
     public static class MyAlertDialogFragment extends DialogFragment {
 
-        public static MyAlertDialogFragment newInstance(String title,String description) {
+        private static Runnable mTask;
+
+
+        public static MyAlertDialogFragment newInstance(String title, String description,String OK_BUTTON, Runnable task) {
+
             MyAlertDialogFragment frag = new MyAlertDialogFragment();
             Bundle args = new Bundle();
             args.putString("title", title);
             args.putString("description", description);
+            args.putString("OK_BUTTON", OK_BUTTON);
             frag.setArguments(args);
+            mTask=task;
             return frag;
+
         }
+
+
 
         @Override
         public AlertDialog onCreateDialog(Bundle savedInstanceState) {
             String title = getArguments().getString("title");
             String description = getArguments().getString("description");
+            String OK_BUTTON = getArguments().getString("OK_BUTTON");
+
+            setCancelable(false);
 
             AlertDialog aDialog=null;
-            AlertDialog.Builder alertBuilder=new AlertDialog.Builder(getActivity());
+            final AlertDialog.Builder alertBuilder=new AlertDialog.Builder(getActivity());
 
             if(title!=null)alertBuilder.setTitle(title);
             alertBuilder.setMessage(description);
             alertBuilder.setCancelable(false);
-            alertBuilder.setPositiveButton("OK",new android.content.DialogInterface.OnClickListener() {
+            alertBuilder.setPositiveButton(OK_BUTTON,new android.content.DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(android.content.DialogInterface dialog, int which) {}});
-
+                public void onClick(android.content.DialogInterface dialog, int which) {
+                    if(mTask!=null){
+                        mTask.run();
+                    }
+                }});
             aDialog=alertBuilder.create();
+
+
+
 
             return aDialog;
 

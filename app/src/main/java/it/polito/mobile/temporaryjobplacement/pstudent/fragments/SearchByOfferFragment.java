@@ -87,6 +87,9 @@ public class SearchByOfferFragment extends Fragment {
         outState.putString("editTextKeywordsContent", editTextKeywords.getText().toString());
         outState.putBoolean("jobInfoPanelVisibility", moreOptionsPanel.getVisibility() == View.VISIBLE);
         outState.putInt("postingDateSpinnerSelected", postingDateSpinner.getSelectedItemPosition());
+        outState.putString("educationClickableTextViewContent", educationClickableTextView.getText().toString());
+        outState.putString("carerLevelClickableTextViewContent", carerLevelClickableTextView.getText().toString());
+        outState.putString("positionClickableTextViewContent",  positionClickableTextView.getText().toString());
     }
 
     @Override
@@ -235,7 +238,10 @@ public class SearchByOfferFragment extends Fragment {
             industriesClickableTextView.setText(savedInstanceState.getString("industriesTextViewContent"));
             editTextKeywords.setText(savedInstanceState.getString("editTextKeywordsContent"));
             if(savedInstanceState.getBoolean("jobInfoPanelVisibility")==true) moreOptionsPanel.setVisibility(View.VISIBLE);
-             postingDateSpinner.setSelection(savedInstanceState.getInt("postingDateSpinnerSelected"));
+            postingDateSpinner.setSelection(savedInstanceState.getInt("postingDateSpinnerSelected"));
+            educationClickableTextView.setText(savedInstanceState.getString("educationClickableTextViewContent"));
+            carerLevelClickableTextView.setText(savedInstanceState.getString("carerLevelClickableTextViewContent"));
+            positionClickableTextView.setText(savedInstanceState.getString("positionClickableTextViewContent"));
         }
 
 

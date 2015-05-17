@@ -19,6 +19,9 @@ import com.parse.ParseQueryAdapter;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Message;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.MessageQueryAdapter;
 
@@ -34,8 +37,9 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.MessageQueryA
 public class MessageListFragment extends ListFragment {
 
     private boolean inbox;
+    private int numberPagesDisplayedSoFar=1;
 
-    private ParseQueryAdapter<Message> messagesQueryAdapter;
+    private MessageQueryAdapter messagesQueryAdapter;
 
 
     /**
@@ -65,12 +69,12 @@ public class MessageListFragment extends ListFragment {
         /*
         *Callback to get the query factory to be used
         */
-        public ParseQueryAdapter.QueryFactory<Message> getQueryFactory(boolean inbox);
+        public ParseQueryAdapter.QueryFactory<Message> getQueryFactory(boolean inbox) throws Exception;
 
         /*
         *Initialize profile
         */
-        public void initializeProfile();
+        public void initializeProfile() throws Exception;
 
     }
 
@@ -97,38 +101,6 @@ public class MessageListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        this.inbox=getArguments().getBoolean("inbox");
-
-
-        new AsyncTask<Object, Object, Object>(){
-            @Override
-            protected Object doInBackground(Object... params) {
-                callbacks.initializeProfile();
-                return  null;
-            }
-            @Override
-            protected void onPostExecute(Object object) {
-                super.onPostExecute(object);
-
-                messagesQueryAdapter = new MessageQueryAdapter(getActivity(), callbacks.getQueryFactory(inbox), R.layout.message_list_item, true, inbox);
-                messagesQueryAdapter.setObjectsPerPage(2);
-
-                messagesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {
-                    @Override
-                    public void onLoading() {
-                    }
-                    @Override
-                    public void onLoaded(List<Message> list, Exception e) {
-                        setListShown(true);
-                    }
-                });
-                setListAdapter(messagesQueryAdapter);
-                setListShown(false);
-
-            }
-        }.execute();
 
     }
 
@@ -167,14 +139,67 @@ public class MessageListFragment extends ListFragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //PROBLEMA DELLA SINCRONIZZAZIONE DEl messaggio visto
+        this.inbox=getArguments().getBoolean("inbox");
+        final ParseQueryAdapter.QueryFactory<Message>[] query= new ParseQueryAdapter.QueryFactory[]{null};
+
+        setListShown(false);
+        new AsyncTask<Object, Object, Object>(){
+            @Override
+            protected Object doInBackground(Object... params) {
+                try {
+                    callbacks.initializeProfile();
+                    query[0]=callbacks.getQueryFactory(inbox);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+                return  new Object();
+            }
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+
+                if(o==null){
+                    Connectivity.connectionError(getActivity());
+                    return;
+                }
+
+                messagesQueryAdapter = new MessageQueryAdapter(getActivity(), query[0], R.layout.message_list_item, true, inbox);
+                 messagesQueryAdapter.setObjectsPerPage(numberPagesDisplayedSoFar*TemporaryJobPlacementApp.objectsForPage);
+                messagesQueryAdapter.setNumberPagesDisplayedSoFar(numberPagesDisplayedSoFar);
+
+                messagesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {
+                    @Override
+                    public void onLoading() {
+                    }
+
+                    @Override
+                    public void onLoaded(List<Message> list, Exception e) {
+                        setListShown(true);
+                    }
+                });
+                setListAdapter(messagesQueryAdapter);
+                setListShown(false);
+            }
+        }.execute();
+
+
+    }
+
+
 
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);
 
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
+        //get number of Pages Displayed So Far before going to message show
+        numberPagesDisplayedSoFar= messagesQueryAdapter.getNumberPagesDisplayedSoFar();
+
         callbacks.onItemSelected((Message) getListAdapter().getItem(position), inbox);
     }
 

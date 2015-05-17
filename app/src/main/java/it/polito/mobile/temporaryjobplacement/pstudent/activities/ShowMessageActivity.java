@@ -14,9 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
@@ -51,13 +54,18 @@ public class ShowMessageActivity extends ActionBarActivity {
                     message[0] = Message.getQuery().include("company").include("originalMessage").get(messageId);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return null;
                 }
-                return null;
+                return new Object();
             }
 
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                if(o==null){
+                    Connectivity.connectionError(ShowMessageActivity.this);
+                    return;
+                }
                 loadingOverlay.setVisibility(View.GONE);
                 initializeView(message[0]);
             }

@@ -16,11 +16,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.parse.ParseException;
 import com.parse.ParseQueryAdapter;
 
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.JobOfferQueryAdapter;
@@ -62,12 +65,12 @@ public class OfferListFragment extends ListFragment {
         /*
         *Callback to get the query factory to be used
         */
-        public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory();
+        public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() throws Exception;
 
         /*
         *Callback to get favourites
         */
-        public List<JobOffer> getFavouritesOffers();
+        public List<JobOffer> getFavouritesOffers() throws ParseException;
 
         /*
          *Callback to update favourite
@@ -93,7 +96,7 @@ public class OfferListFragment extends ListFragment {
         /*
         *Initialize profile
         */
-        public void initializeProfile();
+        public void initializeProfile() throws Exception;
 
     }
 
@@ -123,24 +126,32 @@ public class OfferListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         final Boolean isFavouriteList= callbacks.isFavouriteList();
+        final ParseQueryAdapter.QueryFactory<JobOffer>[] query= new ParseQueryAdapter.QueryFactory[]{null};
 
 
         new AsyncTask<Object, Object, Object>(){
             @Override
             protected Object doInBackground(Object... params) {
 
+                try {
                     callbacks.initializeProfile();
                     favourites = callbacks.getFavouritesOffers();
-
-                return  null;
+                    query[0]=callbacks.getQueryFactory();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return  null;
+                }
+                return new Object();
             }
             @Override
-            protected void onPostExecute(Object object) {
-                super.onPostExecute(object);
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
 
+                if(o==null){
+                    Connectivity.connectionError(getActivity());
+                    return;
+                }
                 JobOfferQueryAdapter.InnerButtonManager innerButtonManager=null;
                 int row_layout_id=0;
                 if(isFavouriteList){
@@ -199,8 +210,8 @@ public class OfferListFragment extends ListFragment {
                     };
                 }
 
-                jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), callbacks.getQueryFactory(), innerButtonManager,row_layout_id);
-                jobOffersQueryAdapter.setObjectsPerPage(2);
+                jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), query[0], innerButtonManager,row_layout_id);
+                jobOffersQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
 
 
 
@@ -245,13 +256,24 @@ public class OfferListFragment extends ListFragment {
             new AsyncTask<Object, Object, Object>() {
                 @Override
                 protected Object doInBackground(Object... params) {
-                    favourites = callbacks.getFavouritesOffers();
-                    return null;
+                    //reload remote favourites
+                    try {
+                        favourites = callbacks.getFavouritesOffers();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                    return new Object();
                 }
 
                 @Override
-                protected void onPostExecute(Object object) {
-                    super.onPostExecute(object);
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    if(o==null){
+                        Connectivity.connectionError(getActivity());
+                        return;
+                    }
+                    //refresh listview
                     jobOffersQueryAdapter.notifyDataSetChanged();
 
                 }

@@ -62,12 +62,10 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
     }
 
     @Override
-    public void initializeProfile() {
-        try {
+    public void initializeProfile() throws Exception {
+        if(studentProfile==null)
             studentProfile = AccountManager.getCurrentStudentProfile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
     }
 
@@ -94,9 +92,11 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
     }
 
 
-    public ParseQueryAdapter.QueryFactory<Application> getQueryFactory() {
+    public ParseQueryAdapter.QueryFactory<Application> getQueryFactory() throws Exception {
+        ParseQueryAdapter.QueryFactory<Application> query;
+        final Exception[] error={null};
 
-        return new ParseQueryAdapter.QueryFactory<Application>() {
+        query= new ParseQueryAdapter.QueryFactory<Application>() {
 
             public ParseQuery<Application> create() {
 
@@ -110,11 +110,13 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
                     query.orderByDescending("createdAt");
                     query.setLimit(100);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace();error[0]=e;
                 }
                 return query;
             }
         };
+        if(error[0]!=null)throw error[0];
+        return query;
     }
 
     @Override

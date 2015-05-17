@@ -1,7 +1,9 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
+
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -30,6 +32,7 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
 
     DrawerManager drawerManager;
     private Student studentProfile;
+    ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,7 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
         TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
 
         // Assigning ViewPager View and setting the adapter
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager);
         //set number of fragments beyond which the next fragment is created and the first is destroyed
         pager.setOffscreenPageLimit(fragmentList.size()-1);
         pager.setAdapter(tabsAdapter);
@@ -95,12 +98,11 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
     }
 
     @Override
-    public void initializeProfile() {
-        try {
+    public void initializeProfile() throws Exception {
+        if(studentProfile==null)
+
             studentProfile = AccountManager.getCurrentStudentProfile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
     }
 
@@ -110,7 +112,7 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_student_main, menu);
+        getMenuInflater().inflate(R.menu.menu_student_messages, menu);
         return true;
     }
 
@@ -125,17 +127,28 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
             return true;
         }
 
+        if (id == R.id.action_REFRESH) {
+            MessageListFragment listInboxFragment= (MessageListFragment)((TabsPagerAdapter) pager.getAdapter()).getItem(0);
+            MessageListFragment listOutboxFragment= (MessageListFragment)((TabsPagerAdapter) pager.getAdapter()).getItem(1);
+            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+            fragTransaction.detach(listInboxFragment);
+            fragTransaction.attach(listInboxFragment);
+            fragTransaction.detach(listOutboxFragment);
+            fragTransaction.attach(listOutboxFragment);
+            fragTransaction.commit();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
 
-    public ParseQueryAdapter.QueryFactory<Message> getQueryFactory(boolean inbox) {
-
+    public ParseQueryAdapter.QueryFactory<Message> getQueryFactory(boolean inbox) throws Exception {
+        ParseQueryAdapter.QueryFactory<Message> query=null;
+        final Exception[] error={null};
         if(inbox) {
 
-
-
-            return new ParseQueryAdapter.QueryFactory<Message>() {
+            query= new ParseQueryAdapter.QueryFactory<Message>() {
 
                 public ParseQuery<Message> create() {
 
@@ -149,7 +162,7 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
                         query.orderByDescending("createdAt");
                         query.setLimit(100);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.printStackTrace();  error[0]=e;
                     }
                     return query;
                 }
@@ -159,7 +172,7 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
 
         } else {
 
-            return new ParseQueryAdapter.QueryFactory<Message>() {
+            query= new ParseQueryAdapter.QueryFactory<Message>() {
 
                 public ParseQuery<Message> create() {
 
@@ -173,7 +186,7 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
                         query.orderByDescending("createdAt");
                         query.setLimit(100);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.printStackTrace();  error[0]=e;
                     }
                     return query;
                 }
@@ -181,7 +194,8 @@ public class StudentMessagesActivity extends ActionBarActivity implements Messag
 
 
         }
-
+        if(error[0]!=null)throw error[0];
+     return query;
     }
 
 

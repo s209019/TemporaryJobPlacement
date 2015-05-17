@@ -2,6 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="it.polito.mobile.temporaryjobplacement.StudentProfileActivity">
-    <item android:id="@+id/action_HOME" android:title="HOME"
+    <item android:id="@+id/action_HOME" android:title="HOME" android:icon="@drawable/ic_menu_home"
         android:orderInCategory="100" app:showAsAction="always" />
 </menu>

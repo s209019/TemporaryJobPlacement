@@ -8,6 +8,7 @@ public class AsyncTaskWithProgressBar extends AsyncTask<Void, String, String>{
 	private ProgressDialog dialog; 
 	protected Activity activity;
 	protected final String OK_VALUE="OK";
+	protected final String KO_VALUE="KO";
 	protected final String DONTCARE_VALUE="OK";
 	private boolean blackBackground;
 	

@@ -22,12 +22,14 @@ public class MessageQueryAdapter extends ParseQueryAdapter<Message> {
     private int rowLayoutId;
     private boolean loggedAsStudent;  //true in the student part of the application, false in the company part of the applicatio
     private boolean inbox; //true if you want to display RECEIVED messages, false if you want to display SENT messages
+    private int pagesDisplayed;
 
     public MessageQueryAdapter(Context context, QueryFactory<Message> queryFactory,int rowLayoutId, boolean loggedAsStudent, boolean inbox) {
         super(context, queryFactory);
         this.rowLayoutId=rowLayoutId;
         this.loggedAsStudent=loggedAsStudent;
         this.inbox=inbox;
+        pagesDisplayed=1;
 
     }
 
@@ -49,14 +51,17 @@ public class MessageQueryAdapter extends ParseQueryAdapter<Message> {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View textView) {
-                ((TextView)textView).setText("LOADING MORE...");
+                ((TextView) textView).setText("LOADING MORE...");
                 progressBar.setVisibility(View.VISIBLE);
                 arrowImage.setVisibility(View.GONE);
-
                 finalV.performClick();
+                pagesDisplayed++;
 
             }
         });
+
+
+
 
         return v;
     }
@@ -89,16 +94,30 @@ public class MessageQueryAdapter extends ParseQueryAdapter<Message> {
 
         subjectTextView.setText(message.getSubject());
 
+
+
+
         //if not read set all bold
         if(!message.isRead() && inbox){
             interlocutorTextView.setTypeface( interlocutorTextView.getTypeface(), Typeface.BOLD);
             timestampTextView.setTypeface( timestampTextView.getTypeface(),Typeface.BOLD);
-            subjectTextView.setTypeface( subjectTextView.getTypeface(),Typeface.BOLD);
+            subjectTextView.setTypeface(subjectTextView.getTypeface(), Typeface.BOLD);
 
             ((ImageView) convertView.findViewById(R.id.mailIcon)).setBackgroundResource(R.drawable.ic_action_email_new);
         }
 
         return convertView;
+    }
+
+
+
+
+
+    public int getNumberPagesDisplayedSoFar(){
+        return pagesDisplayed;
+    }
+    public void setNumberPagesDisplayedSoFar(int n){
+        pagesDisplayed= n;
     }
 
 

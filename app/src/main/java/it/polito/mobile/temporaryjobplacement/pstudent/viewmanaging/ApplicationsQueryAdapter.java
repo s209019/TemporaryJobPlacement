@@ -72,7 +72,7 @@ public class ApplicationsQueryAdapter extends ParseQueryAdapter<Application> {
         companyTextView.setText(application.getJobOffer().getCompany().getName());
         timeAgoTextView.setText((TimeManager.getFormattedDate(application.getCreatedAt(),"Applied")));
         locationTextView.setText(application.getJobOffer().getCompactLocation());
-        statusTextView.setText("Status: "+application.getStatus());
+        statusTextView.setText(application.getStatus());
 
         return convertView;
     }

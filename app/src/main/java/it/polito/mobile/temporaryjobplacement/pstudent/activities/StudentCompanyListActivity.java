@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -73,12 +74,11 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
 
 
     @Override
-    public void initializeProfile() {
-        try {
+    public void initializeProfile() throws Exception {
+        if(studentProfile==null)
+
             studentProfile = AccountManager.getCurrentStudentProfile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override
@@ -124,19 +124,17 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
 
 
     @Override
-    public List<Company> getFavouritesCompanies() {
-            try {
+    public List<Company> getFavouritesCompanies() throws ParseException {
+
                 favourites = studentProfile.getFavouritesCompanies();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
 
         return favourites;
     }
 
     @Override
     public void updateFavourites(Company favourite, boolean toBeAdded) {
-        try {
+
             if(toBeAdded) {
                 studentProfile.getRelation("favouritesCompanies").add(favourite); //Remoto
                 favourites.add(favourite); //Locale
@@ -148,9 +146,7 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
 
             studentProfile.saveEventually();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

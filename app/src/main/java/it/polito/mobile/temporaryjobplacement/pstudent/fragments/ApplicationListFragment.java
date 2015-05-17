@@ -19,6 +19,8 @@ import com.parse.ParseQueryAdapter;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
@@ -62,7 +64,7 @@ public class ApplicationListFragment extends ListFragment {
         /*
         *Callback to get the query factory to be used
         */
-        public ParseQueryAdapter.QueryFactory<Application> getQueryFactory();
+        public ParseQueryAdapter.QueryFactory<Application> getQueryFactory() throws Exception;
 
         /*
         *Callback for when the delete inner button is presser
@@ -72,7 +74,7 @@ public class ApplicationListFragment extends ListFragment {
         /*
         *Initialize profile
         */
-        public void initializeProfile();
+        public void initializeProfile() throws Exception;
 
     }
 
@@ -100,19 +102,31 @@ public class ApplicationListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
 
+        final ParseQueryAdapter.QueryFactory<Application>[] query= new ParseQueryAdapter.QueryFactory[]{null};
 
         new AsyncTask<Object, Object, Object>(){
             @Override
             protected Object doInBackground(Object... params) {
-                callbacks.initializeProfile();
-                return  null;
+                try {
+                    callbacks.initializeProfile();
+                    query[0]=callbacks.getQueryFactory();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return  null;
+                }
+                return  new Object();
             }
             @Override
-            protected void onPostExecute(Object object) {
-                super.onPostExecute(object);
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(o==null){
+                    Connectivity.connectionError(getActivity());
+                    return;
+                }
 
-                applicationsQueryAdapter = new ApplicationsQueryAdapter(getActivity(), callbacks.getQueryFactory());
-                applicationsQueryAdapter.setObjectsPerPage(2);
+
+                applicationsQueryAdapter = new ApplicationsQueryAdapter(getActivity(), query[0]);
+                applicationsQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
 
                 applicationsQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Application>() {
                     @Override

@@ -23,6 +23,7 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
 import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
@@ -33,6 +34,7 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdap
 
 public class StudentFavouritesActivity extends ActionBarActivity implements OfferListFragment.Callbacks,CompanyListFragment.Callbacks {
     DrawerManager drawerManager;
+    private Student studentProfile;
 
 
     @Override
@@ -141,20 +143,24 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
     }
 
     @Override
-    public ParseQueryAdapter.QueryFactory<Company> getCompanyQueryFactory() {
-        return new ParseQueryAdapter.QueryFactory<Company>() {
+    public ParseQueryAdapter.QueryFactory<Company> getCompanyQueryFactory() throws Exception {
+        final Exception[] error={null};
+        ParseQueryAdapter.QueryFactory<Company> query= new ParseQueryAdapter.QueryFactory<Company>() {
             public ParseQuery<Company> create() {
                 ParseQuery<Company> query=null;
                 try {
-                    query = AccountManager.getCurrentStudentProfile().getFavouritesCompaniesRelationQuery();
+                    query = studentProfile.getFavouritesCompaniesRelationQuery();
                     query.orderByDescending("createdAt");
                     query.setLimit(100);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    error[0]=e;
                 }
                 return query;
             }
         };
+        if(error[0]!=null)throw error[0];
+        return query;
     }
 
     
@@ -166,21 +172,27 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
     }
 
     @Override
-    public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() {
-        return new ParseQueryAdapter.QueryFactory<JobOffer>() {
-            public ParseQuery<JobOffer> create() {
+    public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() throws Exception {
+
+        final Exception[] error = {null};
+        ParseQueryAdapter.QueryFactory<JobOffer> query=new ParseQueryAdapter.QueryFactory<JobOffer>() {
+            public ParseQuery<JobOffer> create()  {
                 ParseQuery<JobOffer> query=null;
                 try {
-                    query = AccountManager.getCurrentStudentProfile().getFavouritesOffersRelationQuery();
+                    query = studentProfile.getFavouritesOffersRelationQuery();
                     query.orderByDescending("createdAt");
                     query.include("company");
                     query.setLimit(100);
                 } catch (Exception e) {
                     e.printStackTrace();
+                   error[0] =e;
                 }
                 return query;
             }
         };
+
+        if(error[0]!=null) throw error[0];
+        return query;
     }
 
 
@@ -229,7 +241,9 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
     }
 
     @Override
-    public void initializeProfile() {
+    public void initializeProfile() throws Exception {
+        if(studentProfile==null)
+            studentProfile = AccountManager.getCurrentStudentProfile();
 
     }
 
