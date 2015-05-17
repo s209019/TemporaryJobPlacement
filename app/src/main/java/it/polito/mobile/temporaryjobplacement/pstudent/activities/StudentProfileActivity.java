@@ -11,10 +11,10 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileBasicInfoFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileCVFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileEducationFragment;
@@ -22,8 +22,9 @@ import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManage
 import it.polito.mobile.temporaryjobplacement.R;
 
 
-public class StudentProfileActivity extends ActionBarActivity  {
+public class StudentProfileActivity extends ActionBarActivity implements  ProfileBasicInfoFragment.Callbacks  {
 DrawerManager drawerManager;
+    Student studentProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,5 +127,11 @@ DrawerManager drawerManager;
         }
         super.onBackPressed();
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public synchronized Student getProfile() throws Exception {
+        if(studentProfile==null) studentProfile= AccountManager.getCurrentStudentProfile();
+        return studentProfile;
     }
 }

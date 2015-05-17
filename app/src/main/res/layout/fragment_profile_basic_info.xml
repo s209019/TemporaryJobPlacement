@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:animateLayoutChanges="true"
     >
     <ScrollView
         android:layout_width="match_parent"
@@ -18,91 +19,193 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_firstName"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_firstName"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:text="First name: "
+                android:gravity="center_vertical"
+                android:layout_marginLeft="2dp"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/textLabelSize"
-                android:layout_marginTop="@dimen/margin_medium"/>
+                />
+            </LinearLayout>
 
-            <EditText
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
                 android:id="@+id/firstNameTextView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:imeOptions="actionDone"
-                android:textColor="@android:color/black"
                 android:background="@drawable/old_edit_text"
-                android:hint="Write your first name"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:padding="10dp"
-                />
+                >
+                <EditText
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Write your first name"
+                    android:padding="10dp"
+                    android:background="@android:color/transparent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Last name: "
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/textLabelSize"
-                android:layout_marginTop="@dimen/margin_medium"/>
-
-            <EditText
-                android:id="@+id/lastNameTextView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:imeOptions="actionDone"
-                android:textColor="@android:color/black"
-                android:background="@drawable/old_edit_text"
-                android:hint="Write your last name"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:padding="10dp"
-                />
-
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
                 android:orientation="horizontal"
-                >
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_LastName"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_LastName"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Date of birth: "
+                    android:text="Last name: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/textLabelSize" />
-                <TextView
-                    android:id="@+id/dateOfBirthTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="top"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:text="23/01/1992"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_medium"
                     android:textSize="@dimen/textLabelSize"
-                    android:textColor="@android:color/black"
-                    android:background="@drawable/button_drawable2"
-                    android:textStyle="bold"
-
                     />
             </LinearLayout>
 
-            <TextView
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/lastNameTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Write your last name"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+
+
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Language skills: "
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/textLabelSize"
-                android:layout_marginTop="@dimen/margin_medium"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_DateOfBirth"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_DateOfBirth"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Date of birth: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+                <TextView
+                    android:id="@+id/dateOfBirthTextView"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center|center_vertical"
+                    android:paddingLeft="@dimen/margin_medium"
+                    android:paddingRight="@dimen/margin_medium"
+                    android:hint="Insert your birthday"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:padding="@dimen/margin_medium"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/button_drawable5"
+                    android:textStyle="bold"
+
+                    />
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_Language"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Language"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Language skills: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -119,27 +222,61 @@
                 />
 
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Skills: "
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/textLabelSize"
-                android:layout_marginTop="@dimen/margin_medium"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
 
-            <EditText
+                <ImageView
+                    android:id="@+id/V_skills"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Skills"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Skills: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
                 android:id="@+id/keywordsTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                 <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:background="@drawable/old_edit_text"
                 android:hint="Insert keywords (separated by space)"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="0dp"
                 android:padding="10dp"
                 android:gravity="top"
                 android:imeOptions="actionDone"
                 />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+
 
 
 

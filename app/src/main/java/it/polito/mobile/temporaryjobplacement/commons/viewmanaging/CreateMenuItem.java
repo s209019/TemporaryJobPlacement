@@ -1,20 +1,27 @@
 package it.polito.mobile.temporaryjobplacement.commons.viewmanaging;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.ActionProvider;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-
-import it.polito.mobile.temporaryjobplacement.R;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 public class CreateMenuItem {
 
 
-
-    public static MenuItem getMenuItem(final int id){
+    public static MenuItem getMenuItem(final int id) {
         return new MenuItem() {
             @Override
             public int getItemId() {

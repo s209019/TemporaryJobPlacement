@@ -23,9 +23,9 @@ import android.widget.RelativeLayout;
 
 public class ClearableEditText extends RelativeLayout {
 
-    private static int EDIT_TEXT_PADDING_RIGHT=45;
-    private static int BUTTON_MARGIN_RIGHT =5;
-    private static int BUTTON_SIZE=40;
+    private static int EDIT_TEXT_PADDING_RIGHT=40;
+    private static int BUTTON_MARGIN_RIGHT =3;
+    private static int BUTTON_SIZE=37;
     private LayoutInflater inflater = null;
     private AutoCompleteTextView edit_text;
     private Button btn_clear;

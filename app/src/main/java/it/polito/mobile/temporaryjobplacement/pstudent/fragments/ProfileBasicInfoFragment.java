@@ -3,8 +3,6 @@ package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,18 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,19 +28,34 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
-import it.polito.mobile.temporaryjobplacement.commons.utils.ExternalIntents;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.LargeBarAnimatedManager;
-import it.polito.mobile.temporaryjobplacement.model.Application;
-import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText;
 import it.polito.mobile.temporaryjobplacement.model.Student;
-import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentApplyActivity;
 
 public class ProfileBasicInfoFragment extends Fragment {
 
-    private Student myProfile;
+    ImageView V_firstName;
+    ImageView V_lastName;
+    ImageView V_dateOfBirthName;
+    ImageView V_languageSkills;
+    ImageView V_skills ;
+    ProgressBar pro_firstName ;
+    ProgressBar pro_lastName ;
+    ProgressBar pro_dateOfBirthName ;
+    ProgressBar pro_languageSkills ;
+    ProgressBar pro_skills ;
+
+    private ProfileBasicInfoFragment.Callbacks callbacks = null;
+
+    public interface Callbacks {
+
+        /*
+        *get profile
+        */
+        public Student getProfile() throws Exception;
+
+    }
 
 
     public static Fragment newInstance() {
@@ -68,14 +78,30 @@ public class ProfileBasicInfoFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_profile_basic_info, container, false);
 
+         V_firstName=(ImageView)rootView.findViewById(R.id.V_firstName);
+         V_lastName=(ImageView)rootView.findViewById(R.id.V_LastName);
+         V_dateOfBirthName=(ImageView)rootView.findViewById(R.id.V_DateOfBirth);
+         V_languageSkills=(ImageView)rootView.findViewById(R.id.V_Language);
+         V_skills=(ImageView)rootView.findViewById(R.id.V_skills);
+         pro_firstName=(ProgressBar)rootView.findViewById(R.id.progress_firstName);
+         pro_lastName=(ProgressBar)rootView.findViewById(R.id.progress_LastName);
+          pro_dateOfBirthName=(ProgressBar)rootView.findViewById(R.id.progress_DateOfBirth);
+          pro_languageSkills=(ProgressBar)rootView.findViewById(R.id.progress_Language);
+          pro_skills=(ProgressBar)rootView.findViewById(R.id.progress_Skills);
+
+
+
+
+
+
         final Student[] myProfile = {null};
-        final RelativeLayout loadingOverlay =(RelativeLayout)rootView.findViewById(R.id.loadingOverlay);
+        final RelativeLayout loadingOverlay = (RelativeLayout) rootView.findViewById(R.id.loadingOverlay);
         loadingOverlay.setVisibility(View.VISIBLE);
-        new AsyncTask<Object, Object, Object>(){
+        new AsyncTask<Object, Object, Object>() {
             @Override
             protected Object doInBackground(Object... params) {
                 try {
-                    myProfile[0] = AccountManager.getCurrentStudentProfile();
+                    myProfile[0] = callbacks.getProfile();
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -87,7 +113,7 @@ public class ProfileBasicInfoFragment extends Fragment {
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
 
-                if(o==null){
+                if (o == null) {
                     Connectivity.connectionError(getActivity());
                     return;
                 }
@@ -100,22 +126,13 @@ public class ProfileBasicInfoFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
-    private void initializeView(final View rootView, final Student myProfile){
+    private void initializeView(final View rootView, final Student myProfile) {
 
-        this.myProfile=myProfile;
 
-        final EditText firstNameTextView=(EditText)rootView.findViewById(R.id.firstNameTextView);
-        if(myProfile.getFirstName()!=null) {
+        final EditText firstNameTextView = ((SavableEditText)rootView.findViewById(R.id.firstNameTextView)).editText();
+        if (myProfile.getFirstName() != null) {
             firstNameTextView.setText(myProfile.getFirstName());
         }
 
@@ -126,7 +143,7 @@ public class ProfileBasicInfoFragment extends Fragment {
                 String input;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     input = v.getText().toString();
-                    updateFirstName(input);
+                    updateFirstName(myProfile,input);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(firstNameTextView.getWindowToken(), 0);
@@ -145,13 +162,13 @@ public class ProfileBasicInfoFragment extends Fragment {
                 if (!hasFocus) {
                     editText = (EditText) v;
                     input = editText.getText().toString();
-                    updateFirstName(input);
+                    updateFirstName(myProfile,input);
                 }
             }
         });
 
-        final EditText lastNameTextView=(EditText)rootView.findViewById(R.id.lastNameTextView);
-        if(myProfile.getLastName()!=null) {
+        final EditText lastNameTextView = ((SavableEditText) rootView.findViewById(R.id.lastNameTextView)).editText();
+        if (myProfile.getLastName() != null) {
             lastNameTextView.setText(myProfile.getLastName());
         }
 
@@ -161,7 +178,7 @@ public class ProfileBasicInfoFragment extends Fragment {
                 String input;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     input = v.getText().toString();
-                    updateLastName(input);
+                    updateLastName(myProfile,input);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(lastNameTextView.getWindowToken(), 0);
@@ -180,14 +197,14 @@ public class ProfileBasicInfoFragment extends Fragment {
                 if (!hasFocus) {
                     editText = (EditText) v;
                     input = editText.getText().toString();
-                    updateLastName(input);
+                    updateLastName(myProfile,input);
                 }
             }
         });
 
 
-        final EditText keywordsTextView=(EditText)rootView.findViewById(R.id.keywordsTextView);
-        if(myProfile.getSkills()!=null) {
+        final EditText keywordsTextView = ((SavableEditText) rootView.findViewById(R.id.keywordsTextView)).editText();
+        if (myProfile.getSkills() != null) {
             keywordsTextView.setText(myProfile.getSkills());
         }
 
@@ -198,7 +215,7 @@ public class ProfileBasicInfoFragment extends Fragment {
                 String input;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     input = v.getText().toString();
-                    updateSkills(input);
+                    updateSkills(myProfile,input);
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                             Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(keywordsTextView.getWindowToken(), 0);
@@ -217,14 +234,14 @@ public class ProfileBasicInfoFragment extends Fragment {
                 if (!hasFocus) {
                     editText = (EditText) v;
                     input = editText.getText().toString();
-                    updateSkills(input);
+                    updateSkills(myProfile,input);
                 }
             }
         });
 
         final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         final TextView dateOfBirthTextView = (TextView) rootView.findViewById(R.id.dateOfBirthTextView);
-        if(myProfile.getDateOfBirth()!=null) {
+        if (myProfile.getDateOfBirth() != null) {
             dateOfBirthTextView.setText(df.format(myProfile.getDateOfBirth()));
         } else {
             dateOfBirthTextView.setText("Not specified");
@@ -238,7 +255,7 @@ public class ProfileBasicInfoFragment extends Fragment {
                 int month = currentDate.get(Calendar.MONTH);
                 int dayOfMonth = currentDate.get(Calendar.DAY_OF_MONTH);
 
-                if(myProfile.getDateOfBirth()!=null) {
+                if (myProfile.getDateOfBirth() != null) {
 
                     GregorianCalendar gc = new GregorianCalendar();
                     gc.setTime(myProfile.getDateOfBirth());
@@ -256,7 +273,7 @@ public class ProfileBasicInfoFragment extends Fragment {
 
                         GregorianCalendar dateOfBirth = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                         dateOfBirthTextView.setText(df.format(dateOfBirth.getTime()));
-                        updateDateOfBirth(dateOfBirth.getTime());
+                        updateDateOfBirth(myProfile,dateOfBirth.getTime());
 
                     }
                 }, year, month, dayOfMonth);
@@ -270,57 +287,78 @@ public class ProfileBasicInfoFragment extends Fragment {
 
     }
 
-    private void updateFirstName(String firstName) {
+    private void updateFirstName(Student myProfile,String firstName) {
 
-        if(myProfile.getFirstName()==null || !myProfile.getFirstName().equals(firstName)) {
+        if (myProfile.getFirstName() == null || !myProfile.getFirstName().equals(firstName)) {
             myProfile.setFirstName(firstName);
+
+            V_firstName.setVisibility(View.GONE);
+            pro_firstName.setVisibility(View.VISIBLE);
             myProfile.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    DialogManager.toastMessage("First name updated", getActivity(), "center");
+                    if(e==null){
+                    DialogManager.toastMessage("First name updated", getActivity(), "center",true);
+                    if(pro_firstName!=null) pro_firstName.setVisibility(View.GONE);
+                    if(V_firstName!=null) V_firstName.setVisibility(View.VISIBLE);}
                 }
             });
         }
 
     }
 
-    private void updateLastName(String lastName) {
+    private void updateLastName(Student myProfile,String lastName) {
 
-        if(myProfile.getLastName()==null || !myProfile.getLastName().equals(lastName)) {
+        if (myProfile.getLastName() == null || !myProfile.getLastName().equals(lastName)) {
             myProfile.setLastName(lastName);
+            V_lastName.setVisibility(View.GONE);
+            pro_lastName.setVisibility(View.VISIBLE);
             myProfile.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    DialogManager.toastMessage("Last name updated", getActivity(), "center");
+                    if(e==null){
+                        DialogManager.toastMessage("Last name updated", getActivity(), "center",true);
+                        if(pro_lastName!=null) pro_lastName.setVisibility(View.GONE);
+                        if(V_lastName!=null) V_lastName.setVisibility(View.VISIBLE);}
                 }
             });
         }
 
     }
 
-    private void updateSkills(String skills) {
+    private void updateSkills(Student myProfile,String skills) {
 
-        if(myProfile.getSkills()==null || !myProfile.getSkills().equals(skills)) {
+        if (myProfile.getSkills() == null || !myProfile.getSkills().equals(skills)) {
             myProfile.setSkills(skills);
+            V_skills.setVisibility(View.GONE);
+            pro_skills.setVisibility(View.VISIBLE);
             myProfile.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    DialogManager.toastMessage("Skills updated", getActivity(), "center");
+                    if(e==null){
+                        DialogManager.toastMessage("Skills updated", getActivity(), "center",true);
+                        if(pro_skills!=null) pro_skills.setVisibility(View.GONE);
+                        if(V_skills!=null) V_skills.setVisibility(View.VISIBLE);}
                 }
             });
         }
 
     }
 
-    private void updateDateOfBirth(Date dateOfBirth) {
+    private void updateDateOfBirth(Student myProfile,Date dateOfBirth) {
 
-        if(myProfile.getDateOfBirth()==null || !myProfile.getDateOfBirth().equals(dateOfBirth)) {
+        if (myProfile.getDateOfBirth() == null || !myProfile.getDateOfBirth().equals(dateOfBirth)) {
 
             myProfile.setDateOfBirth(dateOfBirth);
+            V_dateOfBirthName.setVisibility(View.GONE);
+            pro_dateOfBirthName.setVisibility(View.VISIBLE);
             myProfile.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    DialogManager.toastMessage("Date of Birth updated", getActivity());
+                    if(e==null){
+                        DialogManager.toastMessage("Date of birth updated", getActivity(), "center",true);
+                        if(pro_dateOfBirthName!=null) pro_dateOfBirthName.setVisibility(View.GONE);
+                        if(V_dateOfBirthName!=null) V_dateOfBirthName.setVisibility(View.VISIBLE);}
                 }
             });
         }
@@ -330,5 +368,22 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
+        callbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        // Reset the active callbacks interface to the dummy implementation.
+        callbacks = null;
+    }
 
 }

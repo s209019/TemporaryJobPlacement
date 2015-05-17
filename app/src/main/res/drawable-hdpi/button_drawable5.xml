@@ -1,0 +1,9 @@
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_pressed="false"
+        android:drawable="@drawable/old_edit_text" />
+    <item
+        android:state_pressed="true"
+        android:drawable="@drawable/old_edit_text_pressed" />
+</selector>

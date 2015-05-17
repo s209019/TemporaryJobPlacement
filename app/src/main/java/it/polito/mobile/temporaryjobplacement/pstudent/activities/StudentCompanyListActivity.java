@@ -76,7 +76,6 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
     @Override
     public void initializeProfile() throws Exception {
         if(studentProfile==null)
-
             studentProfile = AccountManager.getCurrentStudentProfile();
 
     }

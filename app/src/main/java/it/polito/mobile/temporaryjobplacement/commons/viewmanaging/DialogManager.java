@@ -13,6 +13,8 @@ public class DialogManager {
 			/*simple alert dialog*/
 			public static  void setDialog(String description,FragmentActivity activity){
 
+                if(activity==null)return;
+
                 DialogFragment newFragment = MyAlertDialogFragment.newInstance(null,description,"OK",null);
                 newFragment.show(activity.getSupportFragmentManager(), "dialog");
 
@@ -37,6 +39,7 @@ public class DialogManager {
 			/*simple alert dialog with title*/
 			public static  void setDialog(String title,String description,FragmentActivity activity){
 
+                if(activity==null)return;
                 DialogFragment newFragment = MyAlertDialogFragment.newInstance(title,description, "OK",null);
                 newFragment.show(activity.getSupportFragmentManager(), "dialog");
 
@@ -61,7 +64,7 @@ public class DialogManager {
 
     /*simple alert dialog with title*/
     public synchronized static  void setDialog(String title,String description,FragmentActivity activity,String OK_BUTTON, final Runnable task,boolean useFragment){
-
+        if(activity==null)return;
         if(useFragment) {
             DialogFragment newFragment = MyAlertDialogFragment.newInstance(title, description, OK_BUTTON, task);
             newFragment.show(activity.getSupportFragmentManager(), "dialog");
@@ -92,31 +95,54 @@ public class DialogManager {
 			
 			//toast message
 			public static  void toastMessage(String string,Context ctx){
+                if(ctx==null)return;
                 Toast.makeText(ctx, string, Toast.LENGTH_LONG).show();
 
 			}
 
-            //toast message
-            public static  void toastMessage(String string,Context ctx, String position){
+    //toast message
+    public static void toastMessage(String string, Context ctx, String position) {
+        if(ctx==null)return;
+        int gravity = Gravity.NO_GRAVITY;
 
-                int gravity = Gravity.NO_GRAVITY;
+        if (position.equals("center")) {
+            gravity = Gravity.CENTER;
+        }
 
-                if(position.equals("center")) {
-                    gravity = Gravity.CENTER;
-                }
+        Toast toast = Toast.makeText(ctx, string, Toast.LENGTH_LONG);
+        toast.setGravity(gravity, 0, 0);
+        toast.show();
 
-                Toast toast = Toast.makeText(ctx, string, Toast.LENGTH_LONG);
-                toast.setGravity(gravity, 0, 0);
-                toast.show();
+    }
 
-            }
+    //toast message
+    public static void toastMessage(String string, Context ctx, String position, boolean shortDuration) {
+        if(ctx==null)return;
+        int gravity = Gravity.NO_GRAVITY;
+
+        if (position.equals("center")) {
+            gravity = Gravity.CENTER;
+        }
+        if (shortDuration) {
+            Toast toast = Toast.makeText(ctx, string, Toast.LENGTH_SHORT);
+            toast.setGravity(gravity, 0, 0);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(ctx, string, Toast.LENGTH_LONG);
+            toast.setGravity(gravity, 0, 0);
+            toast.show();
+        }
+
+
+    }
 
 
 
 
     //toast message
 			public static  void toastMessage(String string,Context ctx,int duration){
-				Toast.makeText(ctx, string, duration).show();
+                if(ctx==null)return;
+                Toast.makeText(ctx, string, duration).show();
 			
 			}
 
