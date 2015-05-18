@@ -67,7 +67,6 @@ public class Student extends ParseObject {
 
 
     public ArrayList<String> getLanguageSkills(){
-
         String languagesText=(String)this.getString("languages");
         if(languagesText==null || languagesText.trim().equals(""))return  new ArrayList<String>();
         String[] languages=languagesText.split("\n");
