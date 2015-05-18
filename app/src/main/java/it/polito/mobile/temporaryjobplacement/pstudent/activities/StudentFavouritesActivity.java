@@ -2,6 +2,7 @@ package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -25,6 +26,7 @@ import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MessageListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchByCompanyFragment;
@@ -35,6 +37,7 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdap
 public class StudentFavouritesActivity extends ActionBarActivity implements OfferListFragment.Callbacks,CompanyListFragment.Callbacks {
     DrawerManager drawerManager;
     private Student studentProfile;
+    ViewPager pager;
 
 
     @Override
@@ -62,7 +65,7 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
         TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
 
         // Assigning ViewPager View and setting the adapter
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager);
         //set number of fragments beyond which the next fragment is created and the first is destroyed
         pager.setOffscreenPageLimit(fragmentList.size()-1);
         pager.setAdapter(tabsAdapter);
@@ -168,6 +171,7 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
     public void onItemSelected(JobOffer offer) {
         Intent detailIntent = new Intent(this, StudentDetailActivity.class);
         detailIntent.putExtra("SELECTED_OFFER", offer.getObjectId());
+        detailIntent.putExtra("IS_FAVOURITED", true);
         startActivity(detailIntent);
     }
 
@@ -263,6 +267,15 @@ public class StudentFavouritesActivity extends ActionBarActivity implements Offe
         DialogManager.setDialog("Delete all favourites?",this);
     }
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        this.recreate();
+
+
+    }
 
     @Override
     public void onBackPressed(){

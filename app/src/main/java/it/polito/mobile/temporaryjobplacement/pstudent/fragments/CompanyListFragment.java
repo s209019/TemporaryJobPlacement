@@ -218,7 +218,11 @@ public class CompanyListFragment extends ListFragment {
 
                     @Override
                     public void onLoaded(List<Company> list, Exception e) {
-                        setListShown(true);
+                        try{
+                            setListShown(true);
+                        }catch(Exception ex){
+                            e.printStackTrace();
+                        }
                     }
                 });
                 setListAdapter(companiesQueryAdapter);
@@ -281,7 +285,7 @@ public class CompanyListFragment extends ListFragment {
                     //reload remote favourites
                     try {
                         favourites = mCallbacks.getFavouritesCompanies();
-                    } catch (ParseException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         return null;
                     }

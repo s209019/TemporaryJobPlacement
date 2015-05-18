@@ -158,7 +158,7 @@ public class StudentApplyActivity extends ActionBarActivity {
                     String resultMessage=OK_VALUE;
                     try {
                         application.save();
-                    } catch (ParseException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         resultMessage=KO_VALUE;
                     }

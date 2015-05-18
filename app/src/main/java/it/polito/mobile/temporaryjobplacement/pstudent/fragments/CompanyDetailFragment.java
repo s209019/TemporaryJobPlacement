@@ -181,7 +181,7 @@ public class CompanyDetailFragment extends Fragment {
                             @Override protected Boolean doInBackground(Object... params) {
                                 try {
                                     student.save();
-                                } catch (ParseException e) {
+                                } catch (Exception e) {
                                     e.printStackTrace();return false;}
                                 return true;
                             }
@@ -201,7 +201,7 @@ public class CompanyDetailFragment extends Fragment {
                             @Override protected Boolean doInBackground(Object... params) {
                                 try {
                                     student.save();
-                                } catch (ParseException e) {
+                                } catch (Exception e) {
                                     e.printStackTrace(); return false;}
                                 return true;}
                             @Override protected void onPostExecute(Boolean o) {super.onPostExecute(o);

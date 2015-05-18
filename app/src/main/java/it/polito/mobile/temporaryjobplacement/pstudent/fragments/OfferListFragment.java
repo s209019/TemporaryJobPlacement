@@ -223,7 +223,11 @@ public class OfferListFragment extends ListFragment {
 
                     @Override
                     public void onLoaded(List<JobOffer> list, Exception e) {
-                        setListShown(true);
+                        try{
+                            setListShown(true);
+                        }catch(Exception ex){
+                            e.printStackTrace();
+                        }
                     }
                 });
                 setListAdapter(jobOffersQueryAdapter);
@@ -259,7 +263,7 @@ public class OfferListFragment extends ListFragment {
                     //reload remote favourites
                     try {
                         favourites = callbacks.getFavouritesOffers();
-                    } catch (ParseException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         return null;
                     }

@@ -179,7 +179,11 @@ public class MessageListFragment extends ListFragment {
 
                     @Override
                     public void onLoaded(List<Message> list, Exception e) {
-                        setListShown(true);
+                        try{
+                            setListShown(true);
+                        }catch(Exception ex){
+                            e.printStackTrace();
+                        }
                     }
                 });
                 setListAdapter(messagesQueryAdapter);

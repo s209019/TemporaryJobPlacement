@@ -7,16 +7,18 @@
     android:animateLayoutChanges="true"
     >
     <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/margin_medium"
+
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/margin_medium"
             android:orientation="vertical">
 
             <LinearLayout
@@ -157,7 +159,7 @@
             </LinearLayout>
                 <TextView
                     android:id="@+id/dateOfBirthTextView"
-                    android:layout_width="200dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center|center_vertical"
@@ -207,7 +209,15 @@
                     />
             </LinearLayout>
 
-            <TextView
+            <include layout="@layout/language_layout" android:id="@+id/languageLayout1" android:visibility="gone"/>
+            <include layout="@layout/language_layout" android:id="@+id/languageLayout2" android:visibility="gone"/>
+            <include layout="@layout/language_layout" android:id="@+id/languageLayout3" android:visibility="gone"/>
+            <include layout="@layout/language_layout" android:id="@+id/languageLayout4" android:visibility="gone"/>
+            <include layout="@layout/language_layout" android:id="@+id/languageLayout5" android:visibility="gone"/>
+
+
+
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_medium_large"
@@ -215,10 +225,12 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium"
                 android:text="Add a new language"
+                android:textSize="@dimen/textSize"
                 android:gravity="center"
                 android:textColor="@color/secondaryColor"
                 android:background="@drawable/button_drawable2"
                 android:id="@+id/addLanguageSkillsButton"
+                android:clickable="true"
                 />
 
 
@@ -278,6 +290,10 @@
 
 
 
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
 
 
         </LinearLayout>

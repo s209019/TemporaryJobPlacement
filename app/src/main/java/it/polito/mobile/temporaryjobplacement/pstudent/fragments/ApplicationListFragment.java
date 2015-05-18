@@ -134,7 +134,11 @@ public class ApplicationListFragment extends ListFragment {
                     }
                     @Override
                     public void onLoaded(List<Application> list, Exception e) {
-                        setListShown(true);
+                        try{
+                            setListShown(true);
+                        }catch(Exception ex){
+                            e.printStackTrace();
+                        }
                     }
                 });
                 setListAdapter(applicationsQueryAdapter);

@@ -5,27 +5,35 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
@@ -47,9 +55,16 @@ public class ProfileBasicInfoFragment extends Fragment {
     ProgressBar pro_skills ;
 
 
+
     private EditText firstNameTextView;
     private EditText lastNameTextView;
+
     private EditText keywordsTextView;
+
+
+    ArrayList<String> languages;
+
+
 
 
 
@@ -111,6 +126,7 @@ public class ProfileBasicInfoFragment extends Fragment {
             protected Object doInBackground(Object... params) {
                 try {
                     myProfile[0] = callbacks.getProfile();
+                    languages=myProfile[0].getLanguageSkills();
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -138,6 +154,10 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
     private void initializeView(final View rootView, final Student myProfile) {
+
+
+
+
 
 
 
@@ -319,7 +339,69 @@ public class ProfileBasicInfoFragment extends Fragment {
 
                 datePicker.setTitle("Seleziona il giorno");
                 datePicker.show();
+            }
+        });
 
+
+
+
+
+
+
+
+
+
+        final Button addLanguageSkillsButton=(Button)rootView.findViewById(R.id.addLanguageSkillsButton);
+        final LinearLayout[] languageLayouts={
+                (LinearLayout)rootView.findViewById(R.id.languageLayout1),
+                (LinearLayout)rootView.findViewById(R.id.languageLayout2),
+                (LinearLayout)rootView.findViewById(R.id.languageLayout3),
+                (LinearLayout)rootView.findViewById(R.id.languageLayout4),
+                (LinearLayout)rootView.findViewById(R.id.languageLayout5)};
+
+
+        //handle delete button
+        for(int position=0;position<languageLayouts.length;position++){
+            final int finalPosition = position;
+            ((ImageButton)languageLayouts[position].getChildAt(1)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeLanguageSkills(myProfile, finalPosition,languageLayouts,languages,addLanguageSkillsButton);
+                }
+            });
+        }
+
+
+
+        //populate languages textView
+        int i=0;
+        for(String language: languages){
+            if(i==languageLayouts.length)break;
+            languageLayouts[i].setVisibility(View.VISIBLE);
+            ((TextView)languageLayouts[i].getChildAt(0)).setText(language);
+            i++;
+            if(i==languageLayouts.length)addLanguageSkillsButton.setVisibility(View.INVISIBLE);
+        }
+
+
+                final InsertLanguageDialogFragment.Callbacks callbacks=new InsertLanguageDialogFragment.Callbacks() {
+                    @Override
+                    public void onLanguageInserted(String language) {
+
+                        if(languages.size()<languageLayouts.length){
+                            languages.add(language);
+                            languageLayouts[languages.size()-1].setVisibility(View.VISIBLE);
+                            ((TextView)languageLayouts[languages.size() - 1].getChildAt(0)).setText(language);
+                            if(languages.size()==languageLayouts.length)addLanguageSkillsButton.setVisibility(View.INVISIBLE);
+                            addLanguageSkills(myProfile,language);
+                        }
+                    }
+                };
+        addLanguageSkillsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment df = InsertLanguageDialogFragment.newInstance("Insert language and level:", callbacks);
+                df.show(getActivity().getSupportFragmentManager(), "MyDialog");
             }
         });
 
@@ -410,6 +492,60 @@ public class ProfileBasicInfoFragment extends Fragment {
                 }
             });
         }
+
+    }
+
+
+    private void addLanguageSkills(Student myProfile,String language) {
+        V_languageSkills.setVisibility(View.GONE);
+        pro_languageSkills.setVisibility(View.VISIBLE);
+        myProfile.addLanguageSkill(language, new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    DialogManager.toastMessage("Language skill added", getActivity(), "center", true);
+                    if (pro_languageSkills != null) pro_languageSkills.setVisibility(View.GONE);
+                    if ( V_languageSkills != null)  V_languageSkills.setVisibility(View.VISIBLE);
+                }else{
+                    DialogManager.toastMessage(""+e.getMessage(), getActivity(), "center", true);
+                }
+            }});
+    }
+
+    private void removeLanguageSkills(Student myProfile, final int position, final LinearLayout[] languageLayouts, final ArrayList<String> languages, final Button addLanguageSkillsButton) {
+
+        V_languageSkills.setVisibility(View.GONE);
+        pro_languageSkills.setVisibility(View.VISIBLE);
+        myProfile.removeLanguageSkill(languages.get(position), new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    DialogManager.toastMessage("Language skill removed", getActivity(), "center", true);
+                    if (pro_languageSkills != null) pro_languageSkills.setVisibility(View.GONE);
+                    if (V_languageSkills != null) V_languageSkills.setVisibility(View.VISIBLE);
+
+                    languages.remove(position);
+                    for(LinearLayout l: languageLayouts)l.setVisibility(View.GONE);
+                    //repopulate languages textView
+                    int i=0;
+                    for(String language: languages){
+                        if(i==languageLayouts.length)break;
+                        languageLayouts[i].setVisibility(View.VISIBLE);
+                        ((TextView)languageLayouts[i].getChildAt(0)).setText(language);
+                        i++;
+                        if(i==languageLayouts.length)
+                            addLanguageSkillsButton.setVisibility(View.GONE);
+                        else addLanguageSkillsButton.setVisibility(View.VISIBLE);
+                    }
+
+
+                } else {
+                    DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
+                }
+            }
+        });
+
+
 
     }
 
