@@ -1,6 +1,10 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -8,13 +12,18 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MessageListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileBasicInfoFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileCVFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileEducationFragment;
@@ -22,15 +31,18 @@ import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManage
 import it.polito.mobile.temporaryjobplacement.R;
 
 
-public class StudentProfileActivity extends ActionBarActivity implements  ProfileBasicInfoFragment.Callbacks  {
+public class StudentProfileActivity extends ActionBarActivity implements  ProfileBasicInfoFragment.Callbacks, ProfileCVFragment.Callbacks  {
 DrawerManager drawerManager;
     Student studentProfile;
+    Bitmap photoStudentBitmap;
+    ViewPager pager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_profile);
-
 
 
 
@@ -43,52 +55,87 @@ DrawerManager drawerManager;
         drawerManager=new DrawerManager(this,drawerLayout,toolbar,DrawerManager.SECTION1);
         drawerManager.setDrawer();
 
-        //set tabViews
-        ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
-        fragmentList.add(ProfileBasicInfoFragment.newInstance());
-        fragmentList.add(ProfileCVFragment.newInstance());
-        fragmentList.add(ProfileEducationFragment.newInstance());
-        String titles[] ={"BASIC INFO","RESUMES / COVER LETTERS", "EDUCATION"};
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
+       //DialogManager.toastMessage("activityRecreated",this);
 
-        // Assigning ViewPager View and setting the adapter
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        //set number of fragments beyond which the next fragment is created and the first is destroyed
-        pager.setOffscreenPageLimit(fragmentList.size()-1);
-        pager.setAdapter(tabsAdapter);
-
-
-        // Assigning the Sliding Tab Layout View
-        SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.tabLayout);
-        tabLayout.setDistributeEvenly(true); // This makes the tabs Space Evenly in Available width
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
-        tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+        final RelativeLayout loadingOverlay = (RelativeLayout) findViewById(R.id.loadingOverlay);
+        loadingOverlay.setVisibility(View.VISIBLE);
+        new AsyncTask<Object, Object, Object>() {
             @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.primaryColor);
+            protected Object doInBackground(Object... params) {
+                Object o=null;
+                try {
+                    studentProfile= AccountManager.getCurrentStudentProfile();
+                    o =studentProfile.getPhoto(StudentProfileActivity.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return e;
+                }
+               return o;
             }
-
             @Override
-            public int getDividerColor(int position) {
-                return getResources().getColor( R.color.grayTextColor);
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+
+                /*****DEBUG***/
+                if(o instanceof Exception)DialogManager.toastMessage( ((Exception)o).getMessage() ,StudentProfileActivity.this);
+                else DialogManager.toastMessage(o.toString()+"" ,StudentProfileActivity.this);
+
+                if (o == null) {
+                    Connectivity.connectionError(StudentProfileActivity.this);
+                    return;
+                }
+                loadingOverlay.setVisibility(View.GONE);
+
+                //set tabViews
+                ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
+                //DialogManager.toastMessage("creating fragments", StudentProfileActivity.this);
+                fragmentList.add(ProfileBasicInfoFragment.newInstance());
+                fragmentList.add(ProfileCVFragment.newInstance());
+                fragmentList.add(ProfileEducationFragment.newInstance());
+                String titles[] ={"BASIC INFO","RESUMES / COVER LETTERS", "EDUCATION"};
+                // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+                TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
+
+                // Assigning ViewPager View and setting the adapter
+                pager  = (ViewPager) findViewById(R.id.pager);
+                //set number of fragments beyond which the next fragment is created and the first is destroyed
+                pager.setOffscreenPageLimit(fragmentList.size()-1);
+                pager.setAdapter(tabsAdapter);
+
+
+                // Assigning the Sliding Tab Layout View
+                SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.tabLayout);
+                tabLayout.setDistributeEvenly(true); // This makes the tabs Space Evenly in Available width
+                // Setting Custom Color for the Scroll bar indicator of the Tab View
+                tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                    @Override
+                    public int getIndicatorColor(int position) {
+                        return getResources().getColor(R.color.primaryColor);
+                    }
+
+                    @Override
+                    public int getDividerColor(int position) {
+                        return getResources().getColor(R.color.grayTextColor);
+                    }
+
+                    @Override
+                    public int getDefaultTextColor() {
+                        return getResources().getColor(R.color.grayTextColor);
+                    }
+
+                    @Override
+                    public int getBackgroundColor() {
+                        return getResources().getColor(R.color.foregroundColor);
+                    }
+
+
+                });
+                // Setting the ViewPager For the SlidingTabsLayout
+                tabLayout.setViewPager(pager);
+
             }
+        }.execute();
 
-            @Override
-            public int getDefaultTextColor() {
-                return getResources().getColor( R.color.grayTextColor);
-            }
-
-            @Override
-            public int getBackgroundColor() {
-                return getResources().getColor( R.color.foregroundColor);
-            }
-
-
-
-        });
-        // Setting the ViewPager For the SlidingTabsLayout
-        tabLayout.setViewPager(pager);
 
     }
 
@@ -130,8 +177,37 @@ DrawerManager drawerManager;
     }
 
     @Override
-    public   Student getProfile() throws Exception {
-        if(studentProfile==null) studentProfile= AccountManager.getCurrentStudentProfile();
+    public Student getProfile(){
         return studentProfile;
     }
+
+    @Override
+    public Bitmap getPhotoStudentBitmap() {
+        return photoStudentBitmap;
+    }
+
+
+/*
+    @Override
+    public void detachAllFragments(){
+        for(int position=0;position<((TabsPagerAdapter) pager.getAdapter()).getCount();position++) {
+            Fragment fragmentItem = (Fragment) ((TabsPagerAdapter) pager.getAdapter()).getItem(position);
+            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+            fragTransaction.detach(fragmentItem);
+            fragTransaction.commit();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==ProfileBasicInfoFragment.REQUEST_CAMERA || requestCode==ProfileBasicInfoFragment.SELECT_FILE){
+            ((ProfileBasicInfoFragment)((TabsPagerAdapter) pager.getAdapter()).getItem(0)).fragmentCustomizedOnActivityResult(requestCode,resultCode,data);
+        }else if(requestCode==ProfileCVFragment.REQUEST_CHOOSER_ID){
+            //((ProfileCVFragment)((TabsPagerAdapter) pager.getAdapter()).getItem(1)).fragmentCustomizedOnActivityResult(requestCode,resultCode,data);
+        }
+
+    }
+    */
 }

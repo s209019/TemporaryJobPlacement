@@ -81,6 +81,7 @@ public class InsertLanguageDialogFragment extends DialogFragment {
                     DialogManager.toastMessage("Language field  cannot be empty",getActivity());
                     return;
                 }
+                if(listener!=null)
                 listener.onLanguageInserted(languageTextView.getText().toString().toUpperCase()+", level "+spinnerLevels.getSelectedItem());
             }
         });

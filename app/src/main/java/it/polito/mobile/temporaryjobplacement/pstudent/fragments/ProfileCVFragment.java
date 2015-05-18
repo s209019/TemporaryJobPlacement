@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,13 +28,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
 public class ProfileCVFragment extends Fragment {
 
-    private static final int REQUEST_CHOOSER_ID = 1234;
+    public static final int REQUEST_CHOOSER_ID = 1234;
     int numberOfResumes;
+
+
+
+    private ProfileCVFragment.Callbacks callbacks = null;
+    public interface Callbacks {
+        /*
+        *get profile
+        */
+        Student getProfile();
+        //void detachAllFragments();
+    }
+
+
 
 
     public static Fragment newInstance() {
@@ -56,6 +71,9 @@ public class ProfileCVFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_profile_cv, container, false);
 
+        Student studentProfile = callbacks.getProfile();
+
+
         rootView.findViewById(R.id.addResumeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,13 +82,14 @@ public class ProfileCVFragment extends Fragment {
 
                 Intent intent = Intent.createChooser(getContentIntent, "Select a file");
                 startActivityForResult(intent, REQUEST_CHOOSER_ID);
+                //callbacks.detachAllFragments();
 
             }
         });
         numberOfResumes=0;
 
         try {
-            Student studentProfile = ((StudentProfileActivity) getActivity()).getProfile();
+
 
             if(studentProfile.has("cv1") && ((ParseObject)studentProfile.get("cv1")).get("name")!=null) {
                 showResume("cv1", rootView);
@@ -103,19 +122,11 @@ public class ProfileCVFragment extends Fragment {
     }
 
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
-    @Override
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode,resultCode,data);
         switch (requestCode) {
             case REQUEST_CHOOSER_ID:
                 if (resultCode == Activity.RESULT_OK) {
@@ -214,7 +225,7 @@ public class ProfileCVFragment extends Fragment {
                                     intent.setDataAndType(uri, "text/plain");
                                 }
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                getActivity().startActivity(intent);
+                                 startActivity(intent);
 
 
                             }
@@ -228,6 +239,24 @@ public class ProfileCVFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
+        callbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        // Reset the active callbacks interface to the dummy implementation.
+        callbacks = null;
     }
 }
 

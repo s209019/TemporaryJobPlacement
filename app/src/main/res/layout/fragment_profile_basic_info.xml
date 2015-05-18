@@ -223,7 +223,6 @@
                 android:paddingLeft="@dimen/margin_medium_large"
                 android:paddingRight="@dimen/margin_medium_large"
                 android:paddingTop="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_medium"
                 android:text="Add a new language"
                 android:textSize="@dimen/textSize"
                 android:gravity="center"
@@ -237,8 +236,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_medium">
+                android:orientation="horizontal" >
 
                 <ImageView
                     android:id="@+id/V_skills"
@@ -290,8 +288,46 @@
 
 
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
 
-            <Space
+                <ImageView
+                    android:id="@+id/V_yourPhoto"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_yourPhoto"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Your photo: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+            <include layout="@layout/fotobox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+
+
+        <Space
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
 

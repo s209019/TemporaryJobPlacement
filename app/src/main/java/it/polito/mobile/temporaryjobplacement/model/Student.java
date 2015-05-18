@@ -1,6 +1,16 @@
 package it.polito.mobile.temporaryjobplacement.model;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.view.View;
+
+import com.parse.GetDataCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
@@ -9,17 +19,26 @@ import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
+
 /**
  * Created by Enrico on 10/05/15.
  */
 @ParseClassName("StudentProfile")
 public class Student extends ParseObject {
+
+    private Bitmap photo;
 
     public String getFirstName() {
         return getString("firstName");
@@ -113,6 +132,43 @@ public class Student extends ParseObject {
 
 
 
+    public void updatePhoto(Bitmap bitImage, SaveCallback saveCallback) {
+        ParseObject photo = new ParseObject("Photo");
+        photo.put("name", "photoProfile");
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitImage.compress(Bitmap.CompressFormat.PNG, 60, stream);
+        byte[] byteArray = stream.toByteArray();
+        photo.put("file", new ParseFile(byteArray));
+        this.put("photoProfile", photo);
+        this.saveInBackground( saveCallback);
+
+    }
+
+    public void removePhoto(SaveCallback saveCallback) {
+    }
+
+    /*
+
+    ZCGLISDUBVLDFJHZVBLDFZHBVLHFJDBVLJDFBLJVHFZDBLVJHZBDFLJHVFDZLVBDZLF
+
+     */
+    //RITORNA OBJECT PER DEBUG
+    public Object getPhoto(Context context) throws com.parse.ParseException {
+
+        final ParseObject photo = (ParseObject)this.get("photoProfile");
+
+        ParseFile parseFile=(ParseFile)photo.get("file");//QUESTA LANCIA L'ECCEZIONE: CAMPO NON PRESENTE!!!!!!
+
+
+        byte[] bytearray=parseFile.getData();
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray( bytearray, 0, bytearray.length);
+
+        return bitmap;
+    }
+
+
+
     public ParseQuery<JobOffer> getFavouritesOffersRelationQuery() throws com.parse.ParseException {
         ParseRelation<JobOffer> relation = getRelation("favouritesOffers");
         return relation.getQuery();
@@ -129,6 +185,7 @@ public class Student extends ParseObject {
         ParseRelation<Company> relation = getRelation("favouritesCompanies");
         return relation.getQuery();
     }
+
 
 
 }

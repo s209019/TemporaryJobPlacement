@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+<RelativeLayout
+android:id="@+id/fotoBOx"
+android:layout_width="300dp"
+android:layout_height="300dp"
+android:layout_gravity="center"
+    android:background="@drawable/button_drawable5"
+android:visibility="gone">
+
+<ImageView
+    android:id="@+id/photo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_margin="5dp" />
+
+<Button
+    android:id="@+id/buttonNew"
+    android:layout_width="100dp"
+    android:layout_height="40dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:layout_gravity="center"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="5dp"
+    android:background="@drawable/button_drawable"
+    android:text="New"
+    android:textColor="@android:color/white"
+    android:textStyle="bold"
+    android:visibility="gone"/>
+
+<ImageButton
+    android:id="@+id/buttonDelete"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_gravity="center"
+    android:layout_marginBottom="5dp"
+    android:layout_marginRight="5dp"
+    android:background="@drawable/button_drawable"
+    android:src="@android:drawable/ic_menu_close_clear_cancel"
+    android:textColor="@android:color/white"
+    android:textStyle="bold" />
+</RelativeLayout>
+
+
+<RelativeLayout
+android:id="@+id/buttonPhoto"
+android:layout_width="80dp"
+android:layout_height="80dp"
+android:layout_gravity="center"
+android:background="@drawable/button_drawable"
+
+android:visibility="visible">
+
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_margin="10dp"
+    android:background="@android:drawable/ic_menu_camera" />
+</RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/Enrico/Downloads/TemporaryJobPlacement%206/aFileChooser/build/intermediates/bundles/debug/res/values-ru/values.xml -->
+    <!-- From: file:/C:/Users/Nicolò/Desktop/PROGETTI/ANDROID/HOBBY_ANDROID/AndroidStudioPrj/REPO/TemporaryJobPlacement/aFileChooser/build/intermediates/bundles/debug/res/values-ru/values.xml -->
     <eat-comment/>
     <string name="choose_file">Выберите файл</string>
     <string name="empty_directory">Пустая папка</string>
