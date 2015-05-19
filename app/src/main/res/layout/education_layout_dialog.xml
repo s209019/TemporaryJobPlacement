@@ -1,0 +1,330 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"  >
+
+
+
+
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:layout_marginTop="@dimen/margin_large"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="left"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/textLabelSize"
+                    android:textColor="@color/labelTextColor"
+                    android:textStyle="bold"
+                    android:text="Degree:"
+                    />
+
+
+
+                <Spinner
+                    android:id="@+id/degreeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:textColor="@android:color/black"
+                    android:drawableRight="@android:drawable/arrow_down_float"
+                    android:background="@drawable/textview_clickable_drawable"
+                    android:textStyle="bold"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="left"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/textLabelSize"
+                    android:textColor="@color/labelTextColor"
+                    android:textStyle="bold"
+                    android:text="Course:"
+                    />
+
+
+
+
+                <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/courseName"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    >
+
+                    <AutoCompleteTextView
+                        android:inputType="text"
+                        android:hint="e.g. Computer engineering"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        />
+                </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="left"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/textLabelSize"
+                    android:textColor="@color/labelTextColor"
+                    android:textStyle="bold"
+                    android:text="University:"
+                    />
+
+
+
+
+                <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/universityName"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+
+
+                    >
+
+                    <AutoCompleteTextView
+                        android:inputType="text"
+                        android:hint="e.g. Politecnico di Torino"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        />
+                </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText>
+
+
+
+
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="left"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/textLabelSize"
+                    android:textColor="@color/labelTextColor"
+                    android:textStyle="bold"
+                    android:text="Mark:"
+                    />
+
+
+
+
+                <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/markTextView"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+
+
+                    >
+
+                    <AutoCompleteTextView
+                        android:inputType="text"
+                        android:hint="e.g. 110/110"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
+                        />
+                </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:gravity="left"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/textLabelSize"
+                        android:textColor="@color/labelTextColor"
+                        android:textStyle="bold"
+                        android:text="From:"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="0dp"
+                        android:gravity="left"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/textLabelSize"
+                        android:textColor="@color/labelTextColor"
+                        android:textStyle="bold"
+                        android:text="To:"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/fromClickableTextView"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="@dimen/button_height"
+                        android:padding="5dp"
+                        android:hint="From"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:background="@drawable/textview_clickable_drawable"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/toClickableTextView"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="@dimen/button_height"
+                        android:padding="5dp"
+                        android:hint="To"
+                        android:background="@drawable/textview_clickable_drawable"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
+
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="@dimen/button_height"
+        android:layout_weight="1"
+        android:background="@drawable/button_drawable"
+        android:id="@+id/cancel"
+        android:text="CANCEL"
+        android:layout_margin="@dimen/margin_small"
+        android:textColor="@android:color/white"
+       />
+    <Button
+        android:layout_width="0dp"
+        android:id="@+id/add"
+        android:layout_height="@dimen/button_height"
+        android:background="@drawable/button_drawable"
+        android:layout_margin="@dimen/margin_small"
+        android:layout_weight="1"
+        android:text="ADD"
+        android:textColor="@android:color/white"
+        />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

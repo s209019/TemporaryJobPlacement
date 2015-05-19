@@ -19,6 +19,9 @@ import android.widget.TextView;
 
 import com.parse.ParseException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
@@ -97,7 +100,6 @@ public class OfferDetailFragment extends Fragment  {
 
         //getting jobOfferID
         final String jobOfferId=getArguments().getString("SELECTED_OFFER");
-        final boolean isFavourited=getArguments().getBoolean("IS_FAVOURITED");
         final JobOffer[] offer = {null};
         final Student[] myProfile = {null};
         final RelativeLayout loadingOverlay =(RelativeLayout)rootView.findViewById(R.id.loadingOverlay);
@@ -109,7 +111,8 @@ public class OfferDetailFragment extends Fragment  {
                    offer[0] = JobOffer.getQuery().include("company").get(jobOfferId);
                    myProfile[0] = AccountManager.getCurrentStudentProfile();
                    boolean applicationDone = (Application.getQuery().whereEqualTo("jobOffer", offer[0]).whereEqualTo("student",myProfile[0]).count()!=0);
-                   offer[0].setFavourited(isFavourited);
+                   List<JobOffer> favourites=myProfile[0].getFavouritesOffers();
+                   offer[0].setFavourited(favourites.contains(offer[0]));
                    offer[0].setApplicationDone(applicationDone);
                } catch (Exception e) {
                    e.printStackTrace();

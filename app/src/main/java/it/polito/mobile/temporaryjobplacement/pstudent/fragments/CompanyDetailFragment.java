@@ -90,7 +90,6 @@ public class CompanyDetailFragment extends Fragment {
 
         //getting jobOfferID
         final String companyId=getArguments().getString("SELECTED_COMPANY");
-        final boolean isFavourited=getArguments().getBoolean("IS_FAVOURITED");
         final Company[] company = {null};
         final Student[] myProfile = {null};
         final RelativeLayout loadingOverlay =(RelativeLayout)rootView.findViewById(R.id.loadingOverlay);
@@ -101,7 +100,8 @@ public class CompanyDetailFragment extends Fragment {
                 try {
                     company[0] = Company.getQuery().get(companyId);
                     myProfile[0] = AccountManager.getCurrentStudentProfile();
-                    company[0].setFavourited(isFavourited);
+                    List<Company> favourites=myProfile[0].getFavouritesCompanies();
+                    company[0].setFavourited(favourites.contains(company[0]));
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;

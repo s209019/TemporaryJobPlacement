@@ -435,6 +435,8 @@ public class ProfileBasicInfoFragment extends Fragment {
                     if(V_firstName!=null) V_firstName.setVisibility(View.VISIBLE);
                     if(firstNameTextView!=null)(
                             (SavableEditText)firstNameTextView.getParent()).setSavedText(myProfile.getFirstName());
+                    } else {
+                        DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                     }
                 }
             });
@@ -456,6 +458,8 @@ public class ProfileBasicInfoFragment extends Fragment {
                         if(V_lastName!=null) V_lastName.setVisibility(View.VISIBLE);
                         if(lastNameTextView!=null)
                             ((SavableEditText) lastNameTextView.getParent()).setSavedText(myProfile.getLastName());
+                    } else {
+                        DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                     }
                 }
             });
@@ -477,6 +481,8 @@ public class ProfileBasicInfoFragment extends Fragment {
                         if(V_skills!=null) V_skills.setVisibility(View.VISIBLE);
                         if(keywordsTextView!=null)
                             ((SavableEditText) keywordsTextView.getParent()).setSavedText(myProfile.getSkills());
+                    } else {
+                        DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                     }
                 }
             });
@@ -496,7 +502,10 @@ public class ProfileBasicInfoFragment extends Fragment {
                     if(e==null){
                         DialogManager.toastMessage("Date of birth updated", getActivity(), "center",true);
                         if(pro_dateOfBirthName!=null) pro_dateOfBirthName.setVisibility(View.GONE);
-                        if(V_dateOfBirthName!=null) V_dateOfBirthName.setVisibility(View.VISIBLE);}
+                        if(V_dateOfBirthName!=null) V_dateOfBirthName.setVisibility(View.VISIBLE);
+                } else {
+                    DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
+                }
                 }
             });
         }

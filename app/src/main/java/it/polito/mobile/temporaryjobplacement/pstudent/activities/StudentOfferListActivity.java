@@ -77,9 +77,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
     @Override
     public List<JobOffer> getFavouritesOffers() throws ParseException {
 
-                favourites =studentProfile.getFavouritesOffers();
-
-
+       favourites =studentProfile.getFavouritesOffers();
         return favourites;
     }
 

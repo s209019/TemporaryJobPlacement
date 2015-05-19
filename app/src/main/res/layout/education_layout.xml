@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+
+    android:layout_marginTop="@dimen/margin_medium">
+
+
+    <LinearLayout
+        android:id="@+id/educationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/button_drawable5"
+        >
+
+
+    <ImageButton
+        android:id="@+id/deleteButton1"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="@dimen/margin_small"
+        android:layout_gravity="right"
+        android:textColor="@android:color/black"
+        android:background="@drawable/button_drawable4"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:background="@android:color/transparent"
+        android:inputType="text"
+        android:textSize="@dimen/textSize"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:text="Degree:"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+            <TextView
+                android:id="@+id/degreeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:text="Master's degree"
+                android:textSize="@dimen/textSize"
+                android:textStyle="bold"
+
+                android:textColor="@android:color/black"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/margin_small">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:text="Course:"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+            <TextView
+                android:id="@+id/courseTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="right"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:text="Computer engineering"
+                android:textSize="@dimen/textSize"
+                android:textColor="@android:color/black"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:text="University:"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+            <TextView
+                android:id="@+id/universityTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:text="Politicnico di Torino"
+                android:textSize="@dimen/textSize"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/margin_small">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:text="Period:"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+            <TextView
+                android:id="@+id/periodTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:text="24/08/2010 - Present"
+                android:textSize="@dimen/textSize"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:text="Mark:"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+            <TextView
+                android:id="@+id/markTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:text="110/110"
+                android:textSize="@dimen/textSize"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+
+
+
+
+
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_medium" />
+
+
+</LinearLayout>
