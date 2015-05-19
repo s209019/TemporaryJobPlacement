@@ -38,15 +38,32 @@ public class AddEducationDialogFragment extends DialogFragment {
 
     private static Callbacks listener;
     public interface Callbacks {
-        public void onInfoLanguageInserted(String degree,String course,String university,String mark,Date from, Date to);
+        public void onInfoLanguageInserted(String degree, String course, String university, String mark, Date from, Date to);
     }
 
-    public static AddEducationDialogFragment newInstance(AddEducationDialogFragment.Callbacks callback) {
+    public static AddEducationDialogFragment newInstance(Callbacks callback) {
         AddEducationDialogFragment fragment = new AddEducationDialogFragment();
         Bundle args = new Bundle();
         //args.putString("title", title);
         //args.putStringArrayList("items", items);
         //args.putStringArray("alreadyCheckedIndustries", alreadyCheckedIndustries);
+        fragment.setArguments(args);
+        listener=callback;
+        return fragment;
+    }
+
+
+    public static AddEducationDialogFragment newInstance(String degree,String  course,String university, String mark,String from,String to,Callbacks callback) {
+        AddEducationDialogFragment fragment = new AddEducationDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("degree", degree);
+        args.putString("course", course);
+        args.putString("university", university);
+        args.putString("mark", mark);
+        args.putString("from", from);
+        args.putString("to", to);
+
+
         fragment.setArguments(args);
         listener=callback;
         return fragment;
@@ -61,14 +78,21 @@ public class AddEducationDialogFragment extends DialogFragment {
 
 
 
-
+    String oldDegree=null,  oldCourse=null, oldUniversity=null,   oldMark=null,  oldFrom=null,  oldTo=null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        /*String title = null;
+
         if (getArguments() != null) {
-            title = getArguments().getString("title");
-        }*/
+            oldDegree = getArguments().getString("degree");
+            oldCourse = getArguments().getString("course");
+            oldUniversity = getArguments().getString("university");
+            oldMark = getArguments().getString("mark");
+            oldFrom = getArguments().getString("from");
+            oldTo = getArguments().getString("to");
+
+        }
+
 
 
         View internalView=inflater.inflate(R.layout.education_layout_dialog, null);
@@ -77,27 +101,29 @@ public class AddEducationDialogFragment extends DialogFragment {
 
 
 
-        //LEVELS
         final Spinner spinnerDegree=(Spinner)internalView.findViewById(R.id.degreeSpinner);
         List<String> list = FileManager.readRowsFromFile(getActivity(), "educations.dat");
         final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item , list);
         dataAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown);
         spinnerDegree.setAdapter(dataAdapter);
+        if(oldDegree!=null)spinnerDegree.setSelection(dataAdapter.getPosition(oldDegree));
 
         final EditText courseEditText=((ClearableEditText)internalView.findViewById(R.id.courseName)).editText();
+        if(oldCourse!=null)courseEditText.setText(oldCourse);
         final EditText universityEditText=((ClearableEditText)internalView.findViewById(R.id.universityName)).editText();
+        if(oldUniversity!=null)universityEditText.setText(oldUniversity);
         final EditText markEditText=((ClearableEditText)internalView.findViewById(R.id.markTextView)).editText();
+        if(oldMark!=null)markEditText.setText(oldMark);
 
 
-        //manage date of birth
+
+
+
         final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         final TextView fromTextView = (TextView) internalView.findViewById(R.id.fromClickableTextView);
-        /*
-        if (myProfile.getDateOfBirth() != null) {
-            dateOfBirthTextView.setText(df.format(myProfile.getDateOfBirth()));
-        } else {
-            dateOfBirthTextView.setText("Not specified");
-        }*/
+        if (oldFrom != null) {
+            fromTextView.setText(oldFrom);
+        }
         fromTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,21 +131,25 @@ public class AddEducationDialogFragment extends DialogFragment {
                 int year = currentDate.get(Calendar.YEAR);
                 int month = currentDate.get(Calendar.MONTH);
                 int dayOfMonth = currentDate.get(Calendar.DAY_OF_MONTH);
-                /*
-                if (myProfile.getDateOfBirth() != null) {
-                    GregorianCalendar gc = new GregorianCalendar();
-                    gc.setTime(myProfile.getDateOfBirth());
+
+                if (!fromTextView.getText().toString().equals("")) {
+                    Calendar gc= Calendar.getInstance();
+                    try {
+                        gc.setTime(df.parse(fromTextView.getText().toString()));
+                    } catch (ParseException e) {  e.printStackTrace();}
                     year = gc.get(Calendar.YEAR);
                     month = gc.get(Calendar.MONTH);
                     dayOfMonth = gc.get(Calendar.DAY_OF_MONTH);
-                }*/
+                }
+
+
+
                 DatePickerDialog datePicker;
                 datePicker = new DatePickerDialog(getActivity(), DatePickerDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         GregorianCalendar fromDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                         fromTextView.setText(df.format(fromDate.getTime()));
-                        //updateDateOfBirth(myProfile,dateOfBirth.getTime());
 
 
                     }
@@ -132,12 +162,9 @@ public class AddEducationDialogFragment extends DialogFragment {
 
 
         final TextView toTextView = (TextView) internalView.findViewById(R.id.toClickableTextView);
-        /*
-        if (myProfile.getDateOfBirth() != null) {
-            dateOfBirthTextView.setText(df.format(myProfile.getDateOfBirth()));
-        } else {
-            dateOfBirthTextView.setText("Not specified");
-        }*/
+            if (oldTo != null) {
+                toTextView.setText(oldTo);
+            }
         toTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,21 +172,21 @@ public class AddEducationDialogFragment extends DialogFragment {
                 int year = currentDate.get(Calendar.YEAR);
                 int month = currentDate.get(Calendar.MONTH);
                 int dayOfMonth = currentDate.get(Calendar.DAY_OF_MONTH);
-                /*
-                if (myProfile.getDateOfBirth() != null) {
-                    GregorianCalendar gc = new GregorianCalendar();
-                    gc.setTime(myProfile.getDateOfBirth());
+                if (!toTextView.getText().toString().equals("")) {
+                    Calendar gc= Calendar.getInstance();
+                    try {
+                        gc.setTime(df.parse(toTextView.getText().toString()));
+                    } catch (ParseException e) {  e.printStackTrace();}
                     year = gc.get(Calendar.YEAR);
                     month = gc.get(Calendar.MONTH);
                     dayOfMonth = gc.get(Calendar.DAY_OF_MONTH);
-                }*/
+                }
                 DatePickerDialog datePicker;
                 datePicker = new DatePickerDialog(getActivity(), DatePickerDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         GregorianCalendar toDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
                         toTextView.setText(df.format(toDate.getTime()));
-                        //updateDateOfBirth(myProfile,dateOfBirth.getTime());
 
                     }
                 }, year, month, dayOfMonth);
@@ -249,3 +276,4 @@ public class AddEducationDialogFragment extends DialogFragment {
 
 
 }
+

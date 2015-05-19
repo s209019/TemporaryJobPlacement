@@ -146,6 +146,7 @@ public class Student extends ParseObject {
 
     public void removePhoto(SaveCallback saveCallback) {
         final ParseObject photo = (ParseObject)this.get("photoProfile");
+        if(photo==null)return;
         photo.deleteEventually();
         this.remove("photoProfile");
         this.saveInBackground(saveCallback);
@@ -155,14 +156,12 @@ public class Student extends ParseObject {
 
     public Bitmap getPhoto(Context context) throws com.parse.ParseException {
 
-        final ParseObject photo = (ParseObject)this.get("photoProfile");
-
-        ParseFile parseFile=(ParseFile)photo.get("photo");
-
-        byte[] bytearray=parseFile.getData();
-
-        Bitmap bitmap = BitmapFactory.decodeByteArray( bytearray, 0, bytearray.length);
-
+        ParseObject photo = (ParseObject)this.get("photoProfile");
+        if(photo==null)return null;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
+        byte[]  data = query.get(photo.getObjectId()).getParseFile("photo").getData();
+        if(data==null)return null;
+        Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length);
         return bitmap;
     }
 

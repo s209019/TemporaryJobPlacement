@@ -66,7 +66,6 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_medium_large"
                 android:paddingRight="@dimen/margin_medium_large"
-                android:paddingTop="@dimen/margin_medium"
                 android:text="Add education"
                 android:textSize="@dimen/textSize"
                 android:gravity="center"

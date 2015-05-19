@@ -11,9 +11,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Telephony;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,14 +40,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.BitmapManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText;
 import it.polito.mobile.temporaryjobplacement.model.Student;
-import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
 public class ProfileBasicInfoFragment extends Fragment {
 
@@ -71,11 +72,17 @@ public class ProfileBasicInfoFragment extends Fragment {
     private EditText keywordsTextView;
 
 
+    public static final int REQUEST_CAMERA=2,SELECT_FILE=3;
     private ImageView imageView;
     private ImageButton buttonDelete;
     private RelativeLayout photoBox, photoButton;
 
+
+
     private Student profile;
+
+    private AtomicInteger viewInitialized= new AtomicInteger(0);
+
 
 
 
@@ -117,20 +124,40 @@ public class ProfileBasicInfoFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_profile_basic_info, container, false);
 
-        if(callbacks.getProfile()==null) {
-            FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragTransaction.remove(this);
-            fragTransaction.commit();
-
-        } else {
-            profile = callbacks.getProfile();
-
-            ArrayList<String> languages = profile.getLanguageSkills();
-            Bitmap bitImage = callbacks.getPhotoStudentBitmap();
+        //DialogManager.toastMessage("fragmetRecreated",getActivity());
 
 
-            initializeView(rootView, profile, languages, bitImage);
-        }
+
+
+
+
+        //PROGRESSIVE WAIT IF NECESSARY
+        new AsyncTask<Object, Object, Object>() {
+            @Override
+            protected Object doInBackground(Object... params) {
+                //max 30s timeout(maggiore di quello di parse)
+                for(int i=1;i<11;i++ ){
+                    profile=callbacks.getProfile();
+                    if(profile!=null) return new Object();
+                    try { Thread.sleep (500*i); } catch (InterruptedException e) { }
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(o==null)return;
+                ArrayList<String> languages = profile.getLanguageSkills();
+                Bitmap bitImage=callbacks.getPhotoStudentBitmap();
+                initializeView(rootView, profile, languages, bitImage);
+
+                viewInitialized.set(1);
+
+            }}.execute();
+
+
+
+
 
         return rootView;
     }
@@ -203,7 +230,7 @@ public class ProfileBasicInfoFragment extends Fragment {
         });
 
         //manage last name editText
-       lastNameTextView = ((SavableEditText) rootView.findViewById(R.id.lastNameTextView)).editText();
+        lastNameTextView = ((SavableEditText) rootView.findViewById(R.id.lastNameTextView)).editText();
         if (myProfile.getLastName() != null) {
             ((SavableEditText) lastNameTextView.getParent()).setSavedText(myProfile.getLastName());
             lastNameTextView.setText(myProfile.getLastName());
@@ -250,7 +277,7 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
         //manage last name editText
-       keywordsTextView = ((SavableEditText) rootView.findViewById(R.id.keywordsTextView)).editText();
+        keywordsTextView = ((SavableEditText) rootView.findViewById(R.id.keywordsTextView)).editText();
         if (myProfile.getSkills() != null) {
             ((SavableEditText) keywordsTextView.getParent()).setSavedText(myProfile.getSkills());
             keywordsTextView.setText(myProfile.getSkills());
@@ -367,17 +394,17 @@ public class ProfileBasicInfoFragment extends Fragment {
             if(i==languageLayouts.length)addLanguageSkillsButton.setVisibility(View.INVISIBLE);
         }
         final InsertLanguageDialogFragment.Callbacks callbacks=new InsertLanguageDialogFragment.Callbacks() {
-              @Override
-               public void onLanguageInserted(String language) {
-                    if(languages.size()<languageLayouts.length){
-                        languages.add(language);
-                        languageLayouts[languages.size()-1].setVisibility(View.VISIBLE);
-                        ((TextView)languageLayouts[languages.size() - 1].getChildAt(0)).setText(language);
-                        if(languages.size()==languageLayouts.length)addLanguageSkillsButton.setVisibility(View.INVISIBLE);
-                        addLanguageSkills(myProfile,language);
-                        }
-                    }
-                };
+            @Override
+            public void onLanguageInserted(String language) {
+                if(languages.size()<languageLayouts.length){
+                    languages.add(language);
+                    languageLayouts[languages.size()-1].setVisibility(View.VISIBLE);
+                    ((TextView)languageLayouts[languages.size() - 1].getChildAt(0)).setText(language);
+                    if(languages.size()==languageLayouts.length)addLanguageSkillsButton.setVisibility(View.INVISIBLE);
+                    addLanguageSkills(myProfile,language);
+                }
+            }
+        };
         addLanguageSkillsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -432,11 +459,11 @@ public class ProfileBasicInfoFragment extends Fragment {
                 @Override
                 public void done(ParseException e) {
                     if(e==null){
-                    DialogManager.toastMessage("First name updated", getActivity(), "center", true);
-                    if(pro_firstName!=null) pro_firstName.setVisibility(View.GONE);
-                    if(V_firstName!=null) V_firstName.setVisibility(View.VISIBLE);
-                    if(firstNameTextView!=null)(
-                            (SavableEditText)firstNameTextView.getParent()).setSavedText(myProfile.getFirstName());
+                        DialogManager.toastMessage("First name updated", getActivity(), "center", true);
+                        if(pro_firstName!=null) pro_firstName.setVisibility(View.GONE);
+                        if(V_firstName!=null) V_firstName.setVisibility(View.VISIBLE);
+                        if(firstNameTextView!=null)(
+                                (SavableEditText)firstNameTextView.getParent()).setSavedText(myProfile.getFirstName());
                     } else {
                         DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                     }
@@ -505,9 +532,9 @@ public class ProfileBasicInfoFragment extends Fragment {
                         DialogManager.toastMessage("Date of birth updated", getActivity(), "center",true);
                         if(pro_dateOfBirthName!=null) pro_dateOfBirthName.setVisibility(View.GONE);
                         if(V_dateOfBirthName!=null) V_dateOfBirthName.setVisibility(View.VISIBLE);
-                } else {
-                    DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
-                }
+                    } else {
+                        DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
+                    }
                 }
             });
         }
@@ -570,6 +597,22 @@ public class ProfileBasicInfoFragment extends Fragment {
 
     }
 
+    private void updatePhoto(Student myProfile,Bitmap bitImage) {
+        V_yourPhoto.setVisibility(View.GONE);
+        pro_yourPhoto.setVisibility(View.VISIBLE);
+        myProfile.updatePhoto(bitImage, new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    DialogManager.toastMessage("Photo added", getActivity(), "center", true);
+                    if (pro_yourPhoto != null) pro_yourPhoto.setVisibility(View.GONE);
+                    if (V_yourPhoto != null) V_yourPhoto.setVisibility(View.VISIBLE);
+                } else {
+                    DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
+                }
+            }
+        });
+    }
     public void deletePhoto(Student myProfile){
         photoButton.setVisibility(View.VISIBLE);
         photoBox.setVisibility(View.GONE);
@@ -579,7 +622,7 @@ public class ProfileBasicInfoFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    DialogManager.toastMessage("Photo removed", getActivity(), "center", true);
+                    DialogManager.toastMessage("Photo deleted", getActivity(), "center", true);
                     if (pro_yourPhoto != null) pro_yourPhoto.setVisibility(View.GONE);
                     if (V_yourPhoto != null) V_yourPhoto.setVisibility(View.VISIBLE);
                 } else {
@@ -608,17 +651,89 @@ public class ProfileBasicInfoFragment extends Fragment {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     File f = new File(android.os.Environment.getExternalStorageDirectory(), "myjob_photos/temp.jpg");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    getActivity().startActivityForResult(intent, StudentProfileActivity.REQUEST_CAMERA);
+                    startActivityForResult(intent, REQUEST_CAMERA);
 
                 } else if (items[item].equals("Choose from gallery")) {
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
-                    getActivity().startActivityForResult(Intent.createChooser(intent, "Select app"), StudentProfileActivity.SELECT_FILE);
+                    startActivityForResult(Intent.createChooser(intent, "Select app"), SELECT_FILE);
                 }
+                //callbacks.detachAllFragments();
+
             }
         });
         builder.show();
     }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("recreated", true);
+    }
+
+    //handle data returning from camera or gallery
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == getActivity().RESULT_OK) {
+
+            //PROGRESSIVE WAIT IF NECESSARY
+            new AsyncTask<Object, Object, Object>() {
+                @Override
+                protected Object doInBackground(Object... params) {
+                    //max 30s timeout(maggiore di quello di parse)
+                    for(int i=1;i<11;i++ ){
+                        if(viewInitialized.compareAndSet(1,1))return new Object();
+                        try { Thread.sleep (500*i); } catch (InterruptedException e) { }
+                    }
+                    return null;
+                }
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    if(o==null)return;
+                    performOnActivityResult(requestCode, resultCode, data);
+
+                }}.execute();
+
+        }
+
+    }
+
+
+    void performOnActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap bitImage=null;
+        if (requestCode == REQUEST_CAMERA) {
+
+            bitImage = BitmapManager.getBitmap(getActivity(), "temp.jpg", "myjob_photos/", true);
+            if (bitImage == null) {
+                DialogManager.toastMessage("Error occurred", getActivity());
+                return;
+            }
+            photoButton.setVisibility(View.GONE);
+            photoBox.setVisibility(View.VISIBLE);
+            imageView.setImageBitmap(bitImage);
+
+        } else if (requestCode == SELECT_FILE) {
+            Uri selectedImageUri = data.getData();
+            String path = BitmapManager.getPath(selectedImageUri, getActivity());
+            bitImage = BitmapManager.getBitmap(getActivity(), path, true);
+            photoButton.setVisibility(View.GONE);
+            photoBox.setVisibility(View.VISIBLE);
+            imageView.setImageBitmap(bitImage);
+
+        }
+           /* try {
+                BitmapManager.memorizzaImmagine(bitImage, "temp1.jpg", "myjob_photos/", 20);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }*/
+        updatePhoto(profile,bitImage);
+
+    }
+
+
 
 
 

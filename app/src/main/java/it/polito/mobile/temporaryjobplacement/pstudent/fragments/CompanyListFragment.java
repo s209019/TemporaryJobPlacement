@@ -127,6 +127,8 @@ public class CompanyListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         final Boolean isFavouriteList=mCallbacks.isFavouriteList();
         final ParseQueryAdapter.QueryFactory<Company>[] query= new ParseQueryAdapter.QueryFactory[]{null};
 
@@ -328,7 +330,22 @@ public class CompanyListFragment extends ListFragment {
     }
 
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
+        mCallbacks = (Callbacks) activity;
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        // Reset the active callbacks interface to the dummy implementation.
+        mCallbacks = null;
+    }
 
 
 

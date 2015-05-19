@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -20,13 +21,22 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
 
 public class SearchByOfferFragment extends Fragment {
@@ -253,14 +263,15 @@ public class SearchByOfferFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (editTextCompanyName.getText().toString().trim().equals("") &&
                         editTextLocation.getText().toString().trim().equals("") &&
                         industriesClickableTextView.getText().toString().trim().equals("") &&
                         educationClickableTextView.getText().toString().trim().equals("") &&
                         carerLevelClickableTextView.getText().toString().trim().equals("") &&
                         positionClickableTextView.getText().toString().trim().equals("") &&
-                        editTextKeywords.getText().toString().trim().equals("")&&
-                        postingDateSpinner.getSelectedItemPosition()==0
+                        editTextKeywords.getText().toString().trim().equals("") &&
+                        postingDateSpinner.getSelectedItemPosition() == 0
                         ) {
                     DialogManager.toastMessage(getActivity().getResources().getString(R.string.all_empty_field_message), getActivity());
                     return;
@@ -283,10 +294,6 @@ public class SearchByOfferFragment extends Fragment {
 
         return rootView;
     }
-
-
-
-
 
 
     @Override

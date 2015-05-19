@@ -9,7 +9,7 @@
 
 
     <LinearLayout
-        android:id="@+id/educationLayout"
+        android:id="@+id/clickablePanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -18,7 +18,7 @@
 
 
     <ImageButton
-        android:id="@+id/deleteButton1"
+        android:id="@+id/deleteButton"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_margin="@dimen/margin_small"
@@ -126,6 +126,36 @@
                 android:textColor="@android:color/black"
                 />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:text="Mark:"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+            <TextView
+                android:id="@+id/markTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:text="110/110"
+                android:textSize="@dimen/textSize"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,35 +184,6 @@
                 android:textColor="@android:color/black"
                 />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:text="Mark:"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/textSize"
-                />
-            <TextView
-                android:id="@+id/markTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:gravity="right"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:text="110/110"
-                android:textSize="@dimen/textSize"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                />
-        </LinearLayout>
-
 
 
 
