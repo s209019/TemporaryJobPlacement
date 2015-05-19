@@ -78,16 +78,16 @@ public class BitmapManager {
 		String nomeImage= urlTOname(string_url_image);
 		String photoPath=Environment.getExternalStorageDirectory().getPath() + "/"+nomeDir+"/"+nomeImage;
 		
-		//Il file è presente nella cartella
+		//Il file e presente nella cartella
 		if(isFileExisting(nomeDir, nomeImage)){
-		/////Toast.makeText(activity, "C'è", Toast.LENGTH_LONG).show();
+		/////Toast.makeText(activity, "C'ï¿½", Toast.LENGTH_LONG).show();
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			if(ridotta)options.inSampleSize=2;
 			options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 			Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
 			return bitmap;
 		} 
-	/////Toast.makeText(activity, "nonC'è", Toast.LENGTH_LONG).show();
+	/////Toast.makeText(activity, "nonC'ï¿½", Toast.LENGTH_LONG).show();
 	return null;	
 	}
 	
@@ -97,16 +97,16 @@ public class BitmapManager {
 	public static Bitmap getBitmap(Activity activity,final String path,boolean ridotta) {
 		
 		
-		//Il file è presente nella cartella
+		//Il file ï¿½ presente nella cartella
 		if(isFileExisting(path)){
-		/////Toast.makeText(activity, "C'è", Toast.LENGTH_LONG).show();
+		/////Toast.makeText(activity, "C'ï¿½", Toast.LENGTH_LONG).show();
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			if(ridotta)options.inSampleSize=2;
 			options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 			Bitmap bitmap = BitmapFactory.decodeFile(path, options);
 			return bitmap;
 		} 
-	/////Toast.makeText(activity, "nonC'è", Toast.LENGTH_LONG).show();
+	/////Toast.makeText(activity, "nonC'ï¿½", Toast.LENGTH_LONG).show();
 	return null;	
 	}
 

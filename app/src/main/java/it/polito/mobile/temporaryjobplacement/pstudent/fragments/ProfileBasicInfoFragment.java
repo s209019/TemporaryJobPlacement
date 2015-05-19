@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
 public class ProfileBasicInfoFragment extends Fragment {
 
@@ -69,12 +71,9 @@ public class ProfileBasicInfoFragment extends Fragment {
     private EditText keywordsTextView;
 
 
-    public static final int REQUEST_CAMERA=2,SELECT_FILE=3;
     private ImageView imageView;
     private ImageButton buttonDelete;
     private RelativeLayout photoBox, photoButton;
-
-
 
     private Student profile;
 
@@ -118,17 +117,20 @@ public class ProfileBasicInfoFragment extends Fragment {
 
         final View rootView = inflater.inflate(R.layout.fragment_profile_basic_info, container, false);
 
-        //DialogManager.toastMessage("fragmetRecreated",getActivity());
+        if(callbacks.getProfile()==null) {
+            FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragTransaction.remove(this);
+            fragTransaction.commit();
+
+        } else {
+            profile = callbacks.getProfile();
+
+            ArrayList<String> languages = profile.getLanguageSkills();
+            Bitmap bitImage = callbacks.getPhotoStudentBitmap();
 
 
-
-        profile=callbacks.getProfile();
-        ArrayList<String> languages = profile.getLanguageSkills();
-        Bitmap bitImage=callbacks.getPhotoStudentBitmap();
-
-
-        initializeView(rootView, profile, languages, bitImage);
-
+            initializeView(rootView, profile, languages, bitImage);
+        }
 
         return rootView;
     }
@@ -568,22 +570,6 @@ public class ProfileBasicInfoFragment extends Fragment {
 
     }
 
-    private void updatePhoto(Student myProfile,Bitmap bitImage) {
-        V_yourPhoto.setVisibility(View.GONE);
-        pro_yourPhoto.setVisibility(View.VISIBLE);
-        myProfile.updatePhoto(bitImage, new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    DialogManager.toastMessage("Photo added", getActivity(), "center", true);
-                    if (pro_yourPhoto != null) pro_yourPhoto.setVisibility(View.GONE);
-                    if (V_yourPhoto != null) V_yourPhoto.setVisibility(View.VISIBLE);
-                } else {
-                    DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
-                }
-            }
-        });
-    }
     public void deletePhoto(Student myProfile){
         photoButton.setVisibility(View.VISIBLE);
         photoBox.setVisibility(View.GONE);
@@ -593,7 +579,7 @@ public class ProfileBasicInfoFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    DialogManager.toastMessage("Photo added", getActivity(), "center", true);
+                    DialogManager.toastMessage("Photo removed", getActivity(), "center", true);
                     if (pro_yourPhoto != null) pro_yourPhoto.setVisibility(View.GONE);
                     if (V_yourPhoto != null) V_yourPhoto.setVisibility(View.VISIBLE);
                 } else {
@@ -622,65 +608,17 @@ public class ProfileBasicInfoFragment extends Fragment {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     File f = new File(android.os.Environment.getExternalStorageDirectory(), "myjob_photos/temp.jpg");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                     startActivityForResult(intent, REQUEST_CAMERA);
+                    getActivity().startActivityForResult(intent, StudentProfileActivity.REQUEST_CAMERA);
 
                 } else if (items[item].equals("Choose from gallery")) {
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
-                    startActivityForResult(Intent.createChooser(intent, "Select app"), SELECT_FILE);
+                    getActivity().startActivityForResult(Intent.createChooser(intent, "Select app"), StudentProfileActivity.SELECT_FILE);
                 }
-                //callbacks.detachAllFragments();
-
             }
         });
         builder.show();
     }
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("recreated", true);
-    }
-
-    //handle data returning from camera or gallery
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == getActivity().RESULT_OK) {
-            Bitmap bitImage=null;
-            if (requestCode == REQUEST_CAMERA) {
-
-                bitImage = BitmapManager.getBitmap(getActivity(), "temp.jpg", "myjob_photos/", true);
-                if (bitImage == null) {
-                    DialogManager.toastMessage("Error occurred", getActivity());
-                    return;
-                }
-                photoButton.setVisibility(View.GONE);
-                photoBox.setVisibility(View.VISIBLE);
-                imageView.setImageBitmap(bitImage);
-
-            } else if (requestCode == SELECT_FILE) {
-                Uri selectedImageUri = data.getData();
-                String path = BitmapManager.getPath(selectedImageUri, getActivity());
-                bitImage = BitmapManager.getBitmap(getActivity(), path, true);
-                photoButton.setVisibility(View.GONE);
-                photoBox.setVisibility(View.VISIBLE);
-                imageView.setImageBitmap(bitImage);
-
-            }
-           /* try {
-                BitmapManager.memorizzaImmagine(bitImage, "temp1.jpg", "myjob_photos/", 20);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-            updatePhoto(profile,bitImage);
-
-        }
-
-    }
-
-
 
 
 

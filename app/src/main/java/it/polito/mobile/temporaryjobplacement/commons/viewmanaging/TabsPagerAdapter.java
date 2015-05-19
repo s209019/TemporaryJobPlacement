@@ -48,7 +48,12 @@ public class TabsPagerAdapter extends FragmentStatePagerAdapter {
         return NumbOfTabs;
     }
 
+    public int getItemPosition(Object object) {
 
+        // Causes adapter to reload all Fragments when
+        // notifyDataSetChanged is called
+        return POSITION_NONE;
+    }
 
 
 }

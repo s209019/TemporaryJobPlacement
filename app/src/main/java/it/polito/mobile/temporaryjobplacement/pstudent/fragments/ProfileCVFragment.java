@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,10 +35,7 @@ import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfile
 
 public class ProfileCVFragment extends Fragment {
 
-    public static final int REQUEST_CHOOSER_ID = 1234;
     int numberOfResumes;
-
-
 
     private ProfileCVFragment.Callbacks callbacks = null;
     public interface Callbacks {
@@ -71,6 +69,13 @@ public class ProfileCVFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_profile_cv, container, false);
 
+        if(callbacks.getProfile()==null) {
+            FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragTransaction.remove(this);
+            fragTransaction.commit();
+
+        } else {
+
         Student studentProfile = callbacks.getProfile();
 
 
@@ -81,42 +86,43 @@ public class ProfileCVFragment extends Fragment {
                 Intent getContentIntent = FileUtils.createGetContentIntent();
 
                 Intent intent = Intent.createChooser(getContentIntent, "Select a file");
-                startActivityForResult(intent, REQUEST_CHOOSER_ID);
+                getActivity().startActivityForResult(intent, StudentProfileActivity.REQUEST_CHOOSER_ID);
                 //callbacks.detachAllFragments();
 
             }
         });
-        numberOfResumes=0;
+        ((StudentProfileActivity) getActivity()).setNumberOfResumes(0);
 
         try {
 
 
-            if(studentProfile.has("cv1") && ((ParseObject)studentProfile.get("cv1")).get("name")!=null) {
+            if (studentProfile.has("cv1") && ((ParseObject) studentProfile.get("cv1")).get("name") != null) {
                 showResume("cv1", rootView);
-                numberOfResumes++;
+                ((StudentProfileActivity) getActivity()).setNumberOfResumes(1);
             }
-            if(studentProfile.has("cv2") && ((ParseObject)studentProfile.get("cv2")).get("name")!=null) {
+            if (studentProfile.has("cv2") && ((ParseObject) studentProfile.get("cv2")).get("name") != null) {
+                Log.d("PROVA", "Entrato cv2");
                 showResume("cv2", rootView);
-                numberOfResumes++;
+                ((StudentProfileActivity) getActivity()).setNumberOfResumes(2);
             }
-            if(studentProfile.has("cv3") && ((ParseObject)studentProfile.get("cv3")).get("name")!=null) {
+            if (studentProfile.has("cv3") && ((ParseObject) studentProfile.get("cv3")).get("name") != null) {
                 showResume("cv3", rootView);
-                numberOfResumes++;
+                ((StudentProfileActivity) getActivity()).setNumberOfResumes(3);
             }
-            if(studentProfile.has("cv4") && ((ParseObject)studentProfile.get("cv4")).get("name")!=null) {
+            if (studentProfile.has("cv4") && ((ParseObject) studentProfile.get("cv4")).get("name") != null) {
                 showResume("cv4", rootView);
-                numberOfResumes++;
+                ((StudentProfileActivity) getActivity()).setNumberOfResumes(4);
             }
-            if(studentProfile.has("cv5") && ((ParseObject)studentProfile.get("cv5")).get("name")!=null) {
+            if (studentProfile.has("cv5") && ((ParseObject) studentProfile.get("cv5")).get("name") != null) {
                 showResume("cv5", rootView);
-                numberOfResumes++;
+                ((StudentProfileActivity) getActivity()).setNumberOfResumes(5);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-
+    }
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -124,60 +130,7 @@ public class ProfileCVFragment extends Fragment {
 
 
 
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        switch (requestCode) {
-            case REQUEST_CHOOSER_ID:
-                if (resultCode == Activity.RESULT_OK) {
-
-                    final Uri uri = data.getData();
-
-                    // Get the File path from the Uri
-                    String path = FileUtils.getPath(getActivity(), uri);
-
-                    // Alternatively, use FileUtils.getFile(Context, Uri)
-                    if (path != null && FileUtils.isLocal(path)) {
-                        File file = new File(path);
-
-                        if (file.toString().contains(".doc") ||
-                                file.toString().contains(".docx") ||
-                                file.toString().contains(".pdf") ||
-                                file.toString().contains(".rtf") ||
-                                file.toString().contains(".txt")) {
-
-                            try {
-                                final String resumeStringId="cv"+(numberOfResumes+1);
-                                ParseObject curriculum = new ParseObject("Curriculum");
-                                curriculum.put("name", "CV ITA"+numberOfResumes);
-                                curriculum.put("curriculum", new ParseFile(org.apache.commons.io.FileUtils.readFileToByteArray(file)));
-
-                                ((StudentProfileActivity) getActivity()).getProfile().put(resumeStringId, curriculum);
-                                getView().findViewById(R.id.addResumeButton).setVisibility(View.GONE);
-                                getView().findViewById(R.id.progress_Resume).setVisibility(View.VISIBLE);
-                                ((StudentProfileActivity)getActivity()).getProfile().saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        numberOfResumes++;
-                                        showResume(resumeStringId, getView());
-                                    }
-                                });
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            new AlertDialog.Builder(getActivity()).setTitle("ERROR").setMessage("File not allowed!\nFile extensions allowed: doc, docx, pdf, rtf, txt").setNegativeButton("Chiudi", null).create().show();
-                        }
-
-
-                    }
-                }
-                break;
-        }
-
-    }
-
-    private void showResume(final String resumeStringId, View rootView) {
+    public void showResume(final String resumeStringId, View rootView) {
 
         try {
             final ParseObject resume = (ParseObject)((StudentProfileActivity) getActivity()).getProfile().get(resumeStringId);

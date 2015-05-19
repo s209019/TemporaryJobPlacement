@@ -138,27 +138,26 @@ public class Student extends ParseObject {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitImage.compress(Bitmap.CompressFormat.PNG, 60, stream);
         byte[] byteArray = stream.toByteArray();
-        photo.put("file", new ParseFile(byteArray));
+        photo.put("photo", new ParseFile(byteArray));
         this.put("photoProfile", photo);
-        this.saveInBackground( saveCallback);
+        this.saveInBackground(saveCallback);
 
     }
 
     public void removePhoto(SaveCallback saveCallback) {
+        final ParseObject photo = (ParseObject)this.get("photoProfile");
+        photo.deleteEventually();
+        this.remove("photoProfile");
+        this.saveInBackground(saveCallback);
+
     }
 
-    /*
 
-    ZCGLISDUBVLDFJHZVBLDFZHBVLHFJDBVLJDFBLJVHFZDBLVJHZBDFLJHVFDZLVBDZLF
-
-     */
-    //RITORNA OBJECT PER DEBUG
-    public Object getPhoto(Context context) throws com.parse.ParseException {
+    public Bitmap getPhoto(Context context) throws com.parse.ParseException {
 
         final ParseObject photo = (ParseObject)this.get("photoProfile");
 
-        ParseFile parseFile=(ParseFile)photo.get("file");//QUESTA LANCIA L'ECCEZIONE: CAMPO NON PRESENTE!!!!!!
-
+        ParseFile parseFile=(ParseFile)photo.get("photo");
 
         byte[] bytearray=parseFile.getData();
 
