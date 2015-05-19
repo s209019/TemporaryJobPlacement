@@ -7,11 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Telephony;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -27,14 +27,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,12 +41,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.imagezoomcrop.GOTOConstants;
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.BitmapManager;
-import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.imagezoomcrop.ImageCropActivity;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 
 public class ProfileBasicInfoFragment extends Fragment {
@@ -57,7 +56,6 @@ public class ProfileBasicInfoFragment extends Fragment {
     ImageView V_dateOfBirthName;
     ImageView V_languageSkills;
     ImageView V_skills ;
-    ImageView V_yourPhoto ;
     ProgressBar pro_firstName ;
     ProgressBar pro_lastName ;
     ProgressBar pro_dateOfBirthName ;
@@ -71,19 +69,19 @@ public class ProfileBasicInfoFragment extends Fragment {
     private EditText lastNameTextView;
     private EditText keywordsTextView;
 
-
-    public static final int REQUEST_CAMERA=2,SELECT_FILE=3;
-    private ImageView imageView;
-    private ImageButton buttonDelete;
-    private RelativeLayout photoBox, photoButton;
-
+    ImageView profilePictureImage;
+    TextView profilePictureTextView;
+    TextView deleteProfilePictureTextView;
 
 
     private Student profile;
 
     private AtomicInteger viewInitialized= new AtomicInteger(0);
 
+    private String[] picMode = {GOTOConstants.PicModes.CAMERA,GOTOConstants.PicModes.GALLERY};
 
+    public static final String TEMP_PHOTO_FILE_NAME = "temp_photo.jpg";
+    public static final int REQUEST_CODE_UPDATE_PIC = 0x1;
 
 
 
@@ -172,7 +170,6 @@ public class ProfileBasicInfoFragment extends Fragment {
         V_dateOfBirthName=(ImageView)rootView.findViewById(R.id.V_DateOfBirth);
         V_languageSkills=(ImageView)rootView.findViewById(R.id.V_Language);
         V_skills=(ImageView)rootView.findViewById(R.id.V_skills);
-        V_yourPhoto=(ImageView)rootView.findViewById(R.id.V_yourPhoto);
         pro_firstName=(ProgressBar)rootView.findViewById(R.id.progress_firstName);
         pro_lastName=(ProgressBar)rootView.findViewById(R.id.progress_LastName);
         pro_dateOfBirthName=(ProgressBar)rootView.findViewById(R.id.progress_DateOfBirth);
@@ -384,6 +381,7 @@ public class ProfileBasicInfoFragment extends Fragment {
                 }
             });
         }
+
         //populate languages textViews
         int i=0;
         for(String language: languages){
@@ -415,28 +413,24 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
         //manage your photo input
-        imageView=(ImageView)rootView.findViewById(R.id.photo);
-        photoButton=(RelativeLayout)rootView.findViewById(R.id.buttonPhoto);
-        photoBox=(RelativeLayout)rootView.findViewById(R.id.fotoBOx);
-        buttonDelete=(ImageButton)rootView.findViewById(R.id.buttonDelete);
+        profilePictureImage = (ImageView)rootView.findViewById(R.id.profilePicture);
+        profilePictureTextView = (TextView)rootView.findViewById(R.id.profilePictureTextview);
+        deleteProfilePictureTextView = (TextView)rootView.findViewById(R.id.deleteProfilePictureTextView);
+
         if(bitImage!=null){
-            photoButton.setVisibility(View.GONE);
-            photoBox.setVisibility(View.VISIBLE);
-            imageView.setImageBitmap(bitImage);
+
+            profilePictureTextView.setVisibility(View.GONE);
+            deleteProfilePictureTextView.setVisibility(View.VISIBLE);
+            profilePictureImage.setImageBitmap(bitImage);
         }
-        photoButton.setOnClickListener(new View.OnClickListener() {
+
+        profilePictureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectPhoto();
             }
         });
-        photoBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectPhoto();
-            }
-        });
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
+        deleteProfilePictureTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deletePhoto(myProfile);
@@ -598,15 +592,21 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updatePhoto(Student myProfile,Bitmap bitImage) {
-        V_yourPhoto.setVisibility(View.GONE);
+        deleteProfilePictureTextView.setVisibility(View.GONE);
+        profilePictureTextView.setText("Uploading the photo...");
+        profilePictureTextView.setVisibility(View.VISIBLE);
         pro_yourPhoto.setVisibility(View.VISIBLE);
         myProfile.updatePhoto(bitImage, new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     DialogManager.toastMessage("Photo added", getActivity(), "center", true);
-                    if (pro_yourPhoto != null) pro_yourPhoto.setVisibility(View.GONE);
-                    if (V_yourPhoto != null) V_yourPhoto.setVisibility(View.VISIBLE);
+                    if (pro_yourPhoto != null){
+                        pro_yourPhoto.setVisibility(View.GONE);
+                        profilePictureTextView.setText("Tap on the photo to choose a profile picture.");
+                        profilePictureTextView.setVisibility(View.GONE);
+                        deleteProfilePictureTextView.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                 }
@@ -614,17 +614,20 @@ public class ProfileBasicInfoFragment extends Fragment {
         });
     }
     public void deletePhoto(Student myProfile){
-        photoButton.setVisibility(View.VISIBLE);
-        photoBox.setVisibility(View.GONE);
-        V_yourPhoto.setVisibility(View.GONE);
+        profilePictureImage.setImageResource(R.drawable.no_profile_picture);
+        deleteProfilePictureTextView.setVisibility(View.GONE);
+        profilePictureTextView.setText("Deleting the photo...");
+        profilePictureTextView.setVisibility(View.VISIBLE);
         pro_yourPhoto.setVisibility(View.VISIBLE);
         myProfile.removePhoto(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     DialogManager.toastMessage("Photo deleted", getActivity(), "center", true);
-                    if (pro_yourPhoto != null) pro_yourPhoto.setVisibility(View.GONE);
-                    if (V_yourPhoto != null) V_yourPhoto.setVisibility(View.VISIBLE);
+                    if (pro_yourPhoto != null){
+                        pro_yourPhoto.setVisibility(View.GONE);
+                        profilePictureTextView.setText("Tap on the photo to choose a profile picture.");
+                    }
                 } else {
                     DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                 }
@@ -639,30 +642,19 @@ public class ProfileBasicInfoFragment extends Fragment {
 
     /********select photo from gallery or camera***********************/
     public void selectPhoto() {
-        //Creo cartella se non esiste
-        BitmapManager.creaCartella(getActivity(), "myjob_photos");
-        final CharSequence[] items = { "Take a picture", "Choose from gallery"};
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Insert your photo");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Take a picture")) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "myjob_photos/temp.jpg");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    startActivityForResult(intent, REQUEST_CAMERA);
+        builder.setTitle("Select Mode")
+                .setItems(picMode, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String action = picMode[which].equalsIgnoreCase(GOTOConstants.PicModes.CAMERA) ? GOTOConstants.IntentExtras.ACTION_CAMERA : GOTOConstants.IntentExtras.ACTION_GALLERY;
+                        Intent intent = new Intent(getActivity(),ImageCropActivity.class);
+                        intent.putExtra("ACTION",action);
+                        startActivityForResult(intent, REQUEST_CODE_UPDATE_PIC);
+                    }
+                });
+        builder.create().show();
 
-                } else if (items[item].equals("Choose from gallery")) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/*");
-                    startActivityForResult(Intent.createChooser(intent, "Select app"), SELECT_FILE);
-                }
-                //callbacks.detachAllFragments();
-
-            }
-        });
-        builder.show();
     }
 
 
@@ -703,33 +695,16 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
     void performOnActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap bitImage=null;
-        if (requestCode == REQUEST_CAMERA) {
 
-            bitImage = BitmapManager.getBitmap(getActivity(), "temp.jpg", "myjob_photos/", true);
-            if (bitImage == null) {
-                DialogManager.toastMessage("Error occurred", getActivity());
-                return;
+        if(requestCode == REQUEST_CODE_UPDATE_PIC) {
+            String imagePath = data.getStringExtra(GOTOConstants.IntentExtras.IMAGE_PATH);
+            if (imagePath != null) {
+                Bitmap myBitmap = BitmapFactory.decodeFile(imagePath);
+                profilePictureImage.setImageBitmap(myBitmap);
+                updatePhoto(profile, myBitmap);
             }
-            photoButton.setVisibility(View.GONE);
-            photoBox.setVisibility(View.VISIBLE);
-            imageView.setImageBitmap(bitImage);
-
-        } else if (requestCode == SELECT_FILE) {
-            Uri selectedImageUri = data.getData();
-            String path = BitmapManager.getPath(selectedImageUri, getActivity());
-            bitImage = BitmapManager.getBitmap(getActivity(), path, true);
-            photoButton.setVisibility(View.GONE);
-            photoBox.setVisibility(View.VISIBLE);
-            imageView.setImageBitmap(bitImage);
 
         }
-           /* try {
-                BitmapManager.memorizzaImmagine(bitImage, "temp1.jpg", "myjob_photos/", 20);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-        updatePhoto(profile,bitImage);
 
     }
 

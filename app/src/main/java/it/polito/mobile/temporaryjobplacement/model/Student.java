@@ -139,6 +139,10 @@ public class Student extends ParseObject {
         bitImage.compress(Bitmap.CompressFormat.PNG, 60, stream);
         byte[] byteArray = stream.toByteArray();
         photo.put("photo", new ParseFile(byteArray));
+
+        if(this.has("photoProfile"))
+            this.getParseObject("photoProfile").deleteEventually();
+
         this.put("photoProfile", photo);
         this.saveInBackground(saveCallback);
 

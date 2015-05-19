@@ -2,19 +2,17 @@ package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
@@ -25,20 +23,20 @@ import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Student;
-import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
 public class ProfileCVFragment extends Fragment {
 
     public static final int REQUEST_CHOOSER_ID = 1234;
-    int numberOfResumes;
+    boolean resumes[] = new boolean[5]; //true in posizione 0 se cv1 esiste, false se cv1 non esiste
     Student studentProfile;
+    final ArrayList<LinearLayout> resumeLayouts = new ArrayList<>();
+
 
     private AtomicInteger viewInitialized= new AtomicInteger(0);
 
@@ -115,34 +113,73 @@ public class ProfileCVFragment extends Fragment {
 
                 Intent intent = Intent.createChooser(getContentIntent, "Select a file");
                 startActivityForResult(intent, REQUEST_CHOOSER_ID);
-                //callbacks.detachAllFragments();
 
             }
         });
-        numberOfResumes = 0;
+
+        //manage language skills input
+
+        resumeLayouts.add((LinearLayout) rootView.findViewById(R.id.resumeLayout1));
+        resumeLayouts.add((LinearLayout) rootView.findViewById(R.id.resumeLayout2));
+        resumeLayouts.add((LinearLayout) rootView.findViewById(R.id.resumeLayout3));
+        resumeLayouts.add((LinearLayout) rootView.findViewById(R.id.resumeLayout4));
+        resumeLayouts.add((LinearLayout) rootView.findViewById(R.id.resumeLayout5));
+
+        //handle delete button of each language
+        for(int position=0;position<resumeLayouts.size();position++){
+            final int finalPosition = position;
+            ((ImageButton)resumeLayouts.get(position).getChildAt(1)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeResume(finalPosition);
+                }
+            });
+        }
+
+
+/*        final InsertLanguageDialogFragment.Callbacks callbacks=new InsertLanguageDialogFragment.Callbacks() {
+            @Override
+            public void onLanguageInserted(String language) {
+                if(languages.size()<languageLayouts.length){
+                    languages.add(language);
+                    languageLayouts[languages.size()-1].setVisibility(View.VISIBLE);
+                    ((TextView)languageLayouts[languages.size() - 1].getChildAt(0)).setText(language);
+                    if(languages.size()==languageLayouts.length)addLanguageSkillsButton.setVisibility(View.INVISIBLE);
+                    addLanguageSkills(myProfile,language);
+                }
+            }
+        };
+        addLanguageSkillsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment df = InsertLanguageDialogFragment.newInstance("Insert language and level:", callbacks);
+                df.show(getActivity().getSupportFragmentManager(), "MyDialog");
+            }
+        });
+
+*/
+
+        for(int i=0; i<resumes.length; i++)
+            resumes[i]=false;
+
 
         try {
 
 
+            if (studentProfile.has("cv0") && ((ParseObject) studentProfile.get("cv0")).get("name") != null) {
+                showResume("cv0", rootView, 0);
+            }
             if (studentProfile.has("cv1") && ((ParseObject) studentProfile.get("cv1")).get("name") != null) {
-                showResume("cv1", rootView);
-                numberOfResumes++;
+                showResume("cv1", rootView, 1);
             }
             if (studentProfile.has("cv2") && ((ParseObject) studentProfile.get("cv2")).get("name") != null) {
-                showResume("cv2", rootView);
-                numberOfResumes++;
+                showResume("cv2", rootView, 2);
             }
             if (studentProfile.has("cv3") && ((ParseObject) studentProfile.get("cv3")).get("name") != null) {
-                showResume("cv3", rootView);
-                numberOfResumes++;
+                showResume("cv3", rootView, 3);
             }
             if (studentProfile.has("cv4") && ((ParseObject) studentProfile.get("cv4")).get("name") != null) {
-                showResume("cv4", rootView);
-                numberOfResumes++;
-            }
-            if (studentProfile.has("cv5") && ((ParseObject) studentProfile.get("cv5")).get("name") != null) {
-                showResume("cv5", rootView);
-                numberOfResumes++;
+                showResume("cv4", rootView, 4);
             }
 
         } catch (Exception e) {
@@ -152,11 +189,14 @@ public class ProfileCVFragment extends Fragment {
     }
 
 
+    public void removeResume(int resumeNumber){
+
+    }
 
 
 
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
 
         //PROGRESSIVE WAIT IF NECESSARY
         new AsyncTask<Object, Object, Object>() {
@@ -202,9 +242,10 @@ public class ProfileCVFragment extends Fragment {
                                 file.toString().contains(".txt")) {
 
                             try {
-                                final String resumeStringId="cv"+(numberOfResumes+1);
+                                final int resumeNumber = getFirstFreeResumeNumber();
+                                final String resumeStringId="cv"+resumeNumber;
                                 ParseObject curriculum = new ParseObject("Curriculum");
-                                curriculum.put("name", "CV ITA"+numberOfResumes);
+                                curriculum.put("name", "CV ITA"+resumeNumber);
                                 curriculum.put("curriculum", new ParseFile(org.apache.commons.io.FileUtils.readFileToByteArray(file)));
 
                                 studentProfile.put(resumeStringId, curriculum);
@@ -213,8 +254,7 @@ public class ProfileCVFragment extends Fragment {
                                 studentProfile.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
-                                        numberOfResumes++;
-                                        showResume(resumeStringId, getView());
+                                        showResume(resumeStringId, getView(),resumeNumber);
                                     }
                                 });
                             } catch (Exception e) {
@@ -232,18 +272,31 @@ public class ProfileCVFragment extends Fragment {
 
     }
 
-    private void showResume(final String resumeStringId, View rootView) {
+    private int getFirstFreeResumeNumber(){
+        for(int i=0; i<resumes.length; i++)
+            if(!resumes[i])
+                return i;
+
+        return -1;
+    }
+
+    private void showResume(final String resumeStringId, View rootView, int resumeNumber) {
 
         try {
-            final ParseObject resume = (ParseObject)studentProfile.get(resumeStringId);
 
-            Log.d("DEBUG",resumeStringId);
+            resumes[resumeNumber]=true;
+
+            final ParseObject resume = (ParseObject)studentProfile.get(resumeStringId);
+            LinearLayout linearLayout = resumeLayouts.get(resumeNumber);
+
             String resumeName= (String) resume.get("name");
-            TextView resumeTextView = ((TextView)rootView.findViewById(getActivity().getResources().getIdentifier(resumeStringId + "NameTextView", "id", getActivity().getPackageName())));
+            linearLayout.setVisibility(View.VISIBLE);
+            ((TextView)linearLayout.getChildAt(0)).setText(resumeName);
+
+            TextView resumeTextView = ((TextView)linearLayout.getChildAt(0));
             resumeTextView.setText(resumeName);
-            rootView.findViewById(getActivity().getResources().getIdentifier(resumeStringId + "Layout", "id", getActivity().getPackageName())).setVisibility(View.VISIBLE);
             rootView.findViewById(R.id.progress_Resume).setVisibility(View.GONE);
-            if(!resumeStringId.equals("cv5")){
+            if(!resumeStringId.equals("cv4")){
                 rootView.findViewById(R.id.addResumeButton).setVisibility(View.VISIBLE);
             }
             resumeTextView.setOnClickListener(new View.OnClickListener() {

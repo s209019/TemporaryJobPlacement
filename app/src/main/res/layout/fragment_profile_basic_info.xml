@@ -31,14 +31,14 @@
 
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="200dp"
-                    android:minWidth="135dp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
                     android:src="@drawable/no_profile_picture"
+                    android:background="@drawable/button_drawable2"
                     android:layout_marginLeft="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginTop="1dp"
+                    android:id="@+id/profilePicture"
                     />
 
                 <View
@@ -48,15 +48,43 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Upload your photo asnahjsanhjhjasnsahjnjh uyfgtyvygvgh"
-                    android:gravity="center_vertical"
-                    android:padding="3dp"
-                    android:drawableLeft="@android:drawable/ic_menu_gallery"/>
+                    android:layout_height="45dp"
+                    android:text="Delete photo"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/grayDarkerTextColor"
+                    android:drawableLeft="@android:drawable/ic_menu_delete"
+                    android:background="@drawable/button_drawable2"
+                    android:padding="6dp"
+                    android:id="@+id/deleteProfilePictureTextView"
+                    android:visibility="gone"
+                    />
+
 
 
 
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Tap on the photo to choose a profile picture."
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/grayDarkerTextColor"
+                android:id="@+id/profilePictureTextview"
+                />
+
+            <ProgressBar
+                android:id="@+id/progress_yourPhoto"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
+
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -246,11 +274,11 @@
                     />
             </LinearLayout>
 
-            <include layout="@layout/language_layout" android:id="@+id/languageLayout1" android:visibility="gone"/>
-            <include layout="@layout/language_layout" android:id="@+id/languageLayout2" android:visibility="gone"/>
-            <include layout="@layout/language_layout" android:id="@+id/languageLayout3" android:visibility="gone"/>
-            <include layout="@layout/language_layout" android:id="@+id/languageLayout4" android:visibility="gone"/>
-            <include layout="@layout/language_layout" android:id="@+id/languageLayout5" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/languageLayout1" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/languageLayout2" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/languageLayout3" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/languageLayout4" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/languageLayout5" android:visibility="gone"/>
 
 
 
@@ -324,47 +352,7 @@
             </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
 
 
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_medium">
-
-                <ImageView
-                    android:id="@+id/V_yourPhoto"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/done_image"
-                    android:visibility="gone"/>
-                <ProgressBar
-                    android:id="@+id/progress_yourPhoto"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:visibility="gone"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="Your photo: "
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="2dp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/textLabelSize"
-                    />
-            </LinearLayout>
-
-
-            <include layout="@layout/fotobox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_medium"/>
-
-
-
-        <Space
+            <Space
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
 

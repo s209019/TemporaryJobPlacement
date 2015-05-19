@@ -32,6 +32,13 @@
                     android:textSize="@dimen/textLabelSize"
                     />
 
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/resumeLayout1" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/resumeLayout2" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/resumeLayout3" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/resumeLayout4" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/resumeLayout5" android:visibility="gone"/>
+<!--
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,8 +142,7 @@
 
 
 
-
-
+-->
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,6 +164,49 @@
                 android:layout_gravity="center"
                 style="?android:attr/progressBarStyleLarge"
                 android:visibility="gone"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Cover Letters: "
+                android:gravity="center_vertical"
+                android:layout_marginLeft="2dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_large"
+                />
+
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout1" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout2" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout3" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout4" android:visibility="gone"/>
+            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout5" android:visibility="gone"/>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_medium_large"
+                android:paddingRight="@dimen/margin_medium_large"
+                android:paddingTop="@dimen/margin_medium_large"
+                android:paddingBottom="@dimen/margin_medium"
+                android:text="Add a new cover letter"
+                android:gravity="center"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/secondaryColor"
+                android:background="@drawable/button_drawable2"
+                android:id="@+id/addCoverLetterButton"
+                />
+            <ProgressBar
+                android:id="@+id/progress_coverLetter"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                style="?android:attr/progressBarStyleLarge"
+                android:visibility="gone"/>
+
 
 
         </LinearLayout>
