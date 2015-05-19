@@ -166,20 +166,20 @@ public class ProfileCVFragment extends Fragment {
         try {
 
 
-            if (studentProfile.has("cv0") && ((ParseObject) studentProfile.get("cv0")).get("name") != null) {
-                showResume("cv0", rootView, 0);
+            if (studentProfile.has("cv0") && (studentProfile.getParseObject("cv0")).get("name") != null) {
+                showResume(rootView, 0);
             }
             if (studentProfile.has("cv1") && ((ParseObject) studentProfile.get("cv1")).get("name") != null) {
-                showResume("cv1", rootView, 1);
+                showResume(rootView, 1);
             }
             if (studentProfile.has("cv2") && ((ParseObject) studentProfile.get("cv2")).get("name") != null) {
-                showResume("cv2", rootView, 2);
+                showResume(rootView, 2);
             }
             if (studentProfile.has("cv3") && ((ParseObject) studentProfile.get("cv3")).get("name") != null) {
-                showResume("cv3", rootView, 3);
+                showResume(rootView, 3);
             }
             if (studentProfile.has("cv4") && ((ParseObject) studentProfile.get("cv4")).get("name") != null) {
-                showResume("cv4", rootView, 4);
+                showResume(rootView, 4);
             }
 
         } catch (Exception e) {
@@ -189,7 +189,20 @@ public class ProfileCVFragment extends Fragment {
     }
 
 
-    public void removeResume(int resumeNumber){
+    public void removeResume(final int resumeNumber){
+
+        studentProfile.getParseObject("cv"+resumeNumber).deleteEventually();
+        studentProfile.remove("cv" + resumeNumber);
+        studentProfile.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+                resumes[resumeNumber]=false;
+                resumeLayouts.get(resumeNumber).setVisibility(View.GONE);
+                getView().findViewById(R.id.addResumeButton).setVisibility(View.VISIBLE);
+
+            }
+        });
 
     }
 
@@ -254,7 +267,8 @@ public class ProfileCVFragment extends Fragment {
                                 studentProfile.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
-                                        showResume(resumeStringId, getView(),resumeNumber);
+                                        getView().findViewById(R.id.addResumeButton).setVisibility(View.VISIBLE);
+                                        showResume(getView(),resumeNumber);
                                     }
                                 });
                             } catch (Exception e) {
@@ -280,9 +294,11 @@ public class ProfileCVFragment extends Fragment {
         return -1;
     }
 
-    private void showResume(final String resumeStringId, View rootView, int resumeNumber) {
+    private void showResume(View rootView, int resumeNumber) {
 
         try {
+
+            final String resumeStringId="cv"+resumeNumber;
 
             resumes[resumeNumber]=true;
 
@@ -296,8 +312,8 @@ public class ProfileCVFragment extends Fragment {
             TextView resumeTextView = ((TextView)linearLayout.getChildAt(0));
             resumeTextView.setText(resumeName);
             rootView.findViewById(R.id.progress_Resume).setVisibility(View.GONE);
-            if(!resumeStringId.equals("cv4")){
-                rootView.findViewById(R.id.addResumeButton).setVisibility(View.VISIBLE);
+            if(getFirstFreeResumeNumber()==-1){
+                rootView.findViewById(R.id.addResumeButton).setVisibility(View.GONE);
             }
             resumeTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
