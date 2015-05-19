@@ -44,8 +44,6 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_profile);
 
-
-
         //Set the custom toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null){
