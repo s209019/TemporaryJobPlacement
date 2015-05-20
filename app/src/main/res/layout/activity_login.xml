@@ -120,7 +120,7 @@
         android:textColor="@android:color/white"
         android:onClick="loginStudent"
         android:layout_above="@+id/buttonLoginCompany"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/buttonLoginCompany"
@@ -132,7 +132,7 @@
         android:textColor="@android:color/white"
         android:onClick="loginCompany"
         android:layout_alignParentBottom="true"
-        android:visibility="visible"
+        android:visibility="gone"
         />
 
 

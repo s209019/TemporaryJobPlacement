@@ -25,12 +25,13 @@ import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfile
 
 
 public class DrawerManager {
-    public static final int SECTION0=0;
-    public static final int SECTION1=1;
-    public static final int SECTION2=2;
-    public static final int SECTION3=3;
-    public static final int SECTION4 =4;
-    public static final int SECTION5 =5;
+    public static final int LOGGED_USER_LABEL=0;
+    public static final int SECTION0=1;
+    public static final int SECTION1=2;
+    public static final int SECTION2=3;
+    public static final int SECTION3=4;
+    public static final int SECTION4 =5;
+    public static final int SECTION5 =6;
 
 
     private ActionBarActivity activity;
@@ -48,9 +49,25 @@ public class DrawerManager {
     public void setDrawer(){
 
         final ListView drawerListView=(ListView)drawerLayout.findViewById(R.id.drawerListView);
-        String[] itemTitles={"Search filter","Profile","Favourites","Messages","My applications","Logout"};
+        String[] itemTitles={"logged user","Search filter","Profile","Favourites","Messages","My applications","Logout"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(activity, R.layout.drawer_list_item_activated,itemTitles){
             public View getView(int pos, View v, ViewGroup p) {
+
+                if(pos==LOGGED_USER_LABEL){
+                    if (v == null) {
+                        // R.layout.adapter_next_page contains an ImageView with a custom graphic
+                        // and a TextView.
+                        v =(TextView) View.inflate(getContext(), R.layout.hi_logged, null);
+                    }
+                    try {
+                        ((TextView)v).setText("Hi "+AccountManager.getCurrentUser().getUsername()+" !");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return v;
+                }
+
+
                TextView view=(TextView)super.getView(pos,v,p);
                 switch(pos){
                     case SECTION0:
