@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,14 +125,18 @@ public class OfferDetailFragment extends Fragment  {
 
             @Override
             protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                if(o==null){
-                    Connectivity.connectionError(getActivity());
-                    return;
-                }
+                try {
+                    super.onPostExecute(o);
+                    if (o == null) {
+                        Connectivity.connectionError(getActivity());
+                        return;
+                    }
 
-                loadingOverlay.setVisibility(View.GONE);
-                initializeView(rootView, largeBarAnimatedManager, offer[0], myProfile[0]);
+                    loadingOverlay.setVisibility(View.GONE);
+                    initializeView(rootView, largeBarAnimatedManager, offer[0], myProfile[0]);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }.execute();
 
@@ -182,47 +187,66 @@ public class OfferDetailFragment extends Fragment  {
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            try {
                 if (!offer.isFavourited()) {
-                        myProfile.getRelation("favouritesOffers").add(offer);
-                        progress.setVisibility(View.VISIBLE);
-                        new AsyncTask<Object, Object, Boolean>(){
-                        @Override protected Boolean doInBackground(Object... params) {
+                    myProfile.getRelation("favouritesOffers").add(offer);
+                    progress.setVisibility(View.VISIBLE);
+                    new AsyncTask<Object, Object, Boolean>() {
+                        @Override
+                        protected Boolean doInBackground(Object... params) {
                             try {
                                 myProfile.save();
                             } catch (Exception e) {
-                                e.printStackTrace();return false;}
-                            return true;}
-                        @Override protected void onPostExecute(Boolean o) {super.onPostExecute(o);
-                            if(o==true) {
+                                e.printStackTrace();
+                                return false;
+                            }
+                            return true;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Boolean o) {
+                            super.onPostExecute(o);
+                            if (o == true) {
                                 progress.setVisibility(View.GONE);
                                 DialogManager.toastMessage("Favourite added", getActivity());
                                 offer.setFavourited(true);
-                                ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_important);}
+                                ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_important);
+                            }
                         }
-                        }.execute();
+                    }.execute();
 
 
                 } else {
-                        myProfile.getRelation("favouritesOffers").remove(offer);
-                        progress.setVisibility(View.VISIBLE);
-                        new AsyncTask<Object, Object, Boolean>(){
-                            @Override protected Boolean doInBackground(Object... params) {
-                                try {
-                                    myProfile.save();
-                                } catch (Exception e) {
-                                    e.printStackTrace();return false;}
-                                return true;}
-                            @Override protected void onPostExecute(Boolean o) {super.onPostExecute(o);
-                                  if(o==true) {
-                                    progress.setVisibility(View.GONE);
-                                    DialogManager.toastMessage("Favourite removed", getActivity());
-                                      offer.setFavourited(false);
-                                      ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_not_important);}
+                    myProfile.getRelation("favouritesOffers").remove(offer);
+                    progress.setVisibility(View.VISIBLE);
+                    new AsyncTask<Object, Object, Boolean>() {
+                        @Override
+                        protected Boolean doInBackground(Object... params) {
+                            try {
+                                myProfile.save();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                return false;
+                            }
+                            return true;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Boolean o) {
+                            super.onPostExecute(o);
+                            if (o == true) {
+                                progress.setVisibility(View.GONE);
+                                DialogManager.toastMessage("Favourite removed", getActivity());
+                                offer.setFavourited(false);
+                                ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_not_important);
+                            }
                         }
                     }.execute();
 
                 }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             }
         });
 
@@ -306,10 +330,15 @@ public class OfferDetailFragment extends Fragment  {
                 public void onClick(View v) {
                 }
             });
+
+
             applyButton.setBackgroundColor(getActivity().getResources().getColor(R.color.primaryColor));
-                    Button applyButtonText = (Button) rootView.findViewById(R.id.buttonApplyText);
-                    applyButtonText.setText("ALREADY APPLIED");
-                }
+            Button applyButtonText = (Button) rootView.findViewById(R.id.buttonApplyText);
+            applyButtonText.setText("ALREADY APPLIED");
+
+
+
+        }
 
 
             }

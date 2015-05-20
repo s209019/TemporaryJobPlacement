@@ -144,13 +144,17 @@ public class ProfileBasicInfoFragment extends Fragment {
             }
             @Override
             protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                if(o==null)return;
-                ArrayList<String> languages = profile.getLanguageSkills();
-                Bitmap bitImage=callbacks.getPhotoStudentBitmap();
-                initializeView(rootView, profile, languages, bitImage);
+                try {
+                    super.onPostExecute(o);
+                    if (o == null) return;
+                    ArrayList<String> languages = profile.getLanguageSkills();
+                    Bitmap bitImage = callbacks.getPhotoStudentBitmap();
+                    initializeView(rootView, profile, languages, bitImage);
 
-                viewInitialized.set(1);
+                    viewInitialized.set(1);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 
             }}.execute();
 
@@ -682,9 +686,13 @@ public class ProfileBasicInfoFragment extends Fragment {
                 }
                 @Override
                 protected void onPostExecute(Object o) {
-                    super.onPostExecute(o);
-                    if(o==null)return;
-                    performOnActivityResult(requestCode, resultCode, data);
+                    try {
+                        super.onPostExecute(o);
+                        if (o == null) return;
+                        performOnActivityResult(requestCode, resultCode, data);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
 
                 }}.execute();
 

@@ -162,32 +162,36 @@ public class MessageListFragment extends ListFragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                try {
 
-                if(o==null){
-                    Connectivity.connectionError(getActivity());
-                    return;
-                }
-
-                messagesQueryAdapter = new MessageQueryAdapter(getActivity(), query[0], R.layout.message_list_item, true, inbox);
-                 messagesQueryAdapter.setObjectsPerPage(numberPagesDisplayedSoFar*TemporaryJobPlacementApp.objectsForPage);
-                messagesQueryAdapter.setNumberPagesDisplayedSoFar(numberPagesDisplayedSoFar);
-
-                messagesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {
-                    @Override
-                    public void onLoading() {
+                    if (o == null) {
+                        Connectivity.connectionError(getActivity());
+                        return;
                     }
 
-                    @Override
-                    public void onLoaded(List<Message> list, Exception e) {
-                        try{
-                            setListShown(true);
-                        }catch(Exception ex){
-                            e.printStackTrace();
+                    messagesQueryAdapter = new MessageQueryAdapter(getActivity(), query[0], R.layout.message_list_item, true, inbox);
+                    messagesQueryAdapter.setObjectsPerPage(numberPagesDisplayedSoFar * TemporaryJobPlacementApp.objectsForPage);
+                    messagesQueryAdapter.setNumberPagesDisplayedSoFar(numberPagesDisplayedSoFar);
+
+                    messagesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {
+                        @Override
+                        public void onLoading() {
                         }
-                    }
-                });
-                setListAdapter(messagesQueryAdapter);
-                setListShown(false);
+
+                        @Override
+                        public void onLoaded(List<Message> list, Exception e) {
+                            try {
+                                setListShown(true);
+                            } catch (Exception ex) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    setListAdapter(messagesQueryAdapter);
+                    setListShown(false);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }.execute();
 

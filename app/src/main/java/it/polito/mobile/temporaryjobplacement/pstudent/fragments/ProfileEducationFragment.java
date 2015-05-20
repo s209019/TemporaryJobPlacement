@@ -94,9 +94,14 @@ public class ProfileEducationFragment extends Fragment   {
             }
             @Override
             protected void onPostExecute(Object o) {
-                if(o==null)return;
-                educations= callbacks.getEducations();
-                intializeView(rootView, inflater);
+                try {
+                    if(o==null)return;
+                    educations= callbacks.getEducations();
+                    intializeView(rootView, inflater);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
 
             }}.execute();
         return rootView;

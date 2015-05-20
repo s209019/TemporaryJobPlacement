@@ -84,83 +84,86 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                try {
 
-                if (o == null) {
-                    Connectivity.connectionError(StudentProfileActivity.this);
-                    return;
-                }
-                loadingOverlay.setVisibility(View.GONE);
-
-                //set tabViews
-                ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
-                //DialogManager.toastMessage("creating fragments", StudentProfileActivity.this);
-                fragmentList.add(ProfileBasicInfoFragment.newInstance());
-                fragmentList.add(ProfileCVFragment.newInstance());
-                fragmentList.add(ProfileEducationFragment.newInstance());
-                String titles[] ={"BASIC INFO","RESUMES / COVER LETTERS", "EDUCATION"};
-                // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-                TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
-
-                // Assigning ViewPager View and setting the adapter
-                pager  = (ViewPager) findViewById(R.id.pager);
-                //set number of fragments beyond which the next fragment is created and the first is destroyed
-                pager.setOffscreenPageLimit(fragmentList.size()-1);
-                pager.setAdapter(tabsAdapter);
-
-
-                // Assigning the Sliding Tab Layout View
-                SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.tabLayout);
-                tabLayout.setDistributeEvenly(true); // This makes the tabs Space Evenly in Available width
-                // Setting Custom Color for the Scroll bar indicator of the Tab View
-                tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-                    @Override
-                    public int getIndicatorColor(int position) {
-                        return getResources().getColor(R.color.primaryColor);
+                    if (o == null) {
+                        Connectivity.connectionError(StudentProfileActivity.this);
+                        return;
                     }
+                    loadingOverlay.setVisibility(View.GONE);
 
-                    @Override
-                    public int getDividerColor(int position) {
-                        return getResources().getColor(R.color.grayTextColor);
-                    }
+                    //set tabViews
+                    ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
+                    //DialogManager.toastMessage("creating fragments", StudentProfileActivity.this);
+                    fragmentList.add(ProfileBasicInfoFragment.newInstance());
+                    fragmentList.add(ProfileCVFragment.newInstance());
+                    fragmentList.add(ProfileEducationFragment.newInstance());
+                    String titles[] = {"BASIC INFO", "RESUMES / COVER LETTERS", "EDUCATION"};
+                    // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+                    TabsPagerAdapter tabsAdapter = new TabsPagerAdapter(getSupportFragmentManager(), titles, fragmentList);
 
-                    @Override
-                    public int getDefaultTextColor() {
-                        return getResources().getColor(R.color.grayTextColor);
-                    }
-
-                    @Override
-                    public int getBackgroundColor() {
-                        return getResources().getColor(R.color.foregroundColor);
-                    }
-
-
-                });
-                // Setting the ViewPager For the SlidingTabsLayout
-                tabLayout.setViewPager(pager);
+                    // Assigning ViewPager View and setting the adapter
+                    pager = (ViewPager) findViewById(R.id.pager);
+                    //set number of fragments beyond which the next fragment is created and the first is destroyed
+                    pager.setOffscreenPageLimit(fragmentList.size() - 1);
+                    pager.setAdapter(tabsAdapter);
 
 
+                    // Assigning the Sliding Tab Layout View
+                    SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.tabLayout);
+                    tabLayout.setDistributeEvenly(true); // This makes the tabs Space Evenly in Available width
+                    // Setting Custom Color for the Scroll bar indicator of the Tab View
+                    tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+                        @Override
+                        public int getIndicatorColor(int position) {
+                            return getResources().getColor(R.color.primaryColor);
+                        }
 
-                final Button publishButton=(Button)findViewById(R.id.buttonPublish);
-                setPublishInfo(publishButton);
-                publishButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                           DialogManager.setDialogWithCancelAndOk(title, description, StudentProfileActivity.this, ok_button_text, new Runnable() {
-                            @Override
-                            public void run() {
-                                    final ProgressDialog pd=ProgressDialog.show(StudentProfileActivity.this, null, "Loading", true, false);
+                        @Override
+                        public int getDividerColor(int position) {
+                            return getResources().getColor(R.color.grayTextColor);
+                        }
+
+                        @Override
+                        public int getDefaultTextColor() {
+                            return getResources().getColor(R.color.grayTextColor);
+                        }
+
+                        @Override
+                        public int getBackgroundColor() {
+                            return getResources().getColor(R.color.foregroundColor);
+                        }
+
+
+                    });
+                    // Setting the ViewPager For the SlidingTabsLayout
+                    tabLayout.setViewPager(pager);
+
+
+                    final Button publishButton = (Button) findViewById(R.id.buttonPublish);
+                    setPublishInfo(publishButton);
+                    publishButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            DialogManager.setDialogWithCancelAndOk(title, description, StudentProfileActivity.this, ok_button_text, new Runnable() {
+                                @Override
+                                public void run() {
+                                    final ProgressDialog pd = ProgressDialog.show(StudentProfileActivity.this, null, "Loading", true, false);
                                     getProfile().updatePublicFlag(!getProfile().isPublic(), new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
-                                            if(pd!=null && pd.isShowing())pd.dismiss();
-                                             setPublishInfo(publishButton);
+                                            if (pd != null && pd.isShowing()) pd.dismiss();
+                                            setPublishInfo(publishButton);
                                         }
                                     });
-                            }
-                        });
+                                }
+                            });
 
-                    }
-                });
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }.execute();
 

@@ -82,13 +82,17 @@ public class SendMessageActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(o==null){
-                    Connectivity.connectionError(SendMessageActivity.this);
-                    return;
-                }
+                try {
+                    if (o == null) {
+                        Connectivity.connectionError(SendMessageActivity.this);
+                        return;
+                    }
 
-                loadingOverlay.setVisibility(View.GONE);
-                initializeView(company[0], message[0], myProfile[0]);
+                    loadingOverlay.setVisibility(View.GONE);
+                    initializeView(company[0], message[0], myProfile[0]);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }.execute();
 

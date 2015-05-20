@@ -64,12 +64,16 @@ public class StudentApplyActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(o==null){
-                    Connectivity.connectionError(StudentApplyActivity.this);
-                    return;
+                try {
+                    if (o == null) {
+                        Connectivity.connectionError(StudentApplyActivity.this);
+                        return;
+                    }
+                    loadingOverlay.setVisibility(View.GONE);
+                    initializeView(offer[0], myProfile[0]);
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-                loadingOverlay.setVisibility(View.GONE);
-                initializeView(offer[0], myProfile[0]);
             }
         }.execute();
 
@@ -167,9 +171,12 @@ public class StudentApplyActivity extends ActionBarActivity {
                 @Override
                 protected void onPostExecute(String resultMessage) {
                      super.onPostExecute(null);
-
-                    Intent intent = new Intent(activity, ApplicationSentActivity.class);
-                    startActivityForResult(intent, 0);
+                    try {
+                        Intent intent = new Intent(activity, ApplicationSentActivity.class);
+                        startActivityForResult(intent, 0);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
 
                 }
 

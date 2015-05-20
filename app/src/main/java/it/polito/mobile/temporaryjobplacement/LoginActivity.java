@@ -140,7 +140,11 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(String resultMessage) {
                 super.onPostExecute(resultMessage);
-                startNextActivity();
+                try {
+                    startNextActivity();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
 
@@ -169,7 +173,11 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(String resultMessage) {
                 super.onPostExecute(resultMessage);
-                startNextActivity();
+                try {
+                    startNextActivity();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
 
@@ -196,7 +204,11 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(String resultMessage) {
                 super.onPostExecute(resultMessage);
-                startNextActivity();
+                try {
+                    startNextActivity();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
 

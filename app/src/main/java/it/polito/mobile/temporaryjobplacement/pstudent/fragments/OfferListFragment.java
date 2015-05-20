@@ -148,91 +148,94 @@ public class OfferListFragment extends ListFragment {
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
 
-                if(o==null){
-                    Connectivity.connectionError(getActivity());
-                    return;
-                }
-                JobOfferQueryAdapter.InnerButtonManager innerButtonManager=null;
-                int row_layout_id=0;
-                if(isFavouriteList){
-                    row_layout_id=R.layout.offer_favourite_list_item;
-                    innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
-                        @Override
-                        public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
-                            innerButton.setVisibility(View.VISIBLE);
-                            innerButton.setBackgroundResource(android.R.drawable.ic_delete);
-                            innerButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    DialogManager.toastMessage("delete", getActivity());
-                                }
-                            });
-                        }
-                    };
+                try {
 
-                }else{
-                    row_layout_id=R.layout.offer_list_item;
-                    innerButtonManager=new JobOfferQueryAdapter.InnerButtonManager() {
-                        @Override
-                        public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
-                            try {
-
-                                if(!favourites.contains(jobOffer)) {
-                                    jobOffer.setFavourited(false);
-                                    innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                                } else {
-                                    jobOffer.setFavourited(true);
-                                    innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                                }
-
-
+                    if (o == null) {
+                        Connectivity.connectionError(getActivity());
+                        return;
+                    }
+                    JobOfferQueryAdapter.InnerButtonManager innerButtonManager = null;
+                    int row_layout_id = 0;
+                    if (isFavouriteList) {
+                        row_layout_id = R.layout.offer_favourite_list_item;
+                        innerButtonManager = new JobOfferQueryAdapter.InnerButtonManager() {
+                            @Override
+                            public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
+                                innerButton.setVisibility(View.VISIBLE);
+                                innerButton.setBackgroundResource(android.R.drawable.ic_delete);
                                 innerButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if (!jobOffer.isFavourited()) {
-                                            jobOffer.setFavourited(true);
-                                            innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                                            callbacks.updateFavourites(jobOffer, true);
-
-                                        } else {
-                                            jobOffer.setFavourited(false);
-                                            innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                                            callbacks.updateFavourites(jobOffer, false);
-                                        }
+                                        DialogManager.toastMessage("delete", getActivity());
                                     }
                                 });
+                            }
+                        };
 
-                            } catch (Exception e) {
+                    } else {
+                        row_layout_id = R.layout.offer_list_item;
+                        innerButtonManager = new JobOfferQueryAdapter.InnerButtonManager() {
+                            @Override
+                            public void configureButton(final JobOffer jobOffer, final ImageButton innerButton) {
+                                try {
+
+                                    if (!favourites.contains(jobOffer)) {
+                                        jobOffer.setFavourited(false);
+                                        innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                                    } else {
+                                        jobOffer.setFavourited(true);
+                                        innerButton.setBackgroundResource(R.drawable.ic_action_important);
+                                    }
+
+
+                                    innerButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if (!jobOffer.isFavourited()) {
+                                                jobOffer.setFavourited(true);
+                                                innerButton.setBackgroundResource(R.drawable.ic_action_important);
+                                                callbacks.updateFavourites(jobOffer, true);
+
+                                            } else {
+                                                jobOffer.setFavourited(false);
+                                                innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                                                callbacks.updateFavourites(jobOffer, false);
+                                            }
+                                        }
+                                    });
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        };
+                    }
+
+                    jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), query[0], innerButtonManager, row_layout_id);
+                    jobOffersQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
+
+
+                    jobOffersQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<JobOffer>() {
+                        @Override
+                        public void onLoading() {
+                        }
+
+                        @Override
+                        public void onLoaded(List<JobOffer> list, Exception e) {
+                            try {
+                                setListShown(true);
+                            } catch (Exception ex) {
                                 e.printStackTrace();
                             }
-
                         }
-                    };
+                    });
+                    setListAdapter(jobOffersQueryAdapter);
+                    setListShown(false);
+                    firstTime = false;
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-
-                jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), query[0], innerButtonManager,row_layout_id);
-                jobOffersQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
-
-
-
-
-                jobOffersQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<JobOffer>() {
-                    @Override
-                    public void onLoading() {
-                    }
-
-                    @Override
-                    public void onLoaded(List<JobOffer> list, Exception e) {
-                        try{
-                            setListShown(true);
-                        }catch(Exception ex){
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                setListAdapter(jobOffersQueryAdapter);
-                setListShown(false);
-                firstTime=false;
 
             }
         }.execute();
@@ -272,13 +275,17 @@ public class OfferListFragment extends ListFragment {
 
                 @Override
                 protected void onPostExecute(Object o) {
-                    super.onPostExecute(o);
-                    if(o==null){
-                        Connectivity.connectionError(getActivity());
-                        return;
+                    try {
+                        super.onPostExecute(o);
+                        if (o == null) {
+                            Connectivity.connectionError(getActivity());
+                            return;
+                        }
+                        //refresh listview
+                        jobOffersQueryAdapter.notifyDataSetChanged();
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                    //refresh listview
-                    jobOffersQueryAdapter.notifyDataSetChanged();
 
                 }
             }.execute();

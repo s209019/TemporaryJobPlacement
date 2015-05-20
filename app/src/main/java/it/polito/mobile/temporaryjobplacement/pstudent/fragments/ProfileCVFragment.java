@@ -90,10 +90,16 @@ public class ProfileCVFragment extends Fragment {
             }
             @Override
             protected void onPostExecute(Object o) {
-                if(o==null)return;
-                initializeView(rootView);
 
-                viewInitialized.set(1);
+                try {
+                    if(o==null)return;
+                    initializeView(rootView);
+
+                    viewInitialized.set(1);
+                }catch (Exception e ){
+                    e.printStackTrace();
+                }
+
 
             }}.execute();
 
@@ -226,8 +232,13 @@ public class ProfileCVFragment extends Fragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(o==null)return;
-                performOnActivityResult(requestCode, resultCode, data);
+                try {
+                    if(o==null)return;
+                    performOnActivityResult(requestCode, resultCode, data);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
 
             }}.execute();
 

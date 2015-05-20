@@ -118,32 +118,36 @@ public class ApplicationListFragment extends ListFragment {
             }
             @Override
             protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-                if(o==null){
-                    Connectivity.connectionError(getActivity());
-                    return;
-                }
-
-
-                applicationsQueryAdapter = new ApplicationsQueryAdapter(getActivity(), query[0]);
-                applicationsQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
-
-                applicationsQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Application>() {
-                    @Override
-                    public void onLoading() {
+                try {
+                    super.onPostExecute(o);
+                    if (o == null) {
+                        Connectivity.connectionError(getActivity());
+                        return;
                     }
-                    @Override
-                    public void onLoaded(List<Application> list, Exception e) {
-                        try{
-                            setListShown(true);
-                        }catch(Exception ex){
-                            e.printStackTrace();
+
+
+                    applicationsQueryAdapter = new ApplicationsQueryAdapter(getActivity(), query[0]);
+                    applicationsQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
+
+                    applicationsQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Application>() {
+                        @Override
+                        public void onLoading() {
                         }
-                    }
-                });
-                setListAdapter(applicationsQueryAdapter);
-                setListShown(false);
 
+                        @Override
+                        public void onLoaded(List<Application> list, Exception e) {
+                            try {
+                                setListShown(true);
+                            } catch (Exception ex) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    setListAdapter(applicationsQueryAdapter);
+                    setListShown(false);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }.execute();
 

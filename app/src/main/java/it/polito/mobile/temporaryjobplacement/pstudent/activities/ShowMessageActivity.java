@@ -62,12 +62,16 @@ public class ShowMessageActivity extends ActionBarActivity {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(o==null){
-                    Connectivity.connectionError(ShowMessageActivity.this);
-                    return;
-                }
-                loadingOverlay.setVisibility(View.GONE);
-                initializeView(message[0]);
+               try {
+                   if (o == null) {
+                       Connectivity.connectionError(ShowMessageActivity.this);
+                       return;
+                   }
+                   loadingOverlay.setVisibility(View.GONE);
+                   initializeView(message[0]);
+               }catch (Exception e ){
+                   e.printStackTrace();
+               }
             }
         }.execute();
 

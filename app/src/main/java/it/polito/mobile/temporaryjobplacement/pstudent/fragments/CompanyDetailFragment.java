@@ -112,12 +112,16 @@ public class CompanyDetailFragment extends Fragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
-                if(o==null){
-                    Connectivity.connectionError(getActivity());
-                    return;
+                try {
+                    if (o == null) {
+                        Connectivity.connectionError(getActivity());
+                        return;
+                    }
+                    loadingOverlay.setVisibility(View.GONE);
+                    initializeView(rootView, largeBarAnimatedManager, company[0], myProfile[0]);
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-                loadingOverlay.setVisibility(View.GONE);
-                initializeView(rootView, largeBarAnimatedManager, company[0], myProfile[0]);
             }
         }.execute();
 
@@ -174,45 +178,64 @@ public class CompanyDetailFragment extends Fragment {
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-           if (!company.isFavourited()) {
+                try {
+                    if (!company.isFavourited()) {
                         student.getRelation("favouritesCompanies").add(company);
                         progress.setVisibility(View.VISIBLE);
-                        new AsyncTask<Object, Object, Boolean>(){
-                            @Override protected Boolean doInBackground(Object... params) {
+                        new AsyncTask<Object, Object, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Object... params) {
                                 try {
                                     student.save();
                                 } catch (Exception e) {
-                                    e.printStackTrace();return false;}
+                                    e.printStackTrace();
+                                    return false;
+                                }
                                 return true;
                             }
-                            @Override protected void onPostExecute(Boolean o) {super.onPostExecute(o);
-                                if(o==true){
-                                progress.setVisibility(View.GONE);
+
+                            @Override
+                            protected void onPostExecute(Boolean o) {
+                                super.onPostExecute(o);
+                                if (o == true) {
+                                    progress.setVisibility(View.GONE);
                                     DialogManager.toastMessage("Favourite added", getActivity());
-                                company.setFavourited(true);
-                                ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_important);}
+                                    company.setFavourited(true);
+                                    ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_important);
+                                }
                             }
                         }.execute();
 
-                } else {
+                    } else {
                         student.getRelation("favouritesCompanies").remove(company);
                         progress.setVisibility(View.VISIBLE);
-                        new AsyncTask<Object, Object, Boolean>(){
-                            @Override protected Boolean doInBackground(Object... params) {
+                        new AsyncTask<Object, Object, Boolean>() {
+                            @Override
+                            protected Boolean doInBackground(Object... params) {
                                 try {
                                     student.save();
                                 } catch (Exception e) {
-                                    e.printStackTrace(); return false;}
-                                return true;}
-                            @Override protected void onPostExecute(Boolean o) {super.onPostExecute(o);
-                                if(o==true){
-                                progress.setVisibility(View.GONE);
-                                DialogManager.toastMessage("Favourite removed", getActivity());
-                                company.setFavourited(false);
-                                ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_not_important);}
+                                    e.printStackTrace();
+                                    return false;
+                                }
+                                return true;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean o) {
+                                super.onPostExecute(o);
+                                if (o == true) {
+                                    progress.setVisibility(View.GONE);
+                                    DialogManager.toastMessage("Favourite removed", getActivity());
+                                    company.setFavourited(false);
+                                    ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_not_important);
+                                }
                             }
                         }.execute();
 
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         });

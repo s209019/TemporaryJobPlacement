@@ -150,88 +150,91 @@ public class CompanyListFragment extends ListFragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                try {
 
-                if(o==null){
-                    Connectivity.connectionError(getActivity());
-                    return;
-                }
+                    if (o == null) {
+                        Connectivity.connectionError(getActivity());
+                        return;
+                    }
 
-                CompanyQueryAdapter.InnerButtonManager innerButtonManager = null;
-                if (isFavouriteList) {
-                    innerButtonManager = new CompanyQueryAdapter.InnerButtonManager() {
-                        @Override
-                        public void configureButton(Company company, ImageButton innerButton) {
-                            innerButton.setVisibility(View.VISIBLE);
-                            innerButton.setBackgroundResource(android.R.drawable.ic_delete);
-                            innerButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    DialogManager.toastMessage("delete", getActivity());
-                                }
-                            });
-                        }
-                    };
-
-                } else {
-                    innerButtonManager = new CompanyQueryAdapter.InnerButtonManager() {
-                        @Override
-                        public void configureButton(final Company company, final ImageButton innerButton) {
-                            try {
-                                if (!favourites.contains(company)) {
-                                    company.setFavourited(false);
-                                    innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                                } else {
-                                    company.setFavourited(true);
-                                    innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                                }
-
+                    CompanyQueryAdapter.InnerButtonManager innerButtonManager = null;
+                    if (isFavouriteList) {
+                        innerButtonManager = new CompanyQueryAdapter.InnerButtonManager() {
+                            @Override
+                            public void configureButton(Company company, ImageButton innerButton) {
+                                innerButton.setVisibility(View.VISIBLE);
+                                innerButton.setBackgroundResource(android.R.drawable.ic_delete);
                                 innerButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if (!company.isFavourited()) {
-                                            company.setFavourited(true);
-                                            innerButton.setBackgroundResource(R.drawable.ic_action_important);
-                                            mCallbacks.updateFavourites(company, true);
-
-                                        } else {
-                                            company.setFavourited(false);
-                                            innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
-                                            mCallbacks.updateFavourites(company, false);
-                                        }
+                                        DialogManager.toastMessage("delete", getActivity());
                                     }
                                 });
+                            }
+                        };
 
-                            } catch (Exception e) {
+                    } else {
+                        innerButtonManager = new CompanyQueryAdapter.InnerButtonManager() {
+                            @Override
+                            public void configureButton(final Company company, final ImageButton innerButton) {
+                                try {
+                                    if (!favourites.contains(company)) {
+                                        company.setFavourited(false);
+                                        innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                                    } else {
+                                        company.setFavourited(true);
+                                        innerButton.setBackgroundResource(R.drawable.ic_action_important);
+                                    }
+
+                                    innerButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if (!company.isFavourited()) {
+                                                company.setFavourited(true);
+                                                innerButton.setBackgroundResource(R.drawable.ic_action_important);
+                                                mCallbacks.updateFavourites(company, true);
+
+                                            } else {
+                                                company.setFavourited(false);
+                                                innerButton.setBackgroundResource(R.drawable.ic_action_not_important);
+                                                mCallbacks.updateFavourites(company, false);
+                                            }
+                                        }
+                                    });
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+
+                    }
+
+
+                    companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), query[0], innerButtonManager, R.layout.company_list_item);
+                    companiesQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
+
+                    companiesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Company>() {
+                        @Override
+                        public void onLoading() {
+                        }
+
+                        @Override
+                        public void onLoaded(List<Company> list, Exception e) {
+                            try {
+                                setListShown(true);
+                            } catch (Exception ex) {
                                 e.printStackTrace();
                             }
                         }
-                    };
+                    });
+                    setListAdapter(companiesQueryAdapter);
+                    setListShown(false);
+                    firstTime = false;
 
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-
-
-                companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), query[0], innerButtonManager, R.layout.company_list_item);
-                companiesQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
-
-                companiesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Company>() {
-                    @Override
-                    public void onLoading() {
-                    }
-
-                    @Override
-                    public void onLoaded(List<Company> list, Exception e) {
-                        try{
-                            setListShown(true);
-                        }catch(Exception ex){
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                setListAdapter(companiesQueryAdapter);
-                setListShown(false);
-                firstTime=false;
-
-
             }
         }.execute();
         }
@@ -298,13 +301,16 @@ public class CompanyListFragment extends ListFragment {
                 protected void onPostExecute(Object o) {
                     super.onPostExecute(o);
 
-                    if(o==null){
-                        Connectivity.connectionError(getActivity());
-                        return;
+                    try {
+                        if (o == null) {
+                            Connectivity.connectionError(getActivity());
+                            return;
+                        }
+                        //refresh listview
+                        companiesQueryAdapter.notifyDataSetChanged();
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                    //refresh listview
-                    companiesQueryAdapter.notifyDataSetChanged();
-
                 }
             }.execute();
 
