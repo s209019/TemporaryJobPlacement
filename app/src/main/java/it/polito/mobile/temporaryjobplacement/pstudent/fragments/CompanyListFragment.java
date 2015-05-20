@@ -224,7 +224,7 @@ public class CompanyListFragment extends ListFragment {
                             try {
                                 setListShown(true);
                             } catch (Exception ex) {
-                                e.printStackTrace();
+                                ex.printStackTrace();
                             }
                         }
                     });
