@@ -252,7 +252,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:hint="Press here to select a CV/Resume."
+                    android:hint="Select a resume."
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_medium"
@@ -260,6 +260,21 @@
                     android:background="@drawable/textview_clickable_drawable"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Click here to open the chosen resume"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="0dp"
+                    android:padding="5dp"
+                    android:textColor="@color/primaryColor"
+                    android:background="@drawable/button_drawable2"
+                    android:id="@+id/openResumeButton"
+                    android:visibility="gone"
+                    />
 
             </LinearLayout>
 
@@ -272,6 +287,7 @@
                 android:background="@drawable/panel_drawable"
                 android:layout_marginTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_medium_large"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -293,7 +309,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:hint="Press here to select a cover letter."
+                    android:hint="Select an already existing cover letter."
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_medium"
@@ -302,15 +318,27 @@
                     android:textColor="@android:color/black"
                     android:textStyle="bold"/>
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Press here if you want to write a custom cover letter now"
-                    android:textSize="@dimen/textSize"
-                    android:padding="@dimen/margin_medium"
-                    android:background="@drawable/button_drawable2"
-                    android:id="@+id/customCoverLetterButton"
-                    />
+                    android:background="@drawable/border_background"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="0dp"
+                    android:padding="5dp"
+                    >
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/old_edit_text"
+                        android:hint="Write a custom cover letter now"
+                        android:textSize="@dimen/textSize"
+                        android:inputType="textMultiLine"
+                        android:id="@+id/coverLetterText"
+                        />
+
+                </RelativeLayout>
 
             </LinearLayout>
 

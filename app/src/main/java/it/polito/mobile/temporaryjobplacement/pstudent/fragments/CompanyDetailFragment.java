@@ -311,7 +311,7 @@ public class CompanyDetailFragment extends Fragment {
         });
 
 
-        RelativeLayout messageButton=(RelativeLayout)rootView.findViewById(R.id.buttonsendMessage);
+        Button messageButton=(Button)rootView.findViewById(R.id.buttonsendMessage);
         messageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

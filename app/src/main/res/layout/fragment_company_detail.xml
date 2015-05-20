@@ -92,43 +92,6 @@ z
     </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
 
 
-
-
-
-
-
-
-
-
-    <RelativeLayout
-        android:id="@+id/buttonsendMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/button_drawable"
-        >
-        <Button
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="SEND MESSAGE"
-            android:layout_margin="1dp"
-            android:background="@android:color/transparent"
-            android:textSize="@dimen/textLabelSize"
-            android:clickable="false"
-            />
-
-    </RelativeLayout>
-
-
-
-
-
-
-
-
-
     <RelativeLayout
         android:id="@+id/fixedBar"
         android:layout_width="match_parent"

@@ -19,6 +19,8 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
 
     <dimen name="button_height">35dp</dimen>
+    <dimen name="button_width">190dp</dimen>
+
 
     <dimen name="textSmallLabelSize">14sp</dimen>
 

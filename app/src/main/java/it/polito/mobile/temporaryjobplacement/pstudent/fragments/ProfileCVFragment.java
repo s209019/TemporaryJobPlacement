@@ -2,6 +2,7 @@ package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -11,6 +12,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +32,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.CoverLetterActivity;
 
@@ -156,19 +161,19 @@ public class ProfileCVFragment extends Fragment {
         try {
 
 
-            if (studentProfile.has("cv0") && (studentProfile.getParseObject("cv0")).get("name") != null) {
+            if (studentProfile.has("cv0") && (studentProfile.getParseObject("cv0")).get("fileName") != null) {
                 showResume(rootView, 0);
             }
-            if (studentProfile.has("cv1") && ((ParseObject) studentProfile.get("cv1")).get("name") != null) {
+            if (studentProfile.has("cv1") && ((ParseObject) studentProfile.get("cv1")).get("fileName") != null) {
                 showResume(rootView, 1);
             }
-            if (studentProfile.has("cv2") && ((ParseObject) studentProfile.get("cv2")).get("name") != null) {
+            if (studentProfile.has("cv2") && ((ParseObject) studentProfile.get("cv2")).get("fileName") != null) {
                 showResume(rootView, 2);
             }
-            if (studentProfile.has("cv3") && ((ParseObject) studentProfile.get("cv3")).get("name") != null) {
+            if (studentProfile.has("cv3") && ((ParseObject) studentProfile.get("cv3")).get("fileName") != null) {
                 showResume(rootView, 3);
             }
-            if (studentProfile.has("cv4") && ((ParseObject) studentProfile.get("cv4")).get("name") != null) {
+            if (studentProfile.has("cv4") && ((ParseObject) studentProfile.get("cv4")).get("fileName") != null) {
                 showResume(rootView, 4);
             }
 
@@ -305,11 +310,11 @@ public class ProfileCVFragment extends Fragment {
                     final Uri uri = data.getData();
 
                     // Get the File path from the Uri
-                    String path = FileUtils.getPath(getActivity(), uri);
+                    final String path = FileUtils.getPath(getActivity(), uri);
 
                     // Alternatively, use FileUtils.getFile(Context, Uri)
                     if (path != null && FileUtils.isLocal(path)) {
-                        File file = new File(path);
+                        final File file = new File(path);
 
                         if (file.toString().contains(".doc") ||
                                 file.toString().contains(".docx") ||
@@ -318,22 +323,61 @@ public class ProfileCVFragment extends Fragment {
                                 file.toString().contains(".txt")) {
 
                             try {
-                                final int resumeNumber = getFirstFreeResumeNumber();
-                                final String resumeStringId = "cv" + resumeNumber;
-                                ParseObject curriculum = new ParseObject("Curriculum");
-                                curriculum.put("name", "CV ITA" + resumeNumber);
-                                curriculum.put("curriculum", new ParseFile(org.apache.commons.io.FileUtils.readFileToByteArray(file)));
 
-                                studentProfile.put(resumeStringId, curriculum);
-                                getView().findViewById(R.id.addResumeButton).setVisibility(View.GONE);
-                                getView().findViewById(R.id.progress_Resume).setVisibility(View.VISIBLE);
-                                studentProfile.saveInBackground(new SaveCallback() {
+                                //internal view of the dialog
+                                View internalView=getActivity().getLayoutInflater().inflate(R.layout.resume_layout_dialog, null);
+                                final EditText resumeNameTextView=((ClearableEditText)internalView.findViewById(R.id.resumeName)).editText();
+                                TextView fileSelectedTextView = (TextView)internalView.findViewById(R.id.fileName);
+                                fileSelectedTextView.setText(file.getName());
+
+                                //wrapper dialog
+                                AlertDialog.Builder alertBuilder=new AlertDialog.Builder(getActivity());
+                                alertBuilder.setTitle("Insert resume");
+                                alertBuilder.setCancelable(true);
+                                alertBuilder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
                                     @Override
-                                    public void done(ParseException e) {
-                                        getView().findViewById(R.id.addResumeButton).setVisibility(View.VISIBLE);
-                                        showResume(getView(), resumeNumber);
+                                    public void onClick(android.content.DialogInterface dialog, int which) {
+
+                                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                        imm.hideSoftInputFromWindow(resumeNameTextView.getWindowToken(), 0);
+
+                                        if (resumeNameTextView.getText().toString().trim().equals("")) {
+                                            DialogManager.toastMessage("Resume name field  cannot be empty", getActivity());
+                                            return;
+                                        }
+                                        try {
+                                            final int resumeNumber = getFirstFreeResumeNumber();
+                                            final String resumeStringId = "cv" + resumeNumber;
+                                            ParseObject curriculum = new ParseObject("Curriculum");
+                                            curriculum.put("resumeName", resumeNameTextView.getText().toString());
+                                            curriculum.put("fileName", file.getName());
+                                            curriculum.put("curriculum", new ParseFile(org.apache.commons.io.FileUtils.readFileToByteArray(file)));
+
+                                            studentProfile.put(resumeStringId, curriculum);
+
+                                            ProfileCVFragment.this.getView().findViewById(R.id.addResumeButton).setVisibility(View.GONE);
+                                            ProfileCVFragment.this.getView().findViewById(R.id.progress_Resume).setVisibility(View.VISIBLE);
+
+                                            studentProfile.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    getView().findViewById(R.id.addResumeButton).setVisibility(View.VISIBLE);
+                                                    showResume(getView(), resumeNumber);
+                                                }
+                                            });
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+
                                     }
                                 });
+
+                                alertBuilder.setNegativeButton("Cancel", null);
+
+                                alertBuilder.setView(internalView);
+                                alertBuilder.create().show();
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -414,7 +458,7 @@ public class ProfileCVFragment extends Fragment {
             final ParseObject resume = (ParseObject)studentProfile.get(resumeStringId);
             LinearLayout linearLayout = resumeLayouts.get(resumeNumber);
 
-            String resumeName= (String) resume.get("name");
+            String resumeName= (String)resume.get("resumeName");
             linearLayout.setVisibility(View.VISIBLE);
             ((TextView)linearLayout.getChildAt(0)).setText(resumeName);
 
@@ -433,7 +477,7 @@ public class ProfileCVFragment extends Fragment {
                             @Override
                             public void done(byte[] bytes, ParseException e) {
 
-                                String filename = resumeStringId + ".pdf";
+                                String filename = resume.getString("fileName");
                                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filename);
 
                                 try {
