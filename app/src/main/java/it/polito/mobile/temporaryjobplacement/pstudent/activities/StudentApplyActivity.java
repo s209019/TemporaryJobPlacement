@@ -157,12 +157,12 @@ public class StudentApplyActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, final int which) {
 
                             cvClickableTextView.setText(resumeNames[which]);
+                            selectedResume = (ParseObject) myProfile.get("cv" + which);
                             findViewById(R.id.openResumeButton).setVisibility(View.VISIBLE);
                             findViewById(R.id.openResumeButton).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     try {
-                                        selectedResume = (ParseObject) myProfile.get("cv" + which);
                                         final ParseObject resume = selectedResume;
 
                                                 ((ParseFile) resume.get("curriculum")).getDataInBackground(new GetDataCallback() {

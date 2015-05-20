@@ -94,14 +94,14 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         ((TextView) findViewById(R.id.statusAppTextView)).setText(application.getStatus());
         ((TextView) findViewById(R.id.resumeName)).setText(application.getResume().getString("resumeName"));
 
-        if (!application.getStudentNotes().trim().equals("")) {
+        if (application.getStudentNotes()!=null && !application.getStudentNotes().trim().equals("")) {
             findViewById(R.id.notesLine).setVisibility(View.VISIBLE);
             findViewById(R.id.notesLabel).setVisibility(View.VISIBLE);
             TextView notesTextView = (TextView) findViewById(R.id.notesTextView);
             notesTextView.setVisibility(View.VISIBLE);
             notesTextView.setText(application.getStudentNotes());
         }
-        if (!application.getFeedback().trim().equals("")) {
+        if (application.getFeedback()!=null && !application.getFeedback().trim().equals("")) {
             findViewById(R.id.feedbackLine).setVisibility(View.VISIBLE);
             TextView feedbackLabel = (TextView) findViewById(R.id.feedbackLabel);
             feedbackLabel.setVisibility(View.VISIBLE);
@@ -110,7 +110,7 @@ public class ApplicationDetailActivity extends ActionBarActivity {
             feedTextView.setVisibility(View.VISIBLE);
             feedTextView.setText(application.getFeedback());
         }
-        if (!application.getCoverLetter().trim().equals("")) {
+        if (application.getCoverLetter()!=null && !application.getCoverLetter().trim().equals("")) {
             findViewById(R.id.coverLetterLine).setVisibility(View.VISIBLE);
             findViewById(R.id.coverLetterLabel).setVisibility(View.VISIBLE);
             TextView feedTextView = (TextView) findViewById(R.id.coverLetterText);
