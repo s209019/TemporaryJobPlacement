@@ -13,13 +13,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parse.ParseException;
+import com.parse.ParseObject;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.AsyncTaskWithProgressBar;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
@@ -149,12 +149,26 @@ public class StudentApplyActivity extends ActionBarActivity {
 
     public void apply(View v) {
 
+
+        //TO BE REMOVED......................................
+        ParseObject ________________STUB_STUB_STUB_RESUME=new ParseObject("Curriculum");
+        try {
+            ________________STUB_STUB_STUB_RESUME.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String ________________STUB_STUB_STUB_COVER_LETTER="i'm the best";
+        //---------------------------------------------------------------------------
+
             final Application application = new Application();
             application.setStudent(myProfile);
             application.setJobOffer(offer);
             application.setStatus("Submitted");
             EditText studentNotesEditText = (EditText)findViewById(R.id.studentNotesEditText);
             application.setStudentNotes(studentNotesEditText.getText().toString());
+            application.setResume(________________STUB_STUB_STUB_RESUME);
+            application.setCoverLetter(________________STUB_STUB_STUB_COVER_LETTER);
+
 
             new AsyncTaskWithProgressBar(this){
                 @Override

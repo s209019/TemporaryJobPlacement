@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.view.View;
 
 import com.parse.DeleteCallback;
+import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
@@ -255,5 +256,14 @@ public class Student extends ParseObject {
 
     public boolean isPublic(){
         return getBoolean("public");
+    }
+
+
+
+    public Application getApplication() throws com.parse.ParseException {
+        ParseQuery<Application> query=Application.getQuery().whereEqualTo("student",this);
+        query.include("jobOffer");
+        return  query.getFirst();
+
     }
 }

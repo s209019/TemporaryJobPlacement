@@ -38,6 +38,12 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
 
+
+
+
+
+
+
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
@@ -110,6 +116,10 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
     protected void onResume() {
         super.onResume();
         if(progressDialog.isShowing()) progressDialog.dismiss();
+        //EXIT
+        if(getIntent().getExtras()!=null && getIntent().getExtras().get("EXIT")!=null){
+            this.finish();
+        }
 
     }
 

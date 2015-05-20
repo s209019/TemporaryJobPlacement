@@ -315,15 +315,26 @@ public class OfferDetailFragment extends Fragment  {
 
         RelativeLayout applyButton=(RelativeLayout)rootView.findViewById(R.id.buttonApply);
         if(!offer.isApplicationDone()) {
-            applyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    Intent i = new Intent(OfferDetailFragment.this.getActivity(), StudentApplyActivity.class);
-                    i.putExtra("SELECTED_OFFER", offer.getObjectId());
-                    startActivityForResult(i, 0);
-                }
-            });
+            if(!offer.isPublic()) {
+                applyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {}});
+                applyButton.setBackgroundColor(getActivity().getResources().getColor(R.color.primaryColor));
+                Button applyButtonText = (Button) rootView.findViewById(R.id.buttonApplyText);
+                applyButtonText.setText("OFFER WITHDRAWN");
+
+            }else {
+                applyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(OfferDetailFragment.this.getActivity(), StudentApplyActivity.class);
+                        i.putExtra("SELECTED_OFFER", offer.getObjectId());
+                        startActivityForResult(i, 0);
+                    }
+                });
+            }
+
         } else {
             applyButton.setOnClickListener(new View.OnClickListener() {
                 @Override

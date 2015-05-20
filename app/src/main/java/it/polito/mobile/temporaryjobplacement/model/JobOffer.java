@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 /**
  * Created by Enrico on 10/05/15.
@@ -105,6 +106,21 @@ public class JobOffer  extends ParseObject {
     public void setApplicationDone(boolean applicationDone) {
         this.applicationDone = applicationDone;
     }
+
+
+    public void updatePublicFlag(boolean b,SaveCallback saveCallback) {
+        put("public", b);
+        this.saveInBackground(saveCallback);
+    }
+
+
+
+    public boolean isPublic(){
+        return getBoolean("public");
+    }
+
+
+
 
     public static ParseQuery<JobOffer> getQuery() {
         return ParseQuery.getQuery(JobOffer.class);

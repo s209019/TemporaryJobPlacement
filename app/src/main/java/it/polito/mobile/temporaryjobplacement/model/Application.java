@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -61,10 +62,34 @@ import com.parse.ParseQuery;
         return getString("feedback");
 
     }
-
     public void setFeedback(String value){
         put("feedback", value);
     }
+
+    public void setCoverLetter(String value){
+        put("coverLetter", value);
+    }
+
+    public String getCoverLetter(){
+        return getString("coverLetter");
+
+    }
+
+
+    public void setResume(ParseObject value){
+        put("curriculum", value);
+    }
+    public Object getResume(){
+        return get("curriculum");
+    }
+
+
+
+
+
+
+
+
 
     public static ParseQuery<Application> getQuery() {
         return ParseQuery.getQuery(Application.class);

@@ -53,10 +53,9 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
 
     @Override
     public void onItemSelected(Application application) {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-            detailIntent.putExtra("SELECTED_OFFER", application.getJobOffer().getObjectId());
+
+            Intent detailIntent = new Intent(this, ApplicationDetailActivity.class);
+            detailIntent.putExtra("SELECTED_OFFER", application.getObjectId());
             startActivity(detailIntent);
 
     }
@@ -123,6 +122,16 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
     public void onDeleteApplicationPressed(Application application) {
 
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        this.recreate();
+
+
+    }
+
 
 
 

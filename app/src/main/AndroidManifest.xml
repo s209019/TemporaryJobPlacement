@@ -13,95 +13,112 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"
-            >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentMainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_main"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pcompany.activities.CompanyMainActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_company_main"
             android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".SignUpActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_sign_up"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentProfileActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_profile"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentFavouritesActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_favourites"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentMessagesActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_messagges"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentOfferListActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_offer_list"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentCompanyListActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_company_list"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentDetailActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_offer_list"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentMyApplicationsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_history"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.StudentApplyActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_apply"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.ApplicationSentActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_application_sent"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.ShowMessageActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_show_message"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-        <activity android:configChanges="orientation|screenSize"
+        <activity
             android:name=".pstudent.activities.SendMessageActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_send_message"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name="com.ipaulpro.afilechooser.FileChooserActivity"
-            android:icon="@drawable/ic_chooser"
             android:enabled="@bool/use_activity"
             android:exported="true"
+            android:icon="@drawable/ic_chooser"
             android:label="@string/choose_file" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
+
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
@@ -109,7 +126,10 @@
             android:name=".commons.viewmanaging.imagezoomcrop.ImageCropActivity"
             android:label="Choose a picture" >
         </activity>
-
+        <activity
+            android:name=".pstudent.activities.ApplicationDetailActivity"
+            android:label="@string/title_activity_application_detail" >
+        </activity>
     </application>
 
 </manifest>
