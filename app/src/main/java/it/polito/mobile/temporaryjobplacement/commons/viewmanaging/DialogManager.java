@@ -91,6 +91,37 @@ public class DialogManager {
     }
 
 
+    /*simple alert dialog with title*/
+    public  static  void setDialogWithCancelAndOk(String title,String description,FragmentActivity activity,String OK_BUTTON, final Runnable task ){
+        if(activity==null)return;
+
+            AlertDialog aDialog=null;
+            final AlertDialog.Builder alertBuilder=new AlertDialog.Builder(activity);
+
+            if(title!=null)alertBuilder.setTitle(title);
+            alertBuilder.setMessage(description);
+            alertBuilder.setCancelable(false);
+            alertBuilder.setPositiveButton(OK_BUTTON, new android.content.DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(android.content.DialogInterface dialog, int which) {
+                    if (task != null) {
+                        task.run();
+                    }
+                }
+            });
+        alertBuilder.setNegativeButton("CANCEL",new android.content.DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(android.content.DialogInterface dialog, int which) {
+
+            }});
+            aDialog=alertBuilder.create();
+            aDialog.show();
+
+
+
+    }
+
+
 
 			
 			//toast message

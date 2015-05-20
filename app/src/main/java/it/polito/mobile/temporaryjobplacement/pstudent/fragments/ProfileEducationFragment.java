@@ -1,18 +1,24 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parse.ParseException;
@@ -20,17 +26,35 @@ import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.Inflater;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText;
+import it.polito.mobile.temporaryjobplacement.model.Education;
+import it.polito.mobile.temporaryjobplacement.model.Message;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 
 public class ProfileEducationFragment extends Fragment   {
   private ImageView V_education;
     private ProgressBar pro_Education;
-    ArrayList<LinearLayout> educationLayouts=new ArrayList<LinearLayout>();
+    Student studentProfile;
+    List<Education> educations;
+
+
+    private ProfileEducationFragment.Callbacks callbacks = null;
+    public interface Callbacks {
+        /*
+        *get profile
+        */
+        Student getProfile();
+        List<Education> getEducations();
+    }
 
 
     public static Fragment newInstance() {
@@ -48,17 +72,33 @@ public class ProfileEducationFragment extends Fragment   {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View rootView=inflater.inflate(R.layout.fragment_profile_education, container, false);
+       final View rootView=inflater.inflate(R.layout.fragment_profile_education, container, false);
 
         V_education=(ImageView)rootView.findViewById(R.id.V_Education);
         pro_Education=(ProgressBar)rootView.findViewById(R.id.pro_Education);
 
+        //PROGRESSIVE WAIT IF NECESSARY
+        new AsyncTask<Object, Object, Object>() {
+            @Override
+            protected Object doInBackground(Object... params) {
+                //max 30s timeout(maggiore di quello di parse)
+                for(int i=1;i< TemporaryJobPlacementApp.TIMEOUT_ITERATIONS;i++ ){
+                    studentProfile=callbacks.getProfile();
+                    if( studentProfile!=null) return new Object();
+                    try { Thread.sleep (TemporaryJobPlacementApp.TIMEOUT_MILLIS*i); } catch (InterruptedException e) { }
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Object o) {
+                if(o==null)return;
+                educations= callbacks.getEducations();
+                intializeView(rootView, inflater);
 
-        intializeView(rootView, inflater);
-
+            }}.execute();
         return rootView;
     }
 
@@ -66,145 +106,193 @@ public class ProfileEducationFragment extends Fragment   {
 
     private void intializeView(final View rootView,final LayoutInflater inflater) {
 
-        final LinearLayout panelEducation=(LinearLayout)rootView.findViewById(R.id.educationsPanel);
-
-        final AddEducationDialogFragment.Callbacks callback =new AddEducationDialogFragment.Callbacks() {
+        final ListView listView=(ListView)rootView.findViewById(R.id.educationList);
+        ArrayAdapter<Education> educationArrayAdapter=new ArrayAdapter<Education>(getActivity(),R.layout.education_layout){
             @Override
-            public void onInfoLanguageInserted(final String degree, final String course, final String university, final String mark, final Date from, final Date to) {
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = View.inflate(getContext(),R.layout.education_layout, null);
+                }
 
-                final LinearLayout educationLayout=(LinearLayout)inflater.inflate(R.layout.education_layout, null);
-                ((TextView)educationLayout.findViewById(R.id.degreeTextView)).setText(degree);
-                ((TextView)educationLayout.findViewById(R.id.courseTextView)).setText(course);
-                ((TextView)educationLayout.findViewById(R.id.universityTextView)).setText(university);
-                ((TextView)educationLayout.findViewById(R.id.markTextView)).setText(mark);
-                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                ((TextView)educationLayout.findViewById(R.id.periodTextView)).setText(df.format(from)+" - "+ df.format(to));
-
+                final Education education=this.getItem(position);
+                ((TextView)convertView.findViewById(R.id.degreeTextView)).setText(education.getDegree());
+                ((TextView)convertView.findViewById(R.id.courseTextView)).setText(education.getCourse());
+                ((TextView)convertView.findViewById(R.id.universityTextView)).setText(education.getUniversity());
+                ((TextView)convertView.findViewById(R.id.markTextView)).setText(education.getMark());
+                SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                ((TextView)convertView.findViewById(R.id.periodTextView)).setText(df.format(education.getFromDate())+" - "+ df.format(education.getToDate()));
 
                 //handle delete button
-                ((ImageButton)educationLayout.findViewById(R.id.deleteButton)).setOnClickListener(new View.OnClickListener() {
+                ((ImageButton)convertView.findViewById(R.id.deleteButton)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deleteEducation(degree, course, university, mark, from, to);
-                        panelEducation.removeView(educationLayout);
-                        educationLayouts.remove(educationLayout);
-
+                        deleteEducation(education,listView);
                     }
                 });
 
-                //handle edit
-                ((LinearLayout)educationLayout.findViewById(R.id.clickablePanel)).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-                        final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                        DialogFragment dialogF = AddEducationDialogFragment.newInstance(degree, course, university, mark, df.format(from), df.format(to),
-                                new AddEducationDialogFragment.Callbacks() {
-                                    @Override
-                                    public void onInfoLanguageInserted(final String updatedDegree, final String updatedCourse, final String updatedUniversity, final String updatedMark, final Date updatedFrom, final Date updatedTo) {
-                                        ((TextView)educationLayout.findViewById(R.id.degreeTextView)).setText(updatedDegree);
-                                        ((TextView)educationLayout.findViewById(R.id.courseTextView)).setText(updatedCourse);
-                                        ((TextView)educationLayout.findViewById(R.id.universityTextView)).setText(updatedUniversity);
-                                        ((TextView)educationLayout.findViewById(R.id.markTextView)).setText(updatedMark);
-                                        ((TextView)educationLayout.findViewById(R.id.periodTextView)).setText(df.format(updatedFrom) + " - " + df.format(updatedTo));
-
-                                        updateEducation( updatedDegree, updatedCourse,  updatedUniversity,  updatedMark, updatedFrom,  updatedTo);
+                return convertView;
+            }
+        };
 
 
-                                    }});
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+                final Education education = (Education) listView.getAdapter().getItem(position);
+                final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                DialogFragment dialogF = AddEducationDialogFragment.newInstance(education.getDegree(), education.getCourse(), education.getUniversity(), education.getMark(), df.format(education.getFromDate()), df.format(education.getToDate()),"EDIT"
+                        ,new AddEducationDialogFragment.Callbacks() {
+                            @Override
+                            public void onInfoLanguageInserted(final String updatedDegree, final String updatedCourse, final String updatedUniversity, final String updatedMark, final Date updatedFrom, final Date updatedTo) {
+                                ((TextView) view.findViewById(R.id.degreeTextView)).setText(updatedDegree);
+                                ((TextView) view.findViewById(R.id.courseTextView)).setText(updatedCourse);
+                                ((TextView) view.findViewById(R.id.universityTextView)).setText(updatedUniversity);
+                                ((TextView) view.findViewById(R.id.markTextView)).setText(updatedMark);
+                                ((TextView) view.findViewById(R.id.periodTextView)).setText(df.format(updatedFrom) + " - " + df.format(updatedTo));
 
-                        dialogF.show( getActivity(). getSupportFragmentManager(), "MyDialog");
+                                education.setDegree(updatedDegree);
+                                education.setCourse(updatedCourse);
+                                education.setUniversity(updatedUniversity);
+                                education.setMark(updatedMark);
+                                education.setFromDate(updatedFrom);
+                                education.setToDate(updatedTo);
 
-                                }
-                    }
 
-                    );
+                                ((ArrayAdapter<Education>) listView.getAdapter()).notifyDataSetChanged();
 
 
-                    panelEducation.addView(educationLayout);
-                    educationLayouts.add(educationLayout);
 
-                    addEducation(degree, course, university, mark, from, to);
-                }
-            };
+                                updateEducation(education);
+                                listView.setSmoothScrollbarEnabled(true);
+                                listView.smoothScrollToPosition(position);
 
-        Button addEducation=(Button)rootView.findViewById(R.id.addEntry);
+
+                            }
+                        });
+
+                dialogF.show(getActivity().getSupportFragmentManager(), "MyDialog");
+
+            }
+
+
+        });
+
+        educationArrayAdapter.addAll(educations);
+        listView.setAdapter(educationArrayAdapter);
+        listView.setSelection(0);
+
+
+        final RelativeLayout addEducation=(RelativeLayout)rootView.findViewById(R.id.addButton);
         addEducation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment df = AddEducationDialogFragment.newInstance(callback);
+                DialogFragment df = AddEducationDialogFragment.newInstance("ADD",new AddEducationDialogFragment.Callbacks() {
+                    @Override
+                    public void onInfoLanguageInserted(String degree, String course, String university, String mark, Date from, Date to) {
+                        Education education = new Education();
+                        education.setDegree(degree);
+                        education.setCourse(course);
+                        education.setUniversity(university);
+                        education.setMark(mark);
+                        education.setFromDate(from);
+                        education.setToDate(to);
+                        ((ArrayAdapter<Education>) listView.getAdapter()).add(education);
+
+                        addEducation(education, listView);
+
+
+                    }
+                });
                 df.show(getActivity().getSupportFragmentManager(), "MyDialog");
             }
         });
 
 
+
+
     }
 
-    private void addEducation(String degree, String course, String university, String mark, Date from, Date to) {
+    private void addEducation(Education education, final ListView listView) {
 
         V_education.setVisibility(View.GONE);
         pro_Education.setVisibility(View.VISIBLE);
-        /*myProfile.saveInBackground(new SaveCallback() {
+        studentProfile.addEducation(education,new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e==null){
-                    DialogManager.toastMessage("First name updated", getActivity(), "center", true);
-                    if(pro_Education!=null) pro_Education.setVisibility(View.GONE);
-                    if(V_education!=null) V_education.setVisibility(View.VISIBLE);
+                if (e == null) {
+                    DialogManager.toastMessage("education added", getActivity(), "center", true);
+                    if (pro_Education != null) pro_Education.setVisibility(View.GONE);
+                    if (V_education != null) V_education.setVisibility(View.VISIBLE);
+                    if (((ArrayAdapter<Education>)listView.getAdapter())!=null){
+                        ((ArrayAdapter<Education>)listView.getAdapter()).notifyDataSetChanged();
+                    }
+
                 } else {
                     DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                 }
             }
-        });*/
+        });
 
     }
 
-    private void deleteEducation(String degree, String course, String university, String mark, Date from, Date to) {
+    private void deleteEducation(final Education education, final ListView listView) {
 
         V_education.setVisibility(View.GONE);
         pro_Education.setVisibility(View.VISIBLE);
-        /*myProfile.saveInBackground(new SaveCallback() {
+        studentProfile.deleteEducation(education, new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e==null){
-                    DialogManager.toastMessage("First name updated", getActivity(), "center", true);
-                    if(pro_Education!=null) pro_Education.setVisibility(View.GONE);
-                    if(V_education!=null) V_education.setVisibility(View.VISIBLE);
+                if (e == null) {
+                    DialogManager.toastMessage("education deleted", getActivity(), "center", true);
+                    if (pro_Education != null) pro_Education.setVisibility(View.GONE);
+                    if (V_education != null) V_education.setVisibility(View.VISIBLE);
+                    if (((ArrayAdapter<Education>) listView.getAdapter()) != null) {
+                        ((ArrayAdapter<Education>) listView.getAdapter()).remove(education);
+                        ((ArrayAdapter<Education>) listView.getAdapter()).notifyDataSetChanged();
+                    }
+
                 } else {
                     DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                 }
             }
-        });*/
-
+        });
     }
 
 
-    private void updateEducation(String degree, String course, String university, String mark, Date from, Date to) {
+    private void updateEducation(Education education) {
 
         V_education.setVisibility(View.GONE);
         pro_Education.setVisibility(View.VISIBLE);
-        /*myProfile.saveInBackground(new SaveCallback() {
+        studentProfile.updateEducation(education, new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if(e==null){
-                    DialogManager.toastMessage("First name updated", getActivity(), "center", true);
-                    if(pro_Education!=null) pro_Education.setVisibility(View.GONE);
-                    if(V_education!=null) V_education.setVisibility(View.VISIBLE);
+                if (e == null) {
+                    DialogManager.toastMessage("education updated", getActivity(), "center", true);
+                    if (pro_Education != null) pro_Education.setVisibility(View.GONE);
+                    if (V_education != null) V_education.setVisibility(View.VISIBLE);
                 } else {
                     DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                 }
             }
-        });*/
+        });
 
     }
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
+        callbacks = (Callbacks) activity;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        // Reset the active callbacks interface to the dummy implementation.
+        callbacks = null;
     }
 
 

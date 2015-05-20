@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
 
+import com.parse.DeleteCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
@@ -25,10 +26,14 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
@@ -91,6 +96,9 @@ public class Student extends ParseObject {
         String[] languages=languagesText.split("\n");
 
         return  new ArrayList<String>(Arrays.asList(languages));
+    }
+    public void setLanguageSkills(String value){
+        put("languages",value);
     }
 
 
@@ -190,4 +198,62 @@ public class Student extends ParseObject {
 
 
 
+    public List<Education> getEducations() throws com.parse.ParseException {
+        ParseRelation<Education> relation = getRelation("educations");
+        List<Education> educations= relation.getQuery().find();
+        Collections.sort(educations);
+        return educations;
+    }
+
+    public void deleteEducation(Education education,SaveCallback saveCallback)   {
+        ParseRelation<Education> relation = getRelation("educations");
+        relation.remove(education);
+        this.saveInBackground(saveCallback);
+        education.deleteEventually();
+    }
+
+
+    public void addEducation(final Education education, final SaveCallback saveCallback) {
+        education.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                ParseRelation<Education> relation = getRelation("educations");
+                relation.add(education);
+                Student.this.saveInBackground(saveCallback);
+            }
+        });
+
+    }
+
+
+    public void updateEducation(Education education, SaveCallback saveCallback) {
+        education.saveInBackground(saveCallback);
+    }
+
+    public void clearProfile(final ParseUser user, final SaveCallback saveCallback) {
+
+       this.deleteInBackground(new DeleteCallback() {
+           @Override
+           public void done(com.parse.ParseException e) {
+               Student student = new Student();
+               student.put("user", user);
+               student.setFirstName("");
+               student.setLastName("");
+               student.saveInBackground(saveCallback);
+           }
+       });
+
+    }
+
+
+    public void updatePublicFlag(boolean b,SaveCallback saveCallback) {
+        put("public", b);
+        this.saveInBackground(saveCallback);
+    }
+
+
+
+    public boolean isPublic(){
+        return getBoolean("public");
+    }
 }

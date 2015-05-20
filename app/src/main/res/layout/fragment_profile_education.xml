@@ -6,84 +6,79 @@
     android:orientation="vertical"
     android:animateLayoutChanges="true"
     >
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
+
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/margin_medium"
             android:orientation="vertical">
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_medium">
+            <RelativeLayout
+                android:id="@+id/addButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/button_drawable">
 
                 <ImageView
                     android:id="@+id/V_Education"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="@dimen/margin_small"
+                   android:layout_centerVertical="true"
                     android:src="@drawable/done_image"
                     android:visibility="gone"/>
                 <ProgressBar
                     android:id="@+id/pro_Education"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_centerVertical="true"
                     style="?android:attr/progressBarStyleLarge"
                     android:visibility="gone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Education: "
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="2dp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/textLabelSize"
+                    android:text="ADD EDUCATION "
+                     android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/textSize"
                     />
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
+
+
+            <ListView
+                android:layout_marginLeft="0dp"
+                android:background="@android:color/transparent"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:id="@+id/educationsPanel"
+                android:stackFromBottom="true"
+                android:transcriptMode="alwaysScroll"
+                android:layout_marginBottom="0dp"
+                android:choiceMode="multipleChoice"
+                android:id="@+id/educationList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </LinearLayout>
-
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/margin_medium_large"
-                android:paddingRight="@dimen/margin_medium_large"
-                android:text="Add education"
-                android:textSize="@dimen/textSize"
-                android:gravity="center"
-                android:textColor="@color/secondaryColor"
-                android:background="@drawable/button_drawable2"
-                android:id="@+id/addEntry"
-                android:clickable="true"
+                android:layout_weight="1"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="@dimen/margin_medium"
                 />
 
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="50dp" />
+
+
+
+
+
 
 
         </LinearLayout>
 
-    </ScrollView>
+
 
     <include android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"

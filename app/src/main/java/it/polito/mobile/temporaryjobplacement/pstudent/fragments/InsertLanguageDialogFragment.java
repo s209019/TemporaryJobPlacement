@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
@@ -27,12 +28,12 @@ public class InsertLanguageDialogFragment extends DialogFragment {
         public void onLanguageInserted(String language);
     }
 
-    public static InsertLanguageDialogFragment newInstance(String title, InsertLanguageDialogFragment.Callbacks callback) {
+
+    public static InsertLanguageDialogFragment newInstance(String title,String alreadyPresentLanguages, InsertLanguageDialogFragment.Callbacks callback) {
         InsertLanguageDialogFragment fragment = new InsertLanguageDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
-        //args.putStringArrayList("items", items);
-        //args.putStringArray("alreadyCheckedIndustries", alreadyCheckedIndustries);
+        args.putString("items", alreadyPresentLanguages);
         fragment.setArguments(args);
         listener=callback;
         return fragment;
@@ -46,13 +47,27 @@ public class InsertLanguageDialogFragment extends DialogFragment {
     @Override
     public AlertDialog onCreateDialog(Bundle savedInstanceState) {
         String title = null;
+         String alreadyPresentLanguages="";
         if (getArguments() != null) {
             title = getArguments().getString("title");
+            alreadyPresentLanguages=getArguments().getString("items");
         }
+        if(alreadyPresentLanguages==null) alreadyPresentLanguages="";
 
         //internal view -->listview
         View internalView=getActivity().getLayoutInflater().inflate(R.layout.language_layout_dialog,null);
-        final EditText languageTextView=((ClearableEditText)internalView.findViewById(R.id.language)).editText();
+
+        //languages
+        final Spinner languageSpinner=(Spinner)internalView.findViewById(R.id.languageSpinner);
+        List<String> originalList = FileManager.readRowsFromFile(getActivity(), "languages.dat");
+        List<String> list0=new ArrayList<String>();
+        for(String l :originalList){
+            if(!alreadyPresentLanguages.contains(l.toUpperCase()))
+                list0.add(l);
+        }
+        final ArrayAdapter<String> dataAdapter0 = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item , list0);
+        dataAdapter0.setDropDownViewResource(R.layout.spinner_item_dropdown);
+        languageSpinner.setAdapter(dataAdapter0);
 
         //LEVELS
         final Spinner spinnerLevels=(Spinner)internalView.findViewById(R.id.levelSpinner);
@@ -72,17 +87,9 @@ public class InsertLanguageDialogFragment extends DialogFragment {
             @Override
             public void onClick(android.content.DialogInterface dialog, int which) {
 
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(languageTextView.getWindowToken(), 0);
 
-
-                if(languageTextView.getText().toString().trim().equals("")){
-                    DialogManager.toastMessage("Language field  cannot be empty",getActivity());
-                    return;
-                }
                 if(listener!=null)
-                listener.onLanguageInserted(languageTextView.getText().toString().toUpperCase()+", level "+spinnerLevels.getSelectedItem());
+                listener.onLanguageInserted(languageSpinner.getSelectedItem().toString().toUpperCase()+", level "+spinnerLevels.getSelectedItem());
             }
         });
 

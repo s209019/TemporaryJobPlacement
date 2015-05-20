@@ -30,23 +30,20 @@ android:orientation="vertical">
         android:text="Language"
         />
 
-    <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/language"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
-        >
-        <AutoCompleteTextView
-            android:inputType="text"
-            android:hint="e.g. english"
-            android:layout_width="fill_parent"
+        <Spinner
+            android:id="@+id/languageSpinner"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:imeOptions="actionDone"
+            android:padding="5dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginBottom="0dp"
+            android:textColor="@android:color/black"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:background="@drawable/textview_clickable_drawable"
+            android:textStyle="bold"
             />
-
-    </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText>
 
     <TextView
         android:layout_width="match_parent"

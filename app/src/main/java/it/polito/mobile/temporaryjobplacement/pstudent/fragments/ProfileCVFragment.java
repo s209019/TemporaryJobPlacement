@@ -2,7 +2,6 @@ package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,8 +11,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,8 +28,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 
 public class ProfileCVFragment extends Fragment {
@@ -42,13 +38,12 @@ public class ProfileCVFragment extends Fragment {
     Student studentProfile;
     final ArrayList<LinearLayout> resumeLayouts = new ArrayList<>();
 
+
     private AtomicInteger viewInitialized= new AtomicInteger(0);
 
 
 
     private ProfileCVFragment.Callbacks callbacks = null;
-
-
     public interface Callbacks {
         /*
         *get profile
@@ -86,10 +81,10 @@ public class ProfileCVFragment extends Fragment {
             @Override
             protected Object doInBackground(Object... params) {
                 //max 30s timeout(maggiore di quello di parse)
-                for(int i=1;i<11;i++ ){
+                for(int i=1;i<TemporaryJobPlacementApp.TIMEOUT_ITERATIONS;i++ ){
                     studentProfile=callbacks.getProfile();
                     if( studentProfile!=null) return new Object();
-                    try { Thread.sleep (500*i); } catch (InterruptedException e) { }
+                    try { Thread.sleep (TemporaryJobPlacementApp.TIMEOUT_MILLIS*i); } catch (InterruptedException e) { }
                 }
                 return null;
             }
@@ -114,7 +109,6 @@ public class ProfileCVFragment extends Fragment {
         rootView.findViewById(R.id.addResumeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // Create the ACTION_GET_CONTENT Intent
                 Intent getContentIntent = FileUtils.createGetContentIntent();
 
@@ -142,6 +136,29 @@ public class ProfileCVFragment extends Fragment {
                 }
             });
         }
+
+
+/*        final InsertLanguageDialogFragment.Callbacks callbacks=new InsertLanguageDialogFragment.Callbacks() {
+            @Override
+            public void onLanguageInserted(String language) {
+                if(languages.size()<languageLayouts.length){
+                    languages.add(language);
+                    languageLayouts[languages.size()-1].setVisibility(View.VISIBLE);
+                    ((TextView)languageLayouts[languages.size() - 1].getChildAt(0)).setText(language);
+                    if(languages.size()==languageLayouts.length)addLanguageSkillsButton.setVisibility(View.INVISIBLE);
+                    addLanguageSkills(myProfile,language);
+                }
+            }
+        };
+        addLanguageSkillsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment df = InsertLanguageDialogFragment.newInstance("Insert language and level:", callbacks);
+                df.show(getActivity().getSupportFragmentManager(), "MyDialog");
+            }
+        });
+
+*/
 
         for(int i=0; i<resumes.length; i++)
             resumes[i]=false;
@@ -200,9 +217,9 @@ public class ProfileCVFragment extends Fragment {
             @Override
             protected Object doInBackground(Object... params) {
                 //max 30s timeout(maggiore di quello di parse)
-                for(int i=1;i<11;i++ ){
+                for(int i=1;i< TemporaryJobPlacementApp.TIMEOUT_ITERATIONS;i++ ){
                     if(viewInitialized.compareAndSet(1,1))return new Object();
-                    try { Thread.sleep (500*i); } catch (InterruptedException e) { }
+                    try { Thread.sleep (TemporaryJobPlacementApp.TIMEOUT_MILLIS*i); } catch (InterruptedException e) { }
                 }
                 return null;
             }
@@ -226,11 +243,11 @@ public class ProfileCVFragment extends Fragment {
                     final Uri uri = data.getData();
 
                     // Get the File path from the Uri
-                    final String path = FileUtils.getPath(getActivity(), uri);
+                    String path = FileUtils.getPath(getActivity(), uri);
 
                     // Alternatively, use FileUtils.getFile(Context, Uri)
                     if (path != null && FileUtils.isLocal(path)) {
-                        final File file = new File(path);
+                        File file = new File(path);
 
                         if (file.toString().contains(".doc") ||
                                 file.toString().contains(".docx") ||
@@ -239,61 +256,22 @@ public class ProfileCVFragment extends Fragment {
                                 file.toString().contains(".txt")) {
 
                             try {
+                                final int resumeNumber = getFirstFreeResumeNumber();
+                                final String resumeStringId="cv"+resumeNumber;
+                                ParseObject curriculum = new ParseObject("Curriculum");
+                                curriculum.put("name", "CV ITA" + resumeNumber);
+                                curriculum.put("curriculum", new ParseFile(org.apache.commons.io.FileUtils.readFileToByteArray(file)));
 
-                                //internal view of the dialog
-                                View internalView=getActivity().getLayoutInflater().inflate(R.layout.resume_layout_dialog, null);
-                                final EditText resumeNameTextView=((ClearableEditText)internalView.findViewById(R.id.resumeName)).editText();
-                                TextView fileSelectedTextView = (TextView)internalView.findViewById(R.id.fileName);
-                                fileSelectedTextView.setText(file.getName());
-
-                                //wrapper dialog
-                                AlertDialog.Builder alertBuilder=new AlertDialog.Builder(getActivity());
-                                alertBuilder.setTitle("Insert resume");
-                                alertBuilder.setCancelable(true);
-                                alertBuilder.setPositiveButton("Ok", new android.content.DialogInterface.OnClickListener() {
+                                studentProfile.put(resumeStringId, curriculum);
+                                getView().findViewById(R.id.addResumeButton).setVisibility(View.GONE);
+                                getView().findViewById(R.id.progress_Resume).setVisibility(View.VISIBLE);
+                                studentProfile.saveInBackground(new SaveCallback() {
                                     @Override
-                                    public void onClick(android.content.DialogInterface dialog, int which) {
-
-                                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                                        imm.hideSoftInputFromWindow(resumeNameTextView.getWindowToken(), 0);
-
-                                        if (resumeNameTextView.getText().toString().trim().equals("")) {
-                                            DialogManager.toastMessage("Resume name field  cannot be empty", getActivity());
-                                            return;
-                                        }
-                                        try {
-                                        final int resumeNumber = getFirstFreeResumeNumber();
-                                        final String resumeStringId = "cv" + resumeNumber;
-                                        ParseObject curriculum = new ParseObject("Curriculum");
-                                        curriculum.put("resumeName", resumeNameTextView.getText().toString());
-                                        curriculum.put("fileName", file.getName());
-                                            curriculum.put("curriculum", new ParseFile(org.apache.commons.io.FileUtils.readFileToByteArray(file)));
-
-                                        studentProfile.put(resumeStringId, curriculum);
-
-                                            ProfileCVFragment.this.getView().findViewById(R.id.addResumeButton).setVisibility(View.GONE);
-                                            ProfileCVFragment.this.getView().findViewById(R.id.progress_Resume).setVisibility(View.VISIBLE);
-
-                                        studentProfile.saveInBackground(new SaveCallback() {
-                                            @Override
-                                            public void done(ParseException e) {
-                                                getView().findViewById(R.id.addResumeButton).setVisibility(View.VISIBLE);
-                                                showResume(getView(), resumeNumber);
-                                            }
-                                        });
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-
-
+                                    public void done(ParseException e) {
+                                        getView().findViewById(R.id.addResumeButton).setVisibility(View.VISIBLE);
+                                        showResume(getView(), resumeNumber);
                                     }
                                 });
-
-                                alertBuilder.setNegativeButton("Cancel", null);
-
-                                alertBuilder.setView(internalView);
-                                alertBuilder.create().show();
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -328,7 +306,7 @@ public class ProfileCVFragment extends Fragment {
             final ParseObject resume = (ParseObject)studentProfile.get(resumeStringId);
             LinearLayout linearLayout = resumeLayouts.get(resumeNumber);
 
-            String resumeName= (String)resume.get("resumeName");
+            String resumeName= (String) resume.get("name");
             linearLayout.setVisibility(View.VISIBLE);
             ((TextView)linearLayout.getChildAt(0)).setText(resumeName);
 
@@ -347,7 +325,7 @@ public class ProfileCVFragment extends Fragment {
                             @Override
                             public void done(byte[] bytes, ParseException e) {
 
-                                String filename = resume.getString("fileName");
+                                String filename = resumeStringId + ".pdf";
                                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filename);
 
                                 try {

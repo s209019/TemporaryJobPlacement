@@ -41,9 +41,10 @@ public class AddEducationDialogFragment extends DialogFragment {
         public void onInfoLanguageInserted(String degree, String course, String university, String mark, Date from, Date to);
     }
 
-    public static AddEducationDialogFragment newInstance(Callbacks callback) {
+    public static AddEducationDialogFragment newInstance(String OK_BUTTON_TEXT,Callbacks callback) {
         AddEducationDialogFragment fragment = new AddEducationDialogFragment();
         Bundle args = new Bundle();
+        args.putString("OK_BUTTON_TEXT", OK_BUTTON_TEXT);
         //args.putString("title", title);
         //args.putStringArrayList("items", items);
         //args.putStringArray("alreadyCheckedIndustries", alreadyCheckedIndustries);
@@ -53,7 +54,7 @@ public class AddEducationDialogFragment extends DialogFragment {
     }
 
 
-    public static AddEducationDialogFragment newInstance(String degree,String  course,String university, String mark,String from,String to,Callbacks callback) {
+    public static AddEducationDialogFragment newInstance(String degree,String  course,String university, String mark,String from,String to,String OK_BUTTON_TEXT ,Callbacks callback) {
         AddEducationDialogFragment fragment = new AddEducationDialogFragment();
         Bundle args = new Bundle();
         args.putString("degree", degree);
@@ -61,6 +62,7 @@ public class AddEducationDialogFragment extends DialogFragment {
         args.putString("university", university);
         args.putString("mark", mark);
         args.putString("from", from);
+        args.putString("OK_BUTTON_TEXT", OK_BUTTON_TEXT);
         args.putString("to", to);
 
 
@@ -78,7 +80,7 @@ public class AddEducationDialogFragment extends DialogFragment {
 
 
 
-    String oldDegree=null,  oldCourse=null, oldUniversity=null,   oldMark=null,  oldFrom=null,  oldTo=null;
+    String oldDegree=null,  oldCourse=null, oldUniversity=null,   oldMark=null,  oldFrom=null,  oldTo=null,OK_BUTTON_TEXT;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -90,6 +92,7 @@ public class AddEducationDialogFragment extends DialogFragment {
             oldMark = getArguments().getString("mark");
             oldFrom = getArguments().getString("from");
             oldTo = getArguments().getString("to");
+            OK_BUTTON_TEXT=getArguments().getString("OK_BUTTON_TEXT");
 
         }
 
@@ -100,6 +103,7 @@ public class AddEducationDialogFragment extends DialogFragment {
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
 
+        getDialog().setCancelable(false);
 
         final Spinner spinnerDegree=(Spinner)internalView.findViewById(R.id.degreeSpinner);
         List<String> list = FileManager.readRowsFromFile(getActivity(), "educations.dat");
@@ -201,6 +205,7 @@ public class AddEducationDialogFragment extends DialogFragment {
 
 
         Button addButton =(Button)internalView.findViewById(R.id.add);
+        addButton.setText(OK_BUTTON_TEXT);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

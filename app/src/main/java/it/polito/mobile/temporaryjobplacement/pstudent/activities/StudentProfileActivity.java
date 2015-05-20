@@ -1,9 +1,11 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -13,15 +15,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
+import it.polito.mobile.temporaryjobplacement.model.Education;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MessageListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.ProfileBasicInfoFragment;
@@ -31,10 +40,11 @@ import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManage
 import it.polito.mobile.temporaryjobplacement.R;
 
 
-public class StudentProfileActivity extends ActionBarActivity implements  ProfileBasicInfoFragment.Callbacks, ProfileCVFragment.Callbacks  {
+public class StudentProfileActivity extends ActionBarActivity implements  ProfileBasicInfoFragment.Callbacks, ProfileCVFragment.Callbacks,ProfileEducationFragment.Callbacks  {
     DrawerManager drawerManager;
     Student studentProfile;
     Bitmap photoStudentBitmap;
+    List<Education> educations;
     ViewPager pager;
 
 
@@ -61,8 +71,10 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
             @Override
             protected Object doInBackground(Object... params) {
                 try {
-                    setProfile(AccountManager.getCurrentStudentProfile());
-                    photoStudentBitmap =studentProfile.getPhoto(StudentProfileActivity.this);
+                    Student profile=AccountManager.getCurrentStudentProfile();
+                    photoStudentBitmap =profile.getPhoto(StudentProfileActivity.this);
+                    educations= profile.getEducations();
+                    setProfile(profile);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -126,11 +138,53 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
                 // Setting the ViewPager For the SlidingTabsLayout
                 tabLayout.setViewPager(pager);
 
+
+
+                final Button publishButton=(Button)findViewById(R.id.buttonPublish);
+                setPublishInfo(publishButton);
+                publishButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                           DialogManager.setDialogWithCancelAndOk(title, description, StudentProfileActivity.this, ok_button_text, new Runnable() {
+                            @Override
+                            public void run() {
+                                    final ProgressDialog pd=ProgressDialog.show(StudentProfileActivity.this, null, "Loading", true, false);
+                                    getProfile().updatePublicFlag(!getProfile().isPublic(), new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if(pd!=null && pd.isShowing())pd.dismiss();
+                                             setPublishInfo(publishButton);
+                                        }
+                                    });
+                            }
+                        });
+
+                    }
+                });
             }
         }.execute();
 
-
     }
+
+    String ok_button_text;
+    String title,description;
+    public void setPublishInfo(Button publishButton) {
+        if(!getProfile().isPublic()){
+            publishButton.setText("Publish your profile");
+            ok_button_text="PUBLISH";
+            title="PUBLISH PROFILE";
+            description="Publish profile?\n\nAll profile information will be available to companies";
+        }
+        else {
+            publishButton.setText("Unpublish your profile");
+            ok_button_text="UNPUBLISH";
+            title="UNPUBLISH PROFILE";
+            description="Unpublish profile?\n\nAll profile information will no longer be available to companies!";
+        }
+    }
+
+
+
 
 
     @Override
@@ -149,6 +203,39 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
 
         if (id == android.R.id.home) {
             drawerManager.toggleDrawer();
+            return true;
+        }
+
+        if (id == R.id.action_delete) {
+
+            if(getProfile()!=null){
+                String title="CLEAR PROFILE";
+                String description="Are you sure you want to clear profile?\n\nAll profile information will no longer be available!";
+                DialogManager.setDialogWithCancelAndOk(title, description, this, "DELETE", new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ParseUser user = AccountManager.getCurrentUser();
+                            final ProgressDialog pd=ProgressDialog.show(StudentProfileActivity.this, null, "Loading", true, false);
+                            getProfile().clearProfile(user, new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(pd!=null && pd.isShowing())pd.dismiss();
+                                   StudentProfileActivity.this.recreate();
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                });
+
+            }
+
+
+
             return true;
         }
 
@@ -173,6 +260,12 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
     public synchronized Student getProfile(){
         return studentProfile;
     }
+
+    @Override
+    public synchronized List<Education> getEducations() {
+        return educations;
+    }
+
     public synchronized void setProfile(Student s){
          studentProfile=s;
     }

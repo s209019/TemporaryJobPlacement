@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.imagezoomcrop.GOTOConstants;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.BitmapManager;
@@ -134,10 +135,10 @@ public class ProfileBasicInfoFragment extends Fragment {
             @Override
             protected Object doInBackground(Object... params) {
                 //max 30s timeout(maggiore di quello di parse)
-                for(int i=1;i<11;i++ ){
+                for(int i=1;i< TemporaryJobPlacementApp.TIMEOUT_ITERATIONS;i++ ){
                     profile=callbacks.getProfile();
                     if(profile!=null) return new Object();
-                    try { Thread.sleep (500*i); } catch (InterruptedException e) { }
+                    try { Thread.sleep (TemporaryJobPlacementApp.TIMEOUT_MILLIS*i); } catch (InterruptedException e) { }
                 }
                 return null;
             }
@@ -324,8 +325,6 @@ public class ProfileBasicInfoFragment extends Fragment {
         final TextView dateOfBirthTextView = (TextView) rootView.findViewById(R.id.dateOfBirthTextView);
         if (myProfile.getDateOfBirth() != null) {
             dateOfBirthTextView.setText(df.format(myProfile.getDateOfBirth()));
-        } else {
-            dateOfBirthTextView.setText("Not specified");
         }
         dateOfBirthTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -406,7 +405,7 @@ public class ProfileBasicInfoFragment extends Fragment {
         addLanguageSkillsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment df = InsertLanguageDialogFragment.newInstance("Insert language and level:", callbacks);
+                DialogFragment df = InsertLanguageDialogFragment.newInstance("Insert language and level:",languages.toString(), callbacks);
                 df.show(getActivity().getSupportFragmentManager(), "MyDialog");
             }
         });
@@ -675,9 +674,9 @@ public class ProfileBasicInfoFragment extends Fragment {
                 @Override
                 protected Object doInBackground(Object... params) {
                     //max 30s timeout(maggiore di quello di parse)
-                    for(int i=1;i<11;i++ ){
+                    for(int i=1;i<TemporaryJobPlacementApp.TIMEOUT_ITERATIONS;i++ ){
                         if(viewInitialized.compareAndSet(1,1))return new Object();
-                        try { Thread.sleep (500*i); } catch (InterruptedException e) { }
+                        try { Thread.sleep (TemporaryJobPlacementApp.TIMEOUT_MILLIS*i); } catch (InterruptedException e) { }
                     }
                     return null;
                 }
