@@ -1,5 +1,6 @@
 package it.polito.mobile.temporaryjobplacement.model;
 
+import com.parse.Parse;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -79,8 +80,8 @@ import com.parse.ParseQuery;
     public void setResume(ParseObject value){
         put("curriculum", value);
     }
-    public Object getResume(){
-        return get("curriculum");
+    public ParseObject getResume(){
+        return getParseObject("curriculum");
     }
 
 

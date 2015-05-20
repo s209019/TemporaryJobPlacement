@@ -99,11 +99,30 @@
                     android:textColor="@android:color/black"
                     />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:clickable="true"
+                android:text="Learn more about this offer"
+                android:textColor="@color/labelTextColor"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:id="@+id/seeOfferTextView"
+                android:onClick="learnMoreAboutOffer"
+                android:background="@drawable/button_drawable2"
+                />
+
 
 
         </LinearLayout>
-
-
 
 
         <View
@@ -159,52 +178,6 @@
                     />
             </LinearLayout>
 
-
-
-            <View
-                android:visibility="gone"
-                android:id="@+id/notesLine"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/internalBorderColor"
-                android:layout_marginBottom="@dimen/margin_medium_large"/>
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/notesLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Student notes"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/textSize"
-                android:paddingTop="@dimen/margin_medium"
-                android:paddingBottom="@dimen/margin_medium"
-
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/margin_medium_large"
-                android:layout_marginRight="@dimen/margin_medium_large">
-
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/notesTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_medium"
-                    android:text="This company is ok, because this company is ok ok ok ok. Text random wow wow"
-                    android:textColor="@android:color/black"
-                    />
-            </LinearLayout>
-
-
             <View
                 android:visibility="gone"
                 android:id="@+id/feedbackLine"
@@ -219,7 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Company feedback"
+                android:text="Company has left a feedback"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/textSize"
@@ -249,36 +222,6 @@
             </LinearLayout>
 
 
-
-
-
-
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/internalBorderColor"
-                android:layout_marginTop="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_medium_large"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:clickable="true"
-                android:text="Learn more about this offer"
-                android:textColor="@color/labelTextColor"
-                android:textSize="@dimen/textSize"
-                android:layout_marginLeft="@dimen/margin_medium_large"
-                android:layout_marginRight="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_medium_large"
-                android:id="@+id/seeOfferTextView"
-                android:onClick="learnMoreAboutOffer"
-                android:background="@drawable/button_drawable2"
-                />
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -295,7 +238,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="CV/Resume submitted "
+                android:text="Submitted resume"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/textSize"
@@ -316,7 +259,7 @@
                 android:layout_marginLeft="@dimen/margin_medium_large"
                 android:layout_marginRight="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:id="@+id/seeResumeTextView"
+                android:id="@+id/resumeName"
                 android:onClick="seeResume"
                 android:background="@drawable/button_drawable2"
                 />
@@ -326,7 +269,10 @@
                 android:layout_height="1dp"
                 android:background="@color/internalBorderColor"
                 android:layout_marginTop="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_medium_large"/>
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:id="@+id/coverLetterLine"
+                android:visibility="gone"
+                />
 
 
 
@@ -335,7 +281,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Cover letter submitted"
+                android:text="Cover letter"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+                android:id="@+id/coverLetterLabel"
+                android:visibility="gone"
+
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cover letter text"
+                android:textColor="@android:color/black"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:id="@+id/coverLetterText"
+                android:visibility="gone"
+                />
+
+            <View
+                android:visibility="gone"
+                android:id="@+id/notesLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/notesLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Notes"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/textSize"
@@ -344,21 +327,27 @@
 
                 />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:clickable="true"
-                android:text="See cover letter"
-                android:textColor="@color/labelTextColor"
-                android:textSize="@dimen/textLabelSize"
+                android:orientation="vertical"
                 android:layout_marginLeft="@dimen/margin_medium_large"
-                android:layout_marginRight="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_medium_large"
-                android:id="@+id/seeCoverLetter"
-                android:onClick="seeCoverLetter"
-                android:background="@drawable/button_drawable2"
-                />
+                android:layout_marginRight="@dimen/margin_medium_large">
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/notesTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:text="This company is ok, because this company is ok ok ok ok. Text random wow wow"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+
+
 
 
 
