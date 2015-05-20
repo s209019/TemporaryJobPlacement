@@ -37,112 +37,6 @@
             <include layout="@layout/deletable_entry_layout" android:id="@+id/resumeLayout3" android:visibility="gone"/>
             <include layout="@layout/deletable_entry_layout" android:id="@+id/resumeLayout4" android:visibility="gone"/>
             <include layout="@layout/deletable_entry_layout" android:id="@+id/resumeLayout5" android:visibility="gone"/>
-<!--
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:id="@+id/cv1Layout">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Nome CV 1"
-                    android:textSize="@dimen/textSize"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/cv1NameTextView"/>
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_delete"
-                    android:id="@+id/cv1DeleteButton"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:id="@+id/cv2Layout">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Nome CV 2"
-                    android:textSize="@dimen/textSize"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/cv2NameTextView"/>
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_delete"
-                    android:id="@+id/cv2DeleteButton"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:id="@+id/cv3Layout">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Nome CV 3"
-                    android:textSize="@dimen/textSize"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/cv3NameTextView"/>
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_delete"
-                    android:id="@+id/cv3DeleteButton"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:id="@+id/cv4Layout">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Nome CV 4"
-                    android:textSize="@dimen/textSize"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/cv4NameTextView"/>
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_delete"
-                    android:id="@+id/cv4DeleteButton"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:id="@+id/cv5Layout">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Nome CV 5"
-                    android:textSize="@dimen/textSize"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/cv5NameTextView"/>
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_delete"
-                    android:id="@+id/cv5DeleteButton"/>
-            </LinearLayout>
-
-
-
--->
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,12 +72,13 @@
                 android:layout_marginTop="@dimen/margin_large"
                 />
 
-            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout1" android:visibility="gone"/>
-            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout2" android:visibility="gone"/>
-            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout3" android:visibility="gone"/>
-            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout4" android:visibility="gone"/>
-            <include layout="@layout/deletable_entry_layout" android:id="@+id/coverLetterLayout5" android:visibility="gone"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/coverLettersContainer"
+                android:orientation="vertical">
 
+            </LinearLayout>
 
             <Button
                 android:layout_width="match_parent"

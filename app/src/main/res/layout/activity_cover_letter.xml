@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/margin_large"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cover Letter Name: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/coverLetterNameTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="e.g. web developer cover letter"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cover Letter: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/coverLetterContentTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Write your cover letter here"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:gravity="top"
+
+                />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/margin_large"
+                android:text="SAVE"
+                android:background="@drawable/button_drawable"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textSize"
+                android:padding="10dp"
+                android:onClick="save"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

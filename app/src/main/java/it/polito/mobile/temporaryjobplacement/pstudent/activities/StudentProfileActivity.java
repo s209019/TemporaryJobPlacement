@@ -173,16 +173,16 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
     String title,description;
     public void setPublishInfo(Button publishButton) {
         if(!getProfile().isPublic()){
-            publishButton.setText("Publish your profile");
-            ok_button_text="PUBLISH";
-            title="PUBLISH PROFILE";
-            description="Publish profile?\n\nAll profile information will be available to companies";
+            publishButton.setText("Make your profile public");
+            ok_button_text="SET PUBLIC";
+            title="Publish your profile";
+            description="Do you want to set your profile as public?\n\nSetting your profile as public, companies will be able to access to the information contained in your profile.\n";
         }
         else {
-            publishButton.setText("Unpublish your profile");
-            ok_button_text="UNPUBLISH";
-            title="UNPUBLISH PROFILE";
-            description="Unpublish profile?\n\nAll profile information will no longer be available to companies!";
+            publishButton.setText("Make your profile private");
+            ok_button_text="SET PRIVATE";
+            title="Unpublish your profile";
+            description="Do you want to set your profile as private?\n\nSetting your profile as private, only companies to which you have sent an application will be able to access your information.\nAll other companies will no longer be able to access to the information contained in your profile!\n";
         }
     }
 

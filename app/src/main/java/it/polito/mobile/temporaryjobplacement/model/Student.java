@@ -89,6 +89,10 @@ public class Student extends ParseObject {
         return relation.getQuery().find();
     }
 
+    public ArrayList<ParseObject> getCoverLetters() {
+        return (ArrayList<ParseObject>)get("coverLetters");
+    }
+
 
 
     public ArrayList<String> getLanguageSkills(){
@@ -150,7 +154,7 @@ public class Student extends ParseObject {
         photo.put("photo", new ParseFile(byteArray));
 
         if(this.has("photoProfile"))
-            this.getParseObject("photoProfile").deleteEventually();
+            this.getParseObject("photoProfile").deleteInBackground();
 
         this.put("photoProfile", photo);
         this.saveInBackground(saveCallback);
@@ -160,7 +164,7 @@ public class Student extends ParseObject {
     public void removePhoto(SaveCallback saveCallback) {
         final ParseObject photo = (ParseObject)this.get("photoProfile");
         if(photo==null)return;
-        photo.deleteEventually();
+        photo.deleteInBackground();
         this.remove("photoProfile");
         this.saveInBackground(saveCallback);
 

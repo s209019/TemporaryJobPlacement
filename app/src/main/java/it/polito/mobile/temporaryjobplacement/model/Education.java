@@ -8,9 +8,6 @@ import com.parse.ParseRelation;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Nicolò on 20/05/2015.
- */
 @ParseClassName("Education")
 public class Education extends ParseObject implements Comparable<Education> {
     //String name

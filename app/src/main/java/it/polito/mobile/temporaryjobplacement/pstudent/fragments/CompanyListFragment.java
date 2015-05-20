@@ -162,7 +162,7 @@ public class CompanyListFragment extends ListFragment {
                         innerButtonManager = new CompanyQueryAdapter.InnerButtonManager() {
                             @Override
                             public void configureButton(Company company, ImageButton innerButton) {
-                                innerButton.setVisibility(View.VISIBLE);
+                                innerButton.setVisibility(View.GONE); //Cambiare se si vuole mettere la x
                                 innerButton.setBackgroundResource(android.R.drawable.ic_delete);
                                 innerButton.setOnClickListener(new View.OnClickListener() {
                                     @Override

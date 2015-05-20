@@ -115,10 +115,8 @@
             android:label="@string/choose_file" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
-
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
@@ -127,8 +125,16 @@
             android:label="Choose a picture" >
         </activity>
         <activity
+            android:name=".pstudent.activities.CoverLetterActivity"
+            android:label="@string/title_activity_cover_letter"
+            android:configChanges="orientation|screenSize"
+            >
+        </activity>
+        <activity
             android:name=".pstudent.activities.ApplicationDetailActivity"
-            android:label="@string/title_activity_application_detail" >
+            android:label="@string/title_activity_application_detail"
+            android:configChanges="orientation|screenSize"
+            >
         </activity>
     </application>
 

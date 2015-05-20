@@ -30,13 +30,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.CoverLetterActivity;
 
 public class ProfileCVFragment extends Fragment {
 
+    public static final int NEW_COVER_LETTER_ID = 1286;
+    public static final int EDIT_COVER_LETTER_ID = 1287;
     public static final int REQUEST_CHOOSER_ID = 1234;
+
     boolean resumes[] = new boolean[5]; //true in posizione 0 se cv1 esiste, false se cv1 non esiste
     Student studentProfile;
     final ArrayList<LinearLayout> resumeLayouts = new ArrayList<>();
+    final ArrayList<LinearLayout> coverLettersLayouts = new ArrayList<>();
+    ArrayList<ParseObject> coverLetters;
 
 
     private AtomicInteger viewInitialized= new AtomicInteger(0);
@@ -143,29 +149,6 @@ public class ProfileCVFragment extends Fragment {
             });
         }
 
-
-/*        final InsertLanguageDialogFragment.Callbacks callbacks=new InsertLanguageDialogFragment.Callbacks() {
-            @Override
-            public void onLanguageInserted(String language) {
-                if(languages.size()<languageLayouts.length){
-                    languages.add(language);
-                    languageLayouts[languages.size()-1].setVisibility(View.VISIBLE);
-                    ((TextView)languageLayouts[languages.size() - 1].getChildAt(0)).setText(language);
-                    if(languages.size()==languageLayouts.length)addLanguageSkillsButton.setVisibility(View.INVISIBLE);
-                    addLanguageSkills(myProfile,language);
-                }
-            }
-        };
-        addLanguageSkillsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment df = InsertLanguageDialogFragment.newInstance("Insert language and level:", callbacks);
-                df.show(getActivity().getSupportFragmentManager(), "MyDialog");
-            }
-        });
-
-*/
-
         for(int i=0; i<resumes.length; i++)
             resumes[i]=false;
 
@@ -193,12 +176,80 @@ public class ProfileCVFragment extends Fragment {
             e.printStackTrace();
         }
 
+        if(studentProfile.getCoverLetters()==null)
+            studentProfile.put("coverLetters", new ArrayList<ParseObject>());
+
+        coverLetters = studentProfile.getCoverLetters();
+
+        for(final ParseObject coverLetter: coverLetters) {
+            inflateCoverLetter(rootView, coverLetter);
+        }
+
+        rootView.findViewById(R.id.addCoverLetterButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), CoverLetterActivity.class);
+                startActivityForResult(i, NEW_COVER_LETTER_ID);
+            }
+        });
+
+
+
+
+
+    }
+
+    public void inflateCoverLetter(View rootView, final ParseObject coverLetter){
+
+        final LinearLayout coverLetterLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(R.layout.deletable_entry_layout_with_margins, null );
+        coverLettersLayouts.add(coverLetterLayout);
+
+        ((ImageButton)((LinearLayout)coverLetterLayout.getChildAt(0)).getChildAt(1)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeCoverLetter(coverLetter, coverLetterLayout);
+            }
+        });
+
+        TextView coverLetterTextView = ((TextView)((LinearLayout)coverLetterLayout.getChildAt(0)).getChildAt(0));
+        coverLetterTextView.setText(coverLetter.getString("name"));
+        coverLetterTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CoverLetterActivity.class);
+                intent.putExtra("COVER_LETTER_NAME", coverLetter.getString("name"));
+                intent.putExtra("COVER_LETTER_CONTENT", coverLetter.getString("content"));
+                intent.putExtra("COVER_LETTER_INDEX", coverLetters.indexOf(coverLetter));
+                startActivityForResult(intent, EDIT_COVER_LETTER_ID);
+
+            }
+        });
+
+        ((LinearLayout) rootView.findViewById(R.id.coverLettersContainer)).addView(coverLetterLayout);
+
+    }
+
+    public void removeCoverLetter(final ParseObject coverLetter, LinearLayout coverLetterLayout){
+        coverLetters.remove(coverLetter);
+        coverLetterLayout.setVisibility(View.GONE);
+        coverLettersLayouts.remove(coverLetterLayout);
+        getView().findViewById(R.id.addCoverLetterButton).setVisibility(View.GONE);
+        getView().findViewById(R.id.progress_coverLetter).setVisibility(View.VISIBLE);
+        studentProfile.put("coverLetters", coverLetters);
+        studentProfile.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                getView().findViewById(R.id.addCoverLetterButton).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.progress_coverLetter).setVisibility(View.GONE);
+                coverLetter.deleteInBackground();
+            }
+        });
     }
 
 
     public void removeResume(final int resumeNumber){
 
-        studentProfile.getParseObject("cv"+resumeNumber).deleteEventually();
+        //studentProfile.getParseObject("cv"+resumeNumber).deleteEventually();
         studentProfile.remove("cv" + resumeNumber);
         studentProfile.saveInBackground(new SaveCallback() {
             @Override
@@ -246,7 +297,7 @@ public class ProfileCVFragment extends Fragment {
     }
 
 
-    void performOnActivityResult(int requestCode, int resultCode, Intent data) {
+    void performOnActivityResult(int requestCode, int resultCode, final Intent data) {
         switch (requestCode) {
             case REQUEST_CHOOSER_ID:
                 if (resultCode == Activity.RESULT_OK) {
@@ -268,7 +319,7 @@ public class ProfileCVFragment extends Fragment {
 
                             try {
                                 final int resumeNumber = getFirstFreeResumeNumber();
-                                final String resumeStringId="cv"+resumeNumber;
+                                final String resumeStringId = "cv" + resumeNumber;
                                 ParseObject curriculum = new ParseObject("Curriculum");
                                 curriculum.put("name", "CV ITA" + resumeNumber);
                                 curriculum.put("curriculum", new ParseFile(org.apache.commons.io.FileUtils.readFileToByteArray(file)));
@@ -294,8 +345,54 @@ public class ProfileCVFragment extends Fragment {
                     }
                 }
                 break;
-        }
+            case NEW_COVER_LETTER_ID:
+                if (resultCode == Activity.RESULT_OK) {
 
+                    getView().findViewById(R.id.addCoverLetterButton).setVisibility(View.GONE);
+                    getView().findViewById(R.id.progress_coverLetter).setVisibility(View.VISIBLE);
+                    final ParseObject coverLetter = new ParseObject("CoverLetter");
+                    coverLetter.put("name", data.getStringExtra("COVER_LETTER_NAME"));
+                    coverLetter.put("content", data.getStringExtra("COVER_LETTER_CONTENT"));
+                    coverLetter.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            studentProfile.getCoverLetters().add(coverLetter);
+                            studentProfile.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    getView().findViewById(R.id.addCoverLetterButton).setVisibility(View.VISIBLE);
+                                    getView().findViewById(R.id.progress_coverLetter).setVisibility(View.GONE);
+                                    inflateCoverLetter(getView(), coverLetter);
+
+                                }
+
+                            });
+                        }
+                    });
+                }
+                break;
+            case EDIT_COVER_LETTER_ID:
+                if (resultCode == Activity.RESULT_OK && data.getIntExtra("COVER_LETTER_INDEX", -1)!=-1) {
+
+                    getView().findViewById(R.id.addCoverLetterButton).setVisibility(View.GONE);
+                    getView().findViewById(R.id.progress_coverLetter).setVisibility(View.VISIBLE);
+                    final ParseObject coverLetter = coverLetters.get(data.getIntExtra("COVER_LETTER_INDEX", -1));
+                    coverLetter.put("name", data.getStringExtra("COVER_LETTER_NAME"));
+                    coverLetter.put("content", data.getStringExtra("COVER_LETTER_CONTENT"));
+                    coverLetter.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            getView().findViewById(R.id.addCoverLetterButton).setVisibility(View.VISIBLE);
+                            getView().findViewById(R.id.progress_coverLetter).setVisibility(View.GONE);
+                            LinearLayout coverLetterLayout = coverLettersLayouts.get(data.getIntExtra("COVER_LETTER_INDEX", -1));
+                            TextView coverLetterTextView = ((TextView)((LinearLayout)coverLetterLayout.getChildAt(0)).getChildAt(0));
+                            coverLetterTextView.setText(coverLetter.getString("name"));
+                        }
+                    });
+
+                    }
+                    break;
+        }
     }
 
     private int getFirstFreeResumeNumber(){

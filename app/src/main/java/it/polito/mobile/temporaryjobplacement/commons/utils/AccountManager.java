@@ -86,7 +86,7 @@ public class AccountManager {
 
     public static Student getCurrentStudentProfile() throws Exception {
         if(checkIfLoggedIn() && getCurrentUserType().equals("student"))
-            return Student.getQuery().include("cv0").include("cv1").include("cv2").include("cv3").include("cv4").whereEqualTo("user", AccountManager.getCurrentUser()).getFirst();
+            return Student.getQuery().include("coverLetters").include("cv0").include("cv1").include("cv2").include("cv3").include("cv4").whereEqualTo("user", AccountManager.getCurrentUser()).getFirst();
         else
             throw new Exception("No student logged");
 
