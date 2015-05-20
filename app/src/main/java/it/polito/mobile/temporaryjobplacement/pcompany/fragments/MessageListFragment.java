@@ -167,7 +167,7 @@ public class MessageListFragment extends ListFragment {
                         return;
                     }
 
-                    messagesQueryAdapter = new MessageQueryAdapter(getActivity(), query[0], R.layout.message_list_item, true, inbox);
+                    messagesQueryAdapter = new MessageQueryAdapter(getActivity(), query[0], R.layout.message_list_item, false, inbox);
                     messagesQueryAdapter.setObjectsPerPage(numberPagesDisplayedSoFar * TemporaryJobPlacementApp.objectsForPage);
                     messagesQueryAdapter.setNumberPagesDisplayedSoFar(numberPagesDisplayedSoFar);
 

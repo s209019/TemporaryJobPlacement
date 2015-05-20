@@ -156,7 +156,7 @@ public class CompanyMessagesActivity extends ActionBarActivity implements Messag
                         query = Message.getQuery();
                         query.whereEqualTo("company", companyProfile);
                         query.whereEqualTo("sender", "student");
-                        query.include("company");
+                        query.include("student");
                         query.orderByDescending("createdAt");
                         query.setLimit(100);
                     } catch (Exception e) {
@@ -180,7 +180,7 @@ public class CompanyMessagesActivity extends ActionBarActivity implements Messag
                         query = Message.getQuery();
                         query.whereEqualTo("company", companyProfile);
                         query.whereEqualTo("sender", "company");
-                        query.include("company");
+                        query.include("student");
                         query.orderByDescending("createdAt");
                         query.setLimit(100);
                     } catch (Exception e) {

@@ -163,6 +163,26 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_messagges" >
         </activity>
+        <activity
+            android:name=".pcompany.activities.ShowMessageActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_show_message"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pcompany.activities.SendMessageActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_send_message"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pcompany.activities.CompanyDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_student_offer_list"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+
+
     </application>
 
 </manifest>
