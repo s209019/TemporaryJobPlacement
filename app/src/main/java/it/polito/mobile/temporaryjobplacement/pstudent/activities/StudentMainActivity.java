@@ -68,7 +68,7 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
         fragmentList.add(SearchByOfferFragment.newInstance());
         fragmentList.add(SearchByCompanyFragment.newInstance());
-        String titles[] ={"BY OFFER","BY COMPANY"};
+        String titles[] ={"JOB OFFERS","COMPANIES"};
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
 

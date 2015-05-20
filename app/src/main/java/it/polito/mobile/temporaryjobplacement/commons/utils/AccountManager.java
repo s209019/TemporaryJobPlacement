@@ -92,6 +92,15 @@ public class AccountManager {
 
     }
 
+    public static Student getCurrentCompanyProfile() throws Exception {
+        if(checkIfLoggedIn() && getCurrentUserType().equals("company"))
+            return Student.getQuery().whereEqualTo("user", AccountManager.getCurrentUser()).getFirst();
+        else
+            throw new Exception("No student logged");
+
+    }
+
+
 
     public static String getCurrentUserType() throws Exception {
         return getCurrentUser().get("userType").toString();

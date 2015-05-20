@@ -52,7 +52,7 @@ public class DrawerManager {
     public void setDrawer(){
 
         final ListView drawerListView=(ListView)drawerLayout.findViewById(R.id.drawerListView);
-        String[] itemTitles={"Search filter","Open positions","Post a job offer","Profile","Favourite students","Messages","Open positions","Logout"};
+        String[] itemTitles={"Search filter","Open positions","Post a job offer","Profile","Favourite students","Messages","Logout"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(activity, R.layout.drawer_list_item_activated,itemTitles){
             public View getView(int pos, View v, ViewGroup p) {
                TextView view=(TextView)super.getView(pos,v,p);
