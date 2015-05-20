@@ -241,6 +241,7 @@ public class AddEducationDialogFragment extends DialogFragment {
                 imm.hideSoftInputFromWindow(universityEditText.getWindowToken(), 0);
                 imm.hideSoftInputFromWindow(markEditText.getWindowToken(), 0);
 
+                if(listener==null)
                 listener.onInfoLanguageInserted(
                         spinnerDegree.getSelectedItem().toString(),
                         courseEditText.getText().toString().trim(),

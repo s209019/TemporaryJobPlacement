@@ -501,24 +501,28 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateSkills(final Student myProfile,String skills) {
-        if (myProfile.getSkills() == null || !myProfile.getSkills().equals(skills)) {
-            myProfile.setSkills(skills);
-            V_skills.setVisibility(View.GONE);
-            pro_skills.setVisibility(View.VISIBLE);
-            myProfile.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if(e==null){
-                        DialogManager.toastMessage("Skills updated", getActivity(), "center",true);
-                        if(pro_skills!=null) pro_skills.setVisibility(View.GONE);
-                        if(V_skills!=null) V_skills.setVisibility(View.VISIBLE);
-                        if(keywordsTextView!=null)
-                            ((SavableEditText) keywordsTextView.getParent()).setSavedText(myProfile.getSkills());
-                    } else {
-                        DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
+        try {
+            if (myProfile.getSkills() == null || !myProfile.getSkills().equals(skills)) {
+                myProfile.setSkills(skills);
+                V_skills.setVisibility(View.GONE);
+                pro_skills.setVisibility(View.VISIBLE);
+                myProfile.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            DialogManager.toastMessage("Skills updated", getActivity(), "center", true);
+                            if (pro_skills != null) pro_skills.setVisibility(View.GONE);
+                            if (V_skills != null) V_skills.setVisibility(View.VISIBLE);
+                            if (keywordsTextView != null)
+                                ((SavableEditText) keywordsTextView.getParent()).setSavedText(myProfile.getSkills());
+                        } else {
+                            DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
+                        }
                     }
-                }
-            });
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
     }
