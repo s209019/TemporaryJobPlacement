@@ -23,9 +23,9 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdap
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
 import it.polito.mobile.temporaryjobplacement.model.Message;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.ShowMessageActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MessageListFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
 
 
 public class CompanyMessagesActivity extends ActionBarActivity implements MessageListFragment.Callbacks {

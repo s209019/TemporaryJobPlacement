@@ -41,6 +41,10 @@
     <string name="update_profile_picture">Update Picture</string>
     <string name="title_activity_cover_letter">Insert cover letter</string>
     <string name="title_activity_application_detail">Application details</string>
+    <string name="title_activity_open_position">OpenPositionActivity</string>
+    <string name="title_activity_post_job_offer">PostJobOfferActivity</string>
+    <string name="title_activity_company_profile">CompanyProfileActivity</string>
+    <string name="title_activity_favourite_students">FavouriteStudentsActivity</string>
 
 
 

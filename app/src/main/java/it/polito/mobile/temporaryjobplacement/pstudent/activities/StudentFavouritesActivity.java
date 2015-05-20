@@ -2,7 +2,6 @@ package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -26,11 +25,8 @@ import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyListFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MessageListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchByCompanyFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchByOfferFragment;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 
 

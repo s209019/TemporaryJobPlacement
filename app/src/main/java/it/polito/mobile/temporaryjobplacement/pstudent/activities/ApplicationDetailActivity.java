@@ -80,6 +80,7 @@ public class ApplicationDetailActivity extends ActionBarActivity {
 
                 } catch (Exception e) {
                     e.fillInStackTrace();
+                    throw e;
                 }
             }
         }.execute();
@@ -120,8 +121,9 @@ public class ApplicationDetailActivity extends ActionBarActivity {
 
 
         if (application.getStatus().equals("Submitted")) {
-             getMenuInflater().inflate(R.menu.menu_application_detail,menu);
-        }
+             getMenuInflater().inflate(R.menu.menu_application_detail, menu);
+
+        } DialogManager.toastMessage("-"+application.getStatus()+"-",this);
 
 
     }

@@ -1,4 +1,4 @@
-package it.polito.mobile.temporaryjobplacement;
+package it.polito.mobile.temporaryjobplacement.commonactivities;
 
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.AsyncTaskWithProgressBar;
