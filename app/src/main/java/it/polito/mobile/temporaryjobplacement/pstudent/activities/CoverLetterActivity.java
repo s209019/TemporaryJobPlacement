@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -53,12 +54,26 @@ public class CoverLetterActivity extends ActionBarActivity {
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        boolean displayMode=false;
         if(getIntent().hasExtra("COVER_LETTER_INDEX")) {
             editMode=true;
             ((EditText)findViewById(R.id.coverLetterNameTextView)).setText(getIntent().getStringExtra("COVER_LETTER_NAME"));
             ((EditText)findViewById(R.id.coverLetterContentTextView)).setText(getIntent().getStringExtra("COVER_LETTER_CONTENT"));
+            displayMode= getIntent().getBooleanExtra("DISPLAY_MODE",false);
+            getSupportActionBar().setTitle("Edit cover letter");
         }
+
+
+
+        if(displayMode){
+            getSupportActionBar().setTitle(getIntent().getStringExtra("COVER_LETTER_NAME"));
+            ((EditText)findViewById(R.id.coverLetterNameTextView)).setEnabled(false);
+            ((EditText)findViewById(R.id.coverLetterContentTextView)).setEnabled(false);
+            ((Button)findViewById(R.id.saveCoverLetter)).setVisibility(View.INVISIBLE);
+        }
+
+
+
 
 
 
@@ -139,6 +154,20 @@ public class CoverLetterActivity extends ActionBarActivity {
             finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
+
+    public void onBackPressed(){
+        super.onBackPressed();
+        //Hide the keyboard
+        EditText coverLetterNameTextView = (EditText) findViewById(R.id.coverLetterNameTextView);
+        EditText coverLetterContentTextView = (EditText) findViewById(R.id.coverLetterContentTextView);
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(coverLetterNameTextView.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(coverLetterContentTextView.getWindowToken(), 0);
+        DialogManager.toastMessage("Cover letter name or content missing.", this);
     }
 
 }

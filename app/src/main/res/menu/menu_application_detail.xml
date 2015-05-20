@@ -5,7 +5,6 @@
     <item android:id="@+id/action_delete" android:title="clear profile"
         android:orderInCategory="100" app:showAsAction="always" android:icon="@android:drawable/ic_menu_delete" />
 
-    <item android:id="@+id/action_HOME" android:title="HOME" android:icon="@drawable/ic_menu_home"
-        android:orderInCategory="100" app:showAsAction="always" />
+
 
 </menu>

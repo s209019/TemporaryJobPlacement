@@ -55,7 +55,7 @@ public class StudentMyApplicationsActivity extends ActionBarActivity implements 
     public void onItemSelected(Application application) {
 
             Intent detailIntent = new Intent(this, ApplicationDetailActivity.class);
-            detailIntent.putExtra("SELECTED_OFFER", application.getObjectId());
+            detailIntent.putExtra("SELECTED_APP", application.getObjectId());
             startActivity(detailIntent);
 
     }
