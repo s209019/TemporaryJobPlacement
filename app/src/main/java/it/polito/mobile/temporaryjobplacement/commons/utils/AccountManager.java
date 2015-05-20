@@ -10,6 +10,7 @@ import com.parse.ParseUser;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 
 /**
@@ -55,9 +56,14 @@ public class AccountManager {
             student.save();
 
             //TODO: Settare l'ACL
+        } else if(userType.equals("company")) {
+            Company company = new Company();
+            company.put("user", user);
+            company.setName("");
+            company.save();
+
+            //TODO: Settare l'ACL
         }
-
-
         ParseUser.logOut();
 
     }
@@ -92,11 +98,11 @@ public class AccountManager {
 
     }
 
-    public static Student getCurrentCompanyProfile() throws Exception {
+    public static Company getCurrentCompanyProfile() throws Exception {
         if(checkIfLoggedIn() && getCurrentUserType().equals("company"))
-            return Student.getQuery().whereEqualTo("user", AccountManager.getCurrentUser()).getFirst();
+            return Company.getQuery().whereEqualTo("user", AccountManager.getCurrentUser()).getFirst();
         else
-            throw new Exception("No student logged");
+            throw new Exception("No company logged");
 
     }
 

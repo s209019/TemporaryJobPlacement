@@ -448,7 +448,7 @@ public class ProfileBasicInfoFragment extends Fragment {
 
     private void updateFirstName(final Student myProfile, final String firstName) {
 
-        if(firstNameTextView.getText().toString().trim().equals("")){
+        if(myProfile.getFirstName() != null && !myProfile.getFirstName().equals("") && firstNameTextView.getText().toString().trim().equals("")){
             DialogManager.toastMessage("First name cannot be empty", getActivity(), "center", true);
             firstNameTextView.setText(myProfile.getFirstName());
         } else if (myProfile.getFirstName() == null || !myProfile.getFirstName().equals(firstName)) {
@@ -475,7 +475,7 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateLastName(final Student myProfile,String lastName) {
-        if(lastNameTextView.getText().toString().trim().equals("")){
+        if(myProfile.getLastName() != null && !myProfile.getLastName().equals("") && lastNameTextView.getText().toString().trim().equals("")){
             DialogManager.toastMessage("Last name cannot be empty", getActivity(), "center", true);
             lastNameTextView.setText(myProfile.getLastName());
         } else if (myProfile.getLastName() == null || !myProfile.getLastName().equals(lastName)) {

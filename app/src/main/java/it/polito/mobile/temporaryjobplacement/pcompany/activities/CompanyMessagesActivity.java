@@ -21,17 +21,17 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.Message;
-import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
-import it.polito.mobile.temporaryjobplacement.pstudent.activities.ShowMessageActivity;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MessageListFragment;
+import it.polito.mobile.temporaryjobplacement.pcompany.activities.ShowMessageActivity;
+import it.polito.mobile.temporaryjobplacement.pcompany.fragments.MessageListFragment;
 
 
 public class CompanyMessagesActivity extends ActionBarActivity implements MessageListFragment.Callbacks {
 
     DrawerManager drawerManager;
-    private Student companyProfile;
+    private Company companyProfile;
     ViewPager pager;
 
     @Override
