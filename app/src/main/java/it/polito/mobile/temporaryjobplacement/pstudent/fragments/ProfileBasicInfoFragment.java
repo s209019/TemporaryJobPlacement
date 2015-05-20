@@ -447,7 +447,11 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateFirstName(final Student myProfile, final String firstName) {
-        if (myProfile.getFirstName() == null || !myProfile.getFirstName().equals(firstName)) {
+
+        if(firstNameTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("First name cannot be empty", getActivity(), "center", true);
+            firstNameTextView.setText(myProfile.getFirstName());
+        } else if (myProfile.getFirstName() == null || !myProfile.getFirstName().equals(firstName)) {
             myProfile.setFirstName(firstName);
 
             V_firstName.setVisibility(View.GONE);
@@ -455,12 +459,12 @@ public class ProfileBasicInfoFragment extends Fragment {
             myProfile.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if(e==null){
+                    if (e == null) {
                         DialogManager.toastMessage("First name updated", getActivity(), "center", true);
-                        if(pro_firstName!=null) pro_firstName.setVisibility(View.GONE);
-                        if(V_firstName!=null) V_firstName.setVisibility(View.VISIBLE);
-                        if(firstNameTextView!=null)(
-                                (SavableEditText)firstNameTextView.getParent()).setSavedText(myProfile.getFirstName());
+                        if (pro_firstName != null) pro_firstName.setVisibility(View.GONE);
+                        if (V_firstName != null) V_firstName.setVisibility(View.VISIBLE);
+                        if (firstNameTextView != null) (
+                                (SavableEditText) firstNameTextView.getParent()).setSavedText(myProfile.getFirstName());
                     } else {
                         DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                     }
@@ -471,7 +475,10 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateLastName(final Student myProfile,String lastName) {
-        if (myProfile.getLastName() == null || !myProfile.getLastName().equals(lastName)) {
+        if(lastNameTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Last name cannot be empty", getActivity(), "center", true);
+            lastNameTextView.setText(myProfile.getLastName());
+        } else if (myProfile.getLastName() == null || !myProfile.getLastName().equals(lastName)) {
             myProfile.setLastName(lastName);
             V_lastName.setVisibility(View.GONE);
             pro_lastName.setVisibility(View.VISIBLE);
