@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commonfragments.MultipleChoiceDialogFragment;
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;

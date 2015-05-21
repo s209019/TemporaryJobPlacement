@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    >
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                >
+
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:src="@drawable/default_logo"
+                    android:background="@drawable/button_drawable2"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/logoPicture"
+                    />
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:text="Delete photo"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="@color/grayDarkerTextColor"
+                    android:drawableLeft="@android:drawable/ic_menu_delete"
+                    android:padding="6dp"
+                    android:id="@+id/deleteLogoPictureButton"
+                    android:visibility="gone"
+                    />
+
+
+
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Tap on the picture to select the company logo."
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/grayDarkerTextColor"
+                android:id="@+id/logoPictureTextview"
+                />
+
+            <ProgressBar
+                android:id="@+id/progress_yourPhoto"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_large">
+
+                <ImageView
+                    android:id="@+id/V_name"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_name"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Company name: "
+                android:gravity="center_vertical"
+                android:layout_marginLeft="2dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                />
+            </LinearLayout>
+
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/nameTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Insert the name of the company"
+                    android:padding="10dp"
+                    android:background="@android:color/transparent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_description"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Description"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Company description: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/descriptionEditText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/old_edit_text"
+                    android:hint="Insert company description"
+                    android:layout_marginTop="0dp"
+                    android:padding="10dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:imeOptions="actionDone"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_Email"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Email"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Email: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/emailTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Insert the email address of the company"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_Website"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Website"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Website: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/websiteTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="textWebEditText"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Insert the website of the company"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_Number"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Number"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Phone number: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/phoneNumberTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="numberSigned"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Insert the phone number of the company"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_Headquarters"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Headquarters"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Headquarters: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/addressTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Address"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/cityTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="City"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                    android:id="@+id/zipCodeTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.38"
+                    android:background="@drawable/old_edit_text"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_small"
+                    >
+                    <EditText
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+                        android:textColor="@android:color/black"
+                        android:hint="ZIP Code"
+                        android:background="@android:color/transparent"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+
+                <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                    android:id="@+id/CountryTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.62"
+                    android:background="@drawable/old_edit_text"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    >
+                    <EditText
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+                        android:textColor="@android:color/black"
+                        android:hint="Country"
+                        android:background="@android:color/transparent"
+                        android:padding="10dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_Industries"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Industries"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Industries: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/industriesTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_drawable5"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:hint="Select one or more industries"
+                android:textColor="@android:color/black"
+                android:clickable="true"
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
+
+</RelativeLayout>

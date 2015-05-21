@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/margin_medium"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Default reject messages: "
+                android:gravity="center_vertical"
+                android:layout_marginLeft="2dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/defaultMessagesContainer"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_medium_large"
+                android:paddingRight="@dimen/margin_medium_large"
+                android:paddingTop="@dimen/margin_medium_large"
+                android:paddingBottom="@dimen/margin_medium"
+                android:text="Add a new default message"
+                android:gravity="center"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/secondaryColor"
+                android:background="@drawable/button_drawable2"
+                android:id="@+id/addDefaultMessageButton"
+                />
+            <ProgressBar
+                android:id="@+id/progress_defaultMessages"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                style="?android:attr/progressBarStyleLarge"
+                android:visibility="gone"/>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
+
+</RelativeLayout>

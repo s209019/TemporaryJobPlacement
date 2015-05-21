@@ -136,8 +136,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_application_detail" >
         </activity>
-
-
         <activity
             android:name=".pcompany.activities.OpenPositionsActivity"
             android:configChanges="orientation|screenSize"
@@ -181,7 +179,12 @@
             android:label="@string/title_activity_student_offer_list"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
+        <activity
+            android:name=".pcompany.activities.DefaultMessageActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_student_offer_list"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
 
     </application>
 

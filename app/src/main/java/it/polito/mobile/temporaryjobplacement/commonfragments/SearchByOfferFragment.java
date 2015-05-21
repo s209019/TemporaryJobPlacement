@@ -26,7 +26,6 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MultipleChoiceDialogFragment;
 
 
 public class SearchByOfferFragment extends Fragment {
