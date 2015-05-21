@@ -10,9 +10,6 @@ import java.util.Map;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.model.Education;
 
-/**
- * Created by Nicolò on 21/05/2015.
- */
 public class DegreeAnalyzer{
 
 

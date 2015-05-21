@@ -54,6 +54,35 @@ public class JobOffer  extends ParseObject {
         return getString("preferredQualifications");
     }
 
+    public void setCity(String value) {
+        put("city", value);
+    }
+
+    public void setZipCode(String value) {
+        put("zipCode", value);
+    }
+
+
+    public void setCountry(String value) {
+        put("country", value);
+    }
+
+    public void setAddress(String value) {
+        put("address", value);
+    }
+
+    public void setResponsibilities(String value) {
+        put("responsibilities", value);
+    }
+
+    public void setMinimumQualifications(String value) {
+        put("minimumQualifications", value);
+    }
+    public void setPreferredQualifications(String value) {
+        put("preferredQualifications", value);
+    }
+
+
 
     public String getEducation() {
         return getString("education");
@@ -90,6 +119,16 @@ public class JobOffer  extends ParseObject {
     public String getIndustries() {
         return getString("industry");
     }
+
+    public void setIndustries(String value) {
+        put("industry", value);
+    }
+
+    public void setPublic(boolean value) {
+        put("public", value);
+    }
+
+
 
     public boolean isFavourited() {
         return favourited;

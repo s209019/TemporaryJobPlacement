@@ -7,22 +7,316 @@
     >
 
 
-
-
-
-
-
     <!-- The main content view -->
-    <LinearLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/margin_large"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Position offered: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/nameTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="e.g. Android Developer"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contract: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <Spinner
+                android:id="@+id/contractSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Education level required: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <Spinner
+                android:id="@+id/educationSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Career level required: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <Spinner
+                android:id="@+id/careerLevelSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:drawableRight="@android:drawable/arrow_down_float"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Industries: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <TextView
+                android:id="@+id/industriesTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/black"
+                android:background="@drawable/button_drawable5"
+                android:hint="Select industries"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/addressTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Address"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                />
+
+            <EditText
+                android:id="@+id/cityTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="City"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/zipCodeTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.38"
+                    android:inputType="textMultiLine"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/old_edit_text"
+                    android:hint="ZIP code"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:padding="10dp"
+                    />
+
+                <EditText
+                    android:id="@+id/countryTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.62"
+                    android:inputType="textMultiLine"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/old_edit_text"
+                    android:hint="Country"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:padding="10dp"
+                    />
+
+
+            </LinearLayout>
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/descriptionTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Write the job description here"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:gravity="top"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Responsibilities: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/responsibilitiesTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Write the applicant's responsibilities here."
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:gravity="top"
+
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minimum qualifications: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/minimumQualificationsTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Write the job minimum qualifications here"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:gravity="top"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Preferred qualifications: "
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:layout_marginTop="@dimen/margin_medium"/>
+
+            <EditText
+                android:id="@+id/preferredQualificationsTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:background="@drawable/old_edit_text"
+                android:hint="Write the preferred qualifications here"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:padding="10dp"
+                android:gravity="top"
+
+                />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/margin_large"
+                android:text="POST JOB OFFER"
+                android:background="@drawable/button_drawable"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textSize"
+                android:padding="10dp"
+                android:onClick="postJobOffer"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-
-
-    </LinearLayout>
-
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
 
     <!-- The navigation drawer -->
     <include layout="@layout/drawer_layout" />"
