@@ -41,7 +41,7 @@ import it.polito.mobile.temporaryjobplacement.model.Message;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 
 public class ProfileEducationFragment extends Fragment   {
-  private ImageView V_education;
+    private ImageView V_education;
     private ProgressBar pro_Education;
     Student studentProfile;
     List<Education> educations;
@@ -75,7 +75,7 @@ public class ProfileEducationFragment extends Fragment   {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       final View rootView=inflater.inflate(R.layout.fragment_profile_education, container, false);
+        final View rootView=inflater.inflate(R.layout.fragment_profile_education, container, false);
 
         V_education=(ImageView)rootView.findViewById(R.id.V_Education);
         pro_Education=(ProgressBar)rootView.findViewById(R.id.pro_Education);
@@ -148,33 +148,33 @@ public class ProfileEducationFragment extends Fragment   {
                 final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 DialogFragment dialogF = AddEducationDialogFragment.newInstance(education.getDegree(), education.getCourse(), education.getUniversity(), education.getMark(), df.format(education.getFromDate()), df.format(education.getToDate()),"EDIT"
                         ,new AddEducationDialogFragment.Callbacks() {
-                            @Override
-                            public void onInfoLanguageInserted(final String updatedDegree, final String updatedCourse, final String updatedUniversity, final String updatedMark, final Date updatedFrom, final Date updatedTo) {
-                                ((TextView) view.findViewById(R.id.degreeTextView)).setText(updatedDegree);
-                                ((TextView) view.findViewById(R.id.courseTextView)).setText(updatedCourse);
-                                ((TextView) view.findViewById(R.id.universityTextView)).setText(updatedUniversity);
-                                ((TextView) view.findViewById(R.id.markTextView)).setText(updatedMark);
-                                ((TextView) view.findViewById(R.id.periodTextView)).setText(df.format(updatedFrom) + " - " + df.format(updatedTo));
+                    @Override
+                    public void onInfoLanguageInserted(final String updatedDegree, final String updatedCourse, final String updatedUniversity, final String updatedMark, final Date updatedFrom, final Date updatedTo) {
+                        ((TextView) view.findViewById(R.id.degreeTextView)).setText(updatedDegree);
+                        ((TextView) view.findViewById(R.id.courseTextView)).setText(updatedCourse);
+                        ((TextView) view.findViewById(R.id.universityTextView)).setText(updatedUniversity);
+                        ((TextView) view.findViewById(R.id.markTextView)).setText(updatedMark);
+                        ((TextView) view.findViewById(R.id.periodTextView)).setText(df.format(updatedFrom) + " - " + df.format(updatedTo));
 
-                                education.setDegree(updatedDegree);
-                                education.setCourse(updatedCourse);
-                                education.setUniversity(updatedUniversity);
-                                education.setMark(updatedMark);
-                                education.setFromDate(updatedFrom);
-                                education.setToDate(updatedTo);
-
-
-                                ((ArrayAdapter<Education>) listView.getAdapter()).notifyDataSetChanged();
+                        education.setDegree(updatedDegree);
+                        education.setCourse(updatedCourse);
+                        education.setUniversity(updatedUniversity);
+                        education.setMark(updatedMark);
+                        education.setFromDate(updatedFrom);
+                        education.setToDate(updatedTo);
 
 
-
-                                updateEducation(education);
-                                listView.setSmoothScrollbarEnabled(true);
-                                listView.smoothScrollToPosition(position);
+                        ((ArrayAdapter<Education>) listView.getAdapter()).notifyDataSetChanged();
 
 
-                            }
-                        });
+
+                        updateEducation(education);
+                        listView.setSmoothScrollbarEnabled(true);
+                        listView.smoothScrollToPosition(position);
+
+
+                    }
+                });
 
                 dialogF.show(getActivity().getSupportFragmentManager(), "MyDialog");
 
@@ -232,6 +232,7 @@ public class ProfileEducationFragment extends Fragment   {
                     if (((ArrayAdapter<Education>)listView.getAdapter())!=null){
                         ((ArrayAdapter<Education>)listView.getAdapter()).notifyDataSetChanged();
                     }
+                    studentProfile.updateBestDegree();
 
                 } else {
                     DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
@@ -256,6 +257,7 @@ public class ProfileEducationFragment extends Fragment   {
                         ((ArrayAdapter<Education>) listView.getAdapter()).remove(education);
                         ((ArrayAdapter<Education>) listView.getAdapter()).notifyDataSetChanged();
                     }
+                    studentProfile.updateBestDegree( );
 
                 } else {
                     DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
@@ -276,6 +278,7 @@ public class ProfileEducationFragment extends Fragment   {
                     DialogManager.toastMessage("education updated", getActivity(), "center", true);
                     if (pro_Education != null) pro_Education.setVisibility(View.GONE);
                     if (V_education != null) V_education.setVisibility(View.VISIBLE);
+                    studentProfile.updateBestDegree();
                 } else {
                     DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
                 }

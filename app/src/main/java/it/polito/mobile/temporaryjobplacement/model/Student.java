@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.view.View;
 
 import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseClassName;
@@ -35,6 +36,8 @@ import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.DegreeAnalyzer;
+import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
@@ -45,6 +48,7 @@ import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfile
 public class Student extends ParseObject {
 
     private Bitmap photo;
+    private boolean favourited;
 
     public String getFirstName() {
         return getString("firstName");
@@ -103,7 +107,7 @@ public class Student extends ParseObject {
         return  new ArrayList<String>(Arrays.asList(languages));
     }
     public void setLanguageSkills(String value){
-        put("languages",value);
+        put("languages", value);
     }
 
 
@@ -114,7 +118,7 @@ public class Student extends ParseObject {
         if(languagesText.trim().equals(""))languagesText=lang;
         else languagesText=languagesText+"\n"+lang;
 
-        this.put("languages",languagesText);
+        this.put("languages", languagesText);
         this.saveInBackground(new SaveCallback() {
             @Override
             public void done(com.parse.ParseException e) {
@@ -178,7 +182,7 @@ public class Student extends ParseObject {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Photo");
         byte[]  data = query.get(photo.getObjectId()).getParseFile("photo").getData();
         if(data==null)return null;
-        Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
         return bitmap;
     }
 
@@ -237,16 +241,16 @@ public class Student extends ParseObject {
 
     public void clearProfile(final ParseUser user, final SaveCallback saveCallback) {
 
-       this.deleteInBackground(new DeleteCallback() {
-           @Override
-           public void done(com.parse.ParseException e) {
-               Student student = new Student();
-               student.put("user", user);
-               student.setFirstName("");
-               student.setLastName("");
-               student.saveInBackground(saveCallback);
-           }
-       });
+        this.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                Student student = new Student();
+                student.put("user", user);
+                student.setFirstName("");
+                student.setLastName("");
+                student.saveInBackground(saveCallback);
+            }
+        });
 
     }
 
@@ -271,4 +275,43 @@ public class Student extends ParseObject {
 
 
     }
+
+
+    public boolean isFavourited() {
+        return favourited;
+    }
+
+    public void setFavourited(boolean favourited) {
+        this.favourited=favourited;
+    }
+
+    public String getBestDegree() {
+        return getString("bestDegree");
+    }
+
+    public void setBestDegree(String value) {
+        put("bestDegree", value);
+    }
+
+    public String getAge() {
+        return TimeManager.calculateAge(getDateOfBirth()) + " years old";
+    }
+
+
+
+    public void updateBestDegree( ){
+        ParseRelation<Education> relation = getRelation("educations");
+        relation.getQuery().findInBackground(new FindCallback<Education>() {
+            @Override
+            public void done(List<Education> list, com.parse.ParseException e) {
+                String bestDegree=DegreeAnalyzer.getBestDegree(list);
+                setBestDegree(bestDegree);
+                Student.this.saveEventually();
+            }
+        });
+    }
+
+
+
+
 }

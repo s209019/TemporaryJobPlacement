@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,10 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commonfragments.MultipleChoiceDialogFragment;
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.MultipleChoiceDialogFragment;
 
 
 public class SearchByStudentFragment extends Fragment {
@@ -34,6 +35,7 @@ public class SearchByStudentFragment extends Fragment {
     EditText editTextKeywords;
     TextView languagesClickableTextView;
     Spinner ageSpinner;
+    Spinner maxAgeSpinner;
     Spinner degreeSpinner;
     LinearLayout moreOptionsPanel;
 
@@ -99,6 +101,7 @@ public class SearchByStudentFragment extends Fragment {
         editTextKeywords=((ClearableEditText)rootView.findViewById(R.id.editKeyword)).editText();
         languagesClickableTextView =(TextView)rootView.findViewById(R.id.languagesClickableTextView);
         ageSpinner = (Spinner) rootView.findViewById(R.id.ageSpinner);
+        maxAgeSpinner = (Spinner) rootView.findViewById(R.id.maxAgeSpinner);
         degreeSpinner=(Spinner) rootView.findViewById(R.id.spinnerDegree);
 
 
@@ -132,18 +135,29 @@ public class SearchByStudentFragment extends Fragment {
             }
         });
 
-        //age
-        List<String> list = new ArrayList<String>();
+        //min age
+        final List<String> list = new ArrayList<String>();
+        list.add("");
         for(int i=18;i<=100;i++)list.add(i+"");
         final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item , list);
         dataAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown);
         ageSpinner.setAdapter(dataAdapter);
 
+        //max age
+        final ArrayAdapter<String> dataAdapter0 = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item , list);
+        dataAdapter0.setDropDownViewResource(R.layout.spinner_item_dropdown);
+        maxAgeSpinner.setAdapter(dataAdapter0);
+
+
         //degree
-        List<String> list1 = FileManager.readRowsFromFile(getActivity(),"educations.dat");
+         final List<String> list1 = new ArrayList<String>();
+        list1.add("");
+        list1.addAll(FileManager.readRowsFromFile(getActivity(), "educations.dat"));
+
         final ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item , list1);
         dataAdapter1.setDropDownViewResource(R.layout.spinner_item_dropdown);
         degreeSpinner.setAdapter(dataAdapter1);
+
 
 
 
@@ -205,16 +219,33 @@ public class SearchByStudentFragment extends Fragment {
                 if (
                         languagesClickableTextView.getText().toString().trim().equals("") &&
                                 editTextKeywords.getText().toString().trim().equals("") &&
-                                ageSpinner.getSelectedItemPosition() == 0 &&
-                                degreeSpinner.getSelectedItemPosition() == 0
+                                ageSpinner.getSelectedItem().equals("")&&
+                                degreeSpinner.getSelectedItem().equals("")&&
+                                degreeSpinner.getSelectedItem().equals("")
                         ) {
                     DialogManager.toastMessage(getActivity().getResources().getString(R.string.all_empty_field_message), getActivity());
                     return;
                 }
+
+
+            if(!(ageSpinner.getSelectedItem().toString().equals("")&& maxAgeSpinner.getSelectedItem().toString().equals("")))
+                if(Integer.parseInt(ageSpinner.getSelectedItem().toString())>Integer.parseInt(maxAgeSpinner.getSelectedItem().toString())){
+                    DialogManager.toastMessage("Age interval not valid", getActivity());
+                    return;
+                }
+
+                if(ageSpinner.getSelectedItem().equals(""))ageSpinner.setSelection(1);//18
+                if(maxAgeSpinner.getSelectedItem().equals(""))maxAgeSpinner.setSelection(list.size()-1);//100
+
+
+
+
+
                 mListener.startSearchStudentActivity(
                         editTextKeywords.getText() + "\n" +
                                 languagesClickableTextView.getText() + "\n" +
-                                ageSpinner.getSelectedItem()+"\n"+degreeSpinner.getSelectedItem());
+                                ageSpinner.getSelectedItem()+"\n"
+                                +maxAgeSpinner.getSelectedItem()+"\n"+degreeSpinner.getSelectedItem());
             }
         });
 

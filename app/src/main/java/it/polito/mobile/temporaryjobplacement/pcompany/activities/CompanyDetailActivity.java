@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.pcompany.fragments.StudentDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentMainActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
@@ -24,7 +25,7 @@ import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFrag
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link OfferDetailFragment}.
  */
-public class CompanyDetailActivity extends ActionBarActivity implements OfferDetailFragment.OnFragmentInteractionListener,CompanyDetailFragment.OnFragmentInteractionListener {
+public class CompanyDetailActivity extends ActionBarActivity implements StudentDetailFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,21 +53,21 @@ public class CompanyDetailActivity extends ActionBarActivity implements OfferDet
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            if( getIntent().getStringExtra("SELECTED_OFFER")!=null){
+            if( getIntent().getStringExtra("SELECTED_STUDENT")!=null){
                 Bundle arguments = new Bundle();
-                arguments.putString("SELECTED_OFFER",  getIntent().getStringExtra("SELECTED_OFFER"));
+                arguments.putString("SELECTED_STUDENT",  getIntent().getStringExtra("SELECTED_STUDENT"));
                 arguments.putBoolean("IS_FAVOURITED",  getIntent().getBooleanExtra("IS_FAVOURITED", false));
                 OfferDetailFragment fragment = new OfferDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
-            }else if( getIntent().getStringExtra("SELECTED_COMPANY")!=null){
+            }/*else if( getIntent().getStringExtra("SELECTED_COMPANY")!=null){
                 Bundle arguments = new Bundle();
                 arguments.putString("SELECTED_COMPANY",  getIntent().getStringExtra("SELECTED_COMPANY"));
                 arguments.putBoolean("IS_FAVOURITED",  getIntent().getBooleanExtra("IS_FAVOURITED", false));
                 CompanyDetailFragment fragment = new CompanyDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
-            }
+            }*/
 
         }
     }
@@ -118,17 +119,12 @@ public class CompanyDetailActivity extends ActionBarActivity implements OfferDet
     }
 
 
-    @Override
-    public void startOffersActivity(String companyName) {
-        //pass to StudentOfferListActivity params companyName so that it can display all company's offers
-        Intent intent=new Intent(this,StudentOfferListActivity.class);
-        startActivityForResult(intent, 0);
-    }
 
-    @Override
+
+    /*@Override
     public void startCompanyActivity(String companyName) {
         Intent detailIntent = new Intent(this, CompanyDetailActivity.class);
         detailIntent.putExtra("SELECTED_COMPANY", companyName);
         startActivityForResult(detailIntent, 0);
-    }
+    }*/
 }

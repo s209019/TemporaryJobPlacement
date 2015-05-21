@@ -83,7 +83,7 @@
                     android:textSize="@dimen/textLabelSize"
                     android:textColor="@color/labelTextColor"
                     android:textStyle="bold"
-                    android:text="Degree"
+                    android:text="Minimium Degree"
                     />
 
 
@@ -162,12 +162,41 @@
                     android:textSize="@dimen/textLabelSize"
                     android:textColor="@color/labelTextColor"
                     android:textStyle="bold"
-                    android:text="Age"
+                    android:text="Minimum Age"
                     />
 
 
                 <Spinner
                     android:id="@+id/ageSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginBottom="0dp"
+                    android:textColor="@android:color/black"
+                    android:drawableRight="@android:drawable/arrow_down_float"
+                    android:background="@drawable/textview_clickable_drawable"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="left"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="@dimen/textLabelSize"
+                    android:textColor="@color/labelTextColor"
+                    android:textStyle="bold"
+                    android:text="Maximum Age"
+                    />
+
+
+                <Spinner
+                    android:id="@+id/maxAgeSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"

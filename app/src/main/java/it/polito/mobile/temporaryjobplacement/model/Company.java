@@ -8,10 +8,12 @@ import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Enrico on 10/05/15.
@@ -81,7 +83,7 @@ public class Company extends ParseObject {
 
 
     public String getWebsite() {
-         return getString("website");
+        return getString("website");
     }
     public void setWebsite(String website) {
         put("website", website);
@@ -90,7 +92,7 @@ public class Company extends ParseObject {
 
 
     public String getDescription() {
-         return getString("description");
+        return getString("description");
     }
     public void setDescription(String description) {
         put("description", description);
@@ -184,6 +186,13 @@ public class Company extends ParseObject {
 
     public static ParseQuery<Company> getQuery() {
         return ParseQuery.getQuery(Company.class);
+    }
+
+
+
+    public List<Student> getFavouriteStudents() throws com.parse.ParseException {
+        ParseRelation<Student> relation = getRelation("favouriteStudents");
+        return relation.getQuery().find();
     }
 
 

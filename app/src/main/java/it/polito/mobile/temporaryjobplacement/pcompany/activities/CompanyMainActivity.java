@@ -15,9 +15,12 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.pcompany.fragments.SearchByStudentFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentCompanyListActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
 
 import it.polito.mobile.temporaryjobplacement.commonfragments.SearchByOfferFragment;
@@ -61,7 +64,7 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
 
         ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
         fragmentList.add(SearchByStudentFragment.newInstance());
-        fragmentList.add(SearchByOfferFragment.newInstance());
+       // fragmentList.add(SearchByOfferFragment.newInstance());
         String titles[] ={"STUDENTS","JOB OFFERS"};
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
@@ -160,16 +163,8 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
 
     }
 
-/*
-    @Override
-    public void startSearchCompaniesActivity(String params) {
-        //start activity and pass it searching params
-        //DialogManager.toastMessage("starting searching:\n"+params,this);
-        Intent intent=new Intent(this,StudentCompanyListActivity.class);
-        progressDialog.show();
-        startActivity(intent);
 
-    }*/
+
 
 
     @Override
@@ -185,6 +180,10 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
 
     @Override
     public void startSearchStudentActivity(String params) {
-
+       //start activity and pass it searching params
+        // DialogManager.toastMessage("starting searching:\n" + params, this);
+        Intent intent = new Intent(this, CompanyStudentListActivity.class);
+        progressDialog.show();
+        startActivity(intent);
     }
 }
