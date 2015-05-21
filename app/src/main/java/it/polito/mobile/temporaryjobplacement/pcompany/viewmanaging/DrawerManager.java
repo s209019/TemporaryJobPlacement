@@ -82,19 +82,20 @@ public class DrawerManager {
                         view.setCompoundDrawablesWithIntrinsicBounds(0, 0,  R.drawable.ic_action_search, 0);
                         break;
                     case SECTION1:
-                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_person, 0);
+                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_backspace, 0);
                         break;
                     case SECTION2:
-                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_important, 0);
-                        break;
-                    case SECTION3:
-                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_email, 0);
-                        break;
-                    case SECTION4:
                         view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_time, 0);
                         break;
+                    case SECTION3:
+                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_person, 0);
+                        break;
+                    case SECTION4:
+                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_important, 0);
+                        break;
                     case SECTION5:
-                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_backspace, 0);
+                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_email, 0);
+                        break;
                     case SECTION6:
                         view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_backspace, 0);
                         break;
