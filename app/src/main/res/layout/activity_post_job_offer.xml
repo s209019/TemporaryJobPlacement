@@ -186,7 +186,7 @@
                     android:inputType="textMultiLine"
                     android:textColor="@android:color/black"
                     android:background="@drawable/old_edit_text"
-                    android:hint="City"
+                    android:hint="Country"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginLeft="@dimen/margin_small"
                     android:padding="10dp"
@@ -312,7 +312,11 @@
 
     </ScrollView>
 
-
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
 
     <!-- The navigation drawer -->
     <include layout="@layout/drawer_layout" />"

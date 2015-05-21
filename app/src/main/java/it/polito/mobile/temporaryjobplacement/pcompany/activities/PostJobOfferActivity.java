@@ -210,12 +210,22 @@ public class PostJobOfferActivity extends ActionBarActivity {
             jobOffer.setEducation(educationSpinner.getSelectedItem().toString());
             jobOffer.setCareerLevel(careerLevelSpinner.getSelectedItem().toString());
             jobOffer.setContract(contractSpinner.getSelectedItem().toString());
+            jobOffer.setAddress(addressEditText.getText().toString().trim());
+            jobOffer.setCity(cityEditText.getText().toString().trim());
+            jobOffer.setZipCode(zipCodeEditText.getText().toString().trim());
+            jobOffer.setCountry(countryEditText.getText().toString().trim());
+            jobOffer.setMinimumQualifications(minimumQualificationsEditText.getText().toString().trim());
+            jobOffer.setPreferredQualifications(preferredQualificationsEditText.getText().toString().trim());
+            jobOffer.setResponsibilities(responsibilitiesEditText.getText().toString().trim());
+            jobOffer.setIndustries(industriesTextView.getText().toString().trim());
+            jobOffer.setPublic(true);
 
-            //Aggiungere location, industries, responsibilities, minimum Qualifications, preferred qualifications
+            findViewById(R.id.loadingOverlay).setVisibility(View.VISIBLE);
+
             jobOffer.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    //TODO: Fare
+                    onBackPressed(); //TODO: Visualizare dettaglio jobOffer!
                 }
             });
         } else {
