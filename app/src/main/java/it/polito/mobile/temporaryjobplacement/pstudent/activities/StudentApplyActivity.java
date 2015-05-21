@@ -127,16 +127,16 @@ public class StudentApplyActivity extends ActionBarActivity {
             resumes.put(0, (myProfile.getParseObject("cv0")).getString("resumeName"));
         }
         if (myProfile.has("cv1") && ((ParseObject) myProfile.get("cv1")).get("fileName") != null) {
-            resumes.put(1, (myProfile.getParseObject("cv0")).getString("fileName"));
+            resumes.put(1, (myProfile.getParseObject("cv1")).getString("resumeName"));
         }
         if (myProfile.has("cv2") && ((ParseObject) myProfile.get("cv2")).get("fileName") != null) {
-            resumes.put(2, (myProfile.getParseObject("cv0")).getString("fileName"));
+            resumes.put(2, (myProfile.getParseObject("cv2")).getString("resumeName"));
         }
         if (myProfile.has("cv3") && ((ParseObject) myProfile.get("cv3")).get("fileName") != null) {
-            resumes.put(3, (myProfile.getParseObject("cv0")).getString("fileName"));
+            resumes.put(3, (myProfile.getParseObject("cv3")).getString("resumeName"));
         }
         if (myProfile.has("cv4") && ((ParseObject) myProfile.get("cv4")).get("fileName") != null) {
-            resumes.put(4, (myProfile.getParseObject("cv0")).getString("fileName"));
+            resumes.put(4, (myProfile.getParseObject("cv4")).getString("resumeName"));
         }
 
 
