@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.parse.ParseQueryAdapter;
 
+import java.util.Locale;
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
 import it.polito.mobile.temporaryjobplacement.model.Student;
@@ -78,12 +80,12 @@ public class StudentQueryAdapter extends ParseQueryAdapter<Student> {
 
         final ImageButton innerButton =(ImageButton) convertView.findViewById(R.id.innerButton);
 
-        nameTextView.setText(student.getFirstName() +" "+student.getLastName());
+        nameTextView.setText(student.getLastName().toUpperCase(Locale.ENGLISH)+" "+student.getFirstName().toUpperCase(Locale.ENGLISH));
 
 
         try {
             if (student.getBestDegree().equals("")) throw new Exception();
-            degreeTextView.setText(student.getBestDegree());
+            degreeTextView.setText(student.getBestDegree().toUpperCase());
         }catch (Exception e ){
             degreeTextView.setText("Degree not specified");
         }

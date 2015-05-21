@@ -11,13 +11,17 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.FragmentManipulation;
 import it.polito.mobile.temporaryjobplacement.model.Company;
+import it.polito.mobile.temporaryjobplacement.model.Education;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pcompany.fragments.EducationsListFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.fragments.StudentDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.fragments.StudentListFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
@@ -26,7 +30,7 @@ import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferLi
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
 
 
-public class CompanyStudentListActivity extends ActionBarActivity implements StudentListFragment.Callbacks,StudentDetailFragment.OnFragmentInteractionListener{
+public class CompanyStudentListActivity extends ActionBarActivity implements StudentListFragment.Callbacks,StudentDetailFragment.OnFragmentInteractionListener,EducationsListFragment.Callbacks{
 
 
 
@@ -90,9 +94,9 @@ public class CompanyStudentListActivity extends ActionBarActivity implements Stu
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString("SELECTED_Student", student.getObjectId());
+            arguments.putString("SELECTED_STUDENT", student.getObjectId());
             arguments.putBoolean("IS_FAVOURITED", student.isFavourited());
-            CompanyDetailFragment fragment = new CompanyDetailFragment();
+            StudentDetailFragment fragment = new StudentDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.item_detail_container, fragment).commit();
 
@@ -100,8 +104,8 @@ public class CompanyStudentListActivity extends ActionBarActivity implements Stu
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
-            Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-            detailIntent.putExtra("SELECTED_STUDNET", student.getObjectId());
+            Intent detailIntent = new Intent(this, CompanyDetailActivity.class);
+            detailIntent.putExtra("SELECTED_STUDENT", student.getObjectId());
             detailIntent.putExtra("IS_FAVOURITED", student.isFavourited());
             startActivityForResult(detailIntent, 0);
         }
@@ -201,4 +205,33 @@ public class CompanyStudentListActivity extends ActionBarActivity implements Stu
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+    List<Education> educations=new ArrayList<Education>();
+    int currentFragment=0;
+    @Override
+    public void startEducationsFragment(List<Education> educations) {
+        this.educations=educations;
+        //start educations fragmetn
+        EducationsListFragment f=new EducationsListFragment();
+        FragmentManipulation.avvia_fragment(this, f, R.id.item_detail_container, true, true);
+        currentFragment=1;
+    }
+
+    @Override
+    public List<Education> getEducations() {
+        return educations;
+    }
+
+
+    @Override
+    public void onBackPressed(){
+        if(currentFragment==0){
+            finish();
+            return;
+        }
+        currentFragment--;
+        super.onBackPressed();
+    }
+
 }

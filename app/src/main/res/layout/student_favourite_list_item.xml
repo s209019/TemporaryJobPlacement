@@ -93,6 +93,7 @@
                 android:minHeight="20dp"
                 android:layout_weight="1"
                 android:text="24 years old"
+                android:paddingLeft="5dp"
                 android:gravity="center_vertical"
                 android:textSize="@dimen/abc_text_size_small_material"
                 android:textColor="@color/grayDarkerTextColor"

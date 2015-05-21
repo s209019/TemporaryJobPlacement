@@ -252,6 +252,8 @@ public class OfferDetailFragment extends Fragment  {
 
 
 
+
+
         //handle learn more button
         TextView learnMoreButton =(TextView)rootView.findViewById(R.id.learnMoreTextView);
         learnMoreButton.setText("Learn more about "+offer.getCompany().getName());

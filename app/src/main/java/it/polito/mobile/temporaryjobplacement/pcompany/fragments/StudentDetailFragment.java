@@ -2,6 +2,7 @@ package it.polito.mobile.temporaryjobplacement.pcompany.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -22,6 +24,7 @@ import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
@@ -31,8 +34,11 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.CreateMenuIte
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.LargeBarAnimatedManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
+import it.polito.mobile.temporaryjobplacement.model.Company;
+import it.polito.mobile.temporaryjobplacement.model.Education;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pcompany.activities.SendMessageActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentApplyActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
 
@@ -44,18 +50,22 @@ import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailA
  */
 public class StudentDetailFragment extends Fragment  {
 
+    Bitmap bitmapImage;
+    List<Education> educations;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public StudentDetailFragment() {
+
     }
 
 
 
     private OnFragmentInteractionListener mListener;
     public interface OnFragmentInteractionListener {
-        //public void startCompanyActivity(String companyName);
+        public void startEducationsFragment(List<Education> educations);
     }
 
 
@@ -74,11 +84,12 @@ public class StudentDetailFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_offer_detail, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_student_detail, container, false);
+
 
 
         //setting largeBarAnimated
-        ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
+                ((ActionBarActivity) getActivity()).getSupportActionBar().hide();
         final LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(rootView,(ActionBarActivity)getActivity());
 
         ImageButton backButton=largeBarAnimatedManager.getBackButton();
@@ -99,22 +110,23 @@ public class StudentDetailFragment extends Fragment  {
         });
 
 
-        //getting jobOfferID
-        final String jobOfferId=getArguments().getString("SELECTED_OFFER");
-        final JobOffer[] offer = {null};
-        final Student[] myProfile = {null};
+        //getting StudentID
+        final String studentId=getArguments().getString("SELECTED_STUDENT");
+        final Student[] student = {null};
+        final Company[] myProfile = {null};
         final RelativeLayout loadingOverlay =(RelativeLayout)rootView.findViewById(R.id.loadingOverlay);
         loadingOverlay.setVisibility(View.VISIBLE);
         new AsyncTask<Object, Object, Object>(){
             @Override
             protected Object doInBackground(Object... params) {
                 try {
-                    offer[0] = JobOffer.getQuery().include("company").get(jobOfferId);
-                    myProfile[0] = AccountManager.getCurrentStudentProfile();
-                    boolean applicationDone = (Application.getQuery().whereEqualTo("jobOffer", offer[0]).whereEqualTo("student",myProfile[0]).count()!=0);
-                    List<JobOffer> favourites=myProfile[0].getFavouritesOffers();
-                    offer[0].setFavourited(favourites.contains(offer[0]));
-                    offer[0].setApplicationDone(applicationDone);
+                    student[0] = Student.getQuery().get(studentId);
+                    myProfile[0] = AccountManager.getCurrentCompanyProfile();
+                    boolean applicationDone = (Application.getQuery().whereEqualTo("jobOffer", student[0]).whereEqualTo("student",myProfile[0]).count()!=0);
+                    List<Student> favourites=myProfile[0].getFavouriteStudents();
+                    student[0].setFavourited(favourites.contains(student[0]));
+                    bitmapImage=student[0].getPhoto(getActivity());
+                    educations=student[0].getEducations();
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -133,7 +145,7 @@ public class StudentDetailFragment extends Fragment  {
                     }
 
                     loadingOverlay.setVisibility(View.GONE);
-                    initializeView(rootView, largeBarAnimatedManager, offer[0], myProfile[0]);
+                    initializeView(rootView, largeBarAnimatedManager, student[0], myProfile[0]);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -163,33 +175,31 @@ public class StudentDetailFragment extends Fragment  {
 
 
 
-
-    private void initializeView(final View rootView,LargeBarAnimatedManager largeBarAnimatedManager,final JobOffer offer, final Student myProfile){
+    private void initializeView(final View rootView,LargeBarAnimatedManager largeBarAnimatedManager,final Student student, final Company myProfile){
         //populate title and subtitle
-        largeBarAnimatedManager.getTitleTextView().setText(offer.getName());
-        largeBarAnimatedManager.getSubTitleTextView().setText(offer.getCompany().getName());
+        largeBarAnimatedManager.getTitleTextView().setText(student.getLastName().toUpperCase(Locale.ENGLISH));
+        largeBarAnimatedManager.getSubTitleTextView().setText(student.getFirstName().toUpperCase(Locale.ENGLISH));
 
         //handle share button
         ImageButton shareButton=largeBarAnimatedManager.getShareButton();
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExternalIntents.share(getActivity(), offer.getName(),
-                        offer.getCompany().getName() + " offers the following position:\n" +
-                                offer.getDescription() + "\n\ncontact:" + offer.getCompany().getEmail());
+                ExternalIntents.share(getActivity(), student.getLastName()+" "+student.getFirstName(),
+                        student.getEmail());
             }
         });
 
         //handle favourite button
         final RelativeLayout favouriteButton=largeBarAnimatedManager.getFavouriteButton();
-        ((ImageButton)favouriteButton.getChildAt(0)).setImageResource(offer.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
+        ((ImageButton)favouriteButton.getChildAt(0)).setImageResource(student.isFavourited() ? R.drawable.ic_action_important : R.drawable.ic_action_not_important);
         final ProgressBar progress=(ProgressBar)favouriteButton.getChildAt(1);
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    if (!offer.isFavourited()) {
-                        myProfile.getRelation("favouritesOffers").add(offer);
+                    if (!student.isFavourited()) {
+                        myProfile.getRelation("favouriteStudents").add(student);
                         progress.setVisibility(View.VISIBLE);
                         new AsyncTask<Object, Object, Boolean>() {
                             @Override
@@ -209,7 +219,7 @@ public class StudentDetailFragment extends Fragment  {
                                 if (o == true) {
                                     progress.setVisibility(View.GONE);
                                     DialogManager.toastMessage("Favourite added", getActivity());
-                                    offer.setFavourited(true);
+                                    student.setFavourited(true);
                                     ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_important);
                                 }
                             }
@@ -217,7 +227,7 @@ public class StudentDetailFragment extends Fragment  {
 
 
                     } else {
-                        myProfile.getRelation("favouritesOffers").remove(offer);
+                        myProfile.getRelation("favouriteStudents").remove(student);
                         progress.setVisibility(View.VISIBLE);
                         new AsyncTask<Object, Object, Boolean>() {
                             @Override
@@ -237,7 +247,7 @@ public class StudentDetailFragment extends Fragment  {
                                 if (o == true) {
                                     progress.setVisibility(View.GONE);
                                     DialogManager.toastMessage("Favourite removed", getActivity());
-                                    offer.setFavourited(false);
+                                    student.setFavourited(false);
                                     ((ImageButton) favouriteButton.getChildAt(0)).setImageResource(R.drawable.ic_action_not_important);
                                 }
                             }
@@ -246,73 +256,146 @@ public class StudentDetailFragment extends Fragment  {
                     }
                 }catch (Exception e){
                     e.printStackTrace();
+
                 }
             }
         });
 
 
 
-        //handle learn more button
-        TextView learnMoreButton =(TextView)rootView.findViewById(R.id.learnMoreTextView);
-        learnMoreButton.setText("Learn more about "+offer.getCompany().getName());
-        learnMoreButton.setOnClickListener(new View.OnClickListener() {
+
+
+
+        TextView firstNameTextView=(TextView)rootView.findViewById(R.id.firstNameTextView);
+        String name=student.getFirstName().substring(0,1).toUpperCase()+student.getFirstName().substring(1,student.getFirstName().length());
+        firstNameTextView.setText(name);
+
+        TextView lastNameTextView=(TextView)rootView.findViewById(R.id.lastNameTextView);
+        name=student.getLastName().substring(0,1).toUpperCase()+student.getLastName().substring(1,student.getLastName().length());
+        lastNameTextView.setText(name);
+
+        TextView ageTextView=(TextView)rootView.findViewById(R.id.ageTextView);
+        try {
+            if (student.getAge().equals("")) throw new Exception();
+            ageTextView.setText(student.getAge());
+        }catch (Exception e){
+            ageTextView.setText("Age not specified");
+        }
+
+        TextView degreeTextView=(TextView)rootView.findViewById(R.id.degreeTextView);
+        try {
+            if (student.getBestDegree().equals("")) throw new Exception();
+            degreeTextView.setText(student.getBestDegree());
+        }catch (Exception e ){
+            degreeTextView.setText("Degree not specified");
+        }
+
+
+        TextView emailTextView=(TextView)rootView.findViewById(R.id.emailTextView);
+        try {
+            if (student.getEmail().equals("")) throw new Exception();
+            emailTextView.setText(student.getEmail());
+            ((LinearLayout)emailTextView.getParent()).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ExternalIntents.sendMail(getActivity(), student.getEmail());
+                }
+            });
+        }catch (Exception e ){
+            emailTextView.setText("Email not specified");
+        }
+
+        TextView phoneTextView=(TextView)rootView.findViewById(R.id.phoneTextView);
+        try {
+            if (student.getPhoneNumber().equals("")) throw new Exception();
+            phoneTextView.setText(student.getPhoneNumber());
+            ((LinearLayout)phoneTextView.getParent()).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ExternalIntents.call(getActivity(),student.getPhoneNumber());
+                }
+            });
+        }catch (Exception e ){
+            phoneTextView.setText("Phone number not specified");
+        }
+
+
+        TextView languageSkillsTextView=(TextView)rootView.findViewById(R.id.languageSkillsTextView);
+        try {
+            String text=student.getLanguageSkills().get(0);
+            for(int i=1; i<student.getLanguageSkills().size();i++){
+                text=text+"\n"+student.getLanguageSkills().get(i);
+            }
+            languageSkillsTextView.setText(text);
+        }catch (Exception e ){
+            languageSkillsTextView.setText("Language skills not specified");
+        }
+
+
+
+        TextView skillsTextView =(TextView)rootView.findViewById(R.id.skillsTextView);
+        try {
+            if (student.getSkills().equals("")) throw new Exception();
+            skillsTextView.setText(student.getSkills());
+        }catch (Exception e ){
+            skillsTextView.setText("Skills not specified");
+        }
+
+
+
+        //manage your photo input
+        ImageView profilePictureImage = (ImageView)rootView.findViewById(R.id.profilePicture);
+
+        if(bitmapImage!=null){
+            profilePictureImage.setImageBitmap(bitmapImage);
+        }
+
+
+
+
+        Button messageButton=(Button)rootView.findViewById(R.id.buttonsendMessage);
+        messageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // mListener.startCompanyActivity(offer.getCompany().getObjectId());
+                try {
+                    Intent intent = new Intent(getActivity(), SendMessageActivity.class);
+                    intent.putExtra("SELECTED_STUDENT",student.getObjectId());
+                    startActivityForResult(intent, 0);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
 
-        TextView companyTextView=(TextView)rootView.findViewById(R.id.companyTextView);
-        companyTextView.setText(offer.getCompany().getName());
-
-        TextView locationTextView=(TextView)rootView.findViewById(R.id.locationTextView);
-        locationTextView.setText(offer.getFullLocation());
-
-        TextView positionTextView=(TextView)rootView.findViewById(R.id.positionTextView);
-        positionTextView.setText(offer.getContract());
-
-        TextView educationTextView=(TextView)rootView.findViewById(R.id.educationTextView);
-        educationTextView.setText(offer.getEducation());
-
-        TextView careerLevelTextView=(TextView)rootView.findViewById(R.id.careerLevelTextView);
-        careerLevelTextView.setText(offer.getCareerLevel());
-
-        TextView descriptionTextView=(TextView)rootView.findViewById(R.id.descriptionTextView);
-        descriptionTextView.setText(offer.getDescription());
-
-        TextView responsibilitiesTextView =(TextView)rootView.findViewById(R.id.responsibilitiesTextView);
-        responsibilitiesTextView.setText(offer.getResponsibilities());
-
-        TextView minimumQualificationsTextView =(TextView)rootView.findViewById(R.id.minimumQualificationsTextView);
-        minimumQualificationsTextView.setText(offer.getMinimumQualifications());
-
-        TextView preferredQualificationsTextView =(TextView)rootView.findViewById(R.id.preferredQualificationsTextView);
-        preferredQualificationsTextView.setText(offer.getPreferredQualifications());
-
-        TextView industriesTextView =(TextView)rootView.findViewById(R.id.industriesTextView);
-        industriesTextView.setText(offer.getIndustries());
-
-
-        TextView showMoreTextView =(TextView)rootView.findViewById(R.id.showMoreTextView);
-        showMoreTextView.setOnClickListener(new View.OnClickListener() {
+        Button seeEducationsButton=(Button)rootView.findViewById(R.id.buttonSeeEducations);
+        seeEducationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LinearLayout)rootView.findViewById(R.id.hiddenLayout)).setVisibility(View.VISIBLE);
-                v.setVisibility(View.GONE);
-
+                try {
+                    mListener.startEducationsFragment(educations);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
 
+/*
         LinearLayout showMapLayout=(LinearLayout)rootView.findViewById(R.id.showMapLayout);
         showMapLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ExternalIntents.openGoogleMaps(getActivity(),offer.getFullLocation());
             }
-        });
+        });*/
 
+
+
+
+
+/*
         RelativeLayout applyButton=(RelativeLayout)rootView.findViewById(R.id.buttonApply);
         if(!offer.isApplicationDone()) {
 
@@ -350,6 +433,8 @@ public class StudentDetailFragment extends Fragment  {
 
 
         }
+
+        */
 
 
     }

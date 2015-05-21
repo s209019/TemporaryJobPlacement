@@ -48,6 +48,7 @@ import it.polito.mobile.temporaryjobplacement.commons.utils.BitmapManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.imagezoomcrop.ImageCropActivity;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 
 public class ProfileBasicInfoFragment extends Fragment {
@@ -56,19 +57,25 @@ public class ProfileBasicInfoFragment extends Fragment {
     ImageView V_lastName;
     ImageView V_dateOfBirthName;
     ImageView V_languageSkills;
-    ImageView V_skills ;
-    ProgressBar pro_firstName ;
-    ProgressBar pro_lastName ;
-    ProgressBar pro_dateOfBirthName ;
-    ProgressBar pro_languageSkills ;
-    ProgressBar pro_skills ;
+    ImageView V_skills;
+    ImageView V_Email;
+    ImageView V_Number;
+    ProgressBar pro_firstName;
+    ProgressBar pro_lastName;
+    ProgressBar pro_dateOfBirthName;
+    ProgressBar pro_languageSkills;
+    ProgressBar pro_skills;
     ProgressBar pro_yourPhoto;
+    ProgressBar progress_Email;
+    ProgressBar progress_Number;
 
 
 
     private EditText firstNameTextView;
     private EditText lastNameTextView;
     private EditText keywordsTextView;
+    private EditText emailTextView;
+    private EditText phoneNumberTextView;
 
     ImageView profilePictureImage;
     TextView profilePictureTextView;
@@ -175,11 +182,16 @@ public class ProfileBasicInfoFragment extends Fragment {
         V_dateOfBirthName=(ImageView)rootView.findViewById(R.id.V_DateOfBirth);
         V_languageSkills=(ImageView)rootView.findViewById(R.id.V_Language);
         V_skills=(ImageView)rootView.findViewById(R.id.V_skills);
+        V_Email=(ImageView)rootView.findViewById(R.id.V_Email);
+        V_Number=(ImageView)rootView.findViewById(R.id.V_Number);
         pro_firstName=(ProgressBar)rootView.findViewById(R.id.progress_firstName);
         pro_lastName=(ProgressBar)rootView.findViewById(R.id.progress_LastName);
         pro_dateOfBirthName=(ProgressBar)rootView.findViewById(R.id.progress_DateOfBirth);
         pro_languageSkills=(ProgressBar)rootView.findViewById(R.id.progress_Language);
         pro_yourPhoto=(ProgressBar)rootView.findViewById(R.id.progress_yourPhoto);
+        progress_Number=(ProgressBar)rootView.findViewById(R.id.progress_Number);
+        progress_Email=(ProgressBar)rootView.findViewById(R.id.progress_Email);
+        pro_skills=(ProgressBar)rootView.findViewById(R.id.progress_Skills);
 
 
 
@@ -442,6 +454,103 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
 
+        //manage phone number editText
+        phoneNumberTextView = ((SavableEditText) rootView.findViewById(R.id.phoneNumberTextView)).editText();
+        if (myProfile.getPhoneNumber() != null) {
+            ((SavableEditText) phoneNumberTextView.getParent()).setSavedText(myProfile.getPhoneNumber());
+            phoneNumberTextView.setText(myProfile.getPhoneNumber());
+        }
+        ((SavableEditText) phoneNumberTextView.getParent()).setButtonSaveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePhoneNumber(myProfile, phoneNumberTextView.getText().toString());
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(phoneNumberTextView.getWindowToken(), 0);
+            }
+        });
+        phoneNumberTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                String input;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    input = v.getText().toString();
+                    updatePhoneNumber(myProfile, input);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(phoneNumberTextView.getWindowToken(), 0);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+        phoneNumberTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String input;
+                EditText editText;
+
+                if (!hasFocus) {
+                    editText = (EditText) v;
+                    input = editText.getText().toString();
+                    updatePhoneNumber(myProfile, input);
+                }
+            }
+        });
+
+
+
+
+        //manage email editText
+        emailTextView = ((SavableEditText) rootView.findViewById(R.id.emailTextView)).editText();
+        if (myProfile.getEmail() != null) {
+            ((SavableEditText) emailTextView.getParent()).setSavedText(myProfile.getEmail());
+            emailTextView.setText(myProfile.getEmail());
+        }
+        ((SavableEditText) emailTextView.getParent()).setButtonSaveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateEmail(myProfile, emailTextView.getText().toString());
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(emailTextView.getWindowToken(), 0);
+            }
+        });
+        emailTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                String input;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    input = v.getText().toString();
+                    updateEmail(myProfile, input);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(emailTextView.getWindowToken(), 0);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+        emailTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String input;
+                EditText editText;
+
+                if (!hasFocus) {
+                    editText = (EditText) v;
+                    input = editText.getText().toString();
+                    updateEmail(myProfile, input);
+                }
+            }
+        });
+
+
+
+
+
 
 
     }
@@ -604,6 +713,64 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
     }
+
+
+
+    private void updateEmail(final Student myProfile,String email) {
+        try {
+            if (myProfile.getEmail() == null || !myProfile.getEmail().equals(email)) {
+                myProfile.setEmail(email);
+                V_Email.setVisibility(View.GONE);
+                progress_Email.setVisibility(View.VISIBLE);
+                myProfile.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            DialogManager.toastMessage("Email updated", getActivity(), "center", true);
+                            if (progress_Email != null) progress_Email.setVisibility(View.GONE);
+                            if (V_Email != null) V_Email.setVisibility(View.VISIBLE);
+                            if (emailTextView != null)
+                                ((SavableEditText) emailTextView.getParent()).setSavedText(myProfile.getEmail());
+                        } else {
+                            DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
+                        }
+                    }
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void updatePhoneNumber(final Student myProfile,String phoneNumber) {
+        if (myProfile.getPhoneNumber() == null || !myProfile.getPhoneNumber().equals(phoneNumber)) {
+            myProfile.setPhoneNumber(phoneNumber);
+            V_Number.setVisibility(View.GONE);
+            progress_Number.setVisibility(View.VISIBLE);
+            myProfile.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e==null){
+                        DialogManager.toastMessage("Phone number updated", getActivity(), "center",true);
+                        if(progress_Number!=null) progress_Number.setVisibility(View.GONE);
+                        if(V_Number!=null) V_Number.setVisibility(View.VISIBLE);
+                        if(phoneNumberTextView!=null)
+                            ((SavableEditText) phoneNumberTextView.getParent()).setSavedText(myProfile.getPhoneNumber());
+                    } else {
+                        DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
+                    }
+                }
+            });
+        }
+
+    }
+
+
+
+
+
 
     private void updatePhoto(Student myProfile,Bitmap bitImage) {
         deleteProfilePictureTextView.setVisibility(View.GONE);

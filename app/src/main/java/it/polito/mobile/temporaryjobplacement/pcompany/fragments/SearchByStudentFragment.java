@@ -220,19 +220,19 @@ public class SearchByStudentFragment extends Fragment {
                         languagesClickableTextView.getText().toString().trim().equals("") &&
                                 editTextKeywords.getText().toString().trim().equals("") &&
                                 ageSpinner.getSelectedItem().equals("")&&
-                                degreeSpinner.getSelectedItem().equals("")&&
+                                maxAgeSpinner.getSelectedItem().equals("")&&
                                 degreeSpinner.getSelectedItem().equals("")
                         ) {
                     DialogManager.toastMessage(getActivity().getResources().getString(R.string.all_empty_field_message), getActivity());
                     return;
                 }
 
-
-            if(!(ageSpinner.getSelectedItem().toString().equals("")&& maxAgeSpinner.getSelectedItem().toString().equals("")))
-                if(Integer.parseInt(ageSpinner.getSelectedItem().toString())>Integer.parseInt(maxAgeSpinner.getSelectedItem().toString())){
+                try {
+                if (Integer.parseInt(ageSpinner.getSelectedItem().toString()) > Integer.parseInt(maxAgeSpinner.getSelectedItem().toString())) {
                     DialogManager.toastMessage("Age interval not valid", getActivity());
                     return;
                 }
+                }catch (Exception e){ e.printStackTrace();}
 
                 if(ageSpinner.getSelectedItem().equals(""))ageSpinner.setSelection(1);//18
                 if(maxAgeSpinner.getSelectedItem().equals(""))maxAgeSpinner.setSelection(list.size()-1);//100

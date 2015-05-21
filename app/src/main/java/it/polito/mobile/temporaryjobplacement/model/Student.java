@@ -210,6 +210,7 @@ public class Student extends ParseObject {
     public List<Education> getEducations() throws com.parse.ParseException {
         ParseRelation<Education> relation = getRelation("educations");
         List<Education> educations= relation.getQuery().find();
+        if(educations==null)return new ArrayList<Education>();
         Collections.sort(educations);
         return educations;
     }
@@ -312,6 +313,17 @@ public class Student extends ParseObject {
     }
 
 
+    public String getPhoneNumber() {
+        return getString("phoneNumber");
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        put("phoneNumber", phoneNumber);
+    }
 
-
+    public String getEmail() {
+        return getString("email");
+    }
+    public void setEmail(String email) {
+        put("email", email);
+    }
 }

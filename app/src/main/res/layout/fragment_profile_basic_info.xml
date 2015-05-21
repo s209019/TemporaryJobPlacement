@@ -241,6 +241,111 @@
                     />
 
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_Email"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Email"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Email: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/emailTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Insert the email address of the company"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_Number"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_Number"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Phone number: "
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="2dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textLabelSize"
+                    />
+            </LinearLayout>
+
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/phoneNumberTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text"
+                android:layout_marginTop="@dimen/margin_medium"
+                >
+                <EditText
+                    android:inputType="numberSigned"
+                    android:imeOptions="actionDone"
+                    android:textColor="@android:color/black"
+                    android:hint="Insert the phone number of the company"
+                    android:background="@android:color/transparent"
+                    android:padding="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
 
 
 

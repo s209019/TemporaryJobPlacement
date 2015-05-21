@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/backgroundColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_medium_large"
+            android:paddingRight="@dimen/margin_medium_large"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium_large"
+            android:background="@android:color/white"
+            android:animateLayoutChanges="true">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/no_profile_picture"
+                android:background="@drawable/button_drawable2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/profilePicture"
+                />
+
+
+            <TextView
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Job Details"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="First name:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/firstNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Enrico"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Last name:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/lastNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Di Fazio"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Age:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/ageTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="23"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Degree:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/degreeTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text="Master's degree"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/customBarComponentSize"
+                android:orientation="horizontal"
+                android:background="@drawable/button_drawable2"
+                android:clickable="true"
+                android:id="@+id/mail_layout"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                >
+
+                <TextView
+                    android:id="@+id/emailTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameTextView"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingRight="@dimen/margin_small"
+                    android:text="info@telecom.it"
+                    android:textStyle="italic"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize" />
+
+                <ImageView
+
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_action_email"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="@dimen/customBarComponentDoubleSize"
+                    android:layout_gravity="right"
+                    android:paddingLeft="@dimen/margin_small"
+                    android:gravity="left|center_vertical"
+                    android:text="Send email"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:textColor="@color/labelTextColor"
+                    android:textSize="@dimen/textSize"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/customBarComponentSize"
+                android:orientation="horizontal"
+                android:background="@drawable/button_drawable2"
+                android:clickable="true"
+                android:id="@+id/phone_layout"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                >
+
+                <TextView
+                    android:id="@+id/phoneTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/nameTextView"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:paddingRight="@dimen/margin_small"
+                    android:text="01198989"
+                    android:textStyle="italic"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize" />
+
+                <ImageView
+
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_action_call"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minWidth="@dimen/customBarComponentDoubleSize"
+                    android:layout_gravity="right"
+                    android:paddingLeft="@dimen/margin_small"
+                    android:gravity="left|center_vertical"
+                    android:text="Call company"
+                    android:paddingRight="@dimen/margin_medium_large"
+                    android:textColor="@color/labelTextColor"
+                    android:textSize="@dimen/textSize"
+                    />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/internalBorderColor"
+            android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/margin_medium_large"
+            android:layout_marginRight="@dimen/margin_medium_large"
+            android:background="@drawable/panel_drawable"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Language skills"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+
+                />
+
+
+
+            <TextView
+                android:id="@+id/languageSkillsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameTextView"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:padding="@dimen/margin_small"
+                android:text="ENGLISH, level A1\nFRENCH, level A1\nGERMAN, level A1"
+                android:textStyle="italic|bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium_large"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Skills"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textLabelSize"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+
+                />
+
+
+
+            <TextView
+                android:id="@+id/skillsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameTextView"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:padding="@dimen/margin_small"
+                android:text="Android programming, Web programming, Network developer "
+                android:textStyle="italic|bold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/textSize" />
+
+
+
+
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_large" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/buttonSeeEducations"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:text="SEE STUDENT'S EDUCATION "
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/button_drawable"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+
+            />
+
+        <Button
+            android:id="@+id/buttonsendMessage"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:text="CONTACT STUDENT"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/button_drawable"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+
+            android:layout_marginBottom="@dimen/margin_large"
+            />
+
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

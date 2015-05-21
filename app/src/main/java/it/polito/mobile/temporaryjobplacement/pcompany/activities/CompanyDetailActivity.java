@@ -2,13 +2,21 @@ package it.polito.mobile.temporaryjobplacement.pcompany.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.FragmentManipulation;
+import it.polito.mobile.temporaryjobplacement.model.Education;
+import it.polito.mobile.temporaryjobplacement.pcompany.fragments.EducationsListFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.fragments.StudentDetailFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentMainActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
@@ -25,7 +33,7 @@ import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFrag
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link OfferDetailFragment}.
  */
-public class CompanyDetailActivity extends ActionBarActivity implements StudentDetailFragment.OnFragmentInteractionListener {
+public class CompanyDetailActivity extends ActionBarActivity implements StudentDetailFragment.OnFragmentInteractionListener,EducationsListFragment.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +65,7 @@ public class CompanyDetailActivity extends ActionBarActivity implements StudentD
                 Bundle arguments = new Bundle();
                 arguments.putString("SELECTED_STUDENT",  getIntent().getStringExtra("SELECTED_STUDENT"));
                 arguments.putBoolean("IS_FAVOURITED",  getIntent().getBooleanExtra("IS_FAVOURITED", false));
-                OfferDetailFragment fragment = new OfferDetailFragment();
+                StudentDetailFragment fragment = new StudentDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
             }/*else if( getIntent().getStringExtra("SELECTED_COMPANY")!=null){
@@ -68,6 +76,8 @@ public class CompanyDetailActivity extends ActionBarActivity implements StudentD
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
             }*/
+
+
 
         }
     }
@@ -118,13 +128,34 @@ public class CompanyDetailActivity extends ActionBarActivity implements StudentD
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    List<Education> educations=new ArrayList<Education>();
+    int currentFragment=0;
+    @Override
+    public void startEducationsFragment(List<Education> educations) {
+        this.educations=educations;
+        //start educations fragmetn
+        EducationsListFragment f=new EducationsListFragment();
+         FragmentManipulation.avvia_fragment(this, f, R.id.item_detail_container, true, true);
+        currentFragment=1;
+    }
+
+    @Override
+    public List<Education> getEducations() {
+        return educations;
+    }
+
+
+    @Override
+    public void onBackPressed(){
+        if(currentFragment==0){
+            finish();
+            return;
+        }
+        currentFragment--;
+        super.onBackPressed();
+    }
 
 
 
-    /*@Override
-    public void startCompanyActivity(String companyName) {
-        Intent detailIntent = new Intent(this, CompanyDetailActivity.class);
-        detailIntent.putExtra("SELECTED_COMPANY", companyName);
-        startActivityForResult(detailIntent, 0);
-    }*/
+
 }

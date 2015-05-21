@@ -45,8 +45,7 @@
     <string name="title_activity_post_job_offer">PostJobOfferActivity</string>
     <string name="title_activity_company_profile">CompanyProfileActivity</string>
     <string name="title_activity_favourite_students">FavouriteStudentsActivity</string>
-
-
+    <string name="title_activity_company_student_list">Students searched</string>
 
 
 </resources>
