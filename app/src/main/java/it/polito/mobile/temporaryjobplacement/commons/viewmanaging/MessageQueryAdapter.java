@@ -82,7 +82,7 @@ public class MessageQueryAdapter extends ParseQueryAdapter<Message> {
         if(loggedAsStudent)
             interlocutorTextView.setText(message.getCompany().getName());
         else
-            interlocutorTextView.setText(message.getStudent().getFirstName()+message.getStudent().getLastName());
+            interlocutorTextView.setText(message.getStudent().getFirstName()+" "+message.getStudent().getLastName());
 
 
 

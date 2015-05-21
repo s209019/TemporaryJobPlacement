@@ -373,23 +373,13 @@ public class StudentDetailFragment extends Fragment  {
         seeEducationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
                     mListener.startEducationsFragment(educations);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+
             }
         });
 
 
-/*
-        LinearLayout showMapLayout=(LinearLayout)rootView.findViewById(R.id.showMapLayout);
-        showMapLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ExternalIntents.openGoogleMaps(getActivity(),offer.getFullLocation());
-            }
-        });*/
 
 
 

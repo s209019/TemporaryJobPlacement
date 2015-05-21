@@ -29,8 +29,6 @@
                 android:layout_height="@dimen/customBarComponentSize" />
 
 
-
-
             <include layout="@layout/fragment_student_detail_content"
                 android:id="@+id/content"
                 android:layout_width="match_parent"
@@ -83,6 +81,7 @@
 
                 </LinearLayout>
             </LinearLayout>
+
 
 
 

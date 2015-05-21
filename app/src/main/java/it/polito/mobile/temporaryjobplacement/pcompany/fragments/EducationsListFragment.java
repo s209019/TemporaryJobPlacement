@@ -1,25 +1,45 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.fragments;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.parse.ParseQueryAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
+import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.MessageQueryAdapter;
 import it.polito.mobile.temporaryjobplacement.model.Education;
 import it.polito.mobile.temporaryjobplacement.model.Message;
@@ -33,24 +53,7 @@ import it.polito.mobile.temporaryjobplacement.model.Message;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class EducationsListFragment extends ListFragment {
-
-    private boolean inbox;
-    private int numberPagesDisplayedSoFar=1;
-
-
-
-
-    /**
-     * The serialization (saved instance state) Bundle key representing the
-     * activated item position. Only used on tablets.
-     */
-    private static final String STATE_ACTIVATED_POSITION = "activated_position";
-
-    /**
-     * The current activated item position. Only used on tablets.
-     */
-    private int mActivatedPosition = ListView.INVALID_POSITION;
+public class EducationsListFragment extends DialogFragment {
 
 
 
@@ -74,7 +77,7 @@ public class EducationsListFragment extends ListFragment {
 
 
 
-    public static Fragment newInstance(boolean inbox) {
+    public static Fragment newInstance() {
         EducationsListFragment fragment = new EducationsListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -87,12 +90,49 @@ public class EducationsListFragment extends ListFragment {
 
 
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View rootView=inflater.inflate( R.layout.see_educations_dialog_layout, null);
+
         List<Education> educations=callbacks.getEducations();
 
+   getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        getDialog().setTitle("Education");
+
+        final ListView listView=(ListView)rootView.findViewById(R.id.educationList);
+        ArrayAdapter<Education> educationArrayAdapter=new ArrayAdapter<Education>(getActivity(),R.layout.education_layout2){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = View.inflate(getContext(),R.layout.education_layout2, null);
+                }
 
 
 
+                final Education education=this.getItem(position);
+                ((TextView)convertView.findViewById(R.id.degreeTextView)).setText(education.getDegree());
+                ((TextView)convertView.findViewById(R.id.courseTextView)).setText(education.getCourse());
+                ((TextView)convertView.findViewById(R.id.universityTextView)).setText(education.getUniversity());
+                ((TextView)convertView.findViewById(R.id.markTextView)).setText(education.getMark());
+                 SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                ((TextView)convertView.findViewById(R.id.periodTextView)).setText(df.format(education.getFromDate())+" - "+ df.format(education.getToDate()));
 
+                //handle delete button
+                ((ImageButton)convertView.findViewById(R.id.deleteButton)).setVisibility(View.GONE);
+
+
+
+                return convertView;
+            }
+        };
+
+        educationArrayAdapter.addAll(educations);
+        listView.setAdapter(educationArrayAdapter);
+        listView.setSelection(0);
+        return  rootView;
     }
 
 
@@ -100,34 +140,10 @@ public class EducationsListFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Restore the previously serialized activated item position.
-        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-            setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-        }
-
-        view.setBackgroundColor(getActivity().getResources().getColor(R.color.foregroundColor));
-    }
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        getListView().setEmptyView(buildEmptyTextView("No educations"));
-
-
 
     }
-    private TextView buildEmptyTextView(String text) {
-        TextView emptyView = new TextView(getActivity());
-        emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
-        emptyView.setTextColor(getResources().getColor(R.color.labelTextColor));
-        emptyView.setText(text);
-        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.textLabelSize));
-        emptyView.setVisibility(View.GONE);
-        emptyView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        //Add the view to the list view. This might be what you are missing
-        ((ViewGroup) getListView().getParent()).addView(emptyView);
 
-        return emptyView;
-    }
+
 
 
     @Override
@@ -140,13 +156,6 @@ public class EducationsListFragment extends ListFragment {
 
 
 
-
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-
-
-    }
 
 
 
@@ -169,35 +178,9 @@ public class EducationsListFragment extends ListFragment {
 
 
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
-            // Serialize and persist the activated item position.
-            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-        }
-    }
 
-    /**
-     * Turns on activate-on-click mode. When this mode is on, list items will be
-     * given the 'activated' state when touched.
-     */
-    public void setActivateOnItemClick(boolean activateOnItemClick) {
-        // When setting CHOICE_MODE_SINGLE, ListView will automatically
-        // give items the 'activated' state when touched.
-        getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
 
-    }
 
-    private void setActivatedPosition(int position) {
-        if (position == ListView.INVALID_POSITION) {
-            getListView().setItemChecked(mActivatedPosition, false);
-        } else {
-            getListView().setItemChecked(position, true);
-        }
-
-        mActivatedPosition = position;
-    }
 
 
 

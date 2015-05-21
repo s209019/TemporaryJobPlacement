@@ -2,6 +2,7 @@ package it.polito.mobile.temporaryjobplacement.pcompany.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import it.polito.mobile.temporaryjobplacement.pcompany.fragments.StudentListFrag
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentMainActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.AddEducationDialogFragment;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
 
 
@@ -207,31 +209,22 @@ public class CompanyStudentListActivity extends ActionBarActivity implements Stu
     }
 
 
+
+
     List<Education> educations=new ArrayList<Education>();
     int currentFragment=0;
     @Override
     public void startEducationsFragment(List<Education> educations) {
         this.educations=educations;
-        //start educations fragmetn
-        EducationsListFragment f=new EducationsListFragment();
-        FragmentManipulation.avvia_fragment(this, f, R.id.item_detail_container, true, true);
-        currentFragment=1;
+        //start educations fragment
+        DialogFragment dialogF = (DialogFragment) EducationsListFragment.newInstance();
+        dialogF.show(getSupportFragmentManager(), "MyDialog");
+
     }
 
     @Override
     public List<Education> getEducations() {
         return educations;
-    }
-
-
-    @Override
-    public void onBackPressed(){
-        if(currentFragment==0){
-            finish();
-            return;
-        }
-        currentFragment--;
-        super.onBackPressed();
     }
 
 }

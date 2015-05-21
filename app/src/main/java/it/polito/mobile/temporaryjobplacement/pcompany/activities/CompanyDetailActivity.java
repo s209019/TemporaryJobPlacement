@@ -1,12 +1,15 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,10 +136,12 @@ public class CompanyDetailActivity extends ActionBarActivity implements StudentD
     @Override
     public void startEducationsFragment(List<Education> educations) {
         this.educations=educations;
-        //start educations fragmetn
-        EducationsListFragment f=new EducationsListFragment();
-         FragmentManipulation.avvia_fragment(this, f, R.id.item_detail_container, true, true);
-        currentFragment=1;
+        //start educations fragment
+
+        DialogFragment dialogF = (DialogFragment) EducationsListFragment.newInstance();
+        dialogF.show(getSupportFragmentManager(), "MyDialog");
+
+
     }
 
     @Override
@@ -145,15 +150,7 @@ public class CompanyDetailActivity extends ActionBarActivity implements StudentD
     }
 
 
-    @Override
-    public void onBackPressed(){
-        if(currentFragment==0){
-            finish();
-            return;
-        }
-        currentFragment--;
-        super.onBackPressed();
-    }
+
 
 
 

@@ -66,13 +66,14 @@ public class LargeBarAnimatedManager implements ObservableScrollViewCallbacks {
         subTitle.setTranslationX(scrollY / 2);
 
         //manage horizontal translation of homeButton and shareButton
+        if(favouriteButton.getVisibility()!=View.GONE){
         if(scrollY/2<favouriteButton.getWidth()) {
             homeButton.setTranslationX(-scrollY / 2);
             shareButton.setTranslationX(-scrollY / 2);
         }else{
             homeButton.setTranslationX(-favouriteButton.getWidth());
             shareButton.setTranslationX(-favouriteButton.getWidth());
-        }
+        }}
 
         //manage vertical translation of favouriteButton
         if (scrollY < scrollableBar.getHeight()*2){

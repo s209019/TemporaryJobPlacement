@@ -22,7 +22,7 @@ public class FragmentManipulation{
 	      // Visualizza il fragment.
 	      FragmentManager fragmentManager = act_corrente.getSupportFragmentManager();
 	      fragmentManager.beginTransaction()
-	      .add(id_container, fragment)
+	      .replace(id_container, fragment)
 	      //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE) //Nessuna animazione di default
 	      .commitAllowingStateLoss();}//aNZICHè COMMIT (bug del support v4)
           
@@ -31,7 +31,7 @@ public class FragmentManipulation{
 		      FragmentManager fragmentManager = act_corrente.getSupportFragmentManager();
 		      fragmentManager.beginTransaction()
 		      .addToBackStack(null) //permette di usare tasto back tra i fragments se ONBACKPRESSED NON è RIDEFINITO
-		      .add(id_container, fragment)
+		      .replace(id_container, fragment)
 		      //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE) //Nessuna animazione di default
 		      .commitAllowingStateLoss();}//aNZICHè COMMIT
 			  
@@ -42,7 +42,7 @@ public class FragmentManipulation{
 		      FragmentManager fragmentManager = act_corrente.getSupportFragmentManager();
 		      fragmentManager.beginTransaction()
 		      .setCustomAnimations(R.anim.nuova,R.anim.vecchia,0,0)
-		      .add(id_container, fragment)
+		      .replace(id_container, fragment)
 		      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 		      .commitAllowingStateLoss();}//aNZICHè COMMIT
 		  
@@ -58,7 +58,7 @@ public class FragmentManipulation{
 		      fragmentManager.beginTransaction()
 		      .setCustomAnimations(R.anim.nuova,x1,x2,R.anim.vecchia1)
 		      .addToBackStack(null) 
-		      .add(id_container, fragment)
+		      .replace(id_container, fragment)
 		      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 		      .commitAllowingStateLoss();}//aNZICHè COMMIT
 	  }
