@@ -61,6 +61,18 @@ public class JobOffer  extends ParseObject {
     public void setZipCode(String value) {
         put("zipCode", value);
     }
+    public String getCity() {
+        return getString("city");
+    }
+    public String getZipCode() {
+        return getString("zipCode");
+    }
+    public String getCountry() {
+        return getString("country");
+    }
+    public String getAddress() {
+        return getString("address");
+    }
 
 
     public void setCountry(String value) {

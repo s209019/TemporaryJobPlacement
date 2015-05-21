@@ -18,7 +18,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <fragment
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/item_list"
+            android:name="it.polito.mobile.temporaryjobplacement.pcompany.fragments.OfferListFragment"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            tools:layout="@android:layout/list_content"
 
+            />
+
+        <!--All'interno del layout di questa activity viene avviato un fragment in maniera statica: ItemListFragment
+        Il fragment ha all'interno il layout di lista di default layout/list_content-->
 
 
     </LinearLayout>

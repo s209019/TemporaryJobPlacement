@@ -31,7 +31,7 @@
 
 
 
-            <include layout="@layout/fragment_offer_detail_content"
+            <include layout="@layout/fragment_my_offer_detail_content"
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -77,7 +77,7 @@
                         android:layout_marginTop="@dimen/margin_small"
                         android:layout_marginBottom="0dp"
                         android:gravity="center_vertical"
-                        android:text="Telecom Italia"
+                        android:text=""
                         android:textSize="@dimen/textLabelSize"
                         android:textColor="@android:color/white"/>
 
@@ -90,42 +90,6 @@
 
 
 </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
-
-
-
-
-
-
-
-
-
-
-    <RelativeLayout
-        android:id="@+id/buttonApply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/button_drawable"
-        >
-        <Button
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:text="APPLY NOW"
-            android:layout_margin="1dp"
-            android:background="@android:color/transparent"
-            android:textSize="@dimen/textLabelSize"
-            android:clickable="false"
-            android:id="@+id/buttonApplyText"
-            />
-
-    </RelativeLayout>
-
-
-
-
-
 
 
 

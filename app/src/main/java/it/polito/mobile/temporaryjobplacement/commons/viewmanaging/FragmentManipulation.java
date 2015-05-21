@@ -22,18 +22,18 @@ public class FragmentManipulation{
 	      // Visualizza il fragment.
 	      FragmentManager fragmentManager = act_corrente.getSupportFragmentManager();
 	      fragmentManager.beginTransaction()
-	      .replace(id_container, fragment)
+	      .add(id_container, fragment)
 	      //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE) //Nessuna animazione di default
-	      .commitAllowingStateLoss();}//aNZICHè COMMIT (bug del support v4)
+	      .commitAllowingStateLoss();}//aNZICHE COMMIT (bug del support v4)
           
 		 if(!animazione &&  aggiungiBackstack){
 		      // Visualizza il fragment.
 		      FragmentManager fragmentManager = act_corrente.getSupportFragmentManager();
 		      fragmentManager.beginTransaction()
-		      .addToBackStack(null) //permette di usare tasto back tra i fragments se ONBACKPRESSED NON è RIDEFINITO
-		      .replace(id_container, fragment)
+		      .addToBackStack(null) //permette di usare tasto back tra i fragments se ONBACKPRESSED NON E RIDEFINITO
+		      .add(id_container, fragment)
 		      //.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE) //Nessuna animazione di default
-		      .commitAllowingStateLoss();}//aNZICHè COMMIT
+		      .commitAllowingStateLoss();}//aNZICHE COMMIT
 			  
 		 /* 
 		  if(animazione && !aggiungiBackstack)
@@ -42,9 +42,9 @@ public class FragmentManipulation{
 		      FragmentManager fragmentManager = act_corrente.getSupportFragmentManager();
 		      fragmentManager.beginTransaction()
 		      .setCustomAnimations(R.anim.nuova,R.anim.vecchia,0,0)
-		      .replace(id_container, fragment)
+		      .add(id_container, fragment)
 		      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-		      .commitAllowingStateLoss();}//aNZICHè COMMIT
+		      .commitAllowingStateLoss();}//aNZICHï¿½ COMMIT
 		  
 	  */
 	  
@@ -58,9 +58,9 @@ public class FragmentManipulation{
 		      fragmentManager.beginTransaction()
 		      .setCustomAnimations(R.anim.nuova,x1,x2,R.anim.vecchia1)
 		      .addToBackStack(null) 
-		      .replace(id_container, fragment)
+		      .add(id_container, fragment)
 		      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-		      .commitAllowingStateLoss();}//aNZICHè COMMIT
+		      .commitAllowingStateLoss();}//aNZICHï¿½ COMMIT
 	  }
 
 
@@ -83,7 +83,7 @@ public class FragmentManipulation{
     	 FragmentManager fragmentManager = act_corrente.getSupportFragmentManager();
 	      fragmentManager.beginTransaction()
 	     .remove(fragment)
-	      .commitAllowingStateLoss();}//aNZICHè COMMIT (bug del support v4)
+	      .commitAllowingStateLoss();}//aNZICHï¿½ COMMIT (bug del support v4)
     	
     	
     

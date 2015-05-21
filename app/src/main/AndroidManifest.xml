@@ -129,39 +129,46 @@
         <activity
             android:name=".pstudent.activities.CoverLetterActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_cover_letter" >
+            android:label="@string/title_activity_cover_letter"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".pstudent.activities.ApplicationDetailActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_application_detail" >
+            android:label="@string/title_activity_application_detail"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
 
 
         <activity
             android:name=".pcompany.activities.OpenPositionsActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_open_position" >
+            android:label="@string/title_activity_open_position"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".pcompany.activities.PostJobOfferActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_post_job_offer" >
+            android:label="@string/title_activity_post_job_offer"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".pcompany.activities.CompanyProfileActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_company_profile" >
+            android:label="@string/title_activity_company_profile"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".pcompany.activities.FavouriteStudentsActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_favourite_students" >
+            android:label="@string/title_activity_favourite_students"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".pcompany.activities.CompanyMessagesActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_student_messagges" >
+            android:label="@string/title_activity_student_messagges"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".pcompany.activities.ShowMessageActivity"

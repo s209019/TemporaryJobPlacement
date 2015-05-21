@@ -19,18 +19,11 @@ import it.polito.mobile.temporaryjobplacement.model.JobOffer;
  */
 public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
 
-    private InnerButtonManager innerButtonManager;
     private int rowLayoutId;
 
 
-    public interface InnerButtonManager {
-        void configureButton(final JobOffer offer, final ImageButton innerButton);
-    }
-
-
-    public JobOfferQueryAdapter(Context context, QueryFactory<JobOffer> queryFactory, InnerButtonManager innerButtonManager, int rowLayoutId) {
+    public JobOfferQueryAdapter(Context context, QueryFactory<JobOffer> queryFactory, int rowLayoutId) {
         super(context, queryFactory);
-        this.innerButtonManager=innerButtonManager;
         this.rowLayoutId=rowLayoutId;
     }
 
@@ -84,8 +77,6 @@ public class JobOfferQueryAdapter extends ParseQueryAdapter<JobOffer> {
         //companyTextView.setText(jobOffer.getCompany().getName());
         timeAgoTextView.setText((TimeManager.getFormattedDate(jobOffer.getCreatedAt())));
         locationTextView.setText(jobOffer.getCompactLocation());
-
-        innerButtonManager.configureButton(jobOffer, innerButton);
 
         return convertView;
     }

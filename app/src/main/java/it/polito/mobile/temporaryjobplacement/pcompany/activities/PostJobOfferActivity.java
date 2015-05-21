@@ -1,5 +1,8 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -8,8 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,9 +28,12 @@ import java.util.List;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commonfragments.MultipleChoiceDialogFragment;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
 
 public class PostJobOfferActivity extends ActionBarActivity {
@@ -43,6 +52,8 @@ public class PostJobOfferActivity extends ActionBarActivity {
     private Spinner educationSpinner;
     private Spinner careerLevelSpinner;
     private TextView industriesTextView;
+    private boolean editMode;
+    private JobOffer jobOffer;
 
 
     @Override
@@ -56,8 +67,17 @@ public class PostJobOfferActivity extends ActionBarActivity {
             setSupportActionBar(toolbar);
         }
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        drawerManager=new DrawerManager(this,drawerLayout,toolbar,DrawerManager.SECTION2);
-        drawerManager.setDrawer();
+
+        editMode=false;
+        if(getIntent().hasExtra("SELECTED_OFFER")){
+            editMode=true;
+            findViewById(R.id.loadingOverlay).setVisibility(View.VISIBLE);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else {
+            drawerManager=new DrawerManager(this,drawerLayout,toolbar,DrawerManager.SECTION2);
+            drawerManager.setDrawer();
+        }
 
         nameEditText = (EditText) findViewById(R.id.nameTextView);
         descriptionEditText = (EditText) findViewById(R.id.descriptionTextView);
@@ -122,6 +142,55 @@ public class PostJobOfferActivity extends ActionBarActivity {
         dataAdapterContract.setDropDownViewResource(R.layout.spinner_item_dropdown);
         contractSpinner.setAdapter(dataAdapterContract);
 
+        if(editMode){
+            //getting jobOfferID
+            final String jobOfferId=getIntent().getStringExtra("SELECTED_OFFER");
+            final JobOffer[] offer = {null};
+            new AsyncTask<Object, Object, Object>(){
+                @Override
+                protected Object doInBackground(Object... params) {
+                    try {
+                        offer[0] = JobOffer.getQuery().get(jobOfferId);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                    return new Object();
+
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    try {
+                        super.onPostExecute(o);
+                        if (o == null) {
+                            Connectivity.connectionError(PostJobOfferActivity.this);
+                            return;
+                        }
+
+                        jobOffer = offer[0];
+                        nameEditText.append(jobOffer.getName());
+                        descriptionEditText.append(jobOffer.getDescription());
+                        addressEditText.append(jobOffer.getAddress());
+                        countryEditText.append(jobOffer.getCountry());
+                        zipCodeEditText.append(jobOffer.getZipCode());
+                        cityEditText.append(jobOffer.getCity());
+                        responsibilitiesEditText.append(jobOffer.getResponsibilities());
+                        minimumQualificationsEditText.append(jobOffer.getMinimumQualifications());
+                        preferredQualificationsEditText.append(jobOffer.getPreferredQualifications());
+                        contractSpinner.setSelection(listContract.indexOf(jobOffer.getContract()));
+                        educationSpinner.setSelection(listEducation.indexOf(jobOffer.getEducation()));
+                        careerLevelSpinner.setSelection(listCareerLevel.indexOf(jobOffer.getCareerLevel()));
+                        industriesTextView.setText(jobOffer.getIndustries());
+
+                        ((Button)findViewById(R.id.postJobOfferButton)).setText("EDIT OFFER");
+
+                        findViewById(R.id.loadingOverlay).setVisibility(View.GONE);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }.execute();        }
 
     }
 
@@ -154,7 +223,12 @@ public class PostJobOfferActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            drawerManager.toggleDrawer();
+
+            if(editMode)
+                this.onBackPressed();
+            else
+                drawerManager.toggleDrawer();
+
             return true;
         }
 
@@ -163,7 +237,14 @@ public class PostJobOfferActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-        if(drawerManager.isDrawerOpen()){
+
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+
+        if(!editMode && drawerManager.isDrawerOpen()){
             drawerManager.toggleDrawer();
             return;
         }
@@ -203,7 +284,10 @@ public class PostJobOfferActivity extends ActionBarActivity {
 
         try {
         if(sb.toString().equals("")){
-            JobOffer jobOffer = new JobOffer();
+
+            if(!editMode)
+                jobOffer = new JobOffer();
+
             jobOffer.setName(nameEditText.getText().toString().trim());
             jobOffer.setDescription(descriptionEditText.getText().toString().trim());
             jobOffer.setCompany(AccountManager.getCurrentCompanyProfile()); //TODO: Fare in background?
@@ -225,7 +309,10 @@ public class PostJobOfferActivity extends ActionBarActivity {
             jobOffer.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    onBackPressed(); //TODO: Visualizare dettaglio jobOffer!
+                    Intent i = new Intent(PostJobOfferActivity.this, CompanyDetailActivity.class);
+                    i.putExtra("SELECTED_OFFER", jobOffer.getObjectId());
+                    finish();
+                    startActivity(i);
                 }
             });
         } else {

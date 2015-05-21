@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Nicolò/Desktop/PROGETTI/ANDROID/HOBBY_ANDROID/AndroidStudioPrj/REPO/TemporaryJobPlacement/aFileChooser/build/intermediates/bundles/debug/res/values-de/values.xml -->
+    <!-- From: file:/Users/Enrico/Downloads/TemporaryJobPlacement%206/aFileChooser/build/intermediates/bundles/debug/res/values-de/values.xml -->
     <eat-comment/>
     <string name="choose_file">Wähle eine Datei</string>
     <string name="empty_directory">Leerer Ordner</string>

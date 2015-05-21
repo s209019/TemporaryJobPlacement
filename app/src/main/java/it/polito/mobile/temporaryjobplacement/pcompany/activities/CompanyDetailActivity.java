@@ -21,10 +21,7 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.FragmentManip
 import it.polito.mobile.temporaryjobplacement.model.Education;
 import it.polito.mobile.temporaryjobplacement.pcompany.fragments.EducationsListFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.fragments.StudentDetailFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentMainActivity;
-import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.OfferDetailFragment;
+import it.polito.mobile.temporaryjobplacement.pcompany.fragments.OfferDetailFragment;
 
 
 /**
@@ -71,14 +68,13 @@ public class CompanyDetailActivity extends ActionBarActivity implements StudentD
                 StudentDetailFragment fragment = new StudentDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
-            }/*else if( getIntent().getStringExtra("SELECTED_COMPANY")!=null){
+            } else if( getIntent().getStringExtra("SELECTED_OFFER")!=null){
                 Bundle arguments = new Bundle();
-                arguments.putString("SELECTED_COMPANY",  getIntent().getStringExtra("SELECTED_COMPANY"));
-                arguments.putBoolean("IS_FAVOURITED",  getIntent().getBooleanExtra("IS_FAVOURITED", false));
-                CompanyDetailFragment fragment = new CompanyDetailFragment();
+                arguments.putString("SELECTED_OFFER", getIntent().getStringExtra("SELECTED_OFFER"));
+                OfferDetailFragment fragment = new OfferDetailFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction().add(R.id.item_detail_container, fragment).commit();
-            }*/
+            }
 
 
 
@@ -109,7 +105,7 @@ public class CompanyDetailActivity extends ActionBarActivity implements StudentD
         }if(id==R.id.action_HOME){
            //setResult(TemporaryJobPlacementApp.exitCode);
            // finish();
-            Intent i = new Intent(this, StudentMainActivity.class);
+            Intent i = new Intent(this, CompanyMainActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         }

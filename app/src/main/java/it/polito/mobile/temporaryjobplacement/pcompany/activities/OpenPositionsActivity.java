@@ -14,12 +14,18 @@ import com.parse.ParseQueryAdapter;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
+import it.polito.mobile.temporaryjobplacement.model.Company;
+import it.polito.mobile.temporaryjobplacement.model.JobOffer;
+import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pcompany.fragments.OfferListFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.ApplicationDetailActivity;
 
-public class OpenPositionsActivity extends ActionBarActivity {
+public class OpenPositionsActivity extends ActionBarActivity implements OfferListFragment.Callbacks {
 
     private DrawerManager drawerManager;
+    private Company companyProfile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +44,21 @@ public class OpenPositionsActivity extends ActionBarActivity {
         drawerManager.setDrawer();
     }
 
-    public void onItemSelected(Application application) {
+    public void onItemSelected(JobOffer jobOffer) {
 
-        Intent detailIntent = new Intent(this, ApplicationDetailActivity.class);
-        detailIntent.putExtra("SELECTED_APP", application.getObjectId());
+        Intent detailIntent = new Intent(this, CompanyDetailActivity.class);
+        detailIntent.putExtra("SELECTED_OFFER", jobOffer.getObjectId());
         startActivity(detailIntent);
 
     }
-/*
-    @Override
+
     public void initializeProfile() throws Exception {
-        if(studentProfile==null)
-            studentProfile = AccountManager.getCurrentStudentProfile();
+        if(companyProfile==null)
+            companyProfile = AccountManager.getCurrentCompanyProfile();
 
 
     }
-*/
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,22 +80,20 @@ public class OpenPositionsActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-/*
-    public ParseQueryAdapter.QueryFactory<Application> getQueryFactory() throws Exception {
-        ParseQueryAdapter.QueryFactory<Application> query;
+
+    public ParseQueryAdapter.QueryFactory<JobOffer> getQueryFactory() throws Exception {
+        ParseQueryAdapter.QueryFactory<JobOffer> query;
         final Exception[] error={null};
 
-        query= new ParseQueryAdapter.QueryFactory<Application>() {
+        query= new ParseQueryAdapter.QueryFactory<JobOffer>() {
 
-            public ParseQuery<Application> create() {
+            public ParseQuery<JobOffer> create() {
 
-                ParseQuery<Application> query=null;
+                ParseQuery<JobOffer> query=null;
                 try {
 
-                    query = Application.getQuery();
-                    query.whereEqualTo("student", studentProfile);
-                    query.include("jobOffer");
-                    query.include("jobOffer.company");
+                    query = JobOffer.getQuery();
+                    query.whereEqualTo("company", companyProfile);
                     query.orderByDescending("createdAt");
                     query.setLimit(100);
                 } catch (Exception e) {
@@ -102,7 +105,7 @@ public class OpenPositionsActivity extends ActionBarActivity {
         if(error[0]!=null)throw error[0];
         return query;
     }
-*/
+
     @Override
     protected void onRestart() {
         super.onRestart();
