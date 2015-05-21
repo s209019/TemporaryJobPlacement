@@ -19,7 +19,7 @@ android {
         }
 
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFile 'custom-proguard-android.txt'
         }
     }

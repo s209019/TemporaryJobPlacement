@@ -61,17 +61,17 @@
                     >
                     <AutoCompleteTextView
                         android:inputType="text"
-                        android:hint="e.g. description, skills,..."
+                        android:hint="keywords (separated by spaces)"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         />
 
                 </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText>
 
                 <TextView
-                    android:id="@+id/postingDateTitle"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -83,12 +83,12 @@
                     android:textSize="@dimen/textLabelSize"
                     android:textColor="@color/labelTextColor"
                     android:textStyle="bold"
-                    android:text="Posting date"
+                    android:text="Degree"
                     />
 
 
                 <Spinner
-                    android:id="@+id/postingDateSpinner"
+                    android:id="@+id/spinnerDegree"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -151,7 +151,6 @@
                 >
 
                 <TextView
-                    android:id="@+id/postingDateTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -163,12 +162,12 @@
                     android:textSize="@dimen/textLabelSize"
                     android:textColor="@color/labelTextColor"
                     android:textStyle="bold"
-                    android:text="Posting date"
+                    android:text="Age"
                     />
 
 
                 <Spinner
-                    android:id="@+id/postingDateSpinner"
+                    android:id="@+id/ageSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -184,7 +183,6 @@
 
 
                 <TextView
-                    android:id="@+id/educationTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -196,142 +194,12 @@
                     android:textSize="@dimen/textLabelSize"
                     android:textColor="@color/labelTextColor"
                     android:textStyle="bold"
-                    android:text="Education"
+                    android:text="Languages"
                     />
 
 
                 <TextView
-                    android:id="@+id/educationClickableTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:hint="Any"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/textview_clickable_drawable"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/careerLevelTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginBottom="0dp"
-                    android:gravity="left"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/textLabelSize"
-                    android:textColor="@color/labelTextColor"
-                    android:textStyle="bold"
-                    android:text="Career level"
-                    />
-
-                <TextView
-                    android:id="@+id/carerLevelClickableTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:hint="Any"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/textview_clickable_drawable"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/positionTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:gravity="left"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/textLabelSize"
-                    android:textColor="@color/labelTextColor"
-                    android:textStyle="bold"
-                    android:text="Contract"
-                    />
-
-                <TextView
-                    android:id="@+id/positionClickableTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:hint="Any"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/textview_clickable_drawable"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/companyNameTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginBottom="0dp"
-                    android:gravity="left"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/textLabelSize"
-                    android:textColor="@color/labelTextColor"
-                    android:textStyle="bold"
-                    android:text="Company"
-                    />
-
-
-
-                <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editCompanyName"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    >
-                    <AutoCompleteTextView
-                        android:inputType="text"
-                        android:hint="name"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:imeOptions="actionNext"
-                        />
-
-                </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText>
-
-
-
-
-
-
-                <TextView
-                    android:id="@+id/industryTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginBottom="0dp"
-                    android:gravity="left"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/textLabelSize"
-                    android:textColor="@color/labelTextColor"
-                    android:textStyle="bold"
-                    android:text="Industry"
-                    />
-
-                <TextView
-                    android:id="@+id/industriesClickableTextView"
+                    android:id="@+id/languagesClickableTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -343,8 +211,6 @@
                     android:background="@drawable/textview_clickable_drawable"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"/>
-
-
 
 
 

@@ -2,6 +2,7 @@ package it.polito.mobile.temporaryjobplacement.pcompany.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
+import it.polito.mobile.temporaryjobplacement.pcompany.fragments.SearchByStudentFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
 
@@ -22,7 +24,7 @@ import it.polito.mobile.temporaryjobplacement.commonfragments.SearchByOfferFragm
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 
 
-public class CompanyMainActivity extends ActionBarActivity implements SearchByOfferFragment.OnFragmentInteractionListener {
+public class CompanyMainActivity extends ActionBarActivity implements SearchByOfferFragment.OnFragmentInteractionListener,SearchByStudentFragment.OnFragmentInteractionListener {
     DrawerManager drawerManager;
     private ProgressDialog progressDialog;
 
@@ -58,7 +60,7 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
         //set tabViews
 
         ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
-        //fragmentList.add(SearchByCompanyFragment.newInstance());
+        fragmentList.add(SearchByStudentFragment.newInstance());
         fragmentList.add(SearchByOfferFragment.newInstance());
         String titles[] ={"STUDENTS","JOB OFFERS"};
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
@@ -177,5 +179,12 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
             return;
         }
         super.onBackPressed();
+    }
+
+
+
+    @Override
+    public void startSearchStudentActivity(String params) {
+
     }
 }

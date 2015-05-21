@@ -61,7 +61,7 @@
                     >
                     <AutoCompleteTextView
                         android:inputType="text"
-                        android:hint="e.g. description, skills,..."
+                        android:hint="keywords (separated by space)"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
