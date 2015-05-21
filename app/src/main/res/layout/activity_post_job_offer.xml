@@ -6,7 +6,6 @@
     android:id="@+id/drawer"
     >
 
-
     <!-- The main content view -->
     <ScrollView
         android:layout_width="match_parent"

@@ -5,11 +5,6 @@
     android:animateLayoutChanges="true"
     android:background="@color/primaryColor">
 
-
-
-
-
-
     <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"

@@ -1,0 +1,212 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/primaryColor">
+
+
+
+
+
+
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+
+        <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+
+
+            <Space
+                android:id="@+id/anchor"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/customBarComponentSize" />
+
+
+
+
+            <include layout="@layout/fragment_offer_detail_content"
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/scrollableBar"
+                 />
+
+
+            <LinearLayout
+                android:id="@+id/scrollableBar"
+                android:layout_below="@id/anchor"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/customBarComponentOneAndHalfSize"
+                android:background="@android:color/transparent"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:id="@+id/middleSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/titleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_large"
+                        android:layout_marginRight="@dimen/margin_medium"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:gravity="center_vertical"
+                        android:text="WEB DEVELOPER"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/textLabelSize"
+                        android:textColor="@android:color/white"/>
+                    <TextView
+                        android:id="@+id/companysubTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_large"
+                        android:layout_marginRight="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:layout_marginBottom="0dp"
+                        android:gravity="center_vertical"
+                        android:text="Telecom Italia"
+                        android:textSize="@dimen/textLabelSize"
+                        android:textColor="@android:color/white"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+</com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+
+
+
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/buttonApply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_drawable"
+        >
+        <Button
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="APPLY NOW"
+            android:layout_margin="1dp"
+            android:background="@android:color/transparent"
+            android:textSize="@dimen/textLabelSize"
+            android:clickable="false"
+            android:id="@+id/buttonApplyText"
+            />
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/fixedBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/customBarComponentSize"
+        android:background="@color/primaryColor" >
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_drawable4"/>
+
+        <ImageButton
+            android:id="@+id/shareButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_centerVertical="true"
+            android:src="@drawable/abc_ic_menu_share_mtrl_alpha"
+            android:background="@drawable/button_drawable4"
+            android:layout_toLeftOf="@+id/homeButton" />
+
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentRight= "true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="0dp"
+            android:src="@drawable/ic_menu_home"
+            android:background="@drawable/button_drawable4"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/favouriteButton"
+        android:layout_width="@dimen/customBarComponentSizeExternal"
+        android:layout_height="@dimen/customBarComponentSizeExternal"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/customBarComponentDoubleSize"
+        android:background="@drawable/circle_drawable">
+
+
+        <ImageButton
+            android:layout_width="@dimen/customBarComponentSize"
+            android:layout_height="@dimen/customBarComponentSize"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginBottom="6dp"
+            android:clickable="false"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_action_not_important"
+            />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="2.5dp"
+            android:layout_marginBottom="6dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/customBarComponentSize"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
+
+
+
+ </RelativeLayout>
