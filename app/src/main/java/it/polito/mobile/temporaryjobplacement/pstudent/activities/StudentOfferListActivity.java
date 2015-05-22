@@ -19,6 +19,7 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.CompanyDetailFragment;
@@ -134,6 +135,30 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
                 query.include("company");
                 query.orderByDescending("createdAt");
                 query.setLimit(100);
+
+                if(getIntent().hasExtra("keywords")) {
+                    ArrayList<String> keywordsList = getIntent().getStringArrayListExtra("keywords");
+                    query.whereContains("keywords_search", keywordsList.get(0));
+                    //Viene considerata solo la prima keyword!
+                }
+
+                if(getIntent().hasExtra("location"))
+                    query.whereContains("location_search", getIntent().getStringExtra("location"));
+
+
+                if(getIntent().hasExtra("industries")) {
+                    ArrayList<String> industriesList = getIntent().getStringArrayListExtra("industries");
+                    query.whereMatches("industry", industriesList.get(0));
+                    //Viene considerata solo la prima industry!
+
+                }
+
+
+                if(getIntent().hasExtra("company")) {
+                    query.whereMatchesQuery("company", Company.getQuery().whereMatches("name", getIntent().getStringExtra("company"), "i"));
+                }
+
+
                 return query;
             }
         };

@@ -20,7 +20,10 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +51,7 @@ public class SearchByOfferFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     public interface OnFragmentInteractionListener {
-        void startSearchOffersActivity(String params);
+        void startSearchOffersActivity(Intent i);
     }
 
     @Override
@@ -274,28 +277,40 @@ public class SearchByOfferFragment extends Fragment {
                 if(!editTextKeywords.getText().toString().trim().equals("")) {
                     ArrayList<String> keywordsList = new ArrayList<String>();
                     for (String word : editTextKeywords.getText().toString().trim().split(" ")) {
-                        keywordsList.add(word);
+                        keywordsList.add(word.toLowerCase());
                     }
                     intent.putStringArrayListExtra("keywords", keywordsList);
                 }
 
                 if(!editTextLocation.getText().toString().trim().equals("")){
-                    intent.putExtra("location", editTextLocation.getText().toString().trim());
+                    intent.putExtra("location", editTextLocation.getText().toString().trim().toLowerCase());
                 }
 
+                if(!editTextCompanyName.getText().toString().trim().equals("")){
+                    intent.putExtra("company", editTextCompanyName.getText().toString().trim().toLowerCase());
+                }
 
+                if(!industriesClickableTextView.getText().toString().trim().equals("")) {
+                    intent.putStringArrayListExtra("industries", new ArrayList<String>(Arrays.asList(getItemsFromTextView(industriesClickableTextView))));
+                }
 
-                //intent.putExtra("postingDate",
+                if(!educationClickableTextView.getText().toString().trim().equals("")) {
+                    intent.putStringArrayListExtra("education", new ArrayList<String>(Arrays.asList(getItemsFromTextView(educationClickableTextView))));
+                }
 
-                        mListener.startSearchOffersActivity(
-                                editTextKeywords.getText() + "\n" +
-                                        educationClickableTextView.getText() + "\n" +
-                                        carerLevelClickableTextView.getText() + "\n" +
-                                        positionClickableTextView.getText() + "\n" +
-                                        editTextCompanyName.getText().toString() + "\n" +
-                                        editTextLocation.getText() + "\n" +
-                                        industriesClickableTextView.getText() + "\n" +
-                                        postingDateSpinner.getSelectedItem());
+                if(!carerLevelClickableTextView.getText().toString().trim().equals("")) {
+                    intent.putStringArrayListExtra("careerLevel", new ArrayList<String>(Arrays.asList(getItemsFromTextView(carerLevelClickableTextView))));
+                }
+
+                if(!positionClickableTextView.getText().toString().trim().equals("")) {
+                    intent.putStringArrayListExtra("contract", new ArrayList<String>(Arrays.asList(getItemsFromTextView(positionClickableTextView))));
+                }
+
+                if(postingDateSpinner.getSelectedItemPosition() != 0) {
+                    intent.putExtra("postingDate", (String) postingDateSpinner.getSelectedItem()); //TODO: Funziona??
+                }
+
+                mListener.startSearchOffersActivity(intent);
             }
         });
 
