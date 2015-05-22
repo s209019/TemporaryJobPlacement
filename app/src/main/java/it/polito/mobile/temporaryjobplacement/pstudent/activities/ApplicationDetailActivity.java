@@ -132,7 +132,7 @@ public class ApplicationDetailActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_offer_item, menu);
+        getMenuInflater().inflate(R.menu.menu_offer_item2, menu);
         this.menu=menu;
         return true;
     }
@@ -159,9 +159,9 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         }
         if (id == R.id.action_delete) {
             if (getProfile() != null) {
-                String title="WITHDRAW APPLICATION";
-                String description="Are you sure you want to withdraw application?";
-                DialogManager.setDialogWithCancelAndOk(title, description, this, "WITHDRAW", new Runnable() {
+                String title="DELETE APPLICATION";
+                String description="Are you sure you want to delete your application?";
+                DialogManager.setDialogWithCancelAndOk(title, description, this, "DELETE", new Runnable() {
                     @Override
                     public void run() {
                         try {

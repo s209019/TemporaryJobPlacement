@@ -429,7 +429,7 @@
                     android:layout_marginRight="@dimen/margin_small"
                     >
                     <EditText
-                        android:inputType="text"
+                        android:inputType="number"
                         android:imeOptions="actionDone"
                         android:textColor="@android:color/black"
                         android:hint="ZIP Code"

@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.SaveCallback;
@@ -289,7 +290,7 @@ public class PostJobOfferActivity extends ActionBarActivity {
             if(!editMode)
                 jobOffer = new JobOffer();
 
-            Company company = AccountManager.getCurrentCompanyProfile(); //TODO: Fare in background?
+            final Company company = AccountManager.getCurrentCompanyProfile(); //TODO: Fare in background?
 
             jobOffer.setName(nameEditText.getText().toString().trim());
             jobOffer.setDescription(descriptionEditText.getText().toString().trim());
@@ -325,6 +326,9 @@ public class PostJobOfferActivity extends ActionBarActivity {
             jobOffer.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
+
+                    if(!company.isPublic())
+                        DialogManager.toastMessage("Your profile is not public!\nStudents won't be able to see this job offer until you make it public!", PostJobOfferActivity.this, Toast.LENGTH_LONG);
 
                     if(!editMode) {
                         Intent i = new Intent(PostJobOfferActivity.this, CompanyDetailActivity.class);

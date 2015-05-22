@@ -351,10 +351,6 @@
                 android:textSize="@dimen/textSize" />
 
 
-
-
-
-
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_large" />

@@ -139,6 +139,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
                 query.orderByDescending("createdAt");
                 query.setLimit(100);
                 query.whereEqualTo("public", true);
+                query.whereMatchesQuery("company", Company.getQuery().whereEqualTo("public", true));
 
                 if(getIntent().hasExtra("keywords")) {
                     ArrayList<String> keywordsList = getIntent().getStringArrayListExtra("keywords");

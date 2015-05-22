@@ -234,32 +234,6 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:text="Location:"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSize"
-                    />
-                <TextView
-                    android:id="@+id/locationTextView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:gravity="right"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:text=""
-                    android:textSize="@dimen/textSize"
-                    android:textColor="@android:color/black"
-                    />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
                     android:text="Industry:"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/textSize"
@@ -277,6 +251,33 @@
                     android:textColor="@android:color/black"
                     />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Location:"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+                <TextView
+                    android:id="@+id/locationTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:text=""
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@android:color/black"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -288,7 +289,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="wrap_content"
             android:background="@drawable/button_drawable"
             android:layout_marginLeft="@dimen/margin_medium_large"
             android:layout_marginRight="@dimen/margin_medium_large"
@@ -299,7 +300,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="wrap_content"
             android:background="@drawable/button_drawable"
             android:layout_marginLeft="@dimen/margin_medium_large"
             android:layout_marginRight="@dimen/margin_medium_large"
@@ -312,7 +313,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            android:layout_height="wrap_content"
             android:background="@drawable/button_drawable"
             android:layout_marginLeft="@dimen/margin_medium_large"
             android:layout_marginRight="@dimen/margin_medium_large"

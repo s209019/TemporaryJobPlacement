@@ -295,8 +295,10 @@ public class StudentApplyActivity extends ActionBarActivity {
 
         EditText coverLetterText = ((EditText) findViewById(R.id.coverLetterText));
 
-        if(myProfile.getFirstName().equals("") || myProfile.getLastName().equals(""))
+        if(myProfile.getFirstName().equals("") || myProfile.getLastName().equals("")) {
             DialogManager.toastMessage("Please complete your profile first!\nFirst name and last name information are mandatory.", this);
+            return;
+        }
 
         if(selectedResume==null){
 

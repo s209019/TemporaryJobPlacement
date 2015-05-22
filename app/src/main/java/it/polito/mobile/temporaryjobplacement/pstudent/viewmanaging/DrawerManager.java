@@ -60,7 +60,7 @@ public class DrawerManager {
                         v =(TextView) View.inflate(getContext(), R.layout.hi_logged, null);
                     }
                     try {
-                        ((TextView)v).setText("Hi student "+AccountManager.getCurrentUser().getUsername()+" !");
+                        ((TextView)v).setText("Hi "+AccountManager.getCurrentUser().getUsername()+"!");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
