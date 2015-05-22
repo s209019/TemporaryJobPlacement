@@ -8,14 +8,21 @@ android:id="@+id/educationRowId"
     android:layout_marginTop="0dp">
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_background"
+        android:layout_marginTop="@dimen/margin_medium"
+        >
     <LinearLayout
         android:id="@+id/clickablePanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/grayTextColor"
-        android:layout_marginTop="@dimen/margin_medium"
+        android:background="@drawable/old_edit_text"
+        android:layout_margin="1dp"
         >
+
 
 
     <ImageButton
@@ -194,10 +201,11 @@ android:id="@+id/educationRowId"
     </LinearLayout>
 
     </LinearLayout>
+    </RelativeLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_medium" />
+        android:layout_height="@dimen/margin_small" />
 
 
 </LinearLayout>

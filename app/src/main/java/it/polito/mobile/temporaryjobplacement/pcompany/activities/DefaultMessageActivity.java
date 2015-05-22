@@ -40,6 +40,7 @@ public class DefaultMessageActivity extends ActionBarActivity {
         }
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add a default message");
 
         boolean displayMode=false;
         if(getIntent().hasExtra("DEFAULT_MESSAGE_INDEX")) {

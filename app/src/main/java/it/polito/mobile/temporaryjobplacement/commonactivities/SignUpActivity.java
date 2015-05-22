@@ -77,24 +77,22 @@ public class SignUpActivity extends ActionBarActivity {
 
     public void signUp(View v) {
 
+        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(userText.getWindowToken(), 0);
+        mgr.hideSoftInputFromWindow(passText.getWindowToken(), 0);
+
         if(!Connectivity.hasNetworkConnection(getApplicationContext())){
           DialogManager.setDialog(getResources().getString(R.string.no_connectivity_messagge), this);
             return;
         }
 
         if(userText.getText().toString().trim().equals("") || passText.getText().toString().trim().equals("")){
-            InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            mgr.hideSoftInputFromWindow(userText.getWindowToken(), 0);
-            mgr.hideSoftInputFromWindow(passText.getWindowToken(), 0);
             DialogManager.toastMessage(getResources().getString(R.string.empty_field_message), this);
             return;
         }
 
 
         if(radioGroup.getCheckedRadioButtonId()==-1){
-           InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            mgr.hideSoftInputFromWindow(userText.getWindowToken(), 0);
-            mgr.hideSoftInputFromWindow(passText.getWindowToken(), 0);
             DialogManager.toastMessage(getResources().getString(R.string.no_user_type_message), this);
             return;
         }

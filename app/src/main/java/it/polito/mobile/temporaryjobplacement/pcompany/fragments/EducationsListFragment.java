@@ -100,14 +100,14 @@ public class EducationsListFragment extends DialogFragment {
         List<Education> educations=callbacks.getEducations();
 
    getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        getDialog().setTitle("Education");
+        getDialog().setTitle("Academic career");
 
         final ListView listView=(ListView)rootView.findViewById(R.id.educationList);
-        ArrayAdapter<Education> educationArrayAdapter=new ArrayAdapter<Education>(getActivity(),R.layout.education_layout2){
+        ArrayAdapter<Education> educationArrayAdapter=new ArrayAdapter<Education>(getActivity(),R.layout.education_layout3){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
-                    convertView = View.inflate(getContext(),R.layout.education_layout2, null);
+                    convertView = View.inflate(getContext(),R.layout.education_layout3, null);
                 }
 
 

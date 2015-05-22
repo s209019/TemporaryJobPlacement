@@ -145,8 +145,8 @@ public class CompanyProfileActivity extends ActionBarActivity implements  Profil
                     // Setting the ViewPager For the SlidingTabsLayout
                     tabLayout.setViewPager(pager);
 
-                    String s="PUBLIC";
-                    if(!getProfile().isPublic())s="PRIVATE";
+                    String s="PUBLIC PROFILE";
+                    if(!getProfile().isPublic())s="PRIVATE PROFILE";
                     getSupportActionBar().setSubtitle(s);
 
 
@@ -181,8 +181,8 @@ public class CompanyProfileActivity extends ActionBarActivity implements  Profil
                                                String s="PROFILE PUBLISHED";
                                                if(!getProfile().isPublic())s="PROFILE UNPUBLISHED";
                                                DialogManager.toastMessage(s, CompanyProfileActivity.this);
-                                                s="PUBLIC";
-                                               if(!getProfile().isPublic())s="PRIVATE";
+                                                s="PUBLIC PROFILE";
+                                               if(!getProfile().isPublic())s="PRIVATE PROFILE";
                                                getSupportActionBar().setSubtitle(s);
 
                                            }
@@ -191,7 +191,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements  Profil
 
                                     }else {
 
-                                       DialogManager.setDialog("Profile not completed", "You have to save all fields to publish you profile", CompanyProfileActivity.this);
+                                       DialogManager.setDialog("Profile not completed", "In order to set your profile as public, you first have to set ALL the fields of your profile", CompanyProfileActivity.this);
 
 
                                    }

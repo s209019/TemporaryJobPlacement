@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_height"
         android:layout_marginTop="0dp"
-        android:text="Don't have an account? Sign up now"
+        android:text="Don't have a PoliJob account? Sign up now"
         android:textStyle="bold"
         android:clickable="true"
         android:id="@+id/buttonSignup"
@@ -27,6 +27,13 @@
         android:onClick="signUp"/>
 
 
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/app_logo"
+        android:id="@+id/imageLogo"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
 
 
         <LinearLayout
@@ -35,8 +42,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/panel_drawable"
             android:layout_marginTop="@dimen/margin_large"
-           android:layout_alignParentTop="true"
-
+            android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <TextView

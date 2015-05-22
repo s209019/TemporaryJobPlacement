@@ -56,7 +56,7 @@ public class DrawerManager {
     public void setDrawer(){
 
         final ListView drawerListView=(ListView)drawerLayout.findViewById(R.id.drawerListView);
-        String[] itemTitles={"logged user","Search filter","Open positions","Post a job offer","Profile","Favourite students","Messages","Logout"};
+        String[] itemTitles={"logged user","Search students","My open positions","Post a job offer","My profile","Favourite students","Messages","Logout"};
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(activity, R.layout.drawer_list_item_activated,itemTitles){
             public View getView(int pos, View v, ViewGroup p) {
 
@@ -69,7 +69,7 @@ public class DrawerManager {
                         v =(TextView) View.inflate(getContext(), R.layout.hi_logged, null);
                     }
                     try {
-                        ((TextView)v).setText("Hi company "+AccountManager.getCurrentUser().getUsername()+" !");
+                        ((TextView)v).setText("Hi "+AccountManager.getCurrentUser().getUsername()+"!");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

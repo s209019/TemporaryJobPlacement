@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Default reject messages: "
+                android:text="Default feedback messages: "
                 android:gravity="center_vertical"
                 android:layout_marginLeft="2dp"
                 android:textStyle="bold"

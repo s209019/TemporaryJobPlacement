@@ -21,6 +21,7 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.pcompany.fragments.SearchStudentFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;

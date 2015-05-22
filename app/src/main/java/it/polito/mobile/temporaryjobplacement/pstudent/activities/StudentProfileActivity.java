@@ -151,8 +151,8 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
 
 
 
-                    String s="PUBLIC";
-                    if(!getProfile().isPublic())s="PRIVATE";
+                    String s="PUBLIC PROFILE";
+                    if(!getProfile().isPublic())s="PRIVATE PROFILE";
                     getSupportActionBar().setSubtitle(s);
 
 
@@ -186,7 +186,7 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
 
                                     }else {
 
-                                        DialogManager.setDialog("Profile not completed", "You have to save first name and last name fields to publish you profile", StudentProfileActivity.this);
+                                        DialogManager.setDialog("Profile not completed", "In order to set your profile as public, you first have to set your full name", StudentProfileActivity.this);
 
 
                                     }
