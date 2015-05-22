@@ -2,6 +2,7 @@ package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -43,6 +45,8 @@ import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailA
  * on handsets.
  */
 public class OfferDetailFragment extends Fragment  {
+
+    Bitmap logo;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -115,6 +119,7 @@ public class OfferDetailFragment extends Fragment  {
                    List<JobOffer> favourites=myProfile[0].getFavouritesOffers();
                    offer[0].setFavourited(favourites.contains(offer[0]));
                    offer[0].setApplicationDone(applicationDone);
+                   if(getActivity()!=null) logo=offer[0].getCompany().getPhoto(getActivity());
                } catch (Exception e) {
                    e.printStackTrace();
                    return null;
@@ -179,6 +184,11 @@ public class OfferDetailFragment extends Fragment  {
                                 offer.getDescription() + "\n\ncontact:" + offer.getCompany().getEmail());
             }
         });
+
+
+        if(logo!=null){
+            ((ImageView)rootView.findViewById(R.id.logo)).setImageBitmap(logo);
+        }
 
         //handle favourite button
         final RelativeLayout favouriteButton=largeBarAnimatedManager.getFavouriteButton();

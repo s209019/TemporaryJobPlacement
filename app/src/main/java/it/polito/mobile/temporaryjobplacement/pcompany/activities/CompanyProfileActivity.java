@@ -71,14 +71,21 @@ public class CompanyProfileActivity extends ActionBarActivity implements  Profil
         new AsyncTask<Object, Object, Object>() {
             @Override
             protected Object doInBackground(Object... params) {
+                Company profile=null;
                 try {
-                    Company profile=AccountManager.getCurrentCompanyProfile();
-                    companyLogoBitmap =profile.getPhoto(CompanyProfileActivity.this);
-                    setProfile(profile);
+                     profile=AccountManager.getCurrentCompanyProfile();
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
                 }
+                try {
+                    if (CompanyProfileActivity.this != null)
+                        companyLogoBitmap = getProfile().getPhoto(CompanyProfileActivity.this);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    //set default bitmap
+                }
+                setProfile(profile);
                 return new Object();
             }
             @Override

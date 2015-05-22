@@ -8,8 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -40,6 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commonfragments.MultipleChoiceDialogFragment;
+import it.polito.mobile.temporaryjobplacement.commons.utils.BitmapManager;
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText;
@@ -918,10 +921,6 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
     private void updatePhoto(Company myProfile,Bitmap bitImage) {
-        deleteLogoPictureButton.setVisibility(View.GONE);
-        logoPictureTextview.setText("Uploading the photo...");
-        logoPictureTextview.setVisibility(View.VISIBLE);
-        progress_yourPhoto.setVisibility(View.VISIBLE);
         myProfile.updatePhoto(bitImage, new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -950,7 +949,7 @@ public class ProfileBasicInfoFragment extends Fragment {
             public void done(ParseException e) {
                 if (e == null) {
                     DialogManager.toastMessage("Photo deleted", getActivity(), "center", true);
-                    if (progress_yourPhoto != null){
+                    if (progress_yourPhoto != null) {
                         progress_yourPhoto.setVisibility(View.GONE);
                         logoPictureTextview.setText("Tap on the photo to choose a profile picture.");
                     }
@@ -969,9 +968,16 @@ public class ProfileBasicInfoFragment extends Fragment {
     /********select photo from gallery or camera***********************/
     public void selectPhoto() {
 
-        Intent intent = new Intent(getActivity(),ImageCropActivity.class);
+        /*Intent intent = new Intent(getActivity(),ImageCropActivity.class);
         intent.putExtra("ACTION",GOTOConstants.IntentExtras.ACTION_GALLERY);
-        startActivityForResult(intent, REQUEST_CODE_UPDATE_PIC);
+        startActivityForResult(intent, REQUEST_CODE_UPDATE_PIC);*/
+        //Creo cartella se non esiste
+        BitmapManager.creaCartella(getActivity(), "JobPlacement");
+        BitmapManager.creaCartella(getActivity(), "JobPlacement/camera");
+        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select company logo"), REQUEST_CODE_UPDATE_PIC);
+
 
     }
 
@@ -1018,15 +1024,34 @@ public class ProfileBasicInfoFragment extends Fragment {
 
     void performOnActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if(requestCode == REQUEST_CODE_UPDATE_PIC) {
-            String imagePath = data.getStringExtra(GOTOConstants.IntentExtras.IMAGE_PATH);
-            if (imagePath != null) {
-                Bitmap myBitmap = BitmapFactory.decodeFile(imagePath);
-                logoPicture.setImageBitmap(myBitmap);
-                updatePhoto(profile, myBitmap);
+
+        if (resultCode == getActivity().RESULT_OK) {
+             if (requestCode == REQUEST_CODE_UPDATE_PIC) {
+                Uri selectedImageUri = data.getData();
+                final String path= BitmapManager.getPath(selectedImageUri, getActivity());
+                 final Bitmap[] bitmap = new Bitmap[1];
+                 if(deleteLogoPictureButton!=null)deleteLogoPictureButton.setVisibility(View.GONE);
+                 if(logoPictureTextview!=null)logoPictureTextview.setText("Uploading the photo...");
+                 if(logoPictureTextview!=null)logoPictureTextview.setVisibility(View.VISIBLE);
+                 if(progress_yourPhoto!=null)progress_yourPhoto.setVisibility(View.VISIBLE);
+                 new AsyncTask<Object, Object, Object>() {
+                     @Override
+                     protected Object doInBackground(Object... params) {
+                           bitmap[0] =BitmapManager.getBitmap(getActivity(), path, true);
+                         return null;
+                     }
+                     @Override
+                     protected void onPostExecute(Object o) {
+                             super.onPostExecute(o);
+                          if(logoPicture!=null)logoPicture.setImageBitmap(bitmap[0]);
+                              updatePhoto(profile, bitmap[0]);
+                     }}.execute();
             }
 
+
         }
+
+
 
     }
 

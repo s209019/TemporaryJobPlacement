@@ -70,15 +70,24 @@ public class StudentProfileActivity extends ActionBarActivity implements  Profil
         new AsyncTask<Object, Object, Object>() {
             @Override
             protected Object doInBackground(Object... params) {
+                Student profile;
                 try {
-                    Student profile=AccountManager.getCurrentStudentProfile();
-                    photoStudentBitmap =profile.getPhoto(StudentProfileActivity.this);
-                    educations= profile.getEducations();
-                    setProfile(profile);
+                    profile=AccountManager.getCurrentStudentProfile();
+                     educations= profile.getEducations();
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
                 }
+               try{
+                   if(StudentProfileActivity.this!=null)
+                       photoStudentBitmap =profile.getPhoto(StudentProfileActivity.this);
+               }catch (Exception e){
+                   e.printStackTrace();
+                   //set default bitmap
+               }
+
+
+                setProfile(profile);
                 return new Object();
             }
             @Override

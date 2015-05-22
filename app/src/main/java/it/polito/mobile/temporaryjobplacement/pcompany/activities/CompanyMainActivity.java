@@ -58,6 +58,7 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         drawerManager=new DrawerManager(this,drawerLayout,toolbar,DrawerManager.SECTION0);
         drawerManager.setDrawer();
+        drawerManager.toggleDrawer();
 
 
         //set tabViews

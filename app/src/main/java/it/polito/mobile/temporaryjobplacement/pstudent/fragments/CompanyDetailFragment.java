@@ -2,6 +2,7 @@ package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -41,6 +43,8 @@ import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentDetailA
  * on handsets.
  */
 public class CompanyDetailFragment extends Fragment {
+
+    Bitmap logo;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -102,6 +106,7 @@ public class CompanyDetailFragment extends Fragment {
                     myProfile[0] = AccountManager.getCurrentStudentProfile();
                     List<Company> favourites=myProfile[0].getFavouritesCompanies();
                     company[0].setFavourited(favourites.contains(company[0]));
+                    if(getActivity()!=null)logo=company[0].getPhoto(getActivity());
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -170,6 +175,14 @@ public class CompanyDetailFragment extends Fragment {
                         company.getDescription() + "\n\n" + company.getWebsite() + "\ncontact:" + company.getEmail());
             }
         });
+
+
+
+
+        if(logo!=null){
+            ((ImageView)rootView.findViewById(R.id.logo)).setImageBitmap(logo);
+        }
+
 
         //handle favourite button
         final RelativeLayout favouriteButton=largeBarAnimatedManager.getFavouriteButton();
