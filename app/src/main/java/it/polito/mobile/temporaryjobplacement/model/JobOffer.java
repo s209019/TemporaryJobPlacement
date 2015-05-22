@@ -140,6 +140,22 @@ public class JobOffer  extends ParseObject {
         put("public", value);
     }
 
+    public String getLocationSearch() {
+        return getString("location_search");
+    }
+
+    public void setLocationSearch(String value) {
+        put("location_search", value);
+    }
+
+    public String getKeywords() {
+        return getString("keywords_search");
+    }
+
+    public void setKeywords(String value) {
+        put("keywords_search", value);
+    }
+
 
 
     public boolean isFavourited() {

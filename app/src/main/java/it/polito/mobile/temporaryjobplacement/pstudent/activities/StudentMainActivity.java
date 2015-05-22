@@ -33,11 +33,6 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         setContentView(R.layout.activity_student_main);
 
 
-
-
-
-
-
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
@@ -154,8 +149,8 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         //start activity and pass it searching params
        // DialogManager.toastMessage("starting searching:\n"+params,this);
         progressDialog.show();
-                Intent intent = new Intent(StudentMainActivity.this, StudentOfferListActivity.class);
-                startActivity(intent);
+        Intent intent = new Intent(StudentMainActivity.this, StudentOfferListActivity.class);
+        startActivity(intent);
 
 
     }

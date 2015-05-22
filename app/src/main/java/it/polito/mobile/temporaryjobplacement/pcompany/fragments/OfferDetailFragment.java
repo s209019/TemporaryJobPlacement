@@ -1,6 +1,8 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -62,10 +64,16 @@ public class OfferDetailFragment extends Fragment  {
 
         final View rootView = inflater.inflate(R.layout.fragment_my_offer_detail, container, false);
 
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         //setting largeBarAnimated
         ((ActionBarActivity)getActivity()).getSupportActionBar().hide();
-        final LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(rootView,(ActionBarActivity)getActivity());
+        final LargeBarAnimatedManager largeBarAnimatedManager=new LargeBarAnimatedManager(getView(),(ActionBarActivity)getActivity());
 
         ImageButton backButton=largeBarAnimatedManager.getBackButton();
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -84,26 +92,25 @@ public class OfferDetailFragment extends Fragment  {
             }
         });
 
-
         //getting jobOfferID
         final String jobOfferId=getArguments().getString("SELECTED_OFFER");
         final JobOffer[] offer = {null};
         final Company[] myProfile = {null};
-        final RelativeLayout loadingOverlay =(RelativeLayout)rootView.findViewById(R.id.loadingOverlay);
+        final RelativeLayout loadingOverlay =(RelativeLayout)getView().findViewById(R.id.loadingOverlay);
         loadingOverlay.setVisibility(View.VISIBLE);
         new AsyncTask<Object, Object, Object>(){
-           @Override
-           protected Object doInBackground(Object... params) {
-               try {
-                   offer[0] = JobOffer.getQuery().get(jobOfferId);
-                   myProfile[0] = AccountManager.getCurrentCompanyProfile();
-               } catch (Exception e) {
-                   e.printStackTrace();
-                   return null;
-               }
+            @Override
+            protected Object doInBackground(Object... params) {
+                try {
+                    offer[0] = JobOffer.getQuery().get(jobOfferId);
+                    myProfile[0] = AccountManager.getCurrentCompanyProfile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
                 return new Object();
 
-           }
+            }
 
             @Override
             protected void onPostExecute(Object o) {
@@ -115,7 +122,7 @@ public class OfferDetailFragment extends Fragment  {
                     }
 
                     loadingOverlay.setVisibility(View.GONE);
-                    initializeView(rootView, largeBarAnimatedManager, offer[0], myProfile[0]);
+                    initializeView(getView(), largeBarAnimatedManager, offer[0], myProfile[0]);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -123,12 +130,7 @@ public class OfferDetailFragment extends Fragment  {
         }.execute();
 
 
-
-        return rootView;
     }
-
-
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -176,13 +178,24 @@ public class OfferDetailFragment extends Fragment  {
             public void onClick(View v) {
 
                 if(offer.isPublic()) {
-                    offer.setPublic(false);
-                    offer.saveInBackground();
-                    closeApplicationsButton.setText("RE-OPEN APPLICATIONS");
+                    new AlertDialog.Builder(getActivity()).setTitle("RE-OPEN APPLICATIONS").setMessage("Do you want to open again the applications for this position?").setPositiveButton("RE-OPEN APPLICATIONS", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            offer.setPublic(false);
+                            offer.saveInBackground();
+                            closeApplicationsButton.setText("RE-OPEN APPLICATIONS");
+                        }
+                    }).setNegativeButton("Cancel", null).create().show();
                 } else {
-                    offer.setPublic(true);
-                    offer.saveInBackground();
-                    closeApplicationsButton.setText("CLOSE APPLICATIONS");
+                    new AlertDialog.Builder(getActivity()).setTitle("CLOSE APPLICATIONS").setMessage("Do you want to close the applications for this position?").setPositiveButton("CLOSE APPLICATIONS", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            offer.setPublic(true);
+                            offer.saveInBackground();
+                            closeApplicationsButton.setText("CLOSE APPLICATIONS");
+                        }
+                    }).setNegativeButton("Cancel", null).create().show();
+
                 }
 
             }

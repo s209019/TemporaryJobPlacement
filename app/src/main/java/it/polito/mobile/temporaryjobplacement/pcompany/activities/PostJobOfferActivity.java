@@ -32,6 +32,7 @@ import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
@@ -288,9 +289,11 @@ public class PostJobOfferActivity extends ActionBarActivity {
             if(!editMode)
                 jobOffer = new JobOffer();
 
+            Company company = AccountManager.getCurrentCompanyProfile(); //TODO: Fare in background?
+
             jobOffer.setName(nameEditText.getText().toString().trim());
             jobOffer.setDescription(descriptionEditText.getText().toString().trim());
-            jobOffer.setCompany(AccountManager.getCurrentCompanyProfile()); //TODO: Fare in background?
+            jobOffer.setCompany(company);
             jobOffer.setEducation(educationSpinner.getSelectedItem().toString());
             jobOffer.setCareerLevel(careerLevelSpinner.getSelectedItem().toString());
             jobOffer.setContract(contractSpinner.getSelectedItem().toString());
@@ -302,6 +305,19 @@ public class PostJobOfferActivity extends ActionBarActivity {
             jobOffer.setPreferredQualifications(preferredQualificationsEditText.getText().toString().trim());
             jobOffer.setResponsibilities(responsibilitiesEditText.getText().toString().trim());
             jobOffer.setIndustries(industriesTextView.getText().toString().trim());
+            String location_search = addressEditText.getText().toString().trim().toLowerCase() +" "+
+                    cityEditText.getText().toString().trim().toLowerCase() +" "+
+                    zipCodeEditText.getText().toString().trim() + " " +
+                    countryEditText.getText().toString().trim().toLowerCase();
+            jobOffer.setLocationSearch(location_search);
+
+            String keywords_search = nameEditText.getText().toString().trim().toLowerCase() + " " +
+                    descriptionEditText.getText().toString().trim().toLowerCase() + " " +
+                    company.getName().trim().toLowerCase() + " " +
+                    responsibilitiesEditText.getText().toString().trim().toLowerCase() + " " +
+                    minimumQualificationsEditText.getText().toString().trim().toLowerCase();
+
+            jobOffer.setKeywords(keywords_search);
             jobOffer.setPublic(true);
 
             findViewById(R.id.loadingOverlay).setVisibility(View.VISIBLE);
@@ -309,10 +325,14 @@ public class PostJobOfferActivity extends ActionBarActivity {
             jobOffer.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    Intent i = new Intent(PostJobOfferActivity.this, CompanyDetailActivity.class);
-                    i.putExtra("SELECTED_OFFER", jobOffer.getObjectId());
+
+                    if(!editMode) {
+                        Intent i = new Intent(PostJobOfferActivity.this, CompanyDetailActivity.class);
+                        i.putExtra("SELECTED_OFFER", jobOffer.getObjectId());
+                        startActivity(i);
+                    }
                     finish();
-                    startActivity(i);
+
                 }
             });
         } else {

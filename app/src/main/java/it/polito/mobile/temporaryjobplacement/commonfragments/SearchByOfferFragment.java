@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.commonfragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -20,12 +21,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
 
 
 public class SearchByOfferFragment extends Fragment {
@@ -45,7 +48,7 @@ public class SearchByOfferFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     public interface OnFragmentInteractionListener {
-        public void startSearchOffersActivity(String params);
+        void startSearchOffersActivity(String params);
     }
 
     @Override
@@ -265,20 +268,36 @@ public class SearchByOfferFragment extends Fragment {
                     DialogManager.toastMessage(getActivity().getResources().getString(R.string.all_empty_field_message), getActivity());
                     return;
                 }
-                mListener.startSearchOffersActivity(
-                        editTextKeywords.getText() + "\n" +
-                                educationClickableTextView.getText() + "\n" +
-                                carerLevelClickableTextView.getText() + "\n" +
-                                positionClickableTextView.getText() + "\n" +
-                                editTextCompanyName.getText().toString() + "\n" +
-                                editTextLocation.getText() + "\n" +
-                                industriesClickableTextView.getText() + "\n" +
-                                postingDateSpinner.getSelectedItem());
+
+                Intent intent = new Intent(getActivity(), StudentOfferListActivity.class);
+
+                if(!editTextKeywords.getText().toString().trim().equals("")) {
+                    ArrayList<String> keywordsList = new ArrayList<String>();
+                    for (String word : editTextKeywords.getText().toString().trim().split(" ")) {
+                        keywordsList.add(word);
+                    }
+                    intent.putStringArrayListExtra("keywords", keywordsList);
+                }
+
+                if(!editTextLocation.getText().toString().trim().equals("")){
+                    intent.putExtra("location", editTextLocation.getText().toString().trim());
+                }
+
+
+
+                //intent.putExtra("postingDate",
+
+                        mListener.startSearchOffersActivity(
+                                editTextKeywords.getText() + "\n" +
+                                        educationClickableTextView.getText() + "\n" +
+                                        carerLevelClickableTextView.getText() + "\n" +
+                                        positionClickableTextView.getText() + "\n" +
+                                        editTextCompanyName.getText().toString() + "\n" +
+                                        editTextLocation.getText() + "\n" +
+                                        industriesClickableTextView.getText() + "\n" +
+                                        postingDateSpinner.getSelectedItem());
             }
         });
-
-
-
 
 
         return rootView;
