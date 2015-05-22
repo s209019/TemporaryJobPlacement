@@ -240,20 +240,6 @@ public class Student extends ParseObject {
         education.saveInBackground(saveCallback);
     }
 
-    public void clearProfile(final ParseUser user, final SaveCallback saveCallback) {
-
-        this.deleteInBackground(new DeleteCallback() {
-            @Override
-            public void done(com.parse.ParseException e) {
-                Student student = new Student();
-                student.put("user", user);
-                student.setFirstName("");
-                student.setLastName("");
-                student.saveInBackground(saveCallback);
-            }
-        });
-
-    }
 
 
     public void updatePublicFlag(boolean b,SaveCallback saveCallback) {

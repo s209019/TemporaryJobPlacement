@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.pcompany.activities.DefaultMessageActivity;
 

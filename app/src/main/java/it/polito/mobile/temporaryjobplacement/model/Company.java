@@ -151,6 +151,10 @@ public class Company extends ParseObject {
     }
 
 
+
+
+
+
     public Bitmap getPhoto(Context context) throws com.parse.ParseException {
 
         ParseObject logo = (ParseObject)this.get("logo");
@@ -164,6 +168,10 @@ public class Company extends ParseObject {
 
     public void updatePublicFlag(boolean b,SaveCallback saveCallback) {
         put("public", b);
+        String location_search = getAddress().toLowerCase() +" "+
+                getCity().toLowerCase() +" "+
+                getZipCode() + " " +
+                getCountry().toLowerCase();
         this.saveInBackground(saveCallback);
     }
 

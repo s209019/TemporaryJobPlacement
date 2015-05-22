@@ -105,6 +105,17 @@ public class SendMessageActivity extends ActionBarActivity {
         this.myProfile=myProfile;
         this.originalMessage=originalMessage;
 
+        if(!myProfile.isPublic()){
+            DialogManager.setDialog("PROFILE PRIVATE", "Your profile has to be public to send message", this, "BACK", new Runnable() {
+                @Override
+                public void run() {
+                    SendMessageActivity.this.onBackPressed();
+                }
+            }, false);
+            return;
+        }
+
+
         getSupportActionBar().setSubtitle(company.getName());
 
         TextView companyStudentTextView=(TextView) findViewById(R.id.companyStudentTextView);

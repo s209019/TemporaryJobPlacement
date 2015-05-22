@@ -708,6 +708,14 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateDescription(final Company myProfile,String description) {
+
+        if(myProfile.getDescription() != null && !myProfile.getDescription().equals("") && descriptionEditText.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company description cannot be empty", getActivity(), "center", true);
+            descriptionEditText.setText(myProfile.getDescription());
+            return ;
+        }
+
+
         if (myProfile.getDescription() == null || !myProfile.getDescription().equals(description)) {
             myProfile.setDescription(description);
             V_description.setVisibility(View.GONE);
@@ -715,11 +723,12 @@ public class ProfileBasicInfoFragment extends Fragment {
             myProfile.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    if(e==null){
-                        DialogManager.toastMessage("Description updated", getActivity(), "center",true);
-                        if(progress_Description!=null) progress_Description.setVisibility(View.GONE);
-                        if(V_description!=null) V_description.setVisibility(View.VISIBLE);
-                        if(descriptionEditText!=null)
+                    if (e == null) {
+                        DialogManager.toastMessage("Description updated", getActivity(), "center", true);
+                        if (progress_Description != null)
+                            progress_Description.setVisibility(View.GONE);
+                        if (V_description != null) V_description.setVisibility(View.VISIBLE);
+                        if (descriptionEditText != null)
                             ((SavableEditText) descriptionEditText.getParent()).setSavedText(myProfile.getDescription());
                     } else {
                         DialogManager.toastMessage("" + e.getMessage(), getActivity(), "center", true);
@@ -731,6 +740,14 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateEmail(final Company myProfile,String email) {
+
+        if(myProfile.getEmail() != null && !myProfile.getEmail().equals("") && emailTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company email cannot be empty", getActivity(), "center", true);
+            emailTextView.setText(myProfile.getEmail());
+            return ;
+        }
+
+
         try {
             if (myProfile.getEmail() == null || !myProfile.getEmail().equals(email)) {
                 myProfile.setEmail(email);
@@ -758,6 +775,16 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateWebsite(final Company myProfile,String website) {
+
+        if(myProfile.getWebsite() != null && !myProfile.getWebsite().equals("") && websiteTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company website cannot be empty", getActivity(), "center", true);
+            websiteTextView.setText(myProfile.getWebsite());
+            return ;
+        }
+
+
+
+
         if (myProfile.getWebsite() == null || !myProfile.getWebsite().equals(website)) {
             myProfile.setWebsite(website);
             V_Website.setVisibility(View.GONE);
@@ -781,6 +808,16 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updatePhoneNumber(final Company myProfile,String phoneNumber) {
+
+        if(myProfile.getPhoneNumber() != null && !myProfile.getPhoneNumber().equals("") && phoneNumberTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company phone number cannot be empty", getActivity(), "center", true);
+            phoneNumberTextView.setText(myProfile.getPhoneNumber());
+            return ;
+        }
+
+
+
+
         if (myProfile.getPhoneNumber() == null || !myProfile.getPhoneNumber().equals(phoneNumber)) {
             myProfile.setPhoneNumber(phoneNumber);
             V_Number.setVisibility(View.GONE);
@@ -804,6 +841,16 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateAddress(final Company myProfile,String address) {
+
+
+
+        if(myProfile.getAddress() != null && !myProfile.getAddress().equals("") && addressTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company address cannot be empty", getActivity(), "center", true);
+           addressTextView.setText(myProfile.getAddress());
+            return ;
+        }
+
+
         if (myProfile.getAddress() == null || !myProfile.getAddress().equals(address)) {
             myProfile.setAddress(address);
             V_Headquarters.setVisibility(View.GONE);
@@ -827,6 +874,14 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateCountry(final Company myProfile, final String country) {
+
+        if(myProfile.getCountry() != null && !myProfile.getCountry().equals("") && CountryTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company country cannot be empty", getActivity(), "center", true);
+            CountryTextView.setText(myProfile.getCountry());
+            return ;
+        }
+
+
         if (myProfile.getCountry() == null || !myProfile.getCountry().equals(country)) {
             myProfile.setCountry(country);
             V_Headquarters.setVisibility(View.GONE);
@@ -851,6 +906,14 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
     private void updateCity(final Company myProfile,String city) {
+
+
+        if(myProfile.getCity() != null && !myProfile.getCity().equals("") && cityTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company city cannot be empty", getActivity(), "center", true);
+            cityTextView.setText(myProfile.getCity());
+            return ;
+        }
+
         if (myProfile.getCity() == null || !myProfile.getCity().equals(city)) {
             myProfile.setCity(city);
             V_Headquarters.setVisibility(View.GONE);
@@ -875,6 +938,14 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
     private void updateZipCode(final Company myProfile,String zipCode) {
+
+
+        if(myProfile.getZipCode() != null && !myProfile.getZipCode().equals("") && zipCodeTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company zip code cannot be empty", getActivity(), "center", true);
+            zipCodeTextView.setText(myProfile.getZipCode());
+            return ;
+        }
+
         if (myProfile.getZipCode() == null || !myProfile.getZipCode().equals(zipCode)) {
             myProfile.setZipCode(zipCode);
             V_Headquarters.setVisibility(View.GONE);
@@ -898,6 +969,15 @@ public class ProfileBasicInfoFragment extends Fragment {
     }
 
     private void updateIndustries(final Company myProfile,String industries) {
+
+        if(myProfile.getIndustries() != null && !myProfile.getIndustries().equals("") && industriesTextView.getText().toString().trim().equals("")){
+            DialogManager.toastMessage("Company industries cannot be empty", getActivity(), "center", true);
+            industriesTextView.setText(myProfile.getIndustries());
+            return ;
+        }
+
+
+
         if (myProfile.getIndustries() == null || !myProfile.getIndustries().equals(industries)) {
             myProfile.setIndustries(industries);
             V_Industries.setVisibility(View.GONE);
@@ -921,6 +1001,7 @@ public class ProfileBasicInfoFragment extends Fragment {
 
 
     private void updatePhoto(Company myProfile,Bitmap bitImage) {
+
         myProfile.updatePhoto(bitImage, new SaveCallback() {
             @Override
             public void done(ParseException e) {

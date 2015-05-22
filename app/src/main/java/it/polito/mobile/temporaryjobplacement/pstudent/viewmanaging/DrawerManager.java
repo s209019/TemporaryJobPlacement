@@ -60,7 +60,7 @@ public class DrawerManager {
                         v =(TextView) View.inflate(getContext(), R.layout.hi_logged, null);
                     }
                     try {
-                        ((TextView)v).setText("Hi "+AccountManager.getCurrentUser().getUsername()+" !");
+                        ((TextView)v).setText("Hi student "+AccountManager.getCurrentUser().getUsername()+" !");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -217,6 +217,18 @@ public class DrawerManager {
         if(drawerLayout.isDrawerOpen(Gravity.START)){
             drawerLayout.closeDrawer(Gravity.START);
         }else drawerLayout.openDrawer(Gravity.START);
+    }
+
+
+
+     public void goToSectionProfile(){
+         Intent intent=new Intent(activity,StudentProfileActivity.class);
+         //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+         activity.startActivity(intent);
+         activity.overridePendingTransition(0, 0);
+
+
+
     }
 
 
