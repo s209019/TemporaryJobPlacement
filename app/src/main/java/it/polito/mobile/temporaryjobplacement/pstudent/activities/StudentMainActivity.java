@@ -145,12 +145,11 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
 
 
     @Override
-    public void startSearchOffersActivity(String params) {
+    public void startSearchOffersActivity(Intent i) {
         //start activity and pass it searching params
        // DialogManager.toastMessage("starting searching:\n"+params,this);
         progressDialog.show();
-        Intent intent = new Intent(StudentMainActivity.this, StudentOfferListActivity.class);
-        startActivity(intent);
+        startActivity(i);
 
 
     }

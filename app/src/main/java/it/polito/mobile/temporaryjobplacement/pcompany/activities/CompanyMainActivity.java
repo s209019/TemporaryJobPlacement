@@ -151,8 +151,6 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
 
 
 
-
-    @Override
     public void startSearchOffersActivity(String params) {
         //start activity and pass it searching params
         // DialogManager.toastMessage("starting searching:\n"+params,this);
@@ -162,6 +160,17 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
 
 
     }
+
+    public void startSearchOffersActivity(Intent i) {
+        //start activity and pass it searching params
+        // DialogManager.toastMessage("starting searching:\n"+params,this);
+        progressDialog.show();
+        Intent intent = new Intent(CompanyMainActivity.this, StudentOfferListActivity.class);
+        startActivity(intent);
+
+
+    }
+
 
 
 
