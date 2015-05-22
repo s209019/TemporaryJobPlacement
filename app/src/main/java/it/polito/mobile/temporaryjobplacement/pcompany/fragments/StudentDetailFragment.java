@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -369,10 +370,16 @@ public class StudentDetailFragment extends Fragment  {
         });
 
 
+
         Button seeEducationsButton=(Button)rootView.findViewById(R.id.buttonSeeEducations);
         seeEducationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(educations==null || educations.size()==0){
+                    DialogManager.toastMessage("No education specified",getActivity());
+                    return;
+                }
                     mListener.startEducationsFragment(educations);
 
 

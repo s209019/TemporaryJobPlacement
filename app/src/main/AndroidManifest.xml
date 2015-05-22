@@ -45,7 +45,8 @@
             android:name=".pstudent.activities.StudentProfileActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_profile"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden|adjustPan"
+             >
         </activity>
         <activity
             android:name=".pstudent.activities.StudentFavouritesActivity"
@@ -156,7 +157,7 @@
             android:name=".pcompany.activities.CompanyProfileActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_company_profile"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name=".pcompany.activities.FavouriteStudentsActivity"

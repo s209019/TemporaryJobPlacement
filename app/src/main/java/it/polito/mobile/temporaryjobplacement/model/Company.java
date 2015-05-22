@@ -196,5 +196,8 @@ public class Company extends ParseObject {
     }
 
 
-
+    public ParseQuery<Student> getFavouriteStudentsRelationQuery() {
+        ParseRelation<Student> relation = getRelation("favouriteStudents");
+        return relation.getQuery();
+    }
 }

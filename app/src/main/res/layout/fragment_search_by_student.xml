@@ -47,7 +47,7 @@
                     android:textSize="@dimen/textLabelSize"
                     android:textColor="@color/labelTextColor"
                     android:textStyle="bold"
-                    android:text="Skylls"
+                    android:text="Skills"
                     />
 
 

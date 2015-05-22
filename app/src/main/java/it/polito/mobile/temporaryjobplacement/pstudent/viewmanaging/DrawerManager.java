@@ -83,7 +83,7 @@ public class DrawerManager {
                         view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_email, 0);
                         break;
                     case SECTION4:
-                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_time, 0);
+                        view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_handshake, 0);
                         break;
                     case SECTION5:
                         view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_action_backspace, 0);
