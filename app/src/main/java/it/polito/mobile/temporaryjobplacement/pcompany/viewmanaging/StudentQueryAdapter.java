@@ -1,6 +1,8 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -8,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.parse.ParseException;
 import com.parse.ParseQueryAdapter;
 
 import java.util.Locale;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.DegreeAnalyzer;
 import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 
@@ -23,17 +27,25 @@ public class StudentQueryAdapter extends ParseQueryAdapter<Student> {
 
     private InnerButtonManager innerButtonManager;
     private int rowLayoutId;
+    private boolean noResultsFound=true;
+    private boolean firstTime=true;
+    private Intent intentFilter;
+
 
 
     public interface InnerButtonManager {
         void configureButton(final Student student, final ImageButton innerButton);
     }
 
+    public boolean isNoResultsFound() {
+        return noResultsFound;
+    }
 
-    public StudentQueryAdapter(Context context, QueryFactory<Student> queryFactory, InnerButtonManager innerButtonManager, int rowLayoutId) {
+    public StudentQueryAdapter(Context context, QueryFactory<Student> queryFactory, InnerButtonManager innerButtonManager, int rowLayoutId, Intent intent) {
         super(context, queryFactory);
         this.innerButtonManager=innerButtonManager;
         this.rowLayoutId=rowLayoutId;
+        this.intentFilter=intent;
     }
 
     @Override
@@ -54,7 +66,7 @@ public class StudentQueryAdapter extends ParseQueryAdapter<Student> {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View textView) {
-                ((TextView)textView).setText("LOADING MORE...");
+                ((TextView) textView).setText("LOADING MORE...");
                 progressBar.setVisibility(View.VISIBLE);
                 arrowImage.setVisibility(View.GONE);
 
@@ -62,6 +74,9 @@ public class StudentQueryAdapter extends ParseQueryAdapter<Student> {
 
             }
         });
+
+        noResultsFound=false;
+        firstTime=true;
 
         return v;
     }
@@ -73,6 +88,47 @@ public class StudentQueryAdapter extends ParseQueryAdapter<Student> {
         if (convertView == null) {
             convertView = View.inflate(getContext(), rowLayoutId, null);
         }
+
+        if(firstTime){
+            noResultsFound=true;
+            firstTime=false;
+        }
+
+        if(intentFilter!=null) {
+            if(intentFilter.hasExtra("keywords")) {
+                for(String keyword: intentFilter.getStringArrayListExtra("keywords")){
+                    if(!((String)student.get("skills_search")).contains(keyword))
+                        return new View(getContext());
+                }
+            }
+
+            if(intentFilter.hasExtra("degree")) {
+
+                if(!DegreeAnalyzer.firstIsBetterOrEqual(student.getBestDegree(), intentFilter.getStringExtra("degree")))
+                    return new View(getContext());
+            }
+
+            if(intentFilter.hasExtra("languages")) {
+                boolean matchTrovato=false;
+
+                for(String language: intentFilter.getStringArrayListExtra("languages")){
+                    Log.d("DEBUG", language+"          "+student.getLanguageSkills().toString());
+                    if(student.getLanguageSkills().toString().contains(language.toUpperCase())) {
+                        matchTrovato=true;
+                        break;
+                    }
+                }
+
+                if(!matchTrovato)
+                    return new View(getContext());
+            }
+
+
+
+        }
+
+        noResultsFound=false;
+
 
         TextView nameTextView = (TextView) convertView.findViewById(R.id.nameTextView);
         TextView degreeTextView = (TextView) convertView.findViewById(R.id.companyTextView);

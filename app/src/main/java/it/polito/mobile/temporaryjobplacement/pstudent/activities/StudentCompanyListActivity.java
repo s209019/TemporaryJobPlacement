@@ -116,6 +116,15 @@ public class StudentCompanyListActivity extends ActionBarActivity implements Com
                 //query.include("company");
                 query.orderByAscending("name");
                 query.setLimit(100);
+                query.whereEqualTo("public", true);
+
+                if(getIntent().hasExtra("company")) {
+                    query.whereMatches("name", getIntent().getStringExtra("company"), "i");
+                }
+
+                if(getIntent().hasExtra("location"))
+                    query.whereContains("location_search", getIntent().getStringExtra("location"));
+
                 return query;
             }
         };

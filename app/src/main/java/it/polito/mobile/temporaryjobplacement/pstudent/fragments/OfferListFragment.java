@@ -1,11 +1,13 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.support.v7.widget.DefaultItemAnimator;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -212,8 +214,8 @@ public class OfferListFragment extends ListFragment {
                         };
                     }
 
-                    jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), query[0], innerButtonManager, row_layout_id);
-                    jobOffersQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
+                    jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), query[0], innerButtonManager, row_layout_id, getActivity().getIntent());
+                    jobOffersQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsPerPage);
 
 
                     jobOffersQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<JobOffer>() {
@@ -225,6 +227,31 @@ public class OfferListFragment extends ListFragment {
                         public void onLoaded(List<JobOffer> list, Exception e) {
                             try {
                                 setListShown(true);
+                                new AsyncTask<Object, Object, Object>() {
+                                        @Override
+                                        protected Object doInBackground(Object... params) {
+                                            //reload remote favourites
+                                            try {
+                                                Thread.sleep(1500);
+                                            } catch (InterruptedException e1) {
+                                                e1.printStackTrace();
+                                            }
+                                            return null;
+                                        }
+
+                                        @Override
+                                        protected void onPostExecute(Object o) {
+                                            if (((JobOfferQueryAdapter) jobOffersQueryAdapter).isNoResultsFound() && jobOffersQueryAdapter.getCount()!=0) {
+                                                new AlertDialog.Builder(getActivity()).setTitle("NO OFFER FOUND").setMessage("Your search did not match any job offer").setNegativeButton("BACK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        getActivity().onBackPressed();
+                                                    }
+                                                }).create().show();
+                                            }
+
+                                        }
+                                    }.execute();
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -232,6 +259,8 @@ public class OfferListFragment extends ListFragment {
                     });
                     setListAdapter(jobOffersQueryAdapter);
                     setListShown(false);
+                    getListView().setDividerHeight(0);
+
                     firstTime = false;
                 }catch (Exception e){
                     e.printStackTrace();

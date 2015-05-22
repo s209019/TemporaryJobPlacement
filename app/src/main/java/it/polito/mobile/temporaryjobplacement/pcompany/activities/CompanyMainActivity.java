@@ -2,7 +2,6 @@ package it.polito.mobile.temporaryjobplacement.pcompany.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,19 +14,16 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import it.polito.mobile.temporaryjobplacement.R;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
-import it.polito.mobile.temporaryjobplacement.model.Company;
-import it.polito.mobile.temporaryjobplacement.pcompany.fragments.SearchByStudentFragment;
+import it.polito.mobile.temporaryjobplacement.pcompany.fragments.SearchStudentFragment;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.DrawerManager;
-import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentCompanyListActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
 
-import it.polito.mobile.temporaryjobplacement.commonfragments.SearchByOfferFragment;
+import it.polito.mobile.temporaryjobplacement.commonfragments.SearchOffersFragment;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 
 
-public class CompanyMainActivity extends ActionBarActivity implements SearchByOfferFragment.OnFragmentInteractionListener,SearchByStudentFragment.OnFragmentInteractionListener {
+public class CompanyMainActivity extends ActionBarActivity implements SearchOffersFragment.OnFragmentInteractionListener,SearchStudentFragment.OnFragmentInteractionListener {
     DrawerManager drawerManager;
     private ProgressDialog progressDialog;
 
@@ -64,7 +60,7 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
         //set tabViews
 
         ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
-        fragmentList.add(SearchByStudentFragment.newInstance());
+        fragmentList.add(SearchStudentFragment.newInstance());
        // fragmentList.add(SearchByOfferFragment.newInstance());
         String titles[] ={"STUDENTS","JOB OFFERS"};
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
@@ -166,8 +162,7 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
         //start activity and pass it searching params
         // DialogManager.toastMessage("starting searching:\n"+params,this);
         progressDialog.show();
-        Intent intent = new Intent(CompanyMainActivity.this, StudentOfferListActivity.class);
-        startActivity(intent);
+        startActivity(i);
 
 
     }
@@ -189,11 +184,11 @@ public class CompanyMainActivity extends ActionBarActivity implements SearchByOf
 
 
     @Override
-    public void startSearchStudentActivity(String params) {
-       //start activity and pass it searching params
+    public void startSearchStudentActivity(Intent i) {
+
+        //start activity and pass it searching params
         // DialogManager.toastMessage("starting searching:\n" + params, this);
-        Intent intent = new Intent(this, CompanyStudentListActivity.class);
         progressDialog.show();
-        startActivity(intent);
+        startActivity(i);
     }
 }

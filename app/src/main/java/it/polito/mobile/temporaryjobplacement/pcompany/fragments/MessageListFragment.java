@@ -168,7 +168,7 @@ public class MessageListFragment extends ListFragment {
                     }
 
                     messagesQueryAdapter = new MessageQueryAdapter(getActivity(), query[0], R.layout.message_list_item, false, inbox);
-                    messagesQueryAdapter.setObjectsPerPage(numberPagesDisplayedSoFar * TemporaryJobPlacementApp.objectsForPage);
+                    messagesQueryAdapter.setObjectsPerPage(numberPagesDisplayedSoFar * TemporaryJobPlacementApp.objectsPerPage);
                     messagesQueryAdapter.setNumberPagesDisplayedSoFar(numberPagesDisplayedSoFar);
 
                     messagesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {

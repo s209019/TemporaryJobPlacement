@@ -13,11 +13,14 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.TimeManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
@@ -135,6 +138,7 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
                 query.include("company");
                 query.orderByDescending("createdAt");
                 query.setLimit(100);
+                query.whereEqualTo("public", true);
 
                 if(getIntent().hasExtra("keywords")) {
                     ArrayList<String> keywordsList = getIntent().getStringArrayListExtra("keywords");
@@ -146,10 +150,32 @@ public class StudentOfferListActivity extends ActionBarActivity implements Offer
                     query.whereContains("location_search", getIntent().getStringExtra("location"));
 
 
-                if(getIntent().hasExtra("industries")) {
-                    ArrayList<String> industriesList = getIntent().getStringArrayListExtra("industries");
-                    query.whereMatches("industry", industriesList.get(0));
-                    //Viene considerata solo la prima industry!
+                if(getIntent().hasExtra("postingDate")) {
+
+                    if(getIntent().getStringExtra("postingDate").equals("Last 7 days")) {
+
+                        Date today = new Date();
+                        Date postDate = new Date(today.getTime()-TimeManager.DAY_MILLIS*7);
+                        query.whereGreaterThanOrEqualTo("createdAt", postDate);
+                        Log.d("DEBUG", postDate.getTime()+"");
+
+                    }else if(getIntent().getStringExtra("postingDate").equals("Last 30 days")) {
+                        //Last 7 days, 30 days, 3 months
+                        Date today = new Date();
+                        long dayMillis = (long)TimeManager.DAY_MILLIS;
+                        Date postDate = new Date(today.getTime()-dayMillis*30);
+                        query.whereGreaterThanOrEqualTo("createdAt", postDate);
+                        Log.d("DEBUG", postDate.getTime()+"");
+
+                    }else if(getIntent().getStringExtra("postingDate").equals("Last 3 months")) {
+                        //Last 7 days, 30 days, 3 months
+                        Date today = new Date();
+                        long dayMillis = (long)TimeManager.DAY_MILLIS;
+                        Date postDate = new Date(today.getTime()-dayMillis*90);
+                        query.whereGreaterThanOrEqualTo("createdAt", postDate);
+                        Log.d("DEBUG", postDate.getTime()+"");
+
+                    }
 
                 }
 

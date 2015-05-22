@@ -20,11 +20,8 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.parse.ParseObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
@@ -34,7 +31,7 @@ import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentOfferListActivity;
 
 
-public class SearchByOfferFragment extends Fragment {
+public class SearchOffersFragment extends Fragment {
 
     TextView industriesClickableTextView;
     TextView positionClickableTextView;
@@ -67,7 +64,7 @@ public class SearchByOfferFragment extends Fragment {
 
 
     public static Fragment newInstance() {
-        SearchByOfferFragment fragment = new SearchByOfferFragment();
+        SearchOffersFragment fragment = new SearchOffersFragment();
        /* Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,7 +72,7 @@ public class SearchByOfferFragment extends Fragment {
         return fragment;
     }
 
-    public SearchByOfferFragment() {
+    public SearchOffersFragment() {
         // Required empty public constructor
     }
 

@@ -13,6 +13,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
@@ -121,6 +123,30 @@ public class CompanyStudentListActivity extends ActionBarActivity implements Stu
                 ParseQuery<Student> query = Student.getQuery();
                 query.orderByAscending("lastName");
                 query.setLimit(100);
+                query.whereEqualTo("public", true);
+
+                if(getIntent().hasExtra("keywords")) {
+                    ArrayList<String> keywordsList = getIntent().getStringArrayListExtra("keywords");
+                    query.whereContains("skills_search", keywordsList.get(0));
+                    //Viene considerata solo la prima keyword!
+                }
+
+                if(getIntent().hasExtra("minAge")) {
+
+                    GregorianCalendar gc = new GregorianCalendar();
+                    gc.add(Calendar.YEAR, -1*getIntent().getIntExtra("minAge", 0));
+                    query.whereLessThanOrEqualTo("dateOfBirth", gc.getTime());
+
+                }
+
+                if(getIntent().hasExtra("maxAge")) {
+
+                    GregorianCalendar gc = new GregorianCalendar();
+                    gc.add(Calendar.YEAR, -1*getIntent().getIntExtra("maxAge", 0));
+                    query.whereGreaterThanOrEqualTo("dateOfBirth", gc.getTime());
+
+                }
+
                 return query;
             }
         };

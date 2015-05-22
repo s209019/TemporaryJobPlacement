@@ -42,6 +42,23 @@ public static String getBestDegree(List<Education> educations){
 
 }
 
+    public static boolean firstIsBetterOrEqual(String degree1, String degree2){
+
+
+        try {
+
+            ArrayList<String> allDegrees = TemporaryJobPlacementApp.getAllDegrees();
+            return allDegrees.indexOf(degree1) >= allDegrees.indexOf(degree2);
+
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+
+
 
 
 

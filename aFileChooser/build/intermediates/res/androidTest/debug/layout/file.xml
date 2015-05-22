@@ -18,4 +18,4 @@
     style="@style/fileChooserName"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight" />
-<!-- From: file:/C:/Users/Nicolò/Desktop/PROGETTI/ANDROID/HOBBY_ANDROID/AndroidStudioPrj/REPO/TemporaryJobPlacement/aFileChooser/src/main/res/layout/file.xml --><!-- From: file:/C:/Users/Nicolò/Desktop/PROGETTI/ANDROID/HOBBY_ANDROID/AndroidStudioPrj/REPO/TemporaryJobPlacement/aFileChooser/build/intermediates/bundles/debug/res/layout/file.xml -->
+<!-- From: file:/Users/Enrico/AndroidStudioProjects/TemporaryJobPlacement/aFileChooser/src/main/res/layout/file.xml --><!-- From: file:/Users/Enrico/AndroidStudioProjects/TemporaryJobPlacement/aFileChooser/build/intermediates/bundles/debug/res/layout/file.xml -->

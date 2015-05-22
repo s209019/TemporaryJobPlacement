@@ -71,7 +71,9 @@ public class Student extends ParseObject {
     }
 
     public void setSkills(String value) {
+
         put("skills", value);
+        put("skills_search", value.toLowerCase());
     }
 
     public Date getDateOfBirth() {

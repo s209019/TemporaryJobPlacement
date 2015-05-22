@@ -1,10 +1,12 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,10 +22,18 @@ public class CompanyQueryAdapter extends ParseQueryAdapter<Company> {
 
     private InnerButtonManager innerButtonManager;
     private int rowLayoutId;
+    private boolean noResultsFound=true;
+    private boolean firstTime=true;
+    private Intent intentFilter;
+
 
 
     public interface InnerButtonManager {
         void configureButton(final Company company, final ImageButton innerButton);
+    }
+
+    public boolean isNoResultsFound() {
+        return noResultsFound;
     }
 
 
@@ -32,6 +42,14 @@ public class CompanyQueryAdapter extends ParseQueryAdapter<Company> {
         this.innerButtonManager=innerButtonManager;
         this.rowLayoutId=rowLayoutId;
     }
+
+    public CompanyQueryAdapter(Context context, QueryFactory<Company> queryFactory, InnerButtonManager innerButtonManager, int rowLayoutId, Intent i) {
+        super(context, queryFactory);
+        this.innerButtonManager=innerButtonManager;
+        this.rowLayoutId=rowLayoutId;
+        this.intentFilter=i;
+    }
+
 
     @Override
     public View getNextPageView(View v, ViewGroup parent) {
@@ -51,7 +69,7 @@ public class CompanyQueryAdapter extends ParseQueryAdapter<Company> {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View textView) {
-                ((TextView)textView).setText("LOADING MORE...");
+                ((TextView) textView).setText("LOADING MORE...");
                 progressBar.setVisibility(View.VISIBLE);
                 arrowImage.setVisibility(View.GONE);
 
@@ -60,6 +78,9 @@ public class CompanyQueryAdapter extends ParseQueryAdapter<Company> {
             }
         });
 
+        noResultsFound=false;
+        firstTime=true;
+
         return v;
     }
 
@@ -67,10 +88,32 @@ public class CompanyQueryAdapter extends ParseQueryAdapter<Company> {
     @Override
     public View getItemView(final Company company, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
+        if (convertView == null || !(convertView instanceof LinearLayout)) {
             convertView = View.inflate(getContext(), rowLayoutId, null);
         }
 
+        if(firstTime){
+            noResultsFound=true;
+            firstTime=false;
+        }
+
+        if(intentFilter!=null) {
+            if (intentFilter.hasExtra("industries")) {
+                boolean matchTrovato = false;
+
+                for (String industry : intentFilter.getStringArrayListExtra("industries")) {
+                    if (company.getIndustries()!=null && company.getIndustries().contains(industry)) {
+                        matchTrovato = true;
+                        break;
+                    }
+                }
+
+                if (!matchTrovato)
+                    return new View(getContext());
+            }
+        }
+
+        noResultsFound=false;
 
 
         TextView titleTextView = (TextView) convertView.findViewById(R.id.nameTextView);
@@ -80,8 +123,7 @@ public class CompanyQueryAdapter extends ParseQueryAdapter<Company> {
 
 
         titleTextView.setText(company.getName());
-
-             innerButtonManager.configureButton(company,innerButton);
+        innerButtonManager.configureButton(company,innerButton);
 
 
     return convertView;

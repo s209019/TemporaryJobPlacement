@@ -1,6 +1,8 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,7 @@ import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.CompanyQueryAdapter;
+import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.JobOfferQueryAdapter;
 
 /**
  * A list fragment representing a list of Items. This fragment
@@ -211,8 +214,8 @@ public class CompanyListFragment extends ListFragment {
                     }
 
 
-                    companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), query[0], innerButtonManager, R.layout.company_list_item);
-                    companiesQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
+                    companiesQueryAdapter = new CompanyQueryAdapter(getActivity(), query[0], innerButtonManager, R.layout.company_list_item, getActivity().getIntent());
+                    companiesQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsPerPage);
 
                     companiesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Company>() {
                         @Override
@@ -223,6 +226,32 @@ public class CompanyListFragment extends ListFragment {
                         public void onLoaded(List<Company> list, Exception e) {
                             try {
                                 setListShown(true);
+                                new AsyncTask<Object, Object, Object>() {
+                                    @Override
+                                    protected Object doInBackground(Object... params) {
+                                        //reload remote favourites
+                                        try {
+                                            Thread.sleep(1500);
+                                        } catch (InterruptedException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Object o) {
+                                        if (((CompanyQueryAdapter) companiesQueryAdapter).isNoResultsFound() && companiesQueryAdapter.getCount()!=0) {
+                                            new AlertDialog.Builder(getActivity()).setTitle("NO COMPANY FOUND").setMessage("Your search did not match any company").setNegativeButton("BACK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    getActivity().onBackPressed();
+                                                }
+                                            }).create().show();
+                                        }
+
+                                    }
+                                }.execute();
+
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -230,6 +259,7 @@ public class CompanyListFragment extends ListFragment {
                     });
                     setListAdapter(companiesQueryAdapter);
                     setListShown(false);
+                    getListView().setDividerHeight(0);
                     firstTime = false;
 
                 }catch(Exception e){

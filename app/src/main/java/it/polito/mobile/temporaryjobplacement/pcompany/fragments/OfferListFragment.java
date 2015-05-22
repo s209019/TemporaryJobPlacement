@@ -9,12 +9,10 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.parse.ParseException;
 import com.parse.ParseQueryAdapter;
 
 import java.util.List;
@@ -22,7 +20,6 @@ import java.util.List;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.JobOfferQueryAdapter;
 
@@ -124,7 +121,7 @@ public class OfferListFragment extends ListFragment {
                     int row_layout_id = R.layout.company_offer_list_item;
 
                     jobOffersQueryAdapter = new JobOfferQueryAdapter(getActivity(), query[0], row_layout_id);
-                    jobOffersQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
+                    jobOffersQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsPerPage);
 
 
                     jobOffersQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<JobOffer>() {

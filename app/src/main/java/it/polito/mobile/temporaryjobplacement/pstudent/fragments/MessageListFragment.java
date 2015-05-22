@@ -21,7 +21,6 @@ import java.util.List;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Message;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.MessageQueryAdapter;
 
@@ -170,7 +169,7 @@ public class MessageListFragment extends ListFragment {
                     }
 
                     messagesQueryAdapter = new MessageQueryAdapter(getActivity(), query[0], R.layout.message_list_item, true, inbox);
-                    messagesQueryAdapter.setObjectsPerPage(numberPagesDisplayedSoFar * TemporaryJobPlacementApp.objectsForPage);
+                    messagesQueryAdapter.setObjectsPerPage(numberPagesDisplayedSoFar * TemporaryJobPlacementApp.objectsPerPage);
                     messagesQueryAdapter.setNumberPagesDisplayedSoFar(numberPagesDisplayedSoFar);
 
                     messagesQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {

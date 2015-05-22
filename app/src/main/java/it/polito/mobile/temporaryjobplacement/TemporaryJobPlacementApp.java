@@ -19,7 +19,7 @@ public class TemporaryJobPlacementApp extends Application {
 
     public final static int exitCode=2; //HOME
     public final static int exitCodeListOffer=5; //Go back to the job offers list after the application
-    public final  static int objectsForPage=2;
+    public final  static int objectsPerPage= 10;
 
     public final static int TIMEOUT_ITERATIONS=15;
     public final static int TIMEOUT_MILLIS=500;

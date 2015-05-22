@@ -1,6 +1,8 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +25,6 @@ import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
-import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.StudentQueryAdapter;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.JobOfferQueryAdapter;
@@ -204,8 +205,8 @@ public class StudentListFragment extends ListFragment {
                         };
                     }
 
-                    studentsQueryAdapter = new StudentQueryAdapter(getActivity(), query[0], innerButtonManager, row_layout_id);
-                    studentsQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
+                    studentsQueryAdapter = new StudentQueryAdapter(getActivity(), query[0], innerButtonManager, row_layout_id, getActivity().getIntent());
+                    studentsQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsPerPage);
 
 
                     studentsQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Student>() {
@@ -217,6 +218,32 @@ public class StudentListFragment extends ListFragment {
                         public void onLoaded(List<Student> list, Exception e) {
                             try {
                                 setListShown(true);
+                                new AsyncTask<Object, Object, Object>() {
+                                    @Override
+                                    protected Object doInBackground(Object... params) {
+                                        //reload remote favourites
+                                        try {
+                                            Thread.sleep(1500);
+                                        } catch (InterruptedException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Object o) {
+                                        if (((StudentQueryAdapter) studentsQueryAdapter).isNoResultsFound() && studentsQueryAdapter.getCount()!=0) {
+                                            new AlertDialog.Builder(getActivity()).setTitle("NO STUDENT FOUND").setMessage("Your search did not match any student").setNegativeButton("BACK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    getActivity().onBackPressed();
+                                                }
+                                            }).create().show();
+                                        }
+
+                                    }
+                                }.execute();
+
                             } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
@@ -224,6 +251,7 @@ public class StudentListFragment extends ListFragment {
                     });
                     setListAdapter(studentsQueryAdapter);
                     setListShown(false);
+                    getListView().setDividerHeight(0);
                     firstTime = false;
                 }catch (Exception e){
                     e.printStackTrace();

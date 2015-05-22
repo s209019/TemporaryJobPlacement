@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
-import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchByCompanyFragment;
-import it.polito.mobile.temporaryjobplacement.commonfragments.SearchByOfferFragment;
+import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchCompaniesFragment;
+import it.polito.mobile.temporaryjobplacement.commonfragments.SearchOffersFragment;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.TabsPagerAdapter;
 
 
-public class StudentMainActivity extends ActionBarActivity implements SearchByOfferFragment.OnFragmentInteractionListener,SearchByCompanyFragment.OnFragmentInteractionListener {
+public class StudentMainActivity extends ActionBarActivity implements SearchOffersFragment.OnFragmentInteractionListener,SearchCompaniesFragment.OnFragmentInteractionListener {
     DrawerManager drawerManager;
     private ProgressDialog progressDialog;
 
@@ -56,8 +56,8 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
         //set tabViews
 
         ArrayList<Fragment> fragmentList=new ArrayList<Fragment>();
-        fragmentList.add(SearchByOfferFragment.newInstance());
-        fragmentList.add(SearchByCompanyFragment.newInstance());
+        fragmentList.add(SearchOffersFragment.newInstance());
+        fragmentList.add(SearchCompaniesFragment.newInstance());
         String titles[] ={"JOB OFFERS","COMPANIES"};
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         TabsPagerAdapter tabsAdapter =  new TabsPagerAdapter(getSupportFragmentManager(),titles,fragmentList);
@@ -157,12 +157,11 @@ public class StudentMainActivity extends ActionBarActivity implements SearchByOf
 
 
     @Override
-    public void startSearchCompaniesActivity(String params) {
+    public void startSearchCompaniesActivity(Intent i) {
         //start activity and pass it searching params
         //DialogManager.toastMessage("starting searching:\n"+params,this);
-        Intent intent=new Intent(this,StudentCompanyListActivity.class);
         progressDialog.show();
-        startActivity(intent);
+        startActivity(i);
 
     }
 

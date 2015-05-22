@@ -1,6 +1,7 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
@@ -28,13 +29,14 @@ import it.polito.mobile.temporaryjobplacement.commonfragments.MultipleChoiceDial
 import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.ClearableEditText;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.pcompany.activities.CompanyStudentListActivity;
 
 
-public class SearchByStudentFragment extends Fragment {
+public class SearchStudentFragment extends Fragment {
 
     EditText editTextKeywords;
     TextView languagesClickableTextView;
-    Spinner ageSpinner;
+    Spinner minAgeSpinner;
     Spinner maxAgeSpinner;
     Spinner degreeSpinner;
     LinearLayout moreOptionsPanel;
@@ -46,7 +48,7 @@ public class SearchByStudentFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     public interface OnFragmentInteractionListener {
-        public void startSearchStudentActivity(String params);
+        public void startSearchStudentActivity(Intent intent);
 
 
     }
@@ -64,7 +66,7 @@ public class SearchByStudentFragment extends Fragment {
 
 
     public static Fragment newInstance() {
-        SearchByStudentFragment fragment = new SearchByStudentFragment();
+        SearchStudentFragment fragment = new SearchStudentFragment();
        /* Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,7 +74,7 @@ public class SearchByStudentFragment extends Fragment {
         return fragment;
     }
 
-    public SearchByStudentFragment() {
+    public SearchStudentFragment() {
         // Required empty public constructor
     }
 
@@ -86,7 +88,7 @@ public class SearchByStudentFragment extends Fragment {
         outState.putString("industriesTextViewContent", languagesClickableTextView.getText().toString());
         outState.putString("editTextKeywordsContent", editTextKeywords.getText().toString());
         outState.putBoolean("jobInfoPanelVisibility", moreOptionsPanel.getVisibility() == View.VISIBLE);
-        outState.putInt("postingDateSpinnerSelected", ageSpinner.getSelectedItemPosition());
+        outState.putInt("postingDateSpinnerSelected", minAgeSpinner.getSelectedItemPosition());
     }
 
     @Override
@@ -100,7 +102,7 @@ public class SearchByStudentFragment extends Fragment {
         //get editText references from ClearableEditTexts
         editTextKeywords=((ClearableEditText)rootView.findViewById(R.id.editKeyword)).editText();
         languagesClickableTextView =(TextView)rootView.findViewById(R.id.languagesClickableTextView);
-        ageSpinner = (Spinner) rootView.findViewById(R.id.ageSpinner);
+        minAgeSpinner = (Spinner) rootView.findViewById(R.id.ageSpinner);
         maxAgeSpinner = (Spinner) rootView.findViewById(R.id.maxAgeSpinner);
         degreeSpinner=(Spinner) rootView.findViewById(R.id.spinnerDegree);
 
@@ -141,7 +143,7 @@ public class SearchByStudentFragment extends Fragment {
         for(int i=18;i<=100;i++)list.add(i+"");
         final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item , list);
         dataAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown);
-        ageSpinner.setAdapter(dataAdapter);
+        minAgeSpinner.setAdapter(dataAdapter);
 
         //max age
         final ArrayAdapter<String> dataAdapter0 = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item , list);
@@ -202,7 +204,7 @@ public class SearchByStudentFragment extends Fragment {
             editTextKeywords.setText(savedInstanceState.getString("editTextKeywordsContent"));
             if(savedInstanceState.getBoolean("jobInfoPanelVisibility")==true)
                 moreOptionsPanel.setVisibility(View.VISIBLE);
-            ageSpinner.setSelection(savedInstanceState.getInt("postingDateSpinnerSelected"));
+            minAgeSpinner.setSelection(savedInstanceState.getInt("postingDateSpinnerSelected"));
 
         }
 
@@ -216,36 +218,56 @@ public class SearchByStudentFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (
-                        languagesClickableTextView.getText().toString().trim().equals("") &&
-                                editTextKeywords.getText().toString().trim().equals("") &&
-                                ageSpinner.getSelectedItem().equals("")&&
-                                maxAgeSpinner.getSelectedItem().equals("")&&
-                                degreeSpinner.getSelectedItem().equals("")
-                        ) {
+                if (languagesClickableTextView.getText().toString().trim().equals("") &&
+                    editTextKeywords.getText().toString().trim().equals("") &&
+                    minAgeSpinner.getSelectedItem().equals("")&&
+                    maxAgeSpinner.getSelectedItem().equals("")&&
+                    degreeSpinner.getSelectedItem().equals("")) {
+
                     DialogManager.toastMessage(getActivity().getResources().getString(R.string.all_empty_field_message), getActivity());
                     return;
                 }
 
                 try {
-                if (Integer.parseInt(ageSpinner.getSelectedItem().toString()) > Integer.parseInt(maxAgeSpinner.getSelectedItem().toString())) {
+                if (Integer.parseInt(minAgeSpinner.getSelectedItem().toString()) > Integer.parseInt(maxAgeSpinner.getSelectedItem().toString())) {
                     DialogManager.toastMessage("Age interval not valid", getActivity());
                     return;
                 }
                 }catch (Exception e){ e.printStackTrace();}
 
-                if(ageSpinner.getSelectedItem().equals(""))ageSpinner.setSelection(1);//18
-                if(maxAgeSpinner.getSelectedItem().equals(""))maxAgeSpinner.setSelection(list.size()-1);//100
+                //if(minAgeSpinner.getSelectedItem().equals(""))minAgeSpinner.setSelection(1);//18
+                //if(maxAgeSpinner.getSelectedItem().equals(""))maxAgeSpinner.setSelection(list.size()-1);//100
 
 
+                Intent intent = new Intent(getActivity(), CompanyStudentListActivity.class);
 
 
+                if(!editTextKeywords.getText().toString().trim().equals("")) {
+                    ArrayList<String> keywordsList = new ArrayList<String>();
+                    for (String word : editTextKeywords.getText().toString().trim().split(" ")) {
+                        keywordsList.add(word.toLowerCase());
+                    }
+                    intent.putStringArrayListExtra("keywords", keywordsList);
+                }
 
-                mListener.startSearchStudentActivity(
-                        editTextKeywords.getText() + "\n" +
-                                languagesClickableTextView.getText() + "\n" +
-                                ageSpinner.getSelectedItem()+"\n"
-                                +maxAgeSpinner.getSelectedItem()+"\n"+degreeSpinner.getSelectedItem());
+                if(!degreeSpinner.getSelectedItem().equals("")){
+                    intent.putExtra("degree", (String) degreeSpinner.getSelectedItem());
+                }
+
+                if(!maxAgeSpinner.getSelectedItem().equals("")){
+                    intent.putExtra("maxAge", Integer.parseInt((String) maxAgeSpinner.getSelectedItem()));
+                }
+
+                if(!minAgeSpinner.getSelectedItem().equals("")){
+                    intent.putExtra("minAge", Integer.parseInt((String) minAgeSpinner.getSelectedItem()));
+                }
+
+                if(!languagesClickableTextView.getText().toString().trim().equals("")) {
+                    intent.putStringArrayListExtra("languages", new ArrayList<String>(Arrays.asList(getItemsFromTextView(languagesClickableTextView))));
+                }
+
+
+                mListener.startSearchStudentActivity(intent);
             }
         });
 

@@ -20,9 +20,7 @@ import java.util.List;
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.Connectivity;
-import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
-import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.pcompany.viewmanaging.ApplicationsQueryAdapter;
 
 /**
@@ -107,7 +105,7 @@ public class ApplicationListFragmentForCompany extends ListFragment {
 
 
                     applicationsQueryAdapter = new ApplicationsQueryAdapter(getActivity(), query[0]);
-                    applicationsQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsForPage);
+                    applicationsQueryAdapter.setObjectsPerPage(TemporaryJobPlacementApp.objectsPerPage);
 
                     applicationsQueryAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Application>() {
                         @Override
