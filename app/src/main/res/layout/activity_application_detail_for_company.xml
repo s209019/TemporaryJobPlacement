@@ -125,11 +125,7 @@
             </LinearLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/internalBorderColor"
-                android:layout_marginBottom="@dimen/margin_medium_large"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,84 +138,6 @@
                 android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Application Status"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSize"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_medium"
-
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="visible"
-                    android:layout_marginLeft="@dimen/margin_medium_large"
-                    android:layout_marginRight="@dimen/margin_medium_large">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Submitted"
-                        android:textStyle="bold"
-                        android:textColor="@color/labelTextColor"
-                        android:textSize="@dimen/textLabelSize"
-                        android:paddingTop="@dimen/margin_medium"
-                        android:paddingBottom="@dimen/margin_medium"
-                        android:id="@+id/statusAppTextView"
-                        android:background="@drawable/button_drawable2"
-                        />
-                </LinearLayout>
-
-                <View
-                    android:visibility="gone"
-                    android:id="@+id/feedbackLine"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/internalBorderColor"
-                    android:layout_marginBottom="@dimen/margin_medium_large"/>
-
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/feedbackLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Company has left a feedback"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/textSize"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_medium"
-
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="@dimen/margin_medium_large"
-                    android:layout_marginRight="@dimen/margin_medium_large">
-
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/feedbackTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingTop="@dimen/margin_medium"
-                        android:paddingBottom="@dimen/margin_medium"
-                        android:text="This company is ok, because this company is ok ok ok ok. Text random wow wow"
-                        android:textColor="@android:color/black"
-                        />
-                </LinearLayout>
 
 
             </LinearLayout>
@@ -353,7 +271,183 @@
 
 
 
+
+
+
+
+
+
+
+
+
             </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/margin_medium_large"
+            android:layout_marginRight="@dimen/margin_medium_large"
+            android:background="@drawable/panel_drawable"
+            android:layout_marginTop="0dp"
+            android:orientation="vertical">
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_setStatus"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left|center_vertical"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_setStatus"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left|center_vertical"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="1dp"
+                    android:gravity="left"
+                    android:text="Set application status"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large">
+
+                <Spinner
+                    android:id="@+id/statusSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginBottom="0dp"
+                    android:textColor="@android:color/black"
+                    android:drawableRight="@android:drawable/arrow_down_float"
+                    android:background="@drawable/old_edit_text2"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <View
+                android:visibility="gone"
+                android:id="@+id/feedbackLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="left"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <ImageView
+                    android:id="@+id/V_leaveFeedback"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left|center_vertical"
+                    android:src="@drawable/done_image"
+                    android:visibility="gone"/>
+                <ProgressBar
+                    android:id="@+id/progress_feedback"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left|center_vertical"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="1dp"
+                    android:gravity="left"
+                    android:text="Leave a feedback       "
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/coverLetterClickableTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:hint="Select a default message."
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:background="@drawable/textview_clickable_drawable"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+
+            <it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText
+                android:id="@+id/writeFeedbackTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/old_edit_text2"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                >
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:hint="Write a feedback"
+                    android:gravity="top"
+                    android:minLines="5"
+                    android:paddingLeft="3dp"
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionDone"
+                    />
+
+            </it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText>
+
+
+
+
+
+        </LinearLayout>
+
 
 
             <Space

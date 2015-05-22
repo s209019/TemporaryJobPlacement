@@ -1,7 +1,10 @@
 package it.polito.mobile.temporaryjobplacement.pstudent.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -14,7 +17,9 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import it.polito.mobile.temporaryjobplacement.R;
+import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.googlelibtabview.SlidingTabLayout;
+import it.polito.mobile.temporaryjobplacement.model.Student;
 import it.polito.mobile.temporaryjobplacement.pstudent.viewmanaging.DrawerManager;
 import it.polito.mobile.temporaryjobplacement.pstudent.fragments.SearchCompaniesFragment;
 import it.polito.mobile.temporaryjobplacement.commonfragments.SearchOffersFragment;
@@ -25,12 +30,22 @@ public class StudentMainActivity extends ActionBarActivity implements SearchOffe
     DrawerManager drawerManager;
     private ProgressDialog progressDialog;
 
+    Student profile;
+    String user="";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
+
+
+
+
+
+
+
+
 
 
         progressDialog=new ProgressDialog(this);
@@ -51,6 +66,69 @@ public class StudentMainActivity extends ActionBarActivity implements SearchOffe
         drawerManager=new DrawerManager(this,drawerLayout,toolbar,DrawerManager.SECTION0);
         drawerManager.setDrawer();
         drawerManager.toggleDrawer();
+
+
+
+        //manage first time uncompleted profile
+        try {
+            user=AccountManager.getCurrentUser().getUsername();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SharedPreferences prefs = getSharedPreferences("INITIAL_DIALOG", MODE_PRIVATE);
+        boolean doNotShow= prefs.getBoolean(user+"noThanks", false);
+        if(!doNotShow) {
+            new AsyncTask<Object, Object, Object>() {
+                @Override
+                protected Object doInBackground(Object... params) {
+                    try {
+                        profile = AccountManager.getCurrentStudentProfile();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                    return new Object();
+                }
+
+                @Override
+                protected void onPostExecute(Object o) {
+                    super.onPostExecute(o);
+                    try {
+
+                        if (profile.getLastName().equals("")) {
+                            AlertDialog aDialog = null;
+                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(StudentMainActivity.this);
+
+                            alertBuilder.setTitle("PROFILE NOT YET CREATED");
+                            alertBuilder.setMessage("In order to fully exploit this application, we suggest you to create a profile");
+                            alertBuilder.setCancelable(false);
+                            alertBuilder.setPositiveButton("CREATE PROFILE", new android.content.DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(android.content.DialogInterface dialog, int which) {
+                                    drawerManager.goToSectionProfile();
+                                }
+                            });
+                            alertBuilder.setNegativeButton("NO, THANKS", new android.content.DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(android.content.DialogInterface dialog, int which) {
+                                    SharedPreferences.Editor editor = getSharedPreferences("INITIAL_DIALOG", MODE_PRIVATE).edit();
+                                    editor.putBoolean(user+"noThanks", true);
+                                    editor.commit();
+                                }
+                            });
+
+                            aDialog = alertBuilder.create();
+                            aDialog.show();
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.execute();
+        }
+
+
 
 
         //set tabViews

@@ -145,6 +145,10 @@ public class CompanyProfileActivity extends ActionBarActivity implements  Profil
                     // Setting the ViewPager For the SlidingTabsLayout
                     tabLayout.setViewPager(pager);
 
+                    String s="PUBLIC";
+                    if(!getProfile().isPublic())s="PRIVATE";
+                    getSupportActionBar().setSubtitle(s);
+
 
                     final Button publishButton = (Button) findViewById(R.id.buttonPublish);
                     setPublishInfo(publishButton);
@@ -154,14 +158,43 @@ public class CompanyProfileActivity extends ActionBarActivity implements  Profil
                             DialogManager.setDialogWithCancelAndOk(title, description, CompanyProfileActivity.this, ok_button_text, new Runnable() {
                                 @Override
                                 public void run() {
-                                    final ProgressDialog pd = ProgressDialog.show(CompanyProfileActivity.this, null, "Loading", true, false);
-                                    getProfile().updatePublicFlag(!getProfile().isPublic(), new SaveCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
-                                            if (pd != null && pd.isShowing()) pd.dismiss();
-                                            setPublishInfo(publishButton);
-                                        }
-                                    });
+
+                                   if(companyProfile.isPublic() ||
+                                           ( companyProfile.getName()!=null && !companyProfile.getName().equals("") &&
+                                           companyProfile.getDescription()!=null && !companyProfile.getDescription().equals("") &&
+                                           companyProfile.getEmail()!=null && !companyProfile.getEmail().equals("") &&
+                                           companyProfile.getWebsite()!=null && !companyProfile.getWebsite().equals("") &&
+                                           companyProfile.getPhoneNumber()!=null && !companyProfile.getPhoneNumber().equals("") &&
+                                           companyProfile.getAddress()!=null && !companyProfile.getAddress().equals("") &&
+                                           companyProfile.getCity()!=null && !companyProfile.getCity().equals("") &&
+                                           companyProfile.getZipCode()!=null && !companyProfile.getZipCode().equals("") &&
+                                           companyProfile.getCountry()!=null && !companyProfile.getCountry().equals("") &&
+                                           companyProfile.getIndustries()!=null && !companyProfile.getIndustries().equals(""))){
+
+
+                                       final ProgressDialog pd = ProgressDialog.show(CompanyProfileActivity.this, null, "Loading", true, false);
+                                       getProfile().updatePublicFlag(!getProfile().isPublic(), new SaveCallback() {
+                                           @Override
+                                           public void done(ParseException e) {
+                                               if (pd != null && pd.isShowing()) pd.dismiss();
+                                               setPublishInfo(publishButton);
+                                               String s="PROFILE PUBLISHED";
+                                               if(!getProfile().isPublic())s="PROFILE UNPUBLISHED";
+                                               DialogManager.toastMessage(s, CompanyProfileActivity.this);
+                                                s="PUBLIC";
+                                               if(!getProfile().isPublic())s="PRIVATE";
+                                               getSupportActionBar().setSubtitle(s);
+
+                                           }
+                                   });
+
+
+                                    }else {
+
+                                       DialogManager.setDialog("Profile not completed", "You have to save all fields to publish you profile", CompanyProfileActivity.this);
+
+
+                                   }
                                 }
                             });
 
@@ -199,7 +232,7 @@ public class CompanyProfileActivity extends ActionBarActivity implements  Profil
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_student_profile, menu);
+        getMenuInflater().inflate(R.menu.menu_favourite_students, menu);
         return true;
     }
 
@@ -215,40 +248,6 @@ public class CompanyProfileActivity extends ActionBarActivity implements  Profil
             return true;
         }
 
-        if (id == R.id.action_delete) {
-
-            /*
-            if(getProfile()!=null){
-                String title="CLEAR PROFILE";
-                String description="Are you sure you want to clear profile?\n\nAll profile information will no longer be available!";
-                DialogManager.setDialogWithCancelAndOk(title, description, this, "DELETE", new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            ParseUser user = AccountManager.getCurrentUser();
-                            final ProgressDialog pd=ProgressDialog.show(CompanyProfileActivity.this, null, "Loading", true, false);
-                            getProfile().clearProfile(user, new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if(pd!=null && pd.isShowing())pd.dismiss();
-                                    StudentProfileActivity.this.recreate();
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                });
-
-            }
-            */
-
-
-
-            return true;
-        }
 
 
         return super.onOptionsItemSelected(item);

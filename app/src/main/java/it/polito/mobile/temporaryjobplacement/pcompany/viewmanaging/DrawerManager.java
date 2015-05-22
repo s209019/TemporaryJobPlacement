@@ -25,6 +25,7 @@ import it.polito.mobile.temporaryjobplacement.pcompany.activities.OpenPositionsA
 import it.polito.mobile.temporaryjobplacement.pcompany.activities.PostJobOfferActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentFavouritesActivity;
 import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentMyApplicationsActivity;
+import it.polito.mobile.temporaryjobplacement.pstudent.activities.StudentProfileActivity;
 
 ;
 
@@ -68,7 +69,7 @@ public class DrawerManager {
                         v =(TextView) View.inflate(getContext(), R.layout.hi_logged, null);
                     }
                     try {
-                        ((TextView)v).setText("Hi "+AccountManager.getCurrentUser().getUsername()+" !");
+                        ((TextView)v).setText("Hi company "+AccountManager.getCurrentUser().getUsername()+" !");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -251,4 +252,15 @@ public class DrawerManager {
     public boolean isDrawerOpen() {
         return drawerLayout.isDrawerOpen(Gravity.START);
     }
+
+
+
+    public void goToSectionProfile(){
+        Intent intent=new Intent(activity,CompanyProfileActivity.class);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(0, 0);
+
+    }
+
 }

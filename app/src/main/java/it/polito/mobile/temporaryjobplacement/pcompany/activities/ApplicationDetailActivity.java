@@ -1,17 +1,30 @@
 package it.polito.mobile.temporaryjobplacement.pcompany.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.parse.DeleteCallback;
@@ -24,12 +37,15 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.mobile.temporaryjobplacement.R;
 import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
+import it.polito.mobile.temporaryjobplacement.commons.utils.FileManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
+import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.SavableEditText;
 import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.Education;
@@ -39,6 +55,13 @@ public class ApplicationDetailActivity extends ActionBarActivity {
 
     Company profile;
     Application application;
+
+    ImageView V_setStatus;
+    ImageView V_leaveFeedback;
+    ProgressBar pro_setStatus;
+    ProgressBar pro_leaveFeedback;
+    EditText feedbackEditText;
+    Spinner spinnerStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +118,6 @@ public class ApplicationDetailActivity extends ActionBarActivity {
 
         ((TextView) findViewById(R.id.applicantAppTextView)).setText(name+" "+last_name);
         ((TextView) findViewById(R.id.offerAppTextView)).setText(application.getJobOffer().getName());
-        ((TextView) findViewById(R.id.statusAppTextView)).setText(application.getStatus());
         ((TextView) findViewById(R.id.resumeName)).setText(application.getResume().getString("resumeName"));
 
         if (application.getStudentNotes()!=null && !application.getStudentNotes().trim().equals("")) {
@@ -131,7 +153,190 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         } */
 
 
+
+
+        pro_leaveFeedback=(ProgressBar)findViewById(R.id.progress_feedback);
+        pro_setStatus=(ProgressBar)findViewById(R.id.progress_setStatus);
+        V_leaveFeedback=(ImageView)findViewById(R.id.V_leaveFeedback);
+        V_setStatus=(ImageView)findViewById(R.id.V_setStatus);
+
+
+
+
+        feedbackEditText = ((SavableEditText)findViewById(R.id.writeFeedbackTextView)).editText();
+        if (application.getFeedback() != null) {
+            ((SavableEditText) feedbackEditText.getParent()).setSavedText(application.getFeedback());
+            feedbackEditText.setText(application.getFeedback());
+        }
+        ((SavableEditText)feedbackEditText.getParent()).setButtonSaveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateFeedback(feedbackEditText.getText().toString());
+                InputMethodManager imm = (InputMethodManager) ApplicationDetailActivity.this.getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(feedbackEditText.getWindowToken(), 0);
+            }
+        });
+        feedbackEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                String input;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    input = v.getText().toString();
+                    updateFeedback(input);
+                    InputMethodManager imm = (InputMethodManager) ApplicationDetailActivity.this.getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(feedbackEditText.getWindowToken(), 0);
+
+                    return true;
+                }
+                return false;
+            }
+        });
+        feedbackEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String input;
+                EditText editText;
+                if (!hasFocus) {
+                    editText = (EditText) v;
+                    input = editText.getText().toString();
+                    updateFeedback(input);
+                }
+            }
+        });
+        final TextView coverLetterClickableTextView = (TextView) findViewById(R.id.coverLetterClickableTextView);
+        final ArrayList<ParseObject> defaultMessages =profile.getDefaultMessages();
+        if(defaultMessages==null || defaultMessages.size()==0)
+            coverLetterClickableTextView.setVisibility(View.GONE);
+        else {
+            coverLetterClickableTextView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    CharSequence[] coverLettersNames = new CharSequence[defaultMessages.size()];
+                    for (int i = 0; i < defaultMessages.size(); i++)
+                        coverLettersNames[i] = defaultMessages.get(i).getString("name");
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ApplicationDetailActivity.this);
+                    builder.setTitle("Select a cover letter").setItems(coverLettersNames, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, final int which) {
+
+                            coverLetterClickableTextView.setText(defaultMessages.get(which).getString("name"));
+                            feedbackEditText.setText("");
+                            feedbackEditText.append(defaultMessages.get(which).getString("content"));
+
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", null);
+                    builder.create().show();
+
+                }
+            });
+        }
+
+
+
+        //status
+        final List<String> list1 = new ArrayList<String>();
+        spinnerStatus= (Spinner)findViewById(R.id.statusSpinner);
+        list1.addAll(FileManager.readRowsFromFile(this, "app_status.dat"));
+        final ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(this, R.layout.spinner_item , list1);
+        dataAdapter1.setDropDownViewResource(R.layout.spinner_item_dropdown);
+        spinnerStatus.setAdapter(dataAdapter1);
+
+
+
+        if(application.getStatus()!=null){
+            spinnerStatus.setSelection(list1.indexOf(application.getStatus()));
+        }else spinnerStatus.setSelection(0);
+
+
+        spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+               updateStatus(list1.get(position));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
     }
+
+    private void updateStatus(String s) {
+
+
+        if(application.getStatus().equals(s))return;
+
+
+        application.setStatus(s);
+
+        V_setStatus.setVisibility(View.GONE);
+        pro_setStatus.setVisibility(View.VISIBLE);
+        application.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    DialogManager.toastMessage("Feedback inserted", ApplicationDetailActivity.this, "center", true);
+                    if (pro_setStatus != null) pro_setStatus.setVisibility(View.GONE);
+                    if (V_setStatus != null) V_setStatus.setVisibility(View.VISIBLE);
+                     } else {
+                    DialogManager.toastMessage("" + e.getMessage(), ApplicationDetailActivity.this, "center", true);
+                }
+            }
+        });
+    }
+
+    private void updateFeedback(String s) {
+
+                application.setFeedback(s);
+
+                V_leaveFeedback.setVisibility(View.GONE);
+                pro_leaveFeedback.setVisibility(View.VISIBLE);
+               application.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            DialogManager.toastMessage("Feedback inserted", ApplicationDetailActivity.this, "center", true);
+                            if (pro_leaveFeedback != null) pro_leaveFeedback.setVisibility(View.GONE);
+                            if (V_leaveFeedback != null) V_leaveFeedback.setVisibility(View.VISIBLE);
+                            if (feedbackEditText!= null) (
+                                    (SavableEditText) feedbackEditText.getParent()).setSavedText(application.getFeedback());
+                        } else {
+                            DialogManager.toastMessage("" + e.getMessage(), ApplicationDetailActivity.this, "center", true);
+                        }
+                    }
+                });
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private Menu menu;
     @Override

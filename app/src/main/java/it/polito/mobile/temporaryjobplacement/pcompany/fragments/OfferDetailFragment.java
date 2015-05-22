@@ -178,7 +178,7 @@ public class OfferDetailFragment extends Fragment  {
             @Override
             public void onClick(View v) {
 
-                if(offer.isPublic()) {
+                if(!offer.isPublic()) {
                     new AlertDialog.Builder(getActivity()).setTitle("RE-OPEN APPLICATIONS").setMessage("Do you want to open again the applications for this position?").setPositiveButton("RE-OPEN APPLICATIONS", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

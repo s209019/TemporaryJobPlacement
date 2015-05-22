@@ -100,7 +100,7 @@ public class AccountManager {
 
     public static Company getCurrentCompanyProfile() throws Exception {
         if(checkIfLoggedIn() && getCurrentUserType().equals("company"))
-            return Company.getQuery().whereEqualTo("user", AccountManager.getCurrentUser()).getFirst();
+            return Company.getQuery().include("defaultMessages").whereEqualTo("user", AccountManager.getCurrentUser()).getFirst();
         else
             throw new Exception("No company logged");
 
