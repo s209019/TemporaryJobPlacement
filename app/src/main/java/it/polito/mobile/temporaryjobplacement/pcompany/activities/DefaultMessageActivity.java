@@ -124,7 +124,7 @@ public class DefaultMessageActivity extends ActionBarActivity {
         }if(id==R.id.action_HOME){
             //setResult(TemporaryJobPlacementApp.exitCode);
             //finish();
-            Intent i = new Intent(this, StudentMainActivity.class);
+            Intent i = new Intent(this, CompanyMainActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         }

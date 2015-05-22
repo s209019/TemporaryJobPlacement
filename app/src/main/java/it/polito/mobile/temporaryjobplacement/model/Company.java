@@ -200,4 +200,13 @@ public class Company extends ParseObject {
         ParseRelation<Student> relation = getRelation("favouriteStudents");
         return relation.getQuery();
     }
+
+    public Application getApplication(String appId) throws com.parse.ParseException {
+        ParseQuery<Application> query=Application.getQuery();
+        query.include("student").include("curriculum");
+        return query.get(appId);
+
+
+    }
+
 }

@@ -271,7 +271,7 @@ public class Student extends ParseObject {
 
     public Application getApplication(String appId) throws com.parse.ParseException {
         ParseQuery<Application> query=Application.getQuery();
-        query.include("jobOffer").include("jobOffer.company");
+        query.include("jobOffer").include("jobOffer.company").include("curriculum");
         return query.get(appId);
 
 

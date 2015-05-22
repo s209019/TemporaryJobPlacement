@@ -45,8 +45,7 @@
             android:name=".pstudent.activities.StudentProfileActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_profile"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-             >
+            android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name=".pstudent.activities.StudentFavouritesActivity"
@@ -139,8 +138,6 @@
             android:label="@string/title_activity_application_detail"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
-
         <activity
             android:name=".pcompany.activities.OpenPositionsActivity"
             android:configChanges="orientation|screenSize"
@@ -195,14 +192,23 @@
             android:label="@string/title_activity_company_student_list"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
         <activity
             android:name=".pcompany.activities.DefaultMessageActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_student_offer_list"
             android:windowSoftInputMode="stateHidden" >
         </activity>
-
+        <activity
+            android:name=".pcompany.activities.ApplicationsListActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_application_list"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".pcompany.activities.ApplicationDetailActivity"
+            android:label="@string/title_activity_application_detail"
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
     </application>
 
 </manifest>

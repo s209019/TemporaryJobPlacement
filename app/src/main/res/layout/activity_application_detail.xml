@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:clickable="true"
-                android:text="Learn more about this offer"
+                android:text="See this offer"
                 android:textColor="@color/labelTextColor"
                 android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margin_medium_large"

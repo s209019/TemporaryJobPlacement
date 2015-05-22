@@ -1,4 +1,4 @@
-package it.polito.mobile.temporaryjobplacement.pstudent.activities;
+package it.polito.mobile.temporaryjobplacement.pcompany.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -31,18 +31,19 @@ import it.polito.mobile.temporaryjobplacement.TemporaryJobPlacementApp;
 import it.polito.mobile.temporaryjobplacement.commons.utils.AccountManager;
 import it.polito.mobile.temporaryjobplacement.commons.viewmanaging.DialogManager;
 import it.polito.mobile.temporaryjobplacement.model.Application;
+import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.Education;
 import it.polito.mobile.temporaryjobplacement.model.Student;
 
 public class ApplicationDetailActivity extends ActionBarActivity {
 
-    Student profile;
+    Company profile;
     Application application;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_application_detail);
+        setContentView(R.layout.activity_application_detail_for_company);
 
 
         //Set the custom toolbar
@@ -61,8 +62,8 @@ public class ApplicationDetailActivity extends ActionBarActivity {
             @Override
             protected Object doInBackground(Object... params) {
                 try {
-                    profile = AccountManager.getCurrentStudentProfile();
-                    application = profile.getApplication(appId);
+                    profile = AccountManager.getCurrentCompanyProfile();
+                    application = (new Student()).getApplication(appId);
                     setProfile(profile);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -79,7 +80,7 @@ public class ApplicationDetailActivity extends ActionBarActivity {
                     initializeView();
 
                 } catch (Exception e) {
-                    e.fillInStackTrace();
+                    e.printStackTrace();
                     throw e;
                 }
             }
@@ -89,8 +90,10 @@ public class ApplicationDetailActivity extends ActionBarActivity {
     }
 
     private void initializeView() {
+        String name=application.getStudent().getFirstName().substring(0,1).toUpperCase()+application.getStudent().getFirstName().substring(1,application.getStudent().getFirstName().length());
+        String last_name=application.getStudent().getLastName().substring(0,1).toUpperCase()+application.getStudent().getLastName().substring(1,application.getStudent().getLastName().length());
 
-        ((TextView) findViewById(R.id.companyAppTextView)).setText(application.getJobOffer().getCompany().getName());
+        ((TextView) findViewById(R.id.applicantAppTextView)).setText(name+" "+last_name);
         ((TextView) findViewById(R.id.offerAppTextView)).setText(application.getJobOffer().getName());
         ((TextView) findViewById(R.id.statusAppTextView)).setText(application.getStatus());
         ((TextView) findViewById(R.id.resumeName)).setText(application.getResume().getString("resumeName"));
@@ -102,6 +105,7 @@ public class ApplicationDetailActivity extends ActionBarActivity {
             notesTextView.setVisibility(View.VISIBLE);
             notesTextView.setText(application.getStudentNotes());
         }
+        /*
         if (application.getFeedback()!=null && !application.getFeedback().trim().equals("")) {
             findViewById(R.id.feedbackLine).setVisibility(View.VISIBLE);
             TextView feedbackLabel = (TextView) findViewById(R.id.feedbackLabel);
@@ -110,7 +114,7 @@ public class ApplicationDetailActivity extends ActionBarActivity {
             TextView feedTextView = (TextView) findViewById(R.id.feedbackTextView);
             feedTextView.setVisibility(View.VISIBLE);
             feedTextView.setText(application.getFeedback());
-        }
+        }*/
         if (application.getCoverLetter()!=null && !application.getCoverLetter().trim().equals("")) {
             findViewById(R.id.coverLetterLine).setVisibility(View.VISIBLE);
             findViewById(R.id.coverLetterLabel).setVisibility(View.VISIBLE);
@@ -120,10 +124,11 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         }
 
 
-        if (application.getStatus().equals("Submitted")) {
-             getMenuInflater().inflate(R.menu.menu_application_detail, menu);
+       /* if (application.getStatus().equals("Submitted")) {
+            getMenuInflater().inflate(R.menu.menu_application_detail, menu);
 
-        }
+
+        } */
 
 
     }
@@ -153,7 +158,7 @@ public class ApplicationDetailActivity extends ActionBarActivity {
         if (id == R.id.action_HOME) {
             //setResult(TemporaryJobPlacementApp.exitCode);
             //finish();
-            Intent i = new Intent(this, StudentMainActivity.class);
+            Intent i = new Intent(this, CompanyMainActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
         }
@@ -188,17 +193,17 @@ public class ApplicationDetailActivity extends ActionBarActivity {
 
 
 
-    public synchronized Student getProfile(){
+    public synchronized Company getProfile(){
         return profile;
     }
-    public synchronized void setProfile(Student s){
+    public synchronized void setProfile(Company s){
         profile=s;
     }
 
 
-    public void learnMoreAboutOffer(View v){
-        Intent detailIntent = new Intent(this, StudentDetailActivity.class);
-        detailIntent.putExtra("SELECTED_OFFER", application.getJobOffer().getObjectId());
+    public void learnMoreAboutStudent(View v){
+        Intent detailIntent = new Intent(this, CompanyDetailActivity.class);
+        detailIntent.putExtra("SELECTED_STUDENT", application.getStudent().getObjectId());
         startActivity(detailIntent);
     }
 

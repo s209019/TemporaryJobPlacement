@@ -31,6 +31,7 @@ import it.polito.mobile.temporaryjobplacement.model.Application;
 import it.polito.mobile.temporaryjobplacement.model.Company;
 import it.polito.mobile.temporaryjobplacement.model.JobOffer;
 import it.polito.mobile.temporaryjobplacement.model.Student;
+import it.polito.mobile.temporaryjobplacement.pcompany.activities.ApplicationsListActivity;
 import it.polito.mobile.temporaryjobplacement.pcompany.activities.PostJobOfferActivity;
 import it.polito.mobile.temporaryjobplacement.pcompany.activities.CompanyDetailActivity;
 
@@ -242,6 +243,20 @@ public class OfferDetailFragment extends Fragment  {
             public void onClick(View v) {
                 ((LinearLayout)rootView.findViewById(R.id.hiddenLayout)).setVisibility(View.VISIBLE);
                 v.setVisibility(View.GONE);
+
+            }
+        });
+
+
+        final Button seeApplicationsButton =(Button)rootView.findViewById(R.id.seeApplicationsButton);
+        seeApplicationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                  Intent intent = new Intent(getActivity(), ApplicationsListActivity.class);
+                    intent.putExtra("SELECTED_OFFER", offer.getObjectId());
+                     intent.putExtra("SELECTED_OFFER_NAME", offer.getName());
+                     getActivity().startActivity(intent);
 
             }
         });

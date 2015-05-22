@@ -48,6 +48,7 @@ public class OpenPositionsActivity extends ActionBarActivity implements OfferLis
 
         Intent detailIntent = new Intent(this, CompanyDetailActivity.class);
         detailIntent.putExtra("SELECTED_OFFER", jobOffer.getObjectId());
+        detailIntent.putExtra("SELECTED_OFFER_NAME", jobOffer.getName());
         startActivity(detailIntent);
 
     }

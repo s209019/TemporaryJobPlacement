@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants"
+    >
+
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_weight="1"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp">
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="WEB DEVELOPER"
+            android:textColor="@color/labelTextColor"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="2dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:id="@+id/timeAgoLayout"
+            android:layout_below="@+id/nameTextView">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="-2dp"
+                android:src="@drawable/ic_action_time"/>
+
+            <TextView
+                android:id="@+id/timeAgoTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="3 days ago"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:textColor="@color/grayDarkerTextColor"
+                android:layout_gravity="center_vertical"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/timeAgoLayout"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status:"
+                android:textColor="@color/grayDarkerTextColor"
+                android:textSize="@dimen/abc_text_size_small_material"
+                android:padding="5dp"
+                android:layout_marginBottom="2dp"
+                />
+
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Submitted"
+            android:textStyle="bold"
+            android:textColor="@color/labelTextColor"
+            android:textSize="@dimen/abc_text_size_small_material"
+            android:padding="5dp"
+            android:layout_marginBottom="2dp"
+            />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+
+
+</LinearLayout>

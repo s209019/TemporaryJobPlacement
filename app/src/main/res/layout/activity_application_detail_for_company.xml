@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@color/backgroundColor">
+
+    <include android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/loading_overlay"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_medium_large"
+                android:paddingRight="@dimen/margin_medium_large"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium_large"
+                android:background="@android:color/white"
+                android:animateLayoutChanges="true">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Application Details"
+
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:text="Applicant:"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/textSize"
+                        />
+                    <TextView
+                        android:id="@+id/applicantAppTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:gravity="right"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:text="Enrico Di Fazio"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:text="Job offer:"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/textSize"
+                        />
+                    <TextView
+                        android:id="@+id/offerAppTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:gravity="right"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:text="Web developer"
+                        android:textSize="@dimen/textSize"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/internalBorderColor"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:text="See applicant information"
+                    android:textColor="@color/labelTextColor"
+                    android:textSize="@dimen/textSize"
+                    android:layout_marginLeft="@dimen/margin_medium_large"
+                    android:layout_marginRight="@dimen/margin_medium_large"
+                    android:id="@+id/seeOfferTextView"
+                    android:onClick="learnMoreAboutStudent"
+                    android:background="@drawable/button_drawable2"
+                    />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/internalBorderColor"
+                android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:background="@drawable/panel_drawable"
+                android:layout_marginTop="0dp"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Application Status"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_marginLeft="@dimen/margin_medium_large"
+                    android:layout_marginRight="@dimen/margin_medium_large">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Submitted"
+                        android:textStyle="bold"
+                        android:textColor="@color/labelTextColor"
+                        android:textSize="@dimen/textLabelSize"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:id="@+id/statusAppTextView"
+                        android:background="@drawable/button_drawable2"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/feedbackLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/internalBorderColor"
+                    android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/feedbackLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Company has left a feedback"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/margin_medium_large"
+                    android:layout_marginRight="@dimen/margin_medium_large">
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/feedbackTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:text="This company is ok, because this company is ok ok ok ok. Text random wow wow"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium_large"
+                android:background="@drawable/panel_drawable"
+                android:layout_marginTop="0dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Submitted resume"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="resume.pdf"
+                    android:clickable="true"
+                    android:textStyle="bold"
+                    android:textColor="@color/labelTextColor"
+                    android:textSize="@dimen/textLabelSize"
+                    android:layout_marginLeft="@dimen/margin_medium_large"
+                    android:layout_marginRight="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:id="@+id/resumeName"
+                    android:onClick="seeResume"
+                    android:background="@drawable/button_drawable2"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/internalBorderColor"
+                    android:layout_marginTop="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:id="@+id/coverLetterLine"
+                    android:visibility="gone"
+                    />
+
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Cover letter"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:id="@+id/coverLetterLabel"
+                    android:visibility="gone"
+
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cover letter text"
+                    android:textColor="@android:color/black"
+                    android:layout_marginLeft="@dimen/margin_medium_large"
+                    android:layout_marginRight="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:id="@+id/coverLetterText"
+                    android:visibility="gone"
+                    />
+
+                <View
+                    android:visibility="gone"
+                    android:id="@+id/notesLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/internalBorderColor"
+                    android:layout_marginBottom="@dimen/margin_medium_large"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/notesLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Notes"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/textSize"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/margin_medium_large"
+                    android:layout_marginRight="@dimen/margin_medium_large">
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/notesTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingTop="@dimen/margin_medium"
+                        android:paddingBottom="@dimen/margin_medium"
+                        android:text="This company is ok, because this company is ok ok ok ok. Text random wow wow"
+                        android:textColor="@android:color/black"
+                        />
+                </LinearLayout>
+
+
+
+
+
+
+
+            </LinearLayout>
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

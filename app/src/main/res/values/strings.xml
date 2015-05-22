@@ -41,11 +41,12 @@
     <string name="update_profile_picture">Update Picture</string>
     <string name="title_activity_cover_letter">Insert cover letter</string>
     <string name="title_activity_application_detail">Application details</string>
-    <string name="title_activity_open_position">OpenPositionActivity</string>
+    <string name="title_activity_open_position">Open positions</string>
     <string name="title_activity_post_job_offer">Post a job offer</string>
     <string name="title_activity_company_profile">Profile</string>
     <string name="title_activity_favourite_students">Favourite students</string>
     <string name="title_activity_company_student_list">Students searched</string>
+    <string name="title_activity_application_list">Applications</string>
 
 
 </resources>
